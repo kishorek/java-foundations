@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JDK, JRE, and JVM · Java Foundations</title>
-<meta name="description" content="Three letters, one pipeline: JDK builds, JRE runs, JVM executes. Install the JDK and you get all three.">
+<meta name="description" content="Three letters, one pipeline: the JDK builds, the JRE runs, the JVM executes. Install the JDK and you quietly get all three.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,56 +32,58 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Three letters, one pipeline: JDK builds, JRE runs, JVM executes. Install the JDK and you get all three.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Who writes the recipe, who owns the kitchen, and who actually cooks?</div>
+  <div class="prose"><p>Three letters, one pipeline: the JDK builds, the JRE runs, the JVM executes. Install the JDK and you quietly get all three.</p>
+  <div class="callout"><b>🔎 Motivating question</b>On a film set, who writes the script, who owns the studio, and who actually acts?</div>
   <h2>Objectives</h2><ul><li>Tell JDK, JRE, JVM apart</li><li>Trace .java to running app</li><li>Pick what to install</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/java-intro.html">What Is Java and What Can It Build?</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Cookbook author (JDK tools) → equipped kitchen (JRE) → chef (JVM) cooking your dish. Author needs the kitchen; diners only need the kitchen + chef.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real kitchens vary. JVMs are deliberately identical — same bytecode behaves the same everywhere.</div></div></section>
+  <div class="prose"><p>Script tools (JDK) → equipped studio (JRE) → actor (JVM) performing your scene. The writer needs the studio; the audience only needs the studio + actor.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real studios differ per film. JVMs are deliberately near-identical — the same bytecode behaves the same on every system. That sameness is the product.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>JVM</b>: runs bytecode, manages memory. One per system, same behavior.</p><p><b>JRE</b>: JVM + libraries to run apps (no compiler). For users.</p><p><b>JDK</b>: JRE + javac compiler + tools. For developers. Install JDK 17 and you cover all.</p></div></section>
+  <div class="prose"><p>The <b>JVM</b> (Java Virtual Machine) executes bytecode and manages memory. There is one per platform, all behaving the same.</p><p>The <b>JRE</b> (Runtime Environment) is JVM + the standard libraries needed to run apps — for users, no compiler inside.</p><p>The <b>JDK</b> (Development Kit) is JRE + the <b>javac</b> compiler + tools like <b>java</b> and <b>jar</b> — for developers. Install a JDK 17 and you cover everything.</p><p>Your daily loop: <b>javac</b> translates <b>.java → .class</b>; <b>java</b> launches the JVM on that class. An error at the first step is a code problem; at the second, a runtime problem.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>javac</b> exists only in the JDK. If your terminal says “javac not found”, you installed a JRE (or nothing), not a JDK.</li><li><b>java -version</b> and <b>javac -version</b> should both report 17 — mismatched pairs cause confusing errors.</li><li>Free JDK 17 builds: Temurin (Eclipse), Oracle OpenJDK, Amazon Corretto — all run this course identically.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: JDK ⊃ JRE ⊃ JVM</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: JDK contains JRE contains JVM</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="# The pipeline you will use
-javac Hello.java   # JDK tool: source -&gt; Hello.class
-java Hello         # JRE/JVM: run bytecode, print Hi">Copy</button></div>
-  <pre><code># The pipeline you will use
-javac Hello.java   # JDK tool: source -&gt; Hello.class
-java Hello         # JRE/JVM: run bytecode, print Hi</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">terminal</span><span>shell</span><button data-copy="$ javac Main.java   # JDK: source -&gt; Main.class
+$ java Main         # JRE/JVM: run it, prints Hi
+Hi">Copy</button></div>
+  <pre><code>$ javac Main.java   # JDK: source -&gt; Main.class
+$ java Main         # JRE/JVM: run it, prints Hi
+Hi</code></pre><div class="out">▶ Output
 Hi</div></div>
-  <ul class="linenotes"><li>javac only exists in the JDK.</li><li>java runs using JRE + JVM.</li><li>Error at javac = syntax; at java = runtime.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Compile once, then the JVM on any machine executes the bytecode.</div></div></section>
+  <ul class="linenotes"><li>javac only exists in the JDK — it compiles.</li><li>java launches using the JRE + JVM — it runs.</li><li>First line builds; second line executes.</li></ul>
+  <div class="prose"><div class="callout"><b>💻 Terminal commands</b>Type these lines in your terminal, not in a Java file.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Compile once with the JDK; then any machine’s JVM executes the bytecode. Two tools, two jobs.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">No simulation — remember: JDK ⊃ JRE ⊃ JVM.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">No simulation — remember: JDK contains JRE contains JVM.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="JDK " size="8" aria-label="value"> <input data-in value="includes JRE + JVM" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Installing only JRE to code.</b>Why: JRE cannot compile.<br><b>✅ Fix:</b> <code>Install JDK 17 (e.g., Temurin/Oracle).</code></div><div class="callout warn"><b>❌ Mistake 2: “JVM is the compiler.”</b>Why: javac compiles; JVM runs.<br><b>✅ Fix:</b> <code>javac = build, java = run.</code></div><div class="callout err"><b>❌ Mistake 3: Mixing Java 8 and 17 commands.</b>Why: Old javac + new java (or reverse) confuses.<br><b>✅ Fix:</b> <code>Check java -version and javac -version match 17.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Installing only the JRE to learn coding.</b>Why: A JRE cannot compile anything — you will stare at “javac not found”.<br><b>✅ Fix:</b> <code>Install a JDK 17 (Temurin or Oracle) instead.</code></div><div class="callout warn"><b>❌ Mistake 2: “The JVM is the compiler.”</b>Why: javac compiles; the JVM runs. Swapping the words guarantees confusion later.<br><b>✅ Fix:</b> <code>javac = build, java = run.</code></div><div class="callout err"><b>❌ Mistake 3: Mixing a Java 8 javac with a Java 17 java (or reverse).</b>Why: Old builders + new runners (or reverse) produce bizarre version errors.<br><b>✅ Fix:</b> <code>Check java -version and javac -version: both should say 17.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Who does what?</b><p>Match: A) javac B) java C) JVM to: compiles / launches / executes.</p>
+  <div class="practice"><b>Who does what?</b><p>Match each to its job: A) javac B) java C) JVM — compiles / launches / executes.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Build → launch → execute.</div><div class="sol callout"><b>Solution</b>A compiles, B launches, C executes bytecode.</div></div><div class="practice"><b>Which to install?</b><p>You want to write Java. Friend only runs your app. What each installs?</p>
+  <div class="hint callout"><b>Hint</b>Build → launch → execute.</div><div class="sol callout"><b>Solution</b>A compiles source, B launches the runtime, C executes bytecode.</div></div><div class="practice"><b>Which package for whom?</b><p>You want to WRITE Java. Your friend only wants to RUN your app. What does each install?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Coders need the compiler.</div><div class="sol callout"><b>Solution</b>You: JDK. Friend: JRE (or JDK, also fine).</div></div></section>
+  <div class="hint callout"><b>Hint</b>Coders need the compiler; players need the player.</div><div class="sol callout"><b>Solution</b>You: JDK. Friend: JRE (a JDK works too, just heavier).</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>JVM runs, JRE runs-with-libraries, JDK builds.</li><li>Install JDK 17 for this course.</li><li>javac builds; java runs.</li></ul>
+  <div class="prose"><ul><li>JVM runs, JRE runs-with-libraries, JDK builds.</li><li>Install JDK 17; both version commands should say 17.</li><li>javac builds; java runs. Errors tell you which stage broke.</li></ul>
   <div class="callout"><b>🧠 Recall challenge</b>What does each letter-group give you that the smaller one does not?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Run java -version in a terminal and note the number.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Run java -version and javac -version in a terminal and write down both numbers.</div>
   <p><b>Related:</b> <a href="../lessons/java-intro.html">What Is Java and What Can It Build?</a> · <a href="./setup.html">Next: Setting Up Java and Running a Program →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -89,8 +91,8 @@ Hi</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'jdk-jre-jvm',[{"id":"q1","prompt":"Which contains the compiler?","options":[{"t":"JDK","ok":true},{"t":"JRE only"},{"t":"JVM only"},{"t":"None"}],"explain":"JDK = JRE + javac + tools."},{"id":"q2","prompt":"What runs bytecode?","options":[{"t":"JVM","ok":true},{"t":"Notepad"},{"t":"javac"},{"t":"The .java file"}],"explain":"JVM executes + manages memory."},{"id":"q3","prompt":"javac Hello.java fails. What kind of problem?","options":[{"t":"Compile/syntax — fix code, retry","ok":true},{"t":"Computer is broken forever"},{"t":"Internet is down"},{"t":"Correct output"}],"explain":"javac errors mean fix source first."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"JVM: the chef executing.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>JVM\u003c/b>\u003cbr>executes bytecode\u003c/div>\u003c/div>"},{"caption":"JRE: kitchen + chef + ingredients.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>JRE\u003c/b>\u003cbr>JVM + libraries\u003c/div>\u003c/div>"},{"caption":"JDK: cookbook tools + whole kitchen.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>JDK\u003c/b>\u003cbr>JRE + javac + tools\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'jdk-jre-jvm',[{"id":"q1","prompt":"Which bundle contains the compiler?","options":[{"t":"JDK","ok":true},{"t":"JRE only"},{"t":"JVM only"},{"t":"None of them"}],"explain":"JDK = JRE + javac + developer tools."},{"id":"q2","prompt":"What actually executes bytecode?","options":[{"t":"The JVM","ok":true},{"t":"Notepad"},{"t":"javac"},{"t":"The .java file itself"}],"explain":"The JVM executes and manages memory while running."},{"id":"q3","prompt":"javac Main.java reports errors. That means…","options":[{"t":"A compile-time problem — fix the code, rebuild","ok":true},{"t":"The computer is broken forever"},{"t":"The internet is down"},{"t":"The output is correct"}],"explain":"javac errors always mean: fix the source first, then re-run."},{"id":"q4","prompt":"“javac: command not found” most likely means…","options":[{"t":"No JDK on PATH (JRE-only or nothing installed)","ok":true},{"t":"Your code has a typo"},{"t":"Java is too old"},{"t":"The file is too big"}],"explain":"The tool itself is missing — an install problem, not a code problem."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"JVM: the actor executing bytecode.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>JVM\u003c/b>\u003cbr>executes bytecode\u003c/div>\u003c/div>"},{"caption":"JRE: studio + actor + props.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>JRE\u003c/b>\u003cbr>JVM + libraries\u003c/div>\u003c/div>"},{"caption":"JDK: script tools + whole studio.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>JDK\u003c/b>\u003cbr>JRE + javac + tools\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

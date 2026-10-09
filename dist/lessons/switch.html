@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>switch Statements and Expressions · Java Foundations</title>
-<meta name="description" content="switch is a mail sorter: one value, many labeled slots. Cleaner than 6 else-ifs when comparing one thing to many constants.">
+<meta name="description" content="switch is a mail sorter: ONE value glides in, exactly ONE labeled slot accepts it. Cleaner than six else-ifs when a single thing meets many fixed constants.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,66 +32,79 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>switch is a mail sorter: one value, many labeled slots. Cleaner than 6 else-ifs when comparing one thing to many constants.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do post offices sort by pincode, not by reading each letter fully?</div>
+  <div class="prose"><p>switch is a mail sorter: ONE value glides in, exactly ONE labeled slot accepts it. Cleaner than six else-ifs when a single thing meets many fixed constants.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do post offices sort by pincode instead of reading every letter completely?</div>
   <h2>Objectives</h2><ul><li>Write switch with break</li><li>Use arrow -&gt; form</li><li>Choose switch vs if</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/nested-cond.html">Nested Conditions</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Pincode sorter: look at one code, slide into exactly one slot. Default slot catches unknown codes. Forgetting break = letter slides into next slot too (fall-through).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: sorter handles labels only (numbers, strings, enums). Ranges like “> 90” need if-else.</div></div></section>
+  <div class="prose"><p>The pincode sorter. It glances at ONE code and slides the letter into exactly one slot; the DEFAULT slot catches unknown codes. Forget break in the old style and the letter slides into the NEXT slot too (fall-through) — chaos.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: sorters only match exact LABELS (numbers, strings, enums). A “taller than 180 cm” range cannot be a slot — ranges need if-else.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>switch (day) { case 1: ... break; default: ... }</b>. <b>break</b> stops fall-through.</p><p>Modern <b>arrow form</b>: case 1 -> "Mon"; no break needed, can be an expression.</p><p>Use for fixed choices (days, grades letters, menu numbers). Use if for ranges.</p></div></section>
+  <div class="prose"><p>Classic form: <b>switch (day) { case 1: ...; break; case 2: ...; break; default: ...; }</b>. Each break STOPS the slide; without it, execution falls through into the next case.</p><p>Modern <b>arrow form</b> (Java 14+): case 1 -> "Monday"; — no break needed, no fall-through possible. As an EXPRESSION it can also produce a value, like below.</p><p>Use switch for fixed choices: days, menu numbers, grade letters, enum values. Use if-else for ranges, booleans, and float comparisons.</p><p>Always write <b>default</b>: unknown inputs must land somewhere visible, never vanish silently.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>switch accepts <b>int, char, String, enums</b> (plus byte/short and wrappers). long, float, double, boolean are REJECTED — the compiler says so.</li><li>Arrow switches can be <b>exhaustive expressions</b>: String s = switch (day) { case 1 -> "Mon"; ... default -> "?"; }; — semicolon and all.</li><li>String cases use <b>.equals content matching</b> internally (plus null throws NullPointerException — yes, switch on null crashes).</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Sorter</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Mail sorter</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int day = 3;
-String name = switch (day) {
-  case 1 -&gt; &quot;Monday&quot;;
-  case 2 -&gt; &quot;Tuesday&quot;;
-  case 3 -&gt; &quot;Wednesday&quot;;
-  default -&gt; &quot;Unknown&quot;;
-};
-System.out.println(name);">Copy</button></div>
-  <pre><code>int day = 3;
-String name = switch (day) {
-  case 1 -&gt; &quot;Monday&quot;;
-  case 2 -&gt; &quot;Tuesday&quot;;
-  case 3 -&gt; &quot;Wednesday&quot;;
-  default -&gt; &quot;Unknown&quot;;
-};
-System.out.println(name);</code></pre><div class="out">▶ Output
-Wednesday</div></div>
-  <ul class="linenotes"><li>day=3 matches one case.</li><li>Arrow needs no break.</li><li>default catches the rest.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Exact match on 3; expression yields the string.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int day = 3;
+    String name = switch (day) {
+      case 1 -&gt; &quot;Monday&quot;;
+      case 2 -&gt; &quot;Tuesday&quot;;
+      case 3 -&gt; &quot;Wednesday&quot;;
+      default -&gt; &quot;Unknown day&quot;;
+    };
+    System.out.println(name);
+    System.out.println(&quot;Day &quot; + day + &quot; done&quot;);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int day = 3;
+    String name = switch (day) {
+      case 1 -&gt; &quot;Monday&quot;;
+      case 2 -&gt; &quot;Tuesday&quot;;
+      case 3 -&gt; &quot;Wednesday&quot;;
+      default -&gt; &quot;Unknown day&quot;;
+    };
+    System.out.println(name);
+    System.out.println(&quot;Day &quot; + day + &quot; done&quot;);
+  }
+}</code></pre><div class="out">▶ Output
+Wednesday
+Day 3 done</div></div>
+  <ul class="linenotes"><li>day = 3 matches exactly one arrow.</li><li>Arrow form needs no break and yields a value.</li><li>default catches every other number.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Exact label match on 3; the switch expression hands back &quot;Wednesday&quot;; default never fires.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Day sorter: try 1-7.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Day sorter: feed it 1–7 and beyond.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="3" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Missing break in colon form</b>Why: Falls into next case!<br><b>✅ Fix:</b> <code>Add break; or use -&gt; form.</code></div><div class="callout warn"><b>❌ Mistake 2: switch (score &gt; 90)</b>Why: Switch needs a value, not boolean range.<br><b>✅ Fix:</b> <code>Use if-else for ranges.</code></div><div class="callout err"><b>❌ Mistake 3: No default</b>Why: Silent nothing for unknown.<br><b>✅ Fix:</b> <code>Always add default.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Missing break in the old colon style.</b>Why: Execution FALLS THROUGH into the next case — two slots “accept” one letter.<br><b>✅ Fix:</b> <code>Add break; to every case — or switch to the arrow form.</code></div><div class="callout warn"><b>❌ Mistake 2: switch (score &gt; 90) or switch (3.5).</b>Why: Boolean ranges and doubles are not sortable labels — rejected.<br><b>✅ Fix:</b> <code>Ranges belong to if-else; doubles to comparisons.</code></div><div class="callout err"><b>❌ Mistake 3: No default, unknown input arrives.</b>Why: Silence: nothing runs, nothing explains. Debugging nightmare.<br><b>✅ Fix:</b> <code>Always add default — even if it just complains loudly.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Menu switch</b><p>choice 1→“Idli”, 2→“Dosa”, else “Pick 1-2”. Use switch.</p>
+  <div class="practice"><b>Build a menu switch</b><p>choice 1 → “Idli”, 2 → “Dosa”, anything else → “Pick 1 or 2”. Arrow style.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Arrow cases + default.</div><div class="sol callout"><b>Solution</b>switch(choice){case 1-&gt;...; case 2-&gt;...; default-&gt;...;}</div></div><div class="practice"><b>Spot fall-through</b><p>case 1: a(); case 2: b(); — if day=1, what runs?</p>
+  <div class="hint callout"><b>Hint</b>Two arrows plus default.</div><div class="sol callout"><b>Solution</b>String food = switch (choice) { case 1 -&gt; &quot;Idli&quot;; case 2 -&gt; &quot;Dosa&quot;; default -&gt; &quot;Pick 1 or 2&quot;; };</div></div><div class="practice"><b>Spot the fall-through</b><p>Colon style, no breaks: case 1: a(); case 2: b(); — day = 1 runs what?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>No break!</div><div class="sol callout"><b>Solution</b>Both a() and b() — fix with break.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Nothing stops the slide.</div><div class="sol callout"><b>Solution</b>BOTH a() and b(). Add break; after each.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>One value, many labels.</li><li>Arrow form avoids fall-through.</li><li>Always add default.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When switch vs if-else?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write a 3-item food menu with switch.</div>
+  <div class="prose"><ul><li>One value, many exact labels.</li><li>Arrow form kills fall-through; colon form needs break.</li><li>Always write default.</li><li>Ranges and doubles belong to if-else.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When do you reach for switch instead of if-else?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write a 3-item food menu with an arrow switch and test all branches.</div>
   <p><b>Related:</b> <a href="../lessons/nested-cond.html">Nested Conditions</a> · <a href="./for-loops.html">Next: for Loops →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +112,8 @@ Wednesday</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'switch',[{"id":"q1","prompt":"Missing break causes…","options":[{"t":"Fall-through to next case","ok":true},{"t":"Error always"},{"t":"Nothing"},{"t":"Loop"}],"explain":"Colon form continues."},{"id":"q2","prompt":"Arrow form needs break?","options":[{"t":"No","ok":true},{"t":"Yes always"},{"t":"Two breaks"},{"t":"Only Fridays"}],"explain":"-> is single-shot."},{"id":"q3","prompt":"Best switch use?","options":[{"t":"Fixed choices (days, menu)","ok":true},{"t":"Ranges like > 90"},{"t":"True/false only"},{"t":"Nothing"}],"explain":"Labels, not ranges."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Letter: day = 3.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">day\u003c/div>\u003cdiv class=\"vl\">3\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Slides into slot 3.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">1\u003c/div>\u003cdiv class=\"box\">2\u003c/div>\u003cdiv class=\"box\">\u003cb>3 ✓\u003c/b>\u003c/div>\u003c/div>"},{"caption":"Outputs Wednesday.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Wednesday\u003c/b>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'switch',[{"id":"q1","prompt":"A missing break in colon-style causes…","options":[{"t":"Fall-through into the next case","ok":true},{"t":"A compiler error, always"},{"t":"Nothing at all"},{"t":"An infinite loop"}],"explain":"Colon cases slide onward unless stopped."},{"id":"q2","prompt":"The arrow form (case 1 -> ...) needs break…","options":[{"t":"Never — arrows are single-shot","ok":true},{"t":"Always, twice"},{"t":"Only on Mondays"},{"t":"Only with default"}],"explain":"Arrow cases cannot fall through by design."},{"id":"q3","prompt":"switch shines for…","options":[{"t":"One value against fixed labels","ok":true},{"t":"Ranges like score > 90"},{"t":"True/false questions"},{"t":"Nothing — never use it"}],"explain":"Labels, not ranges: days, menus, letters."},{"id":"q4","prompt":"switch (someString) where someString is null…","options":[{"t":"Throws NullPointerException","ok":true},{"t":"Matches default safely"},{"t":"Matches the first case"},{"t":"Skips the switch"}],"explain":"Null matches nothing — it detonates. Guard nulls first."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Letter arrives stamped day = 3.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">day\u003c/div>\u003cdiv class=\"vl\">3\u003c/div>\u003c/div>\u003c/div>"},{"caption":"It slides into slot 3 only.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">1\u003c/div>\u003cdiv class=\"box\">2\u003c/div>\u003cdiv class=\"box\">\u003cb>3 ✓\u003c/b>\u003c/div>\u003c/div>"},{"caption":"Slot 3 hands back “Wednesday”.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Wednesday\u003c/b>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

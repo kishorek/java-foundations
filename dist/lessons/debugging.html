@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Debugging and Reading Errors · Java Foundations</title>
-<meta name="description" content="Bugs are normal. Pros just find them faster: read the error, reproduce, narrow, fix one thing, re-test.">
+<meta name="description" content="Bugs are not shame — they are the job. Professionals just find them FASTER: read the error, reproduce on demand, narrow the suspects, change ONE thing, re-test. This lesson is that entire workflow.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,61 +32,71 @@
     <span class="chip">⏱ 18 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Bugs are normal. Pros just find them faster: read the error, reproduce, narrow, fix one thing, re-test.</p>
-  <div class="callout"><b>🔎 Motivating question</b>If toast burns, do you rebuild the kitchen?</div>
+  <div class="prose"><p>Bugs are not shame — they are the job. Professionals just find them FASTER: read the error, reproduce on demand, narrow the suspects, change ONE thing, re-test. This lesson is that entire workflow.</p>
+  <div class="callout"><b>🔎 Motivating question</b>If the toast burns, do you rebuild the whole kitchen?</div>
   <h2>Objectives</h2><ul><li>Tell 4 error kinds apart</li><li>Read a stack trace</li><li>Fix logic with prints</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/scope.html">Variable Scope and Lifetime</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Detective kit: victim (error line), witnesses (prints), alibis (inputs). Check the first error — later ones are often gossip.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: detectives guess motives. Debuggers verify — change one thing, re-run, observe. No horoscope fixes.</div></div></section>
+  <div class="prose"><p>The detective kit. Victim = the error line. Witnesses = print statements showing values. Alibis = the exact inputs. And the golden rule: investigate the FIRST error — later ones are usually gossip caused by it.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: detectives sometimes guess motives and get lucky. Debuggers who guess (“maybe THIS fixes it?”) create NEW bugs. Change one thing, re-run, observe — science, not horoscopes.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>4 kinds: <b>syntax</b> (red, no build), <b>compile-type</b> (wrong types), <b>runtime exception</b> (crash mid-run), <b>logic</b> (runs, wrong answer).</p><p>Read <b>stack trace</b> top→file:line. “NullPointerException at Bill.java:12” = visit line 12.</p><p>Strategy: reproduce → print suspects → binary-search (disable half) → fix first cause.</p></div></section>
+  <div class="prose"><p>Four species: <b>syntax</b> (red ink, zero building), <b>compile-time type</b> (wrong types), <b>runtime exception</b> (builds, then crashes mid-run), <b>logic</b> (runs fine, answers wrong — the dangerous one).</p><p>A <b>stack trace</b> reads top-down: exception name, then YOUR file:line. “ArrayIndexOutOfBoundsException at Main.java:7” means GO TO LINE 7 — the answer is an address, not a riddle.</p><p>The workflow: <b>reproduce</b> (same input → same failure) → <b>print suspects</b> (show values at each step) → <b>bisect</b> (disable half the code; bug in the guilty half?) → <b>fix the FIRST cause</b> → re-run everything.</p><p>Logic bugs need ORACLES: known input→output pairs. 2 + 2 must be 4; if your calculator says 5, the oracle convicts the code — no red ink needed.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>javac</b> errors show file:line:column — the CARET points at the token, though the real mistake often sits slightly BEFORE it (a missing bracket above).</li><li>Runtime traces list calls newest-first: YOUR line is usually the first line naming YOUR file; library frames below are context.</li><li><b>System.out.println debugging</b> (“caveman debugging”) is legitimate and fast; step-debuggers (IDE breakpoints) are the power tool for later.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Detective</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Detective workflow</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int[] m = {80, 90};
-System.out.println(m[0]); // 80 ok
-// System.out.println(m[5]); // crash!
-int total = m[0] + m[1];
-System.out.println(total); // 170">Copy</button></div>
-  <pre><code>int[] m = {80, 90};
-System.out.println(m[0]); // 80 ok
-// System.out.println(m[5]); // crash!
-int total = m[0] + m[1];
-System.out.println(total); // 170</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int[] m = {80, 90};
+    System.out.println(m[0]); // 80: fine
+    // System.out.println(m[5]); // INDEX 5 on length 2: crash!
+    int total = m[0] + m[1];
+    System.out.println(&quot;total = &quot; + total); // 170?
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int[] m = {80, 90};
+    System.out.println(m[0]); // 80: fine
+    // System.out.println(m[5]); // INDEX 5 on length 2: crash!
+    int total = m[0] + m[1];
+    System.out.println(&quot;total = &quot; + total); // 170?
+  }
+}</code></pre><div class="out">▶ Output
 80
-170</div></div>
-  <ul class="linenotes"><li>Valid index prints.</li><li>Bad index would crash — commented safe.</li><li>Logic check: sum correct?</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>In-bounds works. Out-of-bounds would throw ArrayIndexOutOfBoundsException at that line.</div></div></section>
+total = 170</div></div>
+  <ul class="linenotes"><li>Valid index prints 80 — the control case.</li><li>The commented line WOULD crash: doors 0–1 only.</li><li>Logic check: is 170 the expected total? Verify!</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>In-bounds works; the killer line stays commented. The total passes its oracle (80 + 90 = 170).</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Try indexes 0-1 vs 5.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Knock on doors: 0–1 open, 5 crashes.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="1" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Fixing the last of 20 errors first</b>Why: Cascade from first.<br><b>✅ Fix:</b> <code>Fix #1, rebuild.</code></div><div class="callout warn"><b>❌ Mistake 2: Random changes everywhere</b>Why: Masks the cause.<br><b>✅ Fix:</b> <code>One change, re-run.</code></div><div class="callout err"><b>❌ Mistake 3: Ignoring logic bugs (wrong total)</b>Why: No red != correct.<br><b>✅ Fix:</b> <code>Test with known answers.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Fixing the LAST of 20 errors first.</b>Why: Errors cascade: #1 breaks parsing, #2–20 are its echoes.<br><b>✅ Fix:</b> <code>Fix #1 only. Rebuild. Repeat.</code></div><div class="callout warn"><b>❌ Mistake 2: Changing five things at once “to be sure”.</b>Why: Now NOTHING is the cause — you cannot tell which change mattered.<br><b>✅ Fix:</b> <code>One change, one re-run, one observation.</code></div><div class="callout err"><b>❌ Mistake 3: “No red ink, so it must be right.”</b>Why: Logic bugs wear no red. Wrong answers compile beautifully.<br><b>✅ Fix:</b> <code>Test every unit against a hand-computed oracle.</code></div><div class="callout err"><b>❌ Mistake 4: Reading the whole trace bottom-up.</b>Why: Bottom frames are library internals; YOUR bug address sits near the top.<br><b>✅ Fix:</b> <code>Find the first line naming YOUR file. Go there.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Read it</b><p>“NullPointerException at Ask.java:9” — where?</p>
+  <div class="practice"><b>Read the address</b><p>“ArrayIndexOutOfBoundsException at Main.java:7” — where exactly is the crime scene?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>File:line.</div><div class="sol callout"><b>Solution</b>Ask.java line 9, something null there.</div></div><div class="practice"><b>Bisect</b><p>100-line wrong output. First move?</p>
+  <div class="hint callout"><b>Hint</b>File, colon, line.</div><div class="sol callout"><b>Solution</b>Main.java, line 7 — open it; the bad index is there.</div></div><div class="practice"><b>Bisect it</b><p>A 100-line program prints a wrong total. What is your FIRST move?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Disable half.</div><div class="sol callout"><b>Solution</b>Comment half, see if bug stays — narrow.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Disable half, observe.</div><div class="sol callout"><b>Solution</b>Comment out half. Wrongness stays → bug in the live half; vanishes → bug in the dead half. Repeat.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>4 error kinds; read file:line.</li><li>First error first; one fix at a time.</li><li>Test known answers for logic.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Name the 4 bug kinds with an example each.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Keep a bug diary: error, cause, fix.</div>
+  <div class="prose"><ul><li>Four species: syntax, type, runtime, logic.</li><li>Traces give file:line addresses — go there.</li><li>First error first; one change per test.</li><li>Oracles (known answers) catch logic bugs.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Recite the 5-step debugging workflow without looking.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Start a bug diary: error text → cause → fix. Three entries this week.</div>
   <p><b>Related:</b> <a href="../lessons/scope.html">Variable Scope and Lifetime</a> · <a href="./review-logic.html">Next: Review: Logic Checkpoint →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -94,8 +104,8 @@ System.out.println(total); // 170</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'debugging',[{"id":"q1","prompt":"Which runs but gives wrong answer?","options":[{"t":"Logic error","ok":true},{"t":"Syntax error"},{"t":"Missing file"},{"t":"No error kind"}],"explain":"Silent wrongness."},{"id":"q2","prompt":"Fix many errors: start where?","options":[{"t":"First error","ok":true},{"t":"Last error"},{"t":"Random"},{"t":"Delete all"}],"explain":"First causes cascade."},{"id":"q3","prompt":"m[5] on length-2 gives…","options":[{"t":"ArrayIndexOutOfBoundsException","ok":true},{"t":"0 quietly"},{"t":"5"},{"t":"Compiles away"}],"explain":"Bounds enforced at runtime."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Victim: error at line 12.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Bill.java:12\u003c/b>\u003cbr>NullPointer!\u003c/div>\u003c/div>"},{"caption":"Witnesses: prints reveal null.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">print s → null ⚠️\u003c/div>\u003c/div>"},{"caption":"Fix once, re-run, closed ✓.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">guard null → pass ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'debugging',[{"id":"q1","prompt":"Which bug kind runs fine but answers wrong?","options":[{"t":"Logic error","ok":true},{"t":"Syntax error"},{"t":"Missing file"},{"t":"No such kind exists"}],"explain":"Silent wrongness — the kind oracles exist to catch."},{"id":"q2","prompt":"Twenty errors appear. Start…","options":[{"t":"At the FIRST error","ok":true},{"t":"At the last error"},{"t":"At a random one"},{"t":"By deleting everything"}],"explain":"Error #1 causes the cascade; the rest are echoes."},{"id":"q3","prompt":"m[5] on a length-2 array gives…","options":[{"t":"ArrayIndexOutOfBoundsException at that line","ok":true},{"t":"0, quietly"},{"t":"5"},{"t":"It compiles away"}],"explain":"Bounds are enforced at runtime, loudly."},{"id":"q4","prompt":"In a stack trace, YOUR bug’s address is…","options":[{"t":"The first line naming YOUR file","ok":true},{"t":"The very bottom line"},{"t":"The longest line"},{"t":"Never shown"}],"explain":"Newest call first; your frame tops the ones you own."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Victim found: error names line 7.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Main.java:7\u003c/b>\u003cbr>out of bounds!\u003c/div>\u003c/div>"},{"caption":"Witnesses: prints reveal the index.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">print i → 5 ⚠️ (max 1)\u003c/div>\u003c/div>"},{"caption":"Fix once, re-run all, case closed. ✓","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">guard index → pass ✓\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

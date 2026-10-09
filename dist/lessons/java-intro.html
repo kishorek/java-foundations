@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>What Is Java and What Can It Build? · Java Foundations</title>
-<meta name="description" content="Java runs banks, Android apps, Minecraft, and big websites. You learn it because it is strict in a helpful way and jobs love it.">
+<meta name="description" content="Java runs banks, Android apps, Minecraft, and half the big websites you use. You are learning it because it is strict in a helpful way — the compiler coaches you before users suffer.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Java runs banks, Android apps, Minecraft, and big websites. You learn it because it is strict in a helpful way and jobs love it.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why would a beginner pick a language that forces extra rules?</div>
+  <div class="prose"><p>Java runs banks, Android apps, Minecraft, and half the big websites you use. You are learning it because it is strict in a helpful way — the compiler coaches you before users suffer.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why would a beginner deliberately pick a language that forces extra rules?</div>
   <h2>Objectives</h2><ul><li>Say what Java is used for</li><li>Name 3 things Java builds</li><li>Explain why Java is popular</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/execute.html">How Computers Execute Programs</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Training wheels with a map. Java’s rules feel fussy at first — like bike lanes — but they stop whole classes of crashes and guide you downtown (jobs, Android, servers).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: training wheels never win races. Java is verbose; tiny scripts are faster in Python. Java wins at big, long-lived apps.</div></div></section>
+  <div class="prose"><p>Training wheels with a city map. Java’s rules feel fussy at first — like bike lanes — but they prevent whole categories of crashes and the map leads downtown: jobs, Android, servers.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: training wheels never win races. Java is verbose, and a 3-line chore is genuinely faster in Python. Java wins at big, long-lived programs worked on by teams.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Java</b> (1995, now owned by Oracle, free OpenJDK builds) is general-purpose, <b>object-oriented</b>, and <b>statically typed</b> (you declare types; errors caught early).</p><p>Java builds: Android apps, server backends (banks, shops), desktop tools, Minecraft, and data systems.</p><p>Why learn it: strict compiler teaches discipline, huge job market, and skills transfer to C#, Kotlin, and more.</p></div></section>
+  <div class="prose"><p><b>Java</b> appeared in 1995 at Sun Microsystems (now Oracle; free OpenJDK builds exist). It is general-purpose, <b>object-oriented</b>, and <b>statically typed</b> — you declare each variable’s type, so whole bug families are caught before running.</p><p>Java builds Android apps, bank and shop servers, desktop tools, Minecraft, and big-data systems. Wherever programs must run for years without rotting, Java shows up.</p><p>Why learn it first: the strict compiler teaches discipline that transfers everywhere; the job market is enormous; and its ideas carry straight into C#, Kotlin, and TypeScript.</p><p>This course targets <b>Java 17 (LTS)</b>: a Long-Term-Support release, modern but stable, with free updates for years. Old tutorials teach Java 8 habits — you will learn the modern way.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Statically typed</b> = every variable’s type is fixed at compile time. <b>Object-oriented</b> = programs model things as objects with data + behavior (Stage 5).</li><li><b>WORA</b> (“write once, run anywhere”): compiled bytecode runs on any machine with a matching JVM — Windows, Mac, Linux, servers.</li><li><b>LTS</b> releases (8, 11, 17, 21) get years of free security fixes; this course pins Java 17 so examples behave identically for everyone.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Write once, run anywhere</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,19 +50,23 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Hello {
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
   public static void main(String[] args) {
     System.out.println(&quot;Java runs everywhere!&quot;);
+    System.out.println(&quot;Strict today, grateful tomorrow.&quot;);
   }
 }">Copy</button></div>
-  <pre><code>public class Hello {
+  <pre><code>public class Main {
   public static void main(String[] args) {
     System.out.println(&quot;Java runs everywhere!&quot;);
+    System.out.println(&quot;Strict today, grateful tomorrow.&quot;);
   }
 }</code></pre><div class="out">▶ Output
-Java runs everywhere!</div></div>
-  <ul class="linenotes"><li>Same shape as every Java app you will write.</li><li>println shows text on screen.</li><li>Curly braces group code together.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The JVM runs this same bytecode on Windows, Mac, or Linux — write once, run anywhere.</div></div></section>
+Java runs everywhere!
+Strict today, grateful tomorrow.</div></div>
+  <ul class="linenotes"><li>The same class + main uniform as every Java app you will write.</li><li>Two println instructions run top-down.</li><li>Curly braces group the code that belongs together.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The JVM runs this same bytecode on any operating system — the promise of write-once-run-anywhere in two lines.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -70,22 +75,22 @@ Java runs everywhere!</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: “Java and JavaScript are the same.”</b>Why: Different languages; similar names only.<br><b>✅ Fix:</b> <code>Java = big apps; JavaScript = mostly web pages.</code></div><div class="callout warn"><b>❌ Mistake 2: Expecting zero rules.</b>Why: Java asks for types and semicolons.<br><b>✅ Fix:</b> <code>Treat errors as coaching, not failure.</code></div><div class="callout err"><b>❌ Mistake 3: Learning version 8 tricks only.</b>Why: Old tutorials linger.<br><b>✅ Fix:</b> <code>We target Java 17 LTS — modern and supported.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: “Java and JavaScript are the same thing.”</b>Why: Different languages sharing only a name (a 1990s marketing accident).<br><b>✅ Fix:</b> <code>Java = big applications; JavaScript = mostly web pages.</code></div><div class="callout warn"><b>❌ Mistake 2: Expecting zero rules and fighting every error.</b>Why: Java’s rules ARE the teaching: types, semicolons, braces.<br><b>✅ Fix:</b> <code>Treat each compiler error as free coaching, not failure.</code></div><div class="callout err"><b>❌ Mistake 3: Following a 2014 Java 8 tutorial by default.</b>Why: Old idioms linger online and teach around features you should use.<br><b>✅ Fix:</b> <code>We target Java 17 LTS — modern, supported, stable.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Where is Java?</b><p>Name 3 places Java runs (phone, bank, game…).</p>
+  <div class="practice"><b>Where is Java?</b><p>Name 3 places Java runs: a phone thing, a money thing, a game thing.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Think Android, servers, Minecraft.</div><div class="sol callout"><b>Solution</b>Any 3: Android apps, bank servers, Minecraft, web backends, uni courses.</div></div><div class="practice"><b>Strict is helpful?</b><p>Give one benefit of declaring types upfront.</p>
+  <div class="hint callout"><b>Hint</b>Think Android, bank servers, Minecraft.</div><div class="sol callout"><b>Solution</b>Any three: Android apps, bank servers, Minecraft, web back ends, university courses.</div></div><div class="practice"><b>Strict is helpful — how?</b><p>Give one concrete benefit of declaring types up front.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>When do you want to catch a mistake?</div><div class="sol callout"><b>Solution</b>Compiler catches “apple + 5” before users suffer.</div></div></section>
+  <div class="hint callout"><b>Hint</b>When is the cheapest moment to catch a mistake?</div><div class="sol callout"><b>Solution</b>The compiler rejects “apple + 5” in seconds, before any user ever suffers.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Java = strict, object-oriented, everywhere.</li><li>Powers Android, servers, games, tools.</li><li>We use modern Java 17 LTS.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What does “statically typed” mean in one line?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Ask a friend: name one app; guess if Java could build it.</div>
+  <div class="prose"><ul><li>Java = strict, object-oriented, runs everywhere.</li><li>Powers Android, servers, games, tools.</li><li>We use modern Java 17 LTS — ignore Java 8-era tutorials.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What does “statically typed” mean, in one line?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Ask a friend to name one app; argue whether Java could build it and why.</div>
   <p><b>Related:</b> <a href="../lessons/execute.html">How Computers Execute Programs</a> · <a href="./jdk-jre-jvm.html">Next: JDK, JRE, and JVM →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -93,8 +98,8 @@ Java runs everywhere!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'java-intro',[{"id":"q1","prompt":"Java is best described as…","options":[{"t":"General-purpose, object-oriented, statically typed","ok":true},{"t":"Only for web pages"},{"t":"Same as JavaScript"},{"t":"A computer brand"}],"explain":"That trio is Java’s identity."},{"id":"q2","prompt":"“Write once, run anywhere” means…","options":[{"t":"Same bytecode runs on many systems via JVM","ok":true},{"t":"Write code one time ever"},{"t":"No installation needed"},{"t":"Runs without computers"}],"explain":"The JVM abstracts the machine."},{"id":"q3","prompt":"Which is NOT typically Java?","options":[{"t":"Tiny browser animation script","ok":true},{"t":"Android app"},{"t":"Bank backend"},{"t":"Minecraft"}],"explain":"Tiny web scripts favor JavaScript."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"You write one Hello.java.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Hello.java\u003c/b>\u003cbr>one source\u003c/div>\u003c/div>"},{"caption":"Compiler makes bytecode (.class).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>javac\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Hello.class\u003c/b>\u003cbr>bytecode\u003c/div>\u003c/div>"},{"caption":"Each system’s JVM runs it.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Windows JVM\u003c/div>\u003cdiv class=\"box\">Mac JVM\u003c/div>\u003cdiv class=\"box\">Linux JVM\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'java-intro',[{"id":"q1","prompt":"Java is best described as…","options":[{"t":"General-purpose, object-oriented, statically typed","ok":true},{"t":"Only for web pages"},{"t":"The same as JavaScript"},{"t":"A computer brand"}],"explain":"That trio is Java’s identity; each word rules out a misconception."},{"id":"q2","prompt":"“Write once, run anywhere” works because…","options":[{"t":"The same bytecode runs on many systems via each system’s JVM","ok":true},{"t":"You only ever write code one time"},{"t":"No installation is needed anywhere"},{"t":"It runs without computers"}],"explain":"The JVM absorbs the differences between machines."},{"id":"q3","prompt":"Which job fits Java LEAST?","options":[{"t":"A tiny throwaway browser animation","ok":true},{"t":"An Android app"},{"t":"A bank back end"},{"t":"Minecraft-style game"}],"explain":"Tiny web scripts favor JavaScript; Java shines at big, long-lived systems."},{"id":"q4","prompt":"This course targets Java 17 LTS mainly because…","options":[{"t":"It is modern, stable, and supported for years","ok":true},{"t":"It is the only Java that exists"},{"t":"Older versions cannot print"},{"t":"LTS means fastest"}],"explain":"LTS = long-term security fixes; 17 = modern features without churn."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"You write one Main.java.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Main.java\u003c/b>\u003cbr>one source\u003c/div>\u003c/div>"},{"caption":"The compiler makes bytecode (.class).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>javac\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Main.class\u003c/b>\u003cbr>bytecode\u003c/div>\u003c/div>"},{"caption":"Each system’s JVM runs it unchanged.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Windows JVM\u003c/div>\u003cdiv class=\"box\">Mac JVM\u003c/div>\u003cdiv class=\"box\">Linux JVM\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

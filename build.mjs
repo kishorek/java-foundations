@@ -2,6 +2,7 @@ import { NODES, STAGES, PROJECTS, edges, JAVA_VERSION } from './src/data/curricu
 import { LESSONS_A } from './src/data/lessons-a.js';
 import { LESSONS_B } from './src/data/lessons-b.js';
 import { LESSONS_C } from './src/data/lessons-c.js';
+import { LESSONS_E } from './src/data/lessons-e.js';
 import { LESSONS_D } from './src/data/lessons-d.js';
 import { GLOSSARY } from './src/data/glossary.js';
 import { mkdirSync, writeFileSync, cpSync, rmSync, existsSync } from 'node:fs';
@@ -10,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const dist = join(root, 'dist');
-const LESSONS = { ...LESSONS_A, ...LESSONS_B, ...LESSONS_C, ...LESSONS_D };
+const LESSONS = { ...LESSONS_A, ...LESSONS_B, ...LESSONS_C, ...LESSONS_D, ...LESSONS_E };
 const TYPE_LABEL = { concept: 'Concept', demo: 'Demo', practice: 'Practice', quiz: 'Quiz', project: 'Project', review: 'Review' };
 const nodeById = Object.fromEntries(NODES.map(n => [n.id, n]));
 const stageByN = Object.fromEntries(STAGES.map(s => [s.n, s]));
@@ -77,8 +78,10 @@ import {initTheme,initChrome} from '${prefix}assets/js/app.js';
 initTheme();initChrome(${jstr(lessonIds)});
 </script></body></html>`;
 }
-function codeBlock(code, output, notes, copyText) {
-  return `<div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="${escAttr(copyText || code)}">Copy</button></div>
+function codeBlock(code, output, notes, copyText, lang = 'java') {
+  const fname = lang === 'bash' ? 'terminal' : lang === 'xml' ? 'pom.xml' : 'Main.java';
+  const langName = lang === 'bash' ? 'shell' : lang === 'xml' ? 'XML' : 'Java 17';
+  return `<div class="codeblock"><div class="codeblock-head"><span class="fn">${fname}</span><span>${langName}</span><button data-copy="${escAttr(copyText || code)}">Copy</button></div>
   <pre><code>${esc(code)}</code></pre>${output != null ? `<div class="out">▶ Output\n${esc(output)}</div>` : ''}</div>
   ${notes?.length ? `<ul class="linenotes">${notes.map(n => `<li>${n}</li>`).join('')}</ul>` : ''}`;
 }
@@ -117,7 +120,8 @@ function lessonBody(n, L) {
   <div class="prose"><p>${L.analogy}</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>${L.analogyFail}</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose">${(L.explain || []).map(p => `<p>${p}</p>`).join('')}</div></section>
+  <div class="prose">${(L.explain || []).map(p => `<p>${p}</p>`).join('')}
+  ${(L.tech || []).length ? `<div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem">${L.tech.map(t => `<li>${t}</li>`).join('')}</ul></div>` : ''}</div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: ${esc(L.anim?.title || 'visual')}</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -125,7 +129,8 @@ function lessonBody(n, L) {
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct ${esc(JAVA_VERSION)} code. Read, trace, copy.</p>
-  ${codeBlock(L.code, L.output, L.codeNotes)}
+  ${codeBlock(L.code, L.output, L.codeNotes, null, L.lang)}
+  <div class="prose">${L.lang === 'bash' ? '<div class="callout"><b>💻 Terminal commands</b>Type these lines in your terminal, not in a Java file.</div>' : L.interactive ? '<div class="callout"><b>⌨️ Interactive program</b>Run it yourself and type the shown input. Lines you type are marked; the rest is the program talking.</div>' : L.simulated ? '<div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>' : '<div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>'}
   <div class="prose"><div class="callout"><b>💡 Why this output?</b>${esc(L.why)}</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>while and do-while Loops · Java Foundations</title>
-<meta name="description" content="while repeats while a condition holds — ideal when you do not know how many rounds (password tries, reading input).">
+<meta name="description" content="while repeats WHILE a condition holds — the loop for when you CANNOT know the round count up front: password tries, file lines, network retries.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,64 +32,89 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>while repeats while a condition holds — ideal when you do not know how many rounds (password tries, reading input).</p>
-  <div class="callout"><b>🔎 Motivating question</b>When do you stop stirring soup?</div>
+  <div class="prose"><p>while repeats WHILE a condition holds — the loop for when you CANNOT know the round count up front: password tries, file lines, network retries.</p>
+  <div class="callout"><b>🔎 Motivating question</b>When exactly do you stop stirring the soup?</div>
   <h2>Objectives</h2><ul><li>Write while and do-while</li><li>Tell when each checks</li><li>Stop infinite loops</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/for-loops.html">for Loops</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Taste-and-stir: while too salty, stir + taste again. do-while tastes first (always stirs once) — like “try the dish before judging”.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: soup eventually balances. Code may never balance — always change something the condition watches.</div></div></section>
+  <div class="prose"><p>Taste-and-stir: WHILE too salty → stir and taste again. do-while tastes FIRST (“try the dish before judging”) — it always stirs at least once, even if the soup was perfect.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: soup eventually balances itself. Code may NEVER balance — if nothing inside moves the condition toward false, you built an infinite loop with extra steps.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>while (cond) { }</b> checks first (0+ runs). <b>do { } while (cond);</b> runs once, then checks.</p><p>Update inside! Forgot counter → infinite loop. Ctrl+C / stop button escapes.</p><p>Pick for when count known; while/do-while when rounds unknown.</p></div></section>
+  <div class="prose"><p><b>while (cond) { }</b> checks FIRST: zero or more rounds. <b>do { } while (cond);</b> runs once, THEN checks: one or more rounds, note the trailing semicolon.</p><p>Something inside MUST advance the condition — a counter, new input, a shrinking file. Frozen conditions spin forever; the stop button (or Ctrl+C) is your escape hatch.</p><p>Choose: <b>for</b> = known count; <b>while</b> = unknown rounds, maybe zero (“while files remain”); <b>do-while</b> = must run at least once (“ask the password, repeat while wrong”).</p><p>while (true) with an if-break inside is idiomatic for “repeat until event” — menus, servers, game loops. The break IS the condition.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>do-while’s trailing <b>semicolon is mandatory</b>: do { } while (x); — the only loop that ends with one.</li><li>Reading input until a sentinel (“type quit to stop”) is the canonical while job — for-loops cannot do “unknown count” naturally.</li><li>Infinite loops are not always bugs: servers intentionally loop forever. The bug is an UNINTENDED one with no exit path.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Taste loop</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Taste-and-stir</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int attempt = 0;
-int code = 0;
-while (code != 1234) {
-  attempt++;
-  code = 1234; // pretend user typed it
-}
-System.out.println(&quot;Unlocked in &quot; + attempt);">Copy</button></div>
-  <pre><code>int attempt = 0;
-int code = 0;
-while (code != 1234) {
-  attempt++;
-  code = 1234; // pretend user typed it
-}
-System.out.println(&quot;Unlocked in &quot; + attempt);</code></pre><div class="out">▶ Output
-Unlocked in 1</div></div>
-  <ul class="linenotes"><li>Check before each round.</li><li>Body changes code toward exit.</li><li>attempt counts rounds.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>First check 0≠1234 true → body sets 1234 → next check false → exit.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int attempt = 0;
+    int code = 0; // pretend: user keeps typing until 1234
+    while (code != 1234) {
+      attempt++;
+      code = 1234; // first typed guess
+    }
+    System.out.println(&quot;Unlocked in &quot; + attempt);
+    // do-while always runs once:
+    int n = 3;
+    do {
+      System.out.println(&quot;n = &quot; + n);
+      n--;
+    } while (n &gt; 0);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int attempt = 0;
+    int code = 0; // pretend: user keeps typing until 1234
+    while (code != 1234) {
+      attempt++;
+      code = 1234; // first typed guess
+    }
+    System.out.println(&quot;Unlocked in &quot; + attempt);
+    // do-while always runs once:
+    int n = 3;
+    do {
+      System.out.println(&quot;n = &quot; + n);
+      n--;
+    } while (n &gt; 0);
+  }
+}</code></pre><div class="out">▶ Output
+Unlocked in 1
+n = 3
+n = 2
+n = 1</div></div>
+  <ul class="linenotes"><li>Check before EVERY round — 0 ≠ 1234 enters once.</li><li>The body advances code toward the exit.</li><li>do-while prints 3, 2, 1 — guaranteed first run.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>One while round (then 1234 == 1234 exits); the do-while runs its body before its first check, counting 3→1.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="loop"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Rounds unknown: set max tries.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Unknown rounds: set max tries and trace.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="4" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: while (true) with no break</b>Why: Never exits.<br><b>✅ Fix:</b> <code>Change condition inside or break.</code></div><div class="callout warn"><b>❌ Mistake 2: do-while expecting 0 runs</b>Why: Always runs once.<br><b>✅ Fix:</b> <code>Use while for maybe-zero.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting attempt++</b>Why: Same state forever.<br><b>✅ Fix:</b> <code>Update the watched variable.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: while (true) with no break anywhere.</b>Why: No exit path — spins until killed.<br><b>✅ Fix:</b> <code>Advance the watched value inside, or break on the event.</code></div><div class="callout warn"><b>❌ Mistake 2: do-while chosen for a maybe-zero job.</b>Why: It ALWAYS runs once — “zero files processed” still processes one phantom.<br><b>✅ Fix:</b> <code>Maybe-zero needs while; must-run-once needs do-while.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting attempt++ (or any advance).</b>Why: Identical state every check → identical answer forever.<br><b>✅ Fix:</b> <code>Every loop body must move something the condition watches.</code></div><div class="callout err"><b>❌ Mistake 4: Missing the do-while semicolon.</b>Why: It is syntactically required — the compiler complains.<br><b>✅ Fix:</b> <code>} while (n &gt; 0); — with the semicolon.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>while or do?</b><p>“Ask password until correct, at least once.” Which loop?</p>
+  <div class="practice"><b>while or do?</b><p>“Ask the password until correct — but always ask at least once.” Which loop?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>At least once = do-while.</div><div class="sol callout"><b>Solution</b>do { ask } while (!correct);</div></div><div class="practice"><b>Countdown</b><p>Print 3,2,1,Liftoff with while.</p>
+  <div class="hint callout"><b>Hint</b>“At least once” is the password phrase.</div><div class="sol callout"><b>Solution</b>do { ask } while (!correct);</div></div><div class="practice"><b>Countdown</b><p>Print 3, 2, 1, Liftoff using while.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>n=3; while(n&gt;0).</div><div class="sol callout"><b>Solution</b>while (n &gt; 0) { print(n); n--; } print Liftoff.</div></div></section>
+  <div class="hint callout"><b>Hint</b>n = 3; while (n &gt; 0) { ... n--; }</div><div class="sol callout"><b>Solution</b>while (n &gt; 0) { System.out.println(n); n--; } then print Liftoff.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>while = unknown rounds, pre-check.</li><li>do-while always runs once.</li><li>Always progress toward exit.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When while vs for vs do-while?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Countdown with while; then with do-while.</div>
+  <div class="prose"><ul><li>while = unknown rounds, checks first.</li><li>do-while always runs once; mind its semicolon.</li><li>Every body must advance the condition.</li><li>while(true)+break = “repeat until event”.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>For vs while vs do-while: give the one-line rule for each.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write a countdown with while, then rewrite it with do-while, and compare.</div>
   <p><b>Related:</b> <a href="../lessons/for-loops.html">for Loops</a> · <a href="./break-continue.html">Next: break and continue →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +122,8 @@ Unlocked in 1</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'while-loops',[{"id":"q1","prompt":"while checks…","options":[{"t":"Before each run (maybe zero)","ok":true},{"t":"After only"},{"t":"Never"},{"t":"At compile"}],"explain":"Pre-check loop."},{"id":"q2","prompt":"do-while runs…","options":[{"t":"At least once","ok":true},{"t":"Maybe zero"},{"t":"Exactly twice"},{"t":"Never"}],"explain":"Post-check."},{"id":"q3","prompt":"Infinite loop fix?","options":[{"t":"Change condition variable inside","ok":true},{"t":"Add comments"},{"t":"Rename i"},{"t":"Delete braces"}],"explain":"Move toward false."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Check: salty? yes → stir.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">salty? ✓\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">stir\u003c/div>\u003c/div>"},{"caption":"Taste again: balanced? no → stir.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">balanced? ❌\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">stir\u003c/div>\u003c/div>"},{"caption":"Balanced → serve, exit.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">balanced ✓\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">serve 🍲\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'while-loops',[{"id":"q1","prompt":"while checks its condition…","options":[{"t":"Before every round (possibly zero rounds)","ok":true},{"t":"Only after the loop"},{"t":"Never"},{"t":"At compile time"}],"explain":"Pre-check loop: zero is a legal round count."},{"id":"q2","prompt":"do-while guarantees…","options":[{"t":"At least one execution","ok":true},{"t":"Possibly zero"},{"t":"Exactly two"},{"t":"Nothing"}],"explain":"Post-check: the body precedes the first question."},{"id":"q3","prompt":"The cure for an accidental infinite loop is…","options":[{"t":"Advance the watched value inside the body","ok":true},{"t":"Add more comments"},{"t":"Rename the counter"},{"t":"Delete the braces"}],"explain":"Move the condition toward false, every round."},{"id":"q4","prompt":"Which job fits while BEST?","options":[{"t":"Read lines until the file ends","ok":true},{"t":"Print numbers 1 to 10"},{"t":"Run exactly 5 times"},{"t":"Add two numbers"}],"explain":"Unknown count, maybe zero — while’s home turf."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Check: still salty? YES → stir.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">salty? ✓\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">stir\u003c/div>\u003c/div>"},{"caption":"Taste again: balanced? No → stir.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">balanced? ❌\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">stir\u003c/div>\u003c/div>"},{"caption":"Balanced → serve and exit.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">balanced ✓\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">serve 🍲\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

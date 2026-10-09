@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Enums · Java Foundations</title>
-<meta name="description" content="Enums are fixed menus: MON…SUN, SMALL/MEDIUM/LARGE. No typos, no “monday” vs “Monday” wars.">
+<meta name="description" content="Enums are fixed menus: MON through SUN, SMALL/MEDIUM/LARGE. No typos, no “monday” vs “Monday” wars, no mystery strings drifting through code.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,18 +32,19 @@
     <span class="chip">⏱ 10 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Enums are fixed menus: MON…SUN, SMALL/MEDIUM/LARGE. No typos, no “monday” vs “Monday” wars.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do traffic lights use 3 colors, not words?</div>
+  <div class="prose"><p>Enums are fixed menus: MON through SUN, SMALL/MEDIUM/LARGE. No typos, no “monday” vs “Monday” wars, no mystery strings drifting through code.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do traffic lights use three colors instead of words?</div>
   <h2>Objectives</h2><ul><li>Define an enum</li><li>Use in switch</li><li>Explain why not strings</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/generics.html">Generics and Type Safety</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Signal lights: only RED/YELLOW/GREEN exist. You cannot invent PURPLE. switch on lights is exhaustive — compiler checks you handled all.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: menus change slowly. Daily specials (user input values) need strings, not enums.</div></div></section>
+  <div class="prose"><p>Signal lights: only RED, YELLOW, GREEN exist. Nobody can invent PURPLE at runtime. Switching on lights is EXHAUSTIVE — the compiler itself checks you handled all three.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: printed menus change slowly. Daily specials (genuinely open-ended user values) need Strings, not enums. Fixed SETS get enums; open worlds get text.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>enum Day { MON, TUE, ... }</b>. Use: <b>Day.MON</b>. Compare with <b>==</b> (safe here!).</p><p>Switch exhaustively; add fields/methods: SMALL(250). <b>valueOf("MON")</b> parses.</p><p>Prefer over String constants for fixed sets.</p></div></section>
+  <div class="prose"><p>Declare <b>enum Size { SMALL, MEDIUM, LARGE }</b>. Use Size.MEDIUM. Compare with <b>==</b> — safe here, since each value exists exactly once.</p><p>Switch over enums exhaustively; add FIELDS and methods per value (SMALL with milliliters). <b>valueOf("MEDIUM")</b> parses text back (exact case!).</p><p>Prefer enums over String constants for fixed sets: typos become compile errors instead of silent mismatches at 2 a.m.</p><p>Enums are full CLASSES underneath: constructors (private), fields, methods — with the instance list frozen at compile time.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Each enum value is a <b>singleton</b>: == is correct AND null-safe-ish (null == SIZE is false, no crash).</li><li><b>ordinal()</b> gives position (0-based); <b>values()</b> lists all; <b>valueOf</b> parses — the standard trio.</li><li>Never persist ordinals (reordering breaks data); persist <b>names</b> (name()) instead.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Signals</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Signal lights</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
@@ -56,7 +57,7 @@ String msg = switch (s) {
   case MEDIUM -&gt; &quot;500ml&quot;;
   case LARGE -&gt; &quot;1L&quot;;
 };
-System.out.println(msg);">Copy</button></div>
+// msg = &quot;500ml&quot;; s.ordinal() = 1">Copy</button></div>
   <pre><code>enum Size { SMALL, MEDIUM, LARGE }
 Size s = Size.MEDIUM;
 String msg = switch (s) {
@@ -64,34 +65,35 @@ String msg = switch (s) {
   case MEDIUM -&gt; &quot;500ml&quot;;
   case LARGE -&gt; &quot;1L&quot;;
 };
-System.out.println(msg);</code></pre><div class="out">▶ Output
-500ml</div></div>
-  <ul class="linenotes"><li>Fixed choices.</li><li>== safe for enums.</li><li>Switch covers all.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Exact match MEDIUM.</div></div></section>
+// msg = &quot;500ml&quot;; s.ordinal() = 1</code></pre><div class="out">▶ Output
+500ml with ordinal 1.</div></div>
+  <ul class="linenotes"><li>Fixed choices, zero typos possible.</li><li>== safe: singletons, one each.</li><li>Switch covers all three; ordinal is 1.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Exact match on MEDIUM; position counted from zero.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Fixed menu pick.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Fixed menu pick, fixed result.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="MEDIUM" size="8" aria-label="value"> <input data-in value=" → 500ml" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: String &quot;medium&quot; vs &quot;MEDIUM&quot; bugs</b>Why: Typos slip.<br><b>✅ Fix:</b> <code>Use enum.</code></div><div class="callout warn"><b>❌ Mistake 2: equals for enums (works but noisy)</b>Why: == is idiomatic + null-safe-ish.<br><b>✅ Fix:</b> <code>s == Size.MEDIUM.</code></div><div class="callout err"><b>❌ Mistake 3: valueOf(&quot;medium&quot;) crash</b>Why: Case exact!<br><b>✅ Fix:</b> <code>valueOf(&quot;MEDIUM&quot;) or validate.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: String &quot;medium&quot; vs &quot;MEDIUM&quot; bugs.</b>Why: Typos slip through strings silently.<br><b>✅ Fix:</b> <code>Enum: typos fail at compile time.</code></div><div class="callout warn"><b>❌ Mistake 2: equals() for enums (works, but noisy).</b>Why: == is idiomatic here — singletons, no crash on null left side... almost.<br><b>✅ Fix:</b> <code>s == Size.MEDIUM — the house style.</code></div><div class="callout err"><b>❌ Mistake 3: valueOf(&quot;medium&quot;) crashing.</b>Why: Parsing is CASE-EXACT.<br><b>✅ Fix:</b> <code>valueOf(&quot;MEDIUM&quot;), or validate input first.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Day enum</b><p>enum Day 3 values; pick one.</p>
+  <div class="practice"><b>Day enum</b><p>Declare a 3-value Day enum and pick one.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>UPPER_CASE.</div><div class="sol callout"><b>Solution</b>enum Day{ MON,TUE,WED } Day d=Day.MON;</div></div><div class="practice"><b>Switch it</b><p>Switch Size → price.</p>
+  <div class="hint callout"><b>Hint</b>UPPER_CASE values.</div><div class="sol callout"><b>Solution</b>enum Day { MON, TUE, WED } Day d = Day.MON;</div></div><div class="practice"><b>Switch it</b><p>Switch a Size to its price string.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Arrow cases.</div><div class="sol callout"><b>Solution</b>switch(s){case SMALL-&gt;...; ...}</div></div></section>
+  <div class="hint callout"><b>Hint</b>Arrow cases, all three.</div><div class="sol callout"><b>Solution</b>switch(s) with SMALL, MEDIUM, LARGE arrows plus results.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Fixed sets → enum.</li><li>== compares; switch exhausts.</li><li>valueOf parses (exact case).</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When enum vs String?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Replace 3 string constants with an enum.</div>
+  <div class="prose"><ul><li>Fixed sets become enums.</li><li>== compares; switch exhausts.</li><li>valueOf parses (exact case).</li><li>Persist names, never ordinals.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Enum versus String constants: when each?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Replace 3 string constants in old code with an enum.</div>
   <p><b>Related:</b> <a href="../lessons/generics.html">Generics and Type Safety</a> · <a href="./files.html">Next: File Reading and Writing →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +101,8 @@ System.out.println(msg);</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'enums',[{"id":"q1","prompt":"Compare enums with?","options":[{"t":"==","ok":true},{"t":"equals only"},{"t":"="},{"t":"~~~"}],"explain":"Fixed singletons."},{"id":"q2","prompt":"Enums beat strings because…","options":[{"t":"No typos, compiler-checked","ok":true},{"t":"Longer"},{"t":"Slower"},{"t":"Harder"}],"explain":"Menu, not free text."},{"id":"q3","prompt":"Output above?","options":[{"t":"500ml","ok":true},{"t":"250ml"},{"t":"1L"},{"t":"Error"}],"explain":"MEDIUM maps."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Only 3 lights exist.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔴\u003c/div>\u003cdiv class=\"box\">🟡\u003c/div>\u003cdiv class=\"box\">🟢\u003c/div>\u003c/div>"},{"caption":"No PURPLE allowed.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">PURPLE ❌ compile\u003c/div>\u003c/div>"},{"caption":"MEDIUM → 500ml.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">MEDIUM → 500ml ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'enums',[{"id":"q1","prompt":"Enums compare with…","options":[{"t":"==","ok":true},{"t":"equals only"},{"t":"="},{"t":"~~~"}],"explain":"Fixed singletons — identity IS equality here."},{"id":"q2","prompt":"Enums beat raw strings because…","options":[{"t":"Typos fail at compile time","ok":true},{"t":"They are longer"},{"t":"They run slower"},{"t":"They are harder"}],"explain":"Menu, not free text — invalid choices cannot compile."},{"id":"q3","prompt":"MEDIUM above maps to…","options":[{"t":"500ml","ok":true},{"t":"250ml"},{"t":"1L"},{"t":"An error"}],"explain":"Exact label match."},{"id":"q4","prompt":"Persisting enum data should use…","options":[{"t":"Names (name()), not ordinals","ok":true},{"t":"Ordinals — stable forever"},{"t":"Memory addresses"},{"t":"Hash codes"}],"explain":"Reordering values would corrupt ordinal-based data."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Only three lights exist.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">RED\u003c/div>\u003cdiv class=\"box\">YELLOW\u003c/div>\u003cdiv class=\"box\">GREEN\u003c/div>\u003c/div>"},{"caption":"PURPLE rejected at compile time.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">PURPLE refused\u003c/div>\u003c/div>"},{"caption":"MEDIUM maps to 500ml.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">MEDIUM → 500ml\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

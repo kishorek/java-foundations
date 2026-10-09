@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reference Types and Object References · Java Foundations</title>
-<meta name="description" content="Primitives hold values. References hold directions to objects — like a home address, not the house itself.">
+<meta name="description" content="Primitives hold values directly. References hold DIRECTIONS to objects — like a home address slip, not the house itself. This single distinction explains half of Java’s trickiest beginner errors.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Primitives hold values. References hold directions to objects — like a home address, not the house itself.</p>
-  <div class="callout"><b>🔎 Motivating question</b>If you copy a house key, do you copy the house?</div>
+  <div class="prose"><p>Primitives hold values directly. References hold DIRECTIONS to objects — like a home address slip, not the house itself. This single distinction explains half of Java’s trickiest beginner errors.</p>
+  <div class="callout"><b>🔎 Motivating question</b>If you photocopy a house key, have you photocopied the house?</div>
   <h2>Objectives</h2><ul><li>Tell primitives from references</li><li>Explain a reference points to object</li><li>Draw a simple memory sketch</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/primitives.html">Primitive Data Types</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>House addresses. Two slips can point to one house (shared). Primitives are cash in hand; references are address slips to houses (objects).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: addresses never build houses. You must new the house first — a slip saying null points nowhere and crashes if visited.</div></div></section>
+  <div class="prose"><p>House addresses. Two slips can point at one house (sharing). Primitives are cash in hand; references are address slips to houses (objects) sitting in a district called the heap.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: addresses never build houses — somebody must construct first. A slip reading null points at an empty lot, and “visiting” it crashes with NullPointerException.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Primitive</b> int x = 5 holds 5. <b>Reference</b> String s holds directions to a text object.</p><p><b>new</b> builds the house: StringBuilder sb = new StringBuilder(). Without new, reference may be <b>null</b>.</p><p>Copying a reference shares the house: Book b2 = b1 means one book, two slips. Change via one, see via both.</p></div></section>
+  <div class="prose"><p>A primitive like <b>int x = 5</b> holds 5 itself. A reference like <b>String s</b> holds directions to a text object living elsewhere in memory.</p><p><b>new</b> builds the house: new StringBuilder("hi") constructs a fresh object. Without new, a reference may hold <b>null</b> — directions to nowhere.</p><p>Copying a reference copies the SLIP, not the house: Book b2 = b1 means one book with two slips. Renovate through one slip, see it through both.</p><p>This is why == on objects usually lies to beginners: it compares the SLIPS (same house?), not the houses (same furniture?). Content comparison needs .equals() — the Strings lesson makes this muscle memory.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Objects live on the <b>heap</b>; local variable slots (primitives AND reference slips) live on the <b>stack</b>. The slip is typically one machine word.</li><li>Calling any method on <b>null</b> throws <b>NullPointerException</b> — Java’s most famous crash. Guard with if (s != null).</li><li>Default values: object fields start as <b>null</b>, numbers as 0, booleans as false. Local variables get NO defaults — initialize them.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Slips and houses</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,19 +50,34 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="String a = &quot;hello&quot;;
-String b = a;              // same house, two slips
-StringBuilder sb = new StringBuilder(&quot;hi&quot;);
-sb.append(&quot;!&quot;);
-System.out.println(a + &quot; / &quot; + b + &quot; / &quot; + sb);">Copy</button></div>
-  <pre><code>String a = &quot;hello&quot;;
-String b = a;              // same house, two slips
-StringBuilder sb = new StringBuilder(&quot;hi&quot;);
-sb.append(&quot;!&quot;);
-System.out.println(a + &quot; / &quot; + b + &quot; / &quot; + sb);</code></pre><div class="out">▶ Output
-hello / hello / hi!</div></div>
-  <ul class="linenotes"><li>b = a shares the same string.</li><li>new builds a fresh builder house.</li><li>append changes the shared house.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>a and b point to one string. sb points to a builder we mutated to hi!.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    String a = &quot;hello&quot;;
+    String b = a;  // second slip, SAME house
+    StringBuilder sb = new StringBuilder(&quot;hi&quot;);
+    sb.append(&quot;!&quot;); // renovate the shared house
+    System.out.println(a);
+    System.out.println(b);
+    System.out.println(sb);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    String a = &quot;hello&quot;;
+    String b = a;  // second slip, SAME house
+    StringBuilder sb = new StringBuilder(&quot;hi&quot;);
+    sb.append(&quot;!&quot;); // renovate the shared house
+    System.out.println(a);
+    System.out.println(b);
+    System.out.println(sb);
+  }
+}</code></pre><div class="out">▶ Output
+hello
+hello
+hi!</div></div>
+  <ul class="linenotes"><li>b = a copies only the slip — one shared string.</li><li>new builds a genuinely fresh builder house.</li><li>append mutates that house to “hi!”.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>a and b point at one shared string, so both print hello. sb points at a builder we renovated in place to hi!.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -70,22 +86,22 @@ hello / hello / hi!</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: “Reference contains the whole object.”</b>Why: It holds directions; object lives on the heap.<br><b>✅ Fix:</b> <code>Say: s points to a String.</code></div><div class="callout warn"><b>❌ Mistake 2: Using null blindly: s.length() when s is null.</b>Why: No house at null — NullPointerException.<br><b>✅ Fix:</b> <code>Check: if (s != null) ...</code></div><div class="callout err"><b>❌ Mistake 3: Expecting b = a to copy the house.</b>Why: Only the slip copies; house shared.<br><b>✅ Fix:</b> <code>To clone, build new: new StringBuilder(a).</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: “The reference CONTAINS the whole object.”</b>Why: The slip is tiny; the house lives on the heap. Believing otherwise makes sharing bugs invisible.<br><b>✅ Fix:</b> <code>Always say: s POINTS TO a String.</code></div><div class="callout warn"><b>❌ Mistake 2: Calling s.length() when s could be null.</b>Why: There is no house at null — instant NullPointerException.<br><b>✅ Fix:</b> <code>Guard first: if (s != null) { ... }</code></div><div class="callout err"><b>❌ Mistake 3: Expecting Book b2 = b1 to clone the book.</b>Why: Only the slip was copied; both slips share one house.<br><b>✅ Fix:</b> <code>To truly clone, construct: new Book(...) with copied values.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Shared or not?</b><p>int x=5; int y=x; x=9. What is y? Then String a=&quot;h&quot;; String b=a. Same idea?</p>
+  <div class="practice"><b>Shared or copied?</b><p>int x = 5; int y = x; x = 9. What is y now? Then: String a = &quot;h&quot;; String c = a. Same idea or different?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Primitives copy value; references copy direction.</div><div class="sol callout"><b>Solution</b>y stays 5 (copy of value). b shares the string house.</div></div><div class="practice"><b>Null guard</b><p>Write a safe length: return 0 if s is null.</p>
+  <div class="hint callout"><b>Hint</b>Primitives copy the VALUE; references copy the DIRECTION.</div><div class="sol callout"><b>Solution</b>y stays 5 (value copied). c shares the string house (direction copied).</div></div><div class="practice"><b>Write a null guard</b><p>Write a safe length computation that returns 0 when s is null.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>if (s == null).</div><div class="sol callout"><b>Solution</b>if (s == null) return 0; return s.length();</div></div></section>
+  <div class="hint callout"><b>Hint</b>Check before touching.</div><div class="sol callout"><b>Solution</b>if (s == null) return 0; return s.length();</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Primitives hold values; references point.</li><li>new builds; null points nowhere.</li><li>Copying a reference shares the object.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Cash vs address slip: which is primitive?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Draw boxes-and-arrows for String a and b = a.</div>
+  <div class="prose"><ul><li>Primitives hold values; references point at objects.</li><li>new builds; null points nowhere — guard it.</li><li>Copying a reference shares the object.</li><li>== compares slips; .equals compares content.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Cash versus address slip: which one is the primitive, and what happens when you copy each?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Draw boxes-and-arrows on paper for String a plus b = a, then for sb.</div>
   <p><b>Related:</b> <a href="../lessons/primitives.html">Primitive Data Types</a> · <a href="./literals.html">Next: Literals and Constants →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -93,8 +109,8 @@ hello / hello / hi!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'references',[{"id":"q1","prompt":"A reference variable holds…","options":[{"t":"Directions to an object (or null)","ok":true},{"t":"The entire object inside"},{"t":"Only numbers"},{"t":"Nothing ever"}],"explain":"Address slip, not the house."},{"id":"q2","prompt":"Book b2 = b1 means…","options":[{"t":"One book, two references","ok":true},{"t":"Two separate books"},{"t":"No books"},{"t":"A compiler error"}],"explain":"Slip copied; house shared."},{"id":"q3","prompt":"Calling a method on null gives…","options":[{"t":"NullPointerException","ok":true},{"t":"A bigger house"},{"t":"Zero always"},{"t":"Nothing, safely"}],"explain":"Nowhere to visit — crash."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Primitive: cash in hand.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int x\u003c/div>\u003cdiv class=\"vl\">5\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Reference: slip → house.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>s\u003c/b>\u003cbr>slip ➜\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>\"hello\" 🏠\u003c/b>\u003cbr>object\u003c/div>\u003c/div>"},{"caption":"b = a: two slips, one house.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>a ➜ 🏠\u003c/b>\u003c/div>\u003cdiv class=\"box\">\u003cb>b ➜ 🏠\u003c/b>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'references',[{"id":"q1","prompt":"A reference variable holds…","options":[{"t":"Directions to an object (or null)","ok":true},{"t":"The entire object inside itself"},{"t":"Only numbers"},{"t":"Nothing, ever"}],"explain":"An address slip, never the house."},{"id":"q2","prompt":"Book b2 = b1 means…","options":[{"t":"One book with two references","ok":true},{"t":"Two separate books"},{"t":"Zero books"},{"t":"A compiler error"}],"explain":"The slip copied; the house is shared."},{"id":"q3","prompt":"Calling a method on null produces…","options":[{"t":"NullPointerException","ok":true},{"t":"A bigger house"},{"t":"Zero, quietly"},{"t":"Nothing — it is safe"}],"explain":"Nowhere to visit means an immediate crash."},{"id":"q4","prompt":"Where do objects vs local slips live?","options":[{"t":"Objects on the heap, local slots on the stack","ok":true},{"t":"Everything on the stack"},{"t":"Everything on the disk"},{"t":"Inside the CPU"}],"explain":"Houses in heap-district; slips in the stack-pocket."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Primitive: cash held in hand.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int x\u003c/div>\u003cdiv class=\"vl\">5\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Reference: a slip pointing at a house.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>s\u003c/b>\u003cbr>slip ➜\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>\"hello\" 🏠\u003c/b>\u003cbr>object\u003c/div>\u003c/div>"},{"caption":"b = a: two slips, ONE house.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>a ➜ 🏠\u003c/b>\u003c/div>\u003cdiv class=\"box\">\u003cb>b ➜ 🏠\u003c/b>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

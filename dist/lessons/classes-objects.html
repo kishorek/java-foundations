@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Classes and Objects · Java Foundations</title>
-<meta name="description" content="A class is a blueprint; an object is one house built from it. Same plan, many homes with different paint.">
+<meta name="description" content="A class is a blueprint; an object is one house built from it. Same plan, many homes — each with its own paint, furniture, and mess.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,68 +32,72 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>A class is a blueprint; an object is one house built from it. Same plan, many homes with different paint.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What is shared between all “books” yet different in each copy?</div>
+  <div class="prose"><p>A class is a blueprint; an object is one house built from it. Same plan, many homes — each with its own paint, furniture, and mess.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What is shared between all “books” in a library, yet different inside each copy?</div>
   <h2>Objectives</h2><ul><li>Tell class from object</li><li>Create objects with new</li><li>Explain state vs behavior</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/algorithms-basic.html">Basic Algorithms: Search, Count, Min/Max</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Housing colony: blueprint Book (title, pages, borrow()). Your copy and mine share design, differ in state (borrowed or not).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: blueprints do not store your books. Only objects hold real data — the class holds the design.</div></div></section>
+  <div class="prose"><p>A housing colony from one blueprint. The blueprint Book defines title, pages, borrow(). Your copy and mine share the DESIGN but differ in STATE — yours borrowed, mine free.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: blueprints never store your furniture. Only OBJECTS hold real data — the class holds the design. Confusing the two is the root of half of all OOP questions.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>class Book { }</b> defines fields (info) + methods (actions). <b>new Book()</b> builds one object.</p><p><b>State</b> = current field values. <b>Behavior</b> = what methods do.</p><p>Dot uses it: <b>b.borrow()</b>. Different objects, independent state.</p></div></section>
+  <div class="prose"><p>A <b>class</b> defines fields (information) and methods (actions). An <b>object</b> is one live instance built with <b>new</b>: Book b1 = new Book(); builds exactly one.</p><p><b>State</b> = the current field values of one object. <b>Behavior</b> = what its methods do. Two objects of one class behave the same but remember different things.</p><p>You use objects through the <b>dot</b>: b1.borrow() runs b1’s method; b1.title reads b1’s field. Different dots, different houses.</p><p>Design rule: a class should model ONE idea (a Book, a Student) with a clear name. If you cannot describe it in one sentence, split it — the projects will punish god-classes.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>new</b> does two jobs: allocates heap memory for the object, then runs its constructor to initialize it. No new = no object = null.</li><li>A class without an explicit constructor still gets a free <b>default no-arg constructor</b> — births work, fields get defaults (null, 0, false).</li><li>Objects are accessed ONLY through references. Book b; declares a slip; new Book() builds the house; = connects them.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Colony</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Colony from a blueprint</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Book {
-  String title;
-  boolean borrowed;
+  String title;       // every book has one
+  boolean borrowed;   // ...and a borrow flag
   void borrow() { borrowed = true; }
 }
-Book b1 = new Book();
+Book b1 = new Book();   // build house #1
 b1.title = &quot;Dune&quot;;
-b1.borrow();
-System.out.println(b1.title + &quot; &quot; + b1.borrowed);">Copy</button></div>
+b1.borrow();            // b1: borrowed. b2 (below) unaffected
+Book b2 = new Book();   // build house #2
+b2.title = &quot;Solaris&quot;;   // b2: still free">Copy</button></div>
   <pre><code>class Book {
-  String title;
-  boolean borrowed;
+  String title;       // every book has one
+  boolean borrowed;   // ...and a borrow flag
   void borrow() { borrowed = true; }
 }
-Book b1 = new Book();
+Book b1 = new Book();   // build house #1
 b1.title = &quot;Dune&quot;;
-b1.borrow();
-System.out.println(b1.title + &quot; &quot; + b1.borrowed);</code></pre><div class="out">▶ Output
-Dune true</div></div>
-  <ul class="linenotes"><li>Class = design.</li><li>new = build one.</li><li>b1 has its own state.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Object stores Dune + borrowed; method changed its state.</div></div></section>
+b1.borrow();            // b1: borrowed. b2 (below) unaffected
+Book b2 = new Book();   // build house #2
+b2.title = &quot;Solaris&quot;;   // b2: still free</code></pre><div class="out">▶ Output
+b1 = Dune, borrowed. b2 = Solaris, free.</div></div>
+  <ul class="linenotes"><li>The class is pure design — no data lives in it.</li><li>new builds real houses on the heap.</li><li>b1 and b2 keep fully independent states.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Two separate objects: flipping b1’s flag cannot reach b2’s flag. Independence is the point.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Two houses, different paint.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Two houses from one blueprint.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Dune" size="8" aria-label="value"> <input data-in value=" (borrowed)" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Book b; b.borrow();</b>Why: No house built (null).<br><b>✅ Fix:</b> <code>b = new Book(); first.</code></div><div class="callout warn"><b>❌ Mistake 2: “Class holds my book data”</b>Why: Design ≠ data.<br><b>✅ Fix:</b> <code>Data lives in objects.</code></div><div class="callout err"><b>❌ Mistake 3: All in main, no classes</b>Why: Spaghetti.<br><b>✅ Fix:</b> <code>Model things as classes.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Book b; then b.borrow(); with no new.</b>Why: A slip with no house — NullPointerException on first touch.<br><b>✅ Fix:</b> <code>Build first: b = new Book(); then use it.</code></div><div class="callout warn"><b>❌ Mistake 2: “The class stores my book’s title.”</b>Why: Design holds no data. Ten thousand objects, one class, zero titles in the class.<br><b>✅ Fix:</b> <code>Data lives in OBJECTS; the class only describes.</code></div><div class="callout err"><b>❌ Mistake 3: One giant Main class doing everything.</b>Why: No modeling, no reuse — spaghetti with extra steps.<br><b>✅ Fix:</b> <code>Model each real thing as its own small class.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Build 2 books</b><p>Two books, borrow one. Other still free?</p>
+  <div class="practice"><b>Build two books</b><p>Create two Book objects, borrow only the first. Is the second still free? Why?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Independent state.</div><div class="sol callout"><b>Solution</b>Yes — separate objects.</div></div><div class="practice"><b>Spot state/behavior</b><p>title/borrowed vs borrow(): which is which?</p>
+  <div class="hint callout"><b>Hint</b>Independent states.</div><div class="sol callout"><b>Solution</b>Yes — separate objects, separate flags. Borrowing touches one house.</div></div><div class="practice"><b>State vs behavior</b><p>Sort into state/behavior: title, borrowed, borrow(), isAvailable().</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Info vs action.</div><div class="sol callout"><b>Solution</b>Fields = state; method = behavior.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Info versus action.</div><div class="sol callout"><b>Solution</b>State: title, borrowed. Behavior: borrow(), isAvailable().</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Class = plan; object = instance.</li><li>State in fields; actions in methods.</li><li>new builds; dot uses.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What lives in the class vs the object?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Model a Pen class with 2 fields + 1 method.</div>
+  <div class="prose"><ul><li>Class = plan; object = live instance.</li><li>State lives in fields per object; actions in methods.</li><li>new builds; the dot uses.</li><li>One class models one idea.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What lives in the class, and what lives in each object?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Model a Pen class: 2 fields, 1 method, then build 2 pens.</div>
   <p><b>Related:</b> <a href="../lessons/algorithms-basic.html">Basic Algorithms: Search, Count, Min/Max</a> · <a href="./fields-methods.html">Next: Fields and Methods →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -101,8 +105,8 @@ Dune true</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'classes-objects',[{"id":"q1","prompt":"Class vs object?","options":[{"t":"Blueprint vs one built thing","ok":true},{"t":"Same thing"},{"t":"Object vs blueprint (reversed)"},{"t":"File vs folder"}],"explain":"Plan vs house."},{"id":"q2","prompt":"new Book() does…","options":[{"t":"Builds one object","ok":true},{"t":"Deletes class"},{"t":"Prints book"},{"t":"Nothing"}],"explain":"Construction."},{"id":"q3","prompt":"b1.borrow() affects b2?","options":[{"t":"No — independent state","ok":true},{"t":"Yes always"},{"t":"Deletes b2"},{"t":"Merges them"}],"explain":"Separate houses."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Blueprint Book (design only).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Book 📐\u003c/b>\u003cbr>title · borrowed · borrow()\u003c/div>\u003c/div>"},{"caption":"Build b1 = new Book().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>b1 🏠\u003c/b>\u003cbr>Dune · free\u003c/div>\u003c/div>"},{"caption":"b1.borrow() → its flag flips.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>b1 🏠\u003c/b>\u003cbr>Dune · borrowed ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'classes-objects',[{"id":"q1","prompt":"Class versus object?","options":[{"t":"Blueprint versus one built thing","ok":true},{"t":"The same thing"},{"t":"Reversed: object is the blueprint"},{"t":"File versus folder"}],"explain":"Plan versus house — the foundational split."},{"id":"q2","prompt":"new Book() performs…","options":[{"t":"Builds one fresh object","ok":true},{"t":"Deletes the class"},{"t":"Prints the book"},{"t":"Nothing at all"}],"explain":"Allocation plus initialization, in one word."},{"id":"q3","prompt":"b1.borrow() changes b2…","options":[{"t":"Not at all — independent states","ok":true},{"t":"Always, identically"},{"t":"It deletes b2"},{"t":"It merges them"}],"explain":"Separate houses. Methods touch their own object."},{"id":"q4","prompt":"With no constructor written, new Book()…","options":[{"t":"Works — Java supplies a free default one","ok":true},{"t":"Fails to compile"},{"t":"Returns null"},{"t":"Crashes"}],"explain":"The default constructor builds with default field values."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Blueprint Book: design only, no data.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Book 📐\u003c/b>\u003cbr>title · borrowed · borrow()\u003c/div>\u003c/div>"},{"caption":"Build b1 = new Book().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>b1 🏠\u003c/b>\u003cbr>Dune · free\u003c/div>\u003c/div>"},{"caption":"b1.borrow() flips only its flag.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>b1 🏠\u003c/b>\u003cbr>Dune · borrowed ✓\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

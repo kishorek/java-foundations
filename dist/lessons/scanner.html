@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>User Input with Scanner · Java Foundations</title>
-<meta name="description" content="Programs come alive when they listen. Scanner reads keyboard words and numbers — with one famous trap you will now dodge.">
+<meta name="description" content="Programs come alive when they LISTEN. Scanner reads keyboard words and numbers — including one famous trap that has bitten every Java beginner, which you will now dodge on purpose.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 18 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Programs come alive when they listen. Scanner reads keyboard words and numbers — with one famous trap you will now dodge.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do ATMs ask one question at a time and wait?</div>
+  <div class="prose"><p>Programs come alive when they LISTEN. Scanner reads keyboard words and numbers — including one famous trap that has bitten every Java beginner, which you will now dodge on purpose.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do ATMs ask exactly one question at a time — and wait?</div>
   <h2>Objectives</h2><ul><li>Read text and numbers</li><li>Handle the newline trap</li><li>Build a tiny Q&amp;A app</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/strings.html">Strings</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Curious cashier. nextInt grabs a number token, nextLine grabs the whole sentence tray. After a number, a leftover newline sits on the tray — cashier trips unless you clear it.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cashiers forgive. Scanner does not — wrong token (abc for a number) crashes with InputMismatchException. Validate!</div></div></section>
+  <div class="prose"><p>A curious cashier with two tools: nextInt grabs a number token off the tray; nextLine scoops the whole sentence tray. After a number, a leftover newline crumb sits on the tray — and the next scoop grabs the crumb instead of your answer.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: human cashiers forgive and clarify. Scanner never forgives: a wrong-shaped token (abc for a number) detonates with InputMismatchException. Validate, don’t hope.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>new Scanner(System.in)</b>, then <b>nextInt()</b>, <b>nextDouble()</b>, <b>next()</b> (one word), <b>nextLine()</b> (whole line).</p><p>Trap: after nextInt(), call an extra <b>nextLine()</b> to eat the leftover newline.</p><p>Close with <b>in.close()</b> (or leave System.in open in tiny apps). Check <b>hasNextInt()</b> to validate.</p></div></section>
+  <div class="prose"><p>Build it on System.in: <b>new Scanner(System.in)</b>. Then <b>nextInt()</b>, <b>nextDouble()</b>, <b>next()</b> (ONE word), <b>nextLine()</b> (the WHOLE line).</p><p>THE TRAP: nextInt() eats the number but leaves the <b>\n</b> behind. The next nextLine() then “reads” that leftover as an empty answer. Fix: one extra <b>nextLine()</b> right after every nextInt/nextDouble to eat the crumb.</p><p>Mechanics: Scanner splits input into <b>tokens</b> (whitespace-separated chunks). nextInt demands the next token be integer-shaped; nextLine ignores tokens and grabs to the next newline. Two different worldviews — hence the trap.</p><p>Defend: <b>hasNextInt()</b> peeks safely before reading; close with <b>in.close()</b> when truly done (leave System.in open in tiny single-use apps if you like).</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>The newline trap is <b>delimiter</b> mechanics: token methods skip leading whitespace but stop AT the newline without consuming it; nextLine consumes through it.</li><li>Wrong token type → <b>InputMismatchException</b> (unchecked — crashes unless handled). hasNextInt()/hasNextDouble() prevent it.</li><li><b>next()</b> stops at ANY whitespace, so “Ada Lovelace” arrives as just “Ada”. Full names need nextLine().</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: The newline trap</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -50,58 +51,73 @@
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="import java.util.Scanner;
-public class Ask {
+
+public class Main {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     System.out.print(&quot;Age: &quot;);
     int age = in.nextInt();
-    in.nextLine(); // eat leftover newline
+    in.nextLine(); // eat the leftover newline crumb
     System.out.print(&quot;Name: &quot;);
     String name = in.nextLine();
-    System.out.println(&quot;Hi &quot; + name + &quot;, &quot; + age);
+    System.out.println(&quot;Hi &quot; + name + &quot;, age &quot; + age);
+    in.close();
   }
-}">Copy</button></div>
+}
+// Sample run (you type 18 and Ada):
+// Age: 18
+// Name: Ada
+// Hi Ada, age 18">Copy</button></div>
   <pre><code>import java.util.Scanner;
-public class Ask {
+
+public class Main {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     System.out.print(&quot;Age: &quot;);
     int age = in.nextInt();
-    in.nextLine(); // eat leftover newline
+    in.nextLine(); // eat the leftover newline crumb
     System.out.print(&quot;Name: &quot;);
     String name = in.nextLine();
-    System.out.println(&quot;Hi &quot; + name + &quot;, &quot; + age);
+    System.out.println(&quot;Hi &quot; + name + &quot;, age &quot; + age);
+    in.close();
   }
-}</code></pre><div class="out">▶ Output
+}
+// Sample run (you type 18 and Ada):
+// Age: 18
+// Name: Ada
+// Hi Ada, age 18</code></pre><div class="out">▶ Output
 Age: 18
 Name: Ada
-Hi Ada, 18</div></div>
-  <ul class="linenotes"><li>nextInt reads number, leaves \n.</li><li>Extra nextLine clears it.</li><li>nextLine then reads the real name.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Clearing the leftover newline lets the name read correctly instead of an empty string.</div></div></section>
+Hi Ada, age 18</div></div>
+  <ul class="linenotes"><li>nextInt reads the number but abandons the newline.</li><li>The extra nextLine eats that crumb.</li><li>nextLine then reads the REAL name line.</li></ul>
+  <div class="prose"><div class="callout"><b>⌨️ Interactive program</b>Run it yourself and type the shown input. Lines you type are marked; the rest is the program talking.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Clearing the leftover newline lets the name read correctly instead of swallowing an empty string.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Simulate greeting assembly.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Simulate the greeting assembly.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Ada" size="8" aria-label="value"> <input data-in value=", 18" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Skipped name (empty string).</b>Why: Leftover newline eaten as “answer”.<br><b>✅ Fix:</b> <code>Add in.nextLine() after nextInt().</code></div><div class="callout warn"><b>❌ Mistake 2: Typing abc for nextInt().</b>Why: Token mismatch crashes.<br><b>✅ Fix:</b> <code>Check in.hasNextInt() or catch exception.</code></div><div class="callout err"><b>❌ Mistake 3: next() for full name.</b>Why: next() stops at space: “Ada Lovelace” → “Ada”.<br><b>✅ Fix:</b> <code>Use nextLine() for sentences.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Name reads as &quot;&quot; — the question gets skipped.</b>Why: The leftover newline from nextInt was eaten as “the answer”.<br><b>✅ Fix:</b> <code>Insert in.nextLine(); immediately after every nextInt()/nextDouble().</code></div><div class="callout warn"><b>❌ Mistake 2: Typing abc when nextInt() waits.</b>Why: Token-shape mismatch → InputMismatchException, program dead.<br><b>✅ Fix:</b> <code>Peek first: if (in.hasNextInt()) { ... } else { /* complain kindly */ }</code></div><div class="callout err"><b>❌ Mistake 3: next() for a full name, getting only “Ada”.</b>Why: next() halts at the first space — “Ada Lovelace” becomes “Ada”.<br><b>✅ Fix:</b> <code>Whole sentences need nextLine(), not next().</code></div><div class="callout err"><b>❌ Mistake 4: Closing System.in early, then opening a second Scanner.</b>Why: Closing the first Scanner closes System.in itself — the second one reads from a corpse.<br><b>✅ Fix:</b> <code>One Scanner for the whole program; close once at the very end.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Fix the skip</b><p>Age then city skips. Add the one-line fix.</p>
+  <div class="practice"><b>Fix the skip</b><p>Age-then-city code skips the city. Add the one-line fix in the right place.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Eat newline after number.</div><div class="sol callout"><b>Solution</b>Insert in.nextLine(); after nextInt().</div></div><div class="practice"><b>Mini Q&amp;A</b><p>Ask favorite food (line) + rating (int). Print “Food: X, 5/5”.</p>
+  <div class="hint callout"><b>Hint</b>Eat the crumb right after the number.</div><div class="sol callout"><b>Solution</b>Insert in.nextLine(); directly after the nextInt() line.</div></div><div class="practice"><b>Mini Q&amp;A</b><p>Ask favorite food (whole line) and rating 1–5 (int). Print “Food: X, 5/5”.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Number first? Remember the trap.</div><div class="sol callout"><b>Solution</b>Read int, eat newline, read line, print joined.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Number first means trap first.</div><div class="sol callout"><b>Solution</b>Read int, eat newline, read line, print joined — in that order.</div></div><div class="practice"><b>Guard it</b><p>Read an int ONLY if the user actually typed one; else print “digits please”.</p>
+  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
+  <div class="hint callout"><b>Hint</b>hasNextInt peeks without consuming.</div><div class="sol callout"><b>Solution</b>if (in.hasNextInt()) { int n = in.nextInt(); ... } else { System.out.println(&quot;digits please&quot;); }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Scanner listens: nextInt/next/nextLine.</li><li>Eat newline after numbers.</li><li>nextLine for sentences; validate input.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What does the “extra nextLine” eat?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Build a 2-question Q&amp;A and run it on a friend.</div>
+  <div class="prose"><ul><li>Scanner listens: nextInt / nextDouble / next / nextLine.</li><li>Eat the newline crumb after every number read.</li><li>nextLine for sentences; validate with hasNextX.</li><li>One Scanner per program; close once at the end.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>In one sentence: what exactly does the “extra nextLine” consume, and why is it there?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Build a 2-question Q&amp;A, run it on a friend, and watch the trap NOT bite.</div>
   <p><b>Related:</b> <a href="../lessons/strings.html">Strings</a> · <a href="./review-basics.html">Next: Review: Basics Checkpoint →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -109,8 +125,8 @@ Hi Ada, 18</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'scanner',[{"id":"q1","prompt":"After nextInt(), nextLine() skips. Fix?","options":[{"t":"Extra nextLine() to eat newline","ok":true},{"t":"Restart computer"},{"t":"Use only nextInt"},{"t":"Delete Scanner"}],"explain":"Consume the leftover \\n."},{"id":"q2","prompt":"Read full name “Ada L”?","options":[{"t":"nextLine()","ok":true},{"t":"nextInt()"},{"t":"next()"},{"t":"nextDouble()"}],"explain":"Whole line including spaces."},{"id":"q3","prompt":"User types abc for nextInt. What?","options":[{"t":"InputMismatchException","ok":true},{"t":"Prints abc nicely"},{"t":"Reads 0 silently"},{"t":"Nothing"}],"explain":"Wrong token type crashes."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Type 18 ⏎: number taken, ⏎ left.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Tray\u003c/b>\u003cbr>18 | ⏎ leftover\u003c/div>\u003c/div>"},{"caption":"nextLine eats ⏎ → name reads \"\".[empty]","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">name = \"\" 😱\u003c/div>\u003c/div>"},{"caption":"Fix: extra nextLine clears tray first.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">eat ⏎\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">name = \"Ada\" ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'scanner',[{"id":"q1","prompt":"After nextInt(), the next nextLine() skips. The fix is…","options":[{"t":"One extra nextLine() to eat the leftover newline","ok":true},{"t":"Restarting the computer"},{"t":"Using only nextInt forever"},{"t":"Deleting the Scanner"}],"explain":"Consume the abandoned newline crumb first."},{"id":"q2","prompt":"To read the full name “Ada L” you use…","options":[{"t":"nextLine()","ok":true},{"t":"nextInt()"},{"t":"next()"},{"t":"nextDouble()"}],"explain":"Whole line including spaces — only nextLine does that."},{"id":"q3","prompt":"The user types abc where nextInt() waits. What happens?","options":[{"t":"InputMismatchException — a crash","ok":true},{"t":"It politely reads abc"},{"t":"It silently reads 0"},{"t":"Nothing at all"}],"explain":"Wrong token shape detonates. Peek with hasNextInt()."},{"id":"q4","prompt":"Why does next() return only “Ada” from “Ada Lovelace”?","options":[{"t":"It stops at the first whitespace","ok":true},{"t":"It deletes surnames"},{"t":"Names are too long"},{"t":"It reads backwards"}],"explain":"next() = one token. Sentences need nextLine()."},{"id":"q5","prompt":"Closing one Scanner then opening another on System.in…","options":[{"t":"Fails — the first close shut System.in itself","ok":true},{"t":"Works perfectly"},{"t":"Doubles the speed"},{"t":"Reads twice as much"}],"explain":"One Scanner per program; close once at the end."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"You type 18 ⏎: number taken, ⏎ abandoned.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Tray\u003c/b>\u003cbr>18 | ⏎ leftover\u003c/div>\u003c/div>"},{"caption":"nextLine eats ⏎ → name reads empty. 😱","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">name = \"\" 😱\u003c/div>\u003c/div>"},{"caption":"Fix: an extra nextLine clears the tray first.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">eat ⏎\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">name = \"Ada\" ✓\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>How Computers Execute Programs · Java Foundations</title>
-<meta name="description" content="Your code does not run directly. It is fetched, decoded, and executed — billions of tiny steps per second — using memory as a workbench.">
+<meta name="description" content="Your code never runs directly. It is fetched, decoded, and executed — billions of tiny steps per second — with memory as the workbench. Understand this and half of all future errors make sense.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Your code does not run directly. It is fetched, decoded, and executed — billions of tiny steps per second — using memory as a workbench.</p>
-  <div class="callout"><b>🔎 Motivating question</b>If a chef can only hold one card at a time, how does the kitchen still produce a feast?</div>
+  <div class="prose"><p>Your code never runs directly. It is fetched, decoded, and executed — billions of tiny steps per second — with memory as the workbench. Understand this and half of all future errors make sense.</p>
+  <div class="callout"><b>🔎 Motivating question</b>If a chef can hold only one recipe card at a time, how does the kitchen still produce a feast?</div>
   <h2>Objectives</h2><ul><li>Trace fetch-decode-execute</li><li>Explain CPU, memory roles</li><li>Describe machine code simply</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/source-code.html">What Is Source Code?</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Kitchen: recipe shelf (storage), counter (memory/RAM), chef hands (CPU). Ingredients move shelf → counter → hands, one step at a time.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: chefs improvise and multitask. A CPU core does exactly one tiny operation per tick — speed comes from billions of ticks.</div></div></section>
+  <div class="prose"><p>Kitchen: recipe shelf (disk storage), counter (RAM memory), chef hands (CPU). Ingredients travel shelf → counter → hands, one card at a time, blindingly fast.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: chefs improvise, multitask, and remember. A CPU core does exactly one tiny operation per tick with zero memory of intent — all the speed comes from billions of ticks per second, not cleverness.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>CPU</b> executes one tiny operation per cycle: fetch instruction, decode it, execute it. Billions of cycles per second.</p><p><b>RAM (memory)</b> holds running code and data — fast but erased at power-off. Disk/SSD keeps files long-term.</p><p><b>Machine code</b> is 0s/1s the CPU truly understands. Java compiles to bytecode, then the JVM translates to machine steps.</p></div></section>
+  <div class="prose"><p>The <b>CPU</b> repeats one cycle: <b>fetch</b> the next instruction, <b>decode</b> what it means, <b>execute</b> it. A 3 GHz CPU does this roughly 3 billion times per second.</p><p><b>RAM (memory)</b> holds the running code and its data — extremely fast, but erased when power goes. <b>Disk/SSD</b> keeps files for years but is far slower. Running = copy from disk to RAM, then the CPU works from RAM.</p><p><b>Machine code</b> — pure numbers — is all the CPU truly understands. Java compiles to an intermediate <b>bytecode</b>, and the JVM converts that into machine steps on the fly.</p><p>This is why a “stuck” program still burns CPU (it is executing — just the wrong steps) and why unsaved work vanishes in a blackout (it lived only in RAM).</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Fetch–decode–execute is called the <b>instruction cycle</b>; each round handles one machine instruction, not one line of Java.</li><li>RAM is <b>volatile</b> (loses everything without power); SSD/disk is <b>persistent</b>. Save = copy RAM content to disk.</li><li>A program’s bytecode is platform-independent; the JVM is platform-specific — that split is what makes “write once, run anywhere” possible.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Fetch-decode-execute</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,19 +50,26 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// What the machine sees (simplified)
-// LOAD 4 into slot A
-// LOAD 5 into slot B
-// ADD A, B -&gt; C
-// PRINT C            // shows 9">Copy</button></div>
-  <pre><code>// What the machine sees (simplified)
-// LOAD 4 into slot A
-// LOAD 5 into slot B
-// ADD A, B -&gt; C
-// PRINT C            // shows 9</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int a = 4;              // LOAD 4 into memory slot a
+    int b = 5;              // LOAD 5 into memory slot b
+    int c = a + b;          // ADD the slots into c
+    System.out.println(c);  // PRINT c  -&gt; shows 9
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int a = 4;              // LOAD 4 into memory slot a
+    int b = 5;              // LOAD 5 into memory slot b
+    int c = a + b;          // ADD the slots into c
+    System.out.println(c);  // PRINT c  -&gt; shows 9
+  }
+}</code></pre><div class="out">▶ Output
 9</div></div>
-  <ul class="linenotes"><li>Fetch: get next instruction.</li><li>Decode: what does ADD mean?</li><li>Execute: do it, move to next.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Four tiny steps, each trivial, combine into “add and print”. Speed × simplicity = power.</div></div></section>
+  <ul class="linenotes"><li>Fetch: the CPU grabs the next instruction from RAM.</li><li>Decode: it figures out LOAD vs ADD vs PRINT.</li><li>Execute: it does it, then moves to the next line.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Four trivial machine steps — load, load, add, print — combine into “add and print”. Enormous speed × extreme simplicity = all computing.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -70,22 +78,22 @@
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: “RAM and disk are the same.”</b>Why: RAM is the counter (fast, temporary); disk is the shelf (slow, permanent).<br><b>✅ Fix:</b> <code>Running data lives in RAM; files live on disk.</code></div><div class="callout warn"><b>❌ Mistake 2: “CPU understands Java.”</b>Why: CPU understands machine code only.<br><b>✅ Fix:</b> <code>Java → bytecode → machine steps via JVM.</code></div><div class="callout err"><b>❌ Mistake 3: “Faster code means fewer words.”</b>Why: Short code can do more work.<br><b>✅ Fix:</b> <code>Count steps the machine does, not lines you see.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: “RAM and disk are the same thing.”</b>Why: RAM is the counter (fast, temporary); disk is the shelf (slow, permanent). Confusing them makes “where did my file go” mysteries.<br><b>✅ Fix:</b> <code>Running data lives in RAM; saved files live on disk.</code></div><div class="callout warn"><b>❌ Mistake 2: “The CPU understands Java.”</b>Why: It understands machine numbers only. Java reaches it through two translations.<br><b>✅ Fix:</b> <code>Java source → bytecode → machine steps, via the JVM.</code></div><div class="callout err"><b>❌ Mistake 3: “Shorter code always runs faster.”</b>Why: One short line can hide a million machine steps (a loop); ten long lines can be ten steps.<br><b>✅ Fix:</b> <code>Count what the machine DOES, not lines you see.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Order the cycle</b><p>Order: A) execute B) fetch C) decode.</p>
+  <div class="practice"><b>Order the cycle</b><p>Put in order: A) execute B) fetch C) decode.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>You must get it before reading it.</div><div class="sol callout"><b>Solution</b>B fetch → C decode → A execute.</div></div><div class="practice"><b>RAM vs disk</b><p>Where does a running variable live? Where does Hello.java live?</p>
+  <div class="hint callout"><b>Hint</b>You must collect it before you can read it.</div><div class="sol callout"><b>Solution</b>B fetch → C decode → A execute.</div></div><div class="practice"><b>RAM vs disk</b><p>A running variable lives where? The Hello.java file lives where? What survives a blackout?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Counter vs shelf.</div><div class="sol callout"><b>Solution</b>Variable in RAM; Hello.java file on disk.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Counter vs shelf.</div><div class="sol callout"><b>Solution</b>Variable in RAM; Hello.java on disk; only the disk copy survives.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>CPU: fetch → decode → execute, billions/sec.</li><li>RAM = fast temporary counter; disk = long-term shelf.</li><li>Java runs via bytecode + JVM, not directly on CPU.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Name the three CPU steps in order.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Explain fetch-decode-execute to someone in 30 seconds.</div>
+  <div class="prose"><ul><li>CPU: fetch → decode → execute, billions per second.</li><li>RAM = fast temporary counter; disk = long-term shelf.</li><li>Java runs via bytecode + JVM, never directly on CPU.</li><li>Frozen + fan = still executing (wrong steps).</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Name the three CPU steps and what each does.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Explain fetch–decode–execute to someone in 30 seconds, using the kitchen.</div>
   <p><b>Related:</b> <a href="../lessons/source-code.html">What Is Source Code?</a> · <a href="./java-intro.html">Next: What Is Java and What Can It Build? →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -93,8 +101,8 @@
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'execute',[{"id":"q1","prompt":"The CPU cycle order is…","options":[{"t":"Fetch → decode → execute","ok":true},{"t":"Execute → fetch → decode"},{"t":"Decode → save → sleep"},{"t":"Print → fetch → eat"}],"explain":"Get it, understand it, do it."},{"id":"q2","prompt":"RAM is like…","options":[{"t":"Kitchen counter: fast workspace, cleared after","ok":true},{"t":"Recipe book on shelf forever"},{"t":"The chef’s hat"},{"t":"A printer"}],"explain":"Fast, temporary working space."},{"id":"q3","prompt":"What does the CPU directly run?","options":[{"t":"Machine code (0s and 1s)","ok":true},{"t":"Java source text"},{"t":"English recipes"},{"t":"Comments"}],"explain":"Everything must become machine steps."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"1 FETCH: grab next card from counter.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Memory\u003c/b>\u003cbr>ADD A,B\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>CPU\u003c/b>\u003cbr>got it\u003c/div>\u003c/div>"},{"caption":"2 DECODE: what does ADD mean?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>CPU\u003c/b>\u003cbr>ADD = combine numbers\u003c/div>\u003c/div>"},{"caption":"3 EXECUTE: do it, store 9, next card.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">C\u003c/div>\u003cdiv class=\"vl\">9\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'execute',[{"id":"q1","prompt":"The CPU cycle order is…","options":[{"t":"Fetch → decode → execute","ok":true},{"t":"Execute → fetch → decode"},{"t":"Decode → save → sleep"},{"t":"Print → fetch → eat"}],"explain":"Collect it, understand it, do it — billions of times per second."},{"id":"q2","prompt":"RAM is like…","options":[{"t":"A kitchen counter: fast workspace, wiped after","ok":true},{"t":"A recipe book kept on the shelf"},{"t":"The chef’s hat"},{"t":"A printer"}],"explain":"Fast, temporary working space. Power off = wiped clean."},{"id":"q3","prompt":"What does the CPU directly run?","options":[{"t":"Machine code (numbers)","ok":true},{"t":"Java source text"},{"t":"English recipes"},{"t":"Comments"}],"explain":"Everything must become machine steps before the CPU touches it."},{"id":"q4","prompt":"Your program freezes but the fan spins loudly. Likely…","options":[{"t":"It is executing — probably the wrong steps (e.g. an endless loop)","ok":true},{"t":"The CPU has stopped working"},{"t":"RAM has been deleted"},{"t":"The screen is broken"}],"explain":"Heat + noise = work happening. Infinite loops look exactly like this."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"1 FETCH: grab the next card from the counter.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Memory\u003c/b>\u003cbr>ADD A,B\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>CPU\u003c/b>\u003cbr>got it\u003c/div>\u003c/div>"},{"caption":"2 DECODE: what does ADD mean?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>CPU\u003c/b>\u003cbr>ADD = combine numbers\u003c/div>\u003c/div>"},{"caption":"3 EXECUTE: do it, store 9, next card.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">C\u003c/div>\u003cdiv class=\"vl\">9\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

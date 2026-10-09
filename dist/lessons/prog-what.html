@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>What Is Programming? · Java Foundations</title>
-<meta name="description" content="You already give instructions every day. Programming is writing them so clearly that even a very fast but very literal computer can follow them.">
+<meta name="description" content="You already give instructions every day — to friends, to delivery apps, to a microwave. Programming is writing instructions so precisely that even a very fast but utterly literal computer can follow them with zero guessing.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 10 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>You already give instructions every day. Programming is writing them so clearly that even a very fast but very literal computer can follow them.</p>
+  <div class="prose"><p>You already give instructions every day — to friends, to delivery apps, to a microwave. Programming is writing instructions so precisely that even a very fast but utterly literal computer can follow them with zero guessing.</p>
   <div class="callout"><b>🔎 Motivating question</b>If you had a robot helper that takes everything literally, how carefully would you word “make tea”?</div>
   <h2>Objectives</h2><ul><li>Explain programming in plain words</li><li>Tell instructions from data</li><li>Describe what a program does</li></ul>
   <p><b>Needs first:</b> None — start here!</p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>A recipe card. Ingredients = data, steps = instructions, cook = computer. If a step is vague (“add some salt”), results vary wildly.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: a human cook guesses. A computer never guesses — vague steps crash or do the wrong thing. Precision is the whole game.</div></div></section>
+  <div class="prose"><p>A recipe card. Ingredients = data, steps = instructions, cook = computer. If a step says “add some salt”, ten cooks make ten different dishes — and a computer, which cannot taste, just fails.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: a human cook guesses your intent and a kitchen tolerates mess. A computer never guesses and never cleans up after vague steps — imprecision becomes a crash or a wrong answer, not a quirky meal.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>A <b>program</b> is a list of exact instructions plus the data they work on. Your music app, bank app, and games are all programs.</p><p>Programs do three things: take <b>input</b> (taps, files, sensors), <b>process</b> it (calculate, decide, repeat), and produce <b>output</b> (screen, sound, files).</p><p>You write programs in a <b>programming language</b> — a small, strict language with no small talk. Java is one of the most used.</p></div></section>
+  <div class="prose"><p>A <b>program</b> is a list of exact instructions plus the data they work on. Your music app, bank app, and games are all programs — millions of tiny exact steps each.</p><p>Every program follows <b>input → process → output</b>. Input arrives from taps, files, sensors, or the network. Processing calculates, decides, and repeats. Output leaves through the screen, speakers, files, or the network.</p><p>You write programs in a <b>programming language</b> — a small, strict language with no small talk and no synonyms. Java is one of the most widely used, especially for banks, shops, and Android apps.</p><p>One program can run many times on different data. The addition program below adds 4 + 5 today and 100 + 200 tomorrow — the instructions stay fixed, the data changes. That split is the whole idea.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>A running program is called a <b>process</b>; the saved file is the program. Same recipe, many separate cookings.</li><li><b>Software</b> = programs + data + configuration. An <b>app</b> is just a program with a friendly face.</li><li>Computers only execute <b>machine code</b> (numbers the CPU understands). Everything you write gets translated into it — in Java, in two stages you will learn next.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Recipe becomes program</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,21 +50,26 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// A program is input -&gt; process -&gt; output
-// Input:  two numbers. Process: add. Output: sum.
-int a = 4;
-int b = 5;
-int sum = a + b;        // process
-System.out.println(sum); // output: 9">Copy</button></div>
-  <pre><code>// A program is input -&gt; process -&gt; output
-// Input:  two numbers. Process: add. Output: sum.
-int a = 4;
-int b = 5;
-int sum = a + b;        // process
-System.out.println(sum); // output: 9</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int a = 4;              // input data
+    int b = 5;              // input data
+    int sum = a + b;        // process: add
+    System.out.println(sum); // output: 9
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int a = 4;              // input data
+    int b = 5;              // input data
+    int sum = a + b;        // process: add
+    System.out.println(sum); // output: 9
+  }
+}</code></pre><div class="out">▶ Output
 9</div></div>
-  <ul class="linenotes"><li>Lines 3-4 store data in named boxes.</li><li>Line 5 processes: adds them.</li><li>Line 6 outputs the result.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The computer did not “understand” adding like you do. It followed the + instruction on the two stored values and printed the result.</div></div></section>
+  <ul class="linenotes"><li>Lines 3–4 store the input data in named boxes.</li><li>Line 5 processes: it adds the two stored values.</li><li>Line 6 outputs the result to the screen.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The computer did not “understand” addition the way you do. It executed the + instruction on the two stored values (4 and 5) and printed whatever came out: 9.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -72,22 +78,22 @@ System.out.println(sum); // output: 9</code></pre><div class="out">▶ Output
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: “The computer will figure out what I mean.”</b>Why: Computers take everything literally. “Sort of 5” is meaningless to them.<br><b>✅ Fix:</b> <code>Say exactly what to do: add 5, print the result, stop.</code></div><div class="callout warn"><b>❌ Mistake 2: Thinking data and instructions are the same.</b>Why: Data (4, 5) sits still. Instructions (+, print) act on it.<br><b>✅ Fix:</b> <code>Label each line: is this storing, doing, or showing?</code></div><div class="callout err"><b>❌ Mistake 3: Starting with a huge app idea.</b>Why: Big programs are hundreds of small instruction lists combined.<br><b>✅ Fix:</b> <code>Start with input → one step → output. Grow from there.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: “The computer will figure out what I mean.”</b>Why: Computers take everything literally. “Sort of 5” is meaningless to them.<br><b>✅ Fix:</b> <code>Say exactly what to do: add 5, print the result, stop.</code></div><div class="callout warn"><b>❌ Mistake 2: Thinking data and instructions are the same thing.</b>Why: Data (4, 5) sits still. Instructions (+, print) act on it. Mixing them up makes programs unreadable.<br><b>✅ Fix:</b> <code>Label each line: is this storing, doing, or showing?</code></div><div class="callout err"><b>❌ Mistake 3: Starting with a giant app idea like “a social network”.</b>Why: Big programs are hundreds of small instruction lists combined. Beginners drown starting at the top.<br><b>✅ Fix:</b> <code>Start with input → one step → output. Grow from there.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Label the parts</b><p>Look at the code above. Write I (input/data), P (process), or O (output) next to each line.</p>
+  <div class="practice"><b>Label the parts</b><p>Look at the code above. Next to each line write I (input/data), P (process), or O (output).</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Lines with = store data. + processes. println shows.</div><div class="sol callout"><b>Solution</b>a, b, sum declarations = data/input; a + b = process; println = output.</div></div><div class="practice"><b>Write a 5-step recipe</b><p>Write exact steps for “brush teeth” as if for a literal robot. No step may assume guessing.</p>
+  <div class="hint callout"><b>Hint</b>Lines with = store data. The + line processes. println shows.</div><div class="sol callout"><b>Solution</b>int a / int b = data/input; a + b = process; println = output.</div></div><div class="practice"><b>Write a 5-step robot recipe</b><p>Write exact steps for “brush teeth” as if for a literal robot. No step may require guessing.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Include amounts, order, and when to stop.</div><div class="sol callout"><b>Solution</b>Example: 1 pick up brush, 2 add pea-size paste, 3 brush top teeth 30s, 4 brush bottom 30s, 5 rinse 5s, stop.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Include amounts, order, and when to stop.</div><div class="sol callout"><b>Solution</b>Example: 1 pick up brush. 2 add pea-size paste. 3 brush top teeth 30 seconds. 4 brush bottom 30 seconds. 5 rinse 5 seconds, stop.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>A program = exact instructions + data.</li><li>Input → process → output explains every app.</li><li>Computers never guess; precision is kindness to them.</li><li>Java is one language for writing such instructions.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Say in one sentence: what does a program do with input?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Find one app you used today and name its input, process, and output.</div>
+  <div class="prose"><ul><li>A program = exact instructions + data.</li><li>Input → process → output explains every app.</li><li>Computers never guess; precision is kindness to them.</li><li>Fixed instructions run many times on different data.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Say in one sentence what a program does with input.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Pick one app you used today and name its input, process, and output.</div>
   <p><b>Related:</b> None — start here! · <a href="./algorithm.html">Next: What Is an Algorithm? →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,7 +101,7 @@ System.out.println(sum); // output: 9</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'prog-what',[{"id":"q1","prompt":"What is a program?","options":[{"t":"Exact instructions + data a computer follows","ok":true},{"t":"A vague idea the computer guesses at"},{"t":"Only the screen you see"},{"t":"A physical computer part"}],"explain":"A program = precise instructions operating on data."},{"id":"q2","prompt":"Input → process → output: which is “print sum”?","options":[{"t":"Output","ok":true},{"t":"Input"},{"t":"Storage device"},{"t":"Compiler"}],"explain":"Printing shows a result, so it is output."},{"id":"q3","prompt":"Why must instructions be exact?","options":[{"t":"Computers follow them literally and never guess","ok":true},{"t":"Computers get bored otherwise"},{"t":"Exact code runs on paper only"},{"t":"It makes files smaller"}],"explain":"Literal execution is why precision matters."}]);
+renderQuiz(document.querySelector('[data-quiz]'),'prog-what',[{"id":"q1","prompt":"What is a program?","options":[{"t":"Exact instructions plus the data they work on","ok":true},{"t":"A vague idea the computer guesses at"},{"t":"Only the screen you see"},{"t":"A physical computer part"}],"explain":"A program = precise instructions operating on data. Remove either half and nothing runs."},{"id":"q2","prompt":"In input → process → output, “print the sum” is…","options":[{"t":"Output","ok":true},{"t":"Input"},{"t":"Storage device"},{"t":"Compiler"}],"explain":"Printing shows a result to the outside world, so it is output."},{"id":"q3","prompt":"Why must instructions be exact?","options":[{"t":"Computers follow them literally and never guess","ok":true},{"t":"Computers get bored otherwise"},{"t":"Exact code runs on paper only"},{"t":"It makes files smaller"}],"explain":"Literal execution is the entire reason precision matters."},{"id":"q4","prompt":"Same addition program, new numbers 100 + 200. What changes?","options":[{"t":"Only the data; the instructions stay fixed","ok":true},{"t":"You must rewrite the whole program"},{"t":"The computer learns a new operation"},{"t":"Nothing can change after writing"}],"explain":"Programs are reusable: fixed instructions, changing data."}]);
 stepper(document.querySelector('[data-stepper]'),[{"caption":"A recipe lists ingredients (data).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Ingredients\u003c/b>\u003cbr>flour · eggs · 180°C\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Steps\u003c/b>\u003cbr>mix → bake → cool\u003c/div>\u003c/div>"},{"caption":"A program lists data the same way.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">a\u003c/div>\u003cdiv class=\"vl\">4\u003c/div>\u003c/div>\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">b\u003c/div>\u003cdiv class=\"vl\">5\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Then instructions act on it, and output appears.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Process\u003c/b>\u003cbr>a + b = 9\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Output\u003c/b>\u003cbr>print 9\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>

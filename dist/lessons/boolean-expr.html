@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Boolean Expressions · Java Foundations</title>
-<meta name="description" content="Every decision starts with a yes/no question. Boolean expressions answer true or false — the electricity of logic.">
+<meta name="description" content="Every decision a program makes starts as a yes/no question. Boolean expressions answer true or false — they are the electricity that powers all logic.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Every decision starts with a yes/no question. Boolean expressions answer true or false — the electricity of logic.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How does a bouncer decide in one glance?</div>
+  <div class="prose"><p>Every decision a program makes starts as a yes/no question. Boolean expressions answer true or false — they are the electricity that powers all logic.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How does a bouncer decide in a single glance who gets in?</div>
   <h2>Objectives</h2><ul><li>Evaluate ==, !=, &lt;, &gt;</li><li>Combine with &amp;&amp; || !</li><li>Predict true/false</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/scanner.html">User Input with Scanner</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Bouncer checklist: age ≥ 18? AND on list? NOT banned? Each is true/false; combined verdict opens the rope.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: bouncers bend rules. Booleans never bend — exactly true or false, no “maybe”.</div></div></section>
+  <div class="prose"><p>The bouncer’s checklist: age ≥ 18? AND on the list? NOT banned? Each check is true/false, and the combined verdict lifts the rope.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: bouncers bend rules for friends. Booleans never bend — exactly true or false, with no “maybe”, no “sort of”, ever.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Comparisons</b>: == != < <= > >=. Result is boolean. 5 > 3 → true.</p><p><b>Logic</b>: && both, || either, ! flips. Precedence: ! → comparisons → && → ||.</p><p><b>Strings</b>: use equals(), never ==. <b>Short-circuit</b>: && stops at first false.</p></div></section>
+  <div class="prose"><p><b>Comparisons</b> produce booleans: == != < <= > >=. The expression 5 > 3 IS the value true — it can be stored, printed, and combined.</p><p><b>Logic operators</b> combine them: <b>&&</b> demands both sides true, <b>||</b> settles for either, <b>!</b> flips. Binding order: ! first, then comparisons, then &&, then ||.</p><p><b>Text</b> compares with .equals(), never == — == asks “same object?”, equals asks “same content?”.</p><p><b>Short-circuit</b> evaluation stops the moment the answer is decided: false && ANYTHING skips the right side entirely. That skipping is load-bearing — guards like (s != null && s.length() > 0) depend on it.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>boolean</b> is a real type, not 0/1: boolean b = (5 > 3); stores true. There is no truthy/falsy like JavaScript — conditions DEMAND boolean.</li><li><b>De Morgan’s laws</b>: !(a && b) equals !a || !b. Negating “both” gives “at least one fails” — the single most useful logic rewrite.</li><li><b>==</b> on primitives compares VALUES (3 == 3 is true); on objects it compares IDENTITY. Two different rules, one symbol — hence the .equals habit.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Bouncer checklist</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,43 +50,58 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int age = 20;
-boolean canVote = age &gt;= 18;
-boolean vip = age &gt;= 18 &amp;&amp; age &lt; 65;
-boolean deny = !(age &gt;= 18);
-System.out.println(canVote + &quot; &quot; + vip + &quot; &quot; + deny);">Copy</button></div>
-  <pre><code>int age = 20;
-boolean canVote = age &gt;= 18;
-boolean vip = age &gt;= 18 &amp;&amp; age &lt; 65;
-boolean deny = !(age &gt;= 18);
-System.out.println(canVote + &quot; &quot; + vip + &quot; &quot; + deny);</code></pre><div class="out">▶ Output
-true true false</div></div>
-  <ul class="linenotes"><li>>= asks a true/false question.</li><li>&& needs both sides true.</li><li>! flips the answer.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>20≥18 is true, 20&lt;65 is true so vip is true; deny flips true to false.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int age = 20;
+    boolean canVote = age &gt;= 18;
+    boolean vip = age &gt;= 18 &amp;&amp; age &lt; 65;
+    boolean deny = !(age &gt;= 18);
+    System.out.println(canVote);
+    System.out.println(vip);
+    System.out.println(deny);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int age = 20;
+    boolean canVote = age &gt;= 18;
+    boolean vip = age &gt;= 18 &amp;&amp; age &lt; 65;
+    boolean deny = !(age &gt;= 18);
+    System.out.println(canVote);
+    System.out.println(vip);
+    System.out.println(deny);
+  }
+}</code></pre><div class="out">▶ Output
+true
+true
+false</div></div>
+  <ul class="linenotes"><li>>= asks a true/false question and stores the answer.</li><li>&& needs both halves true: 20 passes both.</li><li>! flips true into false.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>20 ≥ 18 is true; 20 &lt; 65 is also true, so vip is true; deny negates a true into false.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Bouncer test: try ages.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Bouncer test: try different ages.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="20" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: if (age = 18)</b>Why: = stores, not asks.<br><b>✅ Fix:</b> <code>if (age == 18)</code></div><div class="callout warn"><b>❌ Mistake 2: &quot;a&quot; == &quot;a&quot; for text</b>Why: Compares houses.<br><b>✅ Fix:</b> <code>s.equals(&quot;a&quot;)</code></div><div class="callout err"><b>❌ Mistake 3: true &amp;&amp; false expected true</b>Why: AND needs both.<br><b>✅ Fix:</b> <code>Truth-table it: T&amp;&amp;F = F.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: if (age = 18) with one equals sign.</b>Why: That STORES 18 instead of asking — an int is not a boolean, so it does not even compile in a condition.<br><b>✅ Fix:</b> <code>Ask with two: if (age == 18).</code></div><div class="callout warn"><b>❌ Mistake 2: &quot;abc&quot; == &quot;abc&quot; to compare text.</b>Why: Identity comparison — two equal-content objects are usually different houses.<br><b>✅ Fix:</b> <code>Content needs equals: s.equals(&quot;abc&quot;).</code></div><div class="callout err"><b>❌ Mistake 3:  true &amp;&amp; false confidently called true.</b>Why: AND is greedy: one false poisons the whole chain.<br><b>✅ Fix:</b> <code>Truth-table it: T &amp;&amp; F = F, T || F = T.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Bouncer logic</b><p>Write canEnter = age≥18 &amp;&amp; hasTicket.</p>
+  <div class="practice"><b>Bouncer logic</b><p>Write canEnter from age (≥ 18) and hasTicket (boolean).</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Both must hold.</div><div class="sol callout"><b>Solution</b>boolean canEnter = age &gt;= 18 &amp;&amp; hasTicket;</div></div><div class="practice"><b>De Morgan</b><p>Negate (a &amp;&amp; b) without &amp;&amp;.</p>
+  <div class="hint callout"><b>Hint</b>Both must hold — which operator?</div><div class="sol callout"><b>Solution</b>boolean canEnter = age &gt;= 18 &amp;&amp; hasTicket;</div></div><div class="practice"><b>Apply De Morgan</b><p>Rewrite !(a &amp;&amp; b) using || instead of &amp;&amp;.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>!(a&amp;&amp;b) = !a || !b.</div><div class="sol callout"><b>Solution</b>boolean r = !a || !b;</div></div></section>
+  <div class="hint callout"><b>Hint</b>Flip each side, flip the operator.</div><div class="sol callout"><b>Solution</b>boolean r = !a || !b; — test with a truth table.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Booleans are exactly true/false.</li><li>&amp;&amp; both, || either, ! flips.</li><li>Use equals for text.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What is short-circuit evaluation?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write 3 boolean rules for a game you like.</div>
+  <div class="prose"><ul><li>Booleans are exactly true or false — never 0/1, never maybe.</li><li>&amp;&amp; needs both, || needs one, ! flips.</li><li>Text compares with equals; == is identity.</li><li>Short-circuit makes null-guards safe.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>State De Morgan’s law and say when you would use it.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write 3 boolean rules for a game you like, using &amp;&amp;, ||, and !.</div>
   <p><b>Related:</b> <a href="../lessons/scanner.html">User Input with Scanner</a> · <a href="./if-else.html">Next: if, else if, and else →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -93,8 +109,8 @@ true true false</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'boolean-expr',[{"id":"q1","prompt":"5 > 3 && 2 > 9 gives?","options":[{"t":"false","ok":true},{"t":"true"},{"t":"maybe"},{"t":"error"}],"explain":"T && F = F."},{"id":"q2","prompt":"!true || false = ?","options":[{"t":"false","ok":true},{"t":"true"},{"t":"error"},{"t":"null"}],"explain":"!true=F, F||F=F."},{"id":"q3","prompt":"Compare strings with?","options":[{"t":".equals()","ok":true},{"t":"=="},{"t":"="},{"t":"~~~"}],"explain":"Content compare."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Q1: age ≥ 18? → true.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">age ≥ 18\u003c/div>\u003cdiv class=\"vl\">true\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Q2: has ticket? → true.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">ticket\u003c/div>\u003cdiv class=\"vl\">true\u003c/div>\u003c/div>\u003c/div>"},{"caption":"AND: both true → enter ✓.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">true && true\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>enter ✓\u003c/b>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'boolean-expr',[{"id":"q1","prompt":"5 > 3 && 2 > 9 evaluates to…","options":[{"t":"false","ok":true},{"t":"true"},{"t":"maybe"},{"t":"A compiler error"}],"explain":"T && F = F. AND shows no mercy."},{"id":"q2","prompt":"!true || false equals…","options":[{"t":"false","ok":true},{"t":"true"},{"t":"A compiler error"},{"t":"null"}],"explain":"!true is F; F || F stays F."},{"id":"q3","prompt":"String contents are compared with…","options":[{"t":".equals()","ok":true},{"t":"=="},{"t":"="},{"t":"==="}],"explain":"Content comparison is equals; == is identity."},{"id":"q4","prompt":"(s != null && s.length() > 0) with s == null is safe because…","options":[{"t":"&& stops at the first false, so length() never runs","ok":true},{"t":"null has length 0"},{"t":"Java ignores the right side always"},{"t":"Exceptions are disabled"}],"explain":"Short-circuit is the guardrail — the crash never gets a chance."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Question 1: age ≥ 18? → true.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">age ≥ 18\u003c/div>\u003cdiv class=\"vl\">true\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Question 2: has a ticket? → true.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">ticket\u003c/div>\u003cdiv class=\"vl\">true\u003c/div>\u003c/div>\u003c/div>"},{"caption":"AND: both true → enter. ✓","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">true && true\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>enter ✓\u003c/b>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

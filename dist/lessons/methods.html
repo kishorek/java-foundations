@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Methods · Java Foundations</title>
-<meta name="description" content="A method is a reusable recipe card: name it once, cook it anywhere. No more copy-paste cooking.">
+<meta name="description" content="A method is a reusable recipe card: name it once, cook it anywhere. Every repeated block you refuse to extract becomes copy-paste rot that must be fixed in five places.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>A method is a reusable recipe card: name it once, cook it anywhere. No more copy-paste cooking.</p>
+  <div class="prose"><p>A method is a reusable recipe card: name it once, cook it anywhere. Every repeated block you refuse to extract becomes copy-paste rot that must be fixed in five places.</p>
   <div class="callout"><b>🔎 Motivating question</b>Why do restaurants print menus instead of explaining each dish table by table?</div>
   <h2>Objectives</h2><ul><li>Define and call a method</li><li>Explain reuse benefit</li><li>Read a call stack simply</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/nested-loops.html">Nested Loops</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Vending machine: press B3 (call), machine runs hidden steps, drops snack (maybe returns change). You reuse without knowing insides.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: machines jam on bad coins. Methods jam on bad inputs — validate or document.</div></div></section>
+  <div class="prose"><p>The vending machine. Press B3 (call it), hidden machinery runs fixed steps, a snack drops (maybe with change = return value). You reuse the machine without knowing — or caring — about its insides.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: vending machines jam on bent coins. Methods jam on bad inputs — garbage in, garbage out. Methods reuse LOGIC, not judgment; validate inputs or document limits.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Define</b>: static void greet() { ... }. <b>Call</b>: greet(); runs it.</p><p>Calls jump in, run, jump back. Same card reused 100×.</p><p><b>void</b> = no takeaway; value methods return something (next lesson).</p></div></section>
+  <div class="prose"><p><b>Define</b> once: static void greet() { ... }. <b>Call</b> often: greet(); — each call jumps in, runs the body, jumps back to the line after the call.</p><p>Calls make code DRY (Don’t Repeat Yourself): fix the card once, every caller improves. Copy-paste makes bugs immortal — the fix lands in 3 copies, the 4th keeps crashing.</p><p><b>void</b> means “no takeaway value” — it DOES something (prints) but RETURNS nothing. Value-returning methods (next lesson) HAND something back.</p><p>Methods also NAME ideas: printBill() tells readers what 20 lines do. A well-named method is a comment that cannot rot.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>A method <b>signature</b> = name + parameter types. Return type is NOT part of it (you cannot overload by return alone).</li><li>Each call gets a fresh <b>stack frame</b>: its own parameters and locals, destroyed on return. Recursion is just frames piling up.</li><li><b>static</b> here means “callable without an object” — main is static, so the methods it calls directly must be static too (until objects arrive in Stage 5).</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Vending calls</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -53,24 +54,30 @@
   static void greet() {
     System.out.println(&quot;Welcome!&quot;);
   }
+
   public static void main(String[] args) {
     greet();
     greet();
+    System.out.println(&quot;Seated: 2 guests&quot;);
   }
 }">Copy</button></div>
   <pre><code>public class Chef {
   static void greet() {
     System.out.println(&quot;Welcome!&quot;);
   }
+
   public static void main(String[] args) {
     greet();
     greet();
+    System.out.println(&quot;Seated: 2 guests&quot;);
   }
 }</code></pre><div class="out">▶ Output
 Welcome!
-Welcome!</div></div>
-  <ul class="linenotes"><li>greet defined once.</li><li>Called twice — runs twice.</li><li>Change card once, both improve.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each call executes the body, returns, continues after the call.</div></div></section>
+Welcome!
+Seated: 2 guests</div></div>
+  <ul class="linenotes"><li>greet is defined ONCE as a recipe card.</li><li>Called twice — the body runs twice.</li><li>Change the card once, both servings improve.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each call executes the body fully, returns to the line after the call, and continues. Two calls, two greetings.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -79,22 +86,22 @@ Welcome!</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Defining but never calling</b>Why: Card stays in drawer.<br><b>✅ Fix:</b> <code>Call it from main.</code></div><div class="callout warn"><b>❌ Mistake 2: Calling before defined? (fine!)</b>Why: Order flexible within class.<br><b>✅ Fix:</b> <code>Relax — define anywhere in class.</code></div><div class="callout err"><b>❌ Mistake 3: Huge main with repeats</b>Why: Copy-paste rot.<br><b>✅ Fix:</b> <code>Extract a method.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Defining a method but never calling it.</b>Why: The card sits in the drawer forever — zero effect, zero error, pure confusion.<br><b>✅ Fix:</b> <code>Call it from main (or from another called method).</code></div><div class="callout warn"><b>❌ Mistake 2: Copy-pasting a 10-line block three times “for now”.</b>Why: “For now” is forever: the tripled bug gets fixed twice and survives in copy three.<br><b>✅ Fix:</b> <code>Extract a method the SECOND time you paste.</code></div><div class="callout err"><b>❌ Mistake 3: Calling a non-static method from static main.</b>Why: Instance methods need an object; main has none yet — “non-static method cannot be referenced” greets you.<br><b>✅ Fix:</b> <code>Add static (for now — Stage 5 explains the real story).</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Extract it</b><p>Two identical print blocks → one method.</p>
+  <div class="practice"><b>Extract it</b><p>Two identical receipt-printing blocks sit in main. Extract them.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Name it printBill().</div><div class="sol callout"><b>Solution</b>static void printBill(){...} call twice.</div></div><div class="practice"><b>Call count</b><p>greet() 3 times → how many lines?</p>
+  <div class="hint callout"><b>Hint</b>Name it printBill(), call it twice.</div><div class="sol callout"><b>Solution</b>static void printBill() { ...the block... } then printBill(); printBill();</div></div><div class="practice"><b>Call counting</b><p>greet() is called 3 times and prints one line each. How many lines total?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Each call prints once.</div><div class="sol callout"><b>Solution</b>3 lines.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Each call = one full run.</div><div class="sol callout"><b>Solution</b>3 lines.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Define once, call often.</li><li>Calls jump in and back.</li><li>void = no return value.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What happens at a method call, step by step?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Extract one repeated block into a method.</div>
+  <div class="prose"><ul><li>Define once, call often.</li><li>Each call jumps in, runs, jumps back.</li><li>void = does things, returns nothing.</li><li>Name methods after the idea they package.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Narrate what happens, step by step, when main calls greet().</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Extract one repeated block from your old code into a method.</div>
   <p><b>Related:</b> <a href="../lessons/nested-loops.html">Nested Loops</a> · <a href="./params-return.html">Next: Parameters and Return Values →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -102,8 +109,8 @@ Welcome!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'methods',[{"id":"q1","prompt":"Method benefit?","options":[{"t":"Write once, reuse many times","ok":true},{"t":"Runs faster magically"},{"t":"Deletes code"},{"t":"Avoids names"}],"explain":"Reuse + single fix point."},{"id":"q2","prompt":"greet() with no call…","options":[{"t":"Never runs","ok":true},{"t":"Runs once"},{"t":"Runs always"},{"t":"Errors"}],"explain":"Definition ≠ execution."},{"id":"q3","prompt":"void means…","options":[{"t":"Returns nothing","ok":true},{"t":"Empty file"},{"t":"No parameters"},{"t":"Secret"}],"explain":"No takeaway value."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Press B3: call greet().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">main\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">greet()\u003c/div>\u003c/div>"},{"caption":"Machine runs hidden steps.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">println Welcome!\u003c/div>\u003c/div>"},{"caption":"Snack drops, back to main.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">greet done\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">main resumes\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'methods',[{"id":"q1","prompt":"The core benefit of methods is…","options":[{"t":"Write once, reuse and fix in one place","ok":true},{"t":"They run magically faster"},{"t":"They delete code"},{"t":"They avoid naming things"}],"explain":"Single fix point beats copy-paste archaeology."},{"id":"q2","prompt":"A defined-but-never-called method…","options":[{"t":"Never runs","ok":true},{"t":"Runs once at startup"},{"t":"Runs always"},{"t":"Causes an error"}],"explain":"Definition is potential; only calls execute."},{"id":"q3","prompt":"void means the method…","options":[{"t":"Returns nothing (but may DO things)","ok":true},{"t":"Is an empty file"},{"t":"Takes no parameters"},{"t":"Is secret"}],"explain":"No takeaway value — printing is doing, not returning."},{"id":"q4","prompt":"Calling a non-static helper from static main gives…","options":[{"t":"A compile error about static context","ok":true},{"t":"It works fine"},{"t":"A runtime crash"},{"t":"Two copies running"}],"explain":"No object exists in main — static can only touch static (for now)."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Press B3: call greet().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">main\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">greet()\u003c/div>\u003c/div>"},{"caption":"Hidden machinery runs its steps.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">println Welcome!\u003c/div>\u003c/div>"},{"caption":"Snack drops; control returns to main.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">greet done\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">main resumes\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

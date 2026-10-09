@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Type Conversion and Casting · Java Foundations</title>
-<meta name="description" content="Sometimes a big value must fit a small box (narrowing) or a small one joins big math (widening). Java is picky — explicitly cast when you might lose something.">
+<meta name="description" content="Sometimes a big value must squeeze into a small box (narrowing) or a small one joins big math (widening). Java refuses to guess about loss — when information might vanish, YOU sign permission with a cast.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,64 +32,79 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Sometimes a big value must fit a small box (narrowing) or a small one joins big math (widening). Java is picky — explicitly cast when you might lose something.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What happens pouring a bucket into a mug?</div>
+  <div class="prose"><p>Sometimes a big value must squeeze into a small box (narrowing) or a small one joins big math (widening). Java refuses to guess about loss — when information might vanish, YOU sign permission with a cast.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What happens when you pour a bucket into a mug?</div>
   <h2>Objectives</h2><ul><li>Tell widening from narrowing</li><li>Cast safely with (int)</li><li>Predict truncation</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/literals.html">Literals and Constants</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Funnel vs bucket. Widening (mug → bucket, int → long) always fits, automatic. Narrowing (bucket → mug, double → int) spills — you must sign “I accept spills” with (int).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: funnels do not round — they chop. (int) 3.99 = 3, not 4. Casting truncates toward zero.</div></div></section>
+  <div class="prose"><p>Funnels. Widening (mug → bucket, int → long) always fits, so Java pours automatically. Narrowing (bucket → mug, double → int) spills — you must sign “I accept the spill” by writing (int).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: funnels in kitchens roughly preserve; Java casts CHOP. (int) 3.99 is 3, not 4 — truncation toward zero, never rounding. The spill is silent.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Widening</b> automatic: int → long → double. No loss, no cast.</p><p><b>Narrowing</b> needs cast: (int) 3.9 → 3, (byte) 130 → -126. Data may change!</p><p><b>byte/short/char</b> math becomes int. Division: 5/2 = 2 (int), 5/2.0 = 2.5.</p></div></section>
+  <div class="prose"><p><b>Widening</b> conversions are automatic and safe: byte → short → int → long → float → double, plus char → int. No data can be lost, so no permission slip needed.</p><p><b>Narrowing</b> needs an explicit cast and may mangle: (int) 3.99 → 3, (byte) 130 → -126, (int) -3.9 → -3. The compiler demands you own the loss.</p><p>Two classic traps: <b>int/int stays int</b> (5/2 = 2, remainder silently dropped) and <b>byte/short/char arithmetic promotes to int</b> (so byte b = b + 1 does not even compile).</p><p>The average bug: double avg = sum / count with ints divides as ints FIRST (truncating), then stores the damage in a double. Cast BEFORE dividing: (double) sum / count.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Widening chain: byte → short → int → long → float → double; also char → int. Everything else narrowing needs (type).</li><li><b>Compound assignment casts implicitly</b>: x += 2.5 on an int x compiles (chopping!) while x = x + 2.5 does not. Know the asymmetry.</li><li><b>Math.round(3.9)</b> gives 4 (long); (int) Math.round(3.9) gives int 4. Chop vs round is a deliberate choice.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Bucket vs mug</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Bucket versus mug</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int a = 5, b = 2;
-System.out.println(a / b);     // 2 (int!)
-System.out.println(a / 2.0);   // 2.5
-double d = 3.99;
-int n = (int) d;              // 3, chopped
-System.out.println(n);">Copy</button></div>
-  <pre><code>int a = 5, b = 2;
-System.out.println(a / b);     // 2 (int!)
-System.out.println(a / 2.0);   // 2.5
-double d = 3.99;
-int n = (int) d;              // 3, chopped
-System.out.println(n);</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int a = 5, b = 2;
+    System.out.println(a / b);    // 2: int division chops
+    System.out.println(a / 2.0);  // 2.5: double lifts the math
+    double d = 3.99;
+    int n = (int) d;              // 3: chop, never round
+    System.out.println(n);
+    long rounded = Math.round(d); // 4: real rounding
+    System.out.println(rounded);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int a = 5, b = 2;
+    System.out.println(a / b);    // 2: int division chops
+    System.out.println(a / 2.0);  // 2.5: double lifts the math
+    double d = 3.99;
+    int n = (int) d;              // 3: chop, never round
+    System.out.println(n);
+    long rounded = Math.round(d); // 4: real rounding
+    System.out.println(rounded);
+  }
+}</code></pre><div class="out">▶ Output
 2
 2.5
-3</div></div>
-  <ul class="linenotes"><li>int/int stays int — truncation.</li><li>One double lifts math to double.</li><li>Cast chops, never rounds.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Integer division truncates. 2.0 widens the expression. (int) chops .99.</div></div></section>
+3
+4</div></div>
+  <ul class="linenotes"><li>int/int stays int — the remainder vanishes.</li><li>One double operand lifts the whole expression.</li><li>(int) chops toward zero; Math.round actually rounds.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Integer division truncates before anyone sees decimals. The 2.0 widens the expression to double. The cast chops .99; Math.round earns the 4.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Feel truncation: divide ints.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Feel truncation: divide two ints.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="5" size="8" aria-label="value"> <select data-in aria-label="operator"><option>/</option></select> <input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: double avg = sum / count; (both int)</b>Why: Right side truncates before storing!<br><b>✅ Fix:</b> <code>double avg = (double) sum / count;</code></div><div class="callout warn"><b>❌ Mistake 2: int n = 3.9;</b>Why: Narrowing needs explicit permission.<br><b>✅ Fix:</b> <code>int n = (int) 3.9; // 3</code></div><div class="callout err"><b>❌ Mistake 3: Expecting (int) to round.</b>Why: It chops toward zero.<br><b>✅ Fix:</b> <code>Round: (int) Math.round(3.9); // 4</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: double avg = sum / count; with both int.</b>Why: The right side truncates to int FIRST — storing it in a double afterwards rescues nothing.<br><b>✅ Fix:</b> <code>double avg = (double) sum / count; — cast before dividing.</code></div><div class="callout warn"><b>❌ Mistake 2: int n = 3.9; and hoping.</b>Why: Narrowing without permission is a compile error, full stop.<br><b>✅ Fix:</b> <code>int n = (int) 3.9; // 3 — signed, sealed, chopped.</code></div><div class="callout err"><b>❌ Mistake 3: Expecting (int) to round 3.99 to 4.</b>Why: Casts chop toward zero. Always. 3.99 → 3, -3.99 → -3.<br><b>✅ Fix:</b> <code>Round properly: (int) Math.round(3.99); // 4</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Fix the average</b><p>int s=7, c=2. Make avg 3.5 not 3.</p>
+  <div class="practice"><b>Fix the average</b><p>int s = 7, c = 2. Produce avg = 3.5, not 3.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Cast before dividing.</div><div class="sol callout"><b>Solution</b>double avg = (double) s / c;</div></div><div class="practice"><b>Predict chop</b><p>(int) -3.9 and (int) 130 as byte? (guess)</p>
+  <div class="hint callout"><b>Hint</b>Cast BEFORE the division happens.</div><div class="sol callout"><b>Solution</b>double avg = (double) s / c;</div></div><div class="practice"><b>Predict the chop</b><p>What are (int) -3.9 and (byte) 130? Guess, then run.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Toward zero; bytes wrap.</div><div class="sol callout"><b>Solution</b>-3 and -126.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Toward zero; bytes wrap at 127.</div><div class="sol callout"><b>Solution</b>-3 and -126. Toward zero, then wrap.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Widening auto; narrowing needs (type).</li><li>int/int truncates — cast first for decimals.</li><li>Casts chop; Math.round rounds.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>How do you get 2.5 from ints 5 and 2?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Find one division in your code; check int vs double.</div>
+  <div class="prose"><ul><li>Widening is automatic; narrowing needs (type).</li><li>int/int truncates — cast BEFORE dividing for decimals.</li><li>Casts chop toward zero; Math.round rounds.</li><li>+= hides a cast; = does not.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>How do you honestly get 2.5 out of ints 5 and 2?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Find one division in your old code and check: int or double math?</div>
   <p><b>Related:</b> <a href="../lessons/literals.html">Literals and Constants</a> · <a href="./operators.html">Next: Operators →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +112,8 @@ System.out.println(n);</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'casting',[{"id":"q1","prompt":"5 / 2 in Java (both int)?","options":[{"t":"2","ok":true},{"t":"2.5"},{"t":"3"},{"t":"Error"}],"explain":"Int division truncates."},{"id":"q2","prompt":"(int) 3.99 gives?","options":[{"t":"3","ok":true},{"t":"4"},{"t":"3.99"},{"t":"0"}],"explain":"Chop toward zero."},{"id":"q3","prompt":"Which is automatic (safe)?","options":[{"t":"int → double","ok":true},{"t":"double → int"},{"t":"long → byte"},{"t":"double → float"}],"explain":"Widening fits; narrowing needs cast."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Widening: mug → bucket, auto.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>int 5\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>double 5.0\u003c/b> ✓\u003c/div>\u003c/div>"},{"caption":"Narrowing: bucket → mug spills.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>3.99\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>(int) 3\u003c/b> ⚠️ chop\u003c/div>\u003c/div>"},{"caption":"int/int: 5/2 = 2, remainder lost.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">5 / 2\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'casting',[{"id":"q1","prompt":"5 / 2 with both int gives…","options":[{"t":"2","ok":true},{"t":"2.5"},{"t":"3"},{"t":"A compiler error"}],"explain":"Int division truncates the remainder into oblivion."},{"id":"q2","prompt":"(int) 3.99 gives…","options":[{"t":"3","ok":true},{"t":"4"},{"t":"3.99"},{"t":"0"}],"explain":"Casts chop toward zero; they never round."},{"id":"q3","prompt":"Which conversion is automatic (widening)?","options":[{"t":"int → double","ok":true},{"t":"double → int"},{"t":"long → byte"},{"t":"double → float"}],"explain":"Widening always fits, so no permission needed."},{"id":"q4","prompt":"int x = 5; x += 2.5; — compiles? Result?","options":[{"t":"Yes, x becomes 7 (chopped)","ok":true},{"t":"No, compile error"},{"t":"Yes, x becomes 7.5"},{"t":"x becomes 8"}],"explain":"Compound assignment hides an implicit cast: x = (int)(x + 2.5). Sneaky but true."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Widening: mug into bucket, automatic.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>int 5\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>double 5.0\u003c/b> ✓\u003c/div>\u003c/div>"},{"caption":"Narrowing: bucket into mug spills.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>3.99\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>(int) 3\u003c/b> ⚠️ chop\u003c/div>\u003c/div>"},{"caption":"int/int: 5/2 = 2, remainder lost.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">5 / 2\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

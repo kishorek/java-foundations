@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Variables: Your Program's Storage Boxes · Java Foundations</title>
-<meta name="description" content="A variable is a labelled lunchbox: one box, one kind of food, one name tag. Put things in, look, replace.">
+<meta name="description" content="A variable is a labelled lunchbox: one box, one kind of food, one name tag. Put things in, peek at them, swap them — the tag stays, the content changes.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>A variable is a labelled lunchbox: one box, one kind of food, one name tag. Put things in, look, replace.</p>
-  <div class="callout"><b>🔎 Motivating question</b>If your desk had 100 unlabeled drawers, how fast could you find your charger?</div>
+  <div class="prose"><p>A variable is a labelled lunchbox: one box, one kind of food, one name tag. Put things in, peek at them, swap them — the tag stays, the content changes.</p>
+  <div class="callout"><b>🔎 Motivating question</b>If your desk had 100 unlabeled drawers, how fast could you find your charger in the dark?</div>
   <h2>Objectives</h2><ul><li>Explain what a variable stores</li><li>Declare and initialize</li><li>Read and update a value</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/comments.html">Comments and Readable Code</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Labelled lunchboxes on a shelf. Type = “soup only” sticker, name = “Aarav’s”, value = today’s soup. Swap soup anytime; sticker stays.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real boxes hold anything. Java boxes hold one declared type — soup box refuses sandwiches (compiler error).</div></div></section>
+  <div class="prose"><p>Labelled lunchboxes on a shelf. The type is the “soup only” sticker, the name is “Aarav’s” tag, the value is today’s soup. Swap the soup any day; the sticker and tag stay put.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real boxes accept anything. A Java box accepts exactly ONE declared type — a soup box refuses sandwiches, and the compiler is the canteen auntie enforcing it.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Declare: <b>int age = 18;</b> — type, name, starting value. Use <b>=</b> to store (assignment, not equality).</p><p>Names: start letter, camelCase (userAge), meaningful. Case-sensitive.</p><p>Reassign anytime: <b>age = 19;</b> replaces the old value; the box is reused.</p></div></section>
+  <div class="prose"><p>Declare with type, name, and a starting value: <b>int age = 18;</b> The <b>=</b> STORES (assignment) — it does not ask a question. Questions come later with ==.</p><p>Names start with a letter, use <b>camelCase</b> (userAge), say what they hold, and are case-sensitive: age and Age are different boxes.</p><p>Reassign any time: <b>age = 19;</b> throws away the old value and stores the new one — one box, one current value, always.</p><p>Every variable has exactly three parts — type, name, value — and the right side of = always computes FIRST, then stores. In x = x + 3, the old x is read, 3 is added, and the result moves back into x.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Local variables MUST be <b>initialized before use</b> — Java refuses to guess, and the compiler rejects reading an empty box. (Fields get defaults; locals do not.)</li><li>Legal names: letters, digits, <b>_</b> and <b>$</b>; cannot start with a digit; cannot be a keyword like int or class. Convention: camelCase, never snake_case.</li><li><b>int</b> is the default integer choice; reach for long/double only with a reason — a theme the types lesson makes precise.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Lunchbox assignment</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,18 +50,32 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int age = 17;          // declare + initialize
-System.out.println(age); // 17
-age = 18;               // update (birthday!)
-System.out.println(age); // 18">Copy</button></div>
-  <pre><code>int age = 17;          // declare + initialize
-System.out.println(age); // 17
-age = 18;               // update (birthday!)
-System.out.println(age); // 18</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int age = 17;            // declare + initialize
+    System.out.println(age); // 17
+    age = 18;                // birthday: replace the content
+    System.out.println(age); // 18
+    age = age + 1;           // read, add, store back
+    System.out.println(age); // 19
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int age = 17;            // declare + initialize
+    System.out.println(age); // 17
+    age = 18;                // birthday: replace the content
+    System.out.println(age); // 18
+    age = age + 1;           // read, add, store back
+    System.out.println(age); // 19
+  }
+}</code></pre><div class="out">▶ Output
 17
-18</div></div>
-  <ul class="linenotes"><li>Line 1 creates box age with 17.</li><li>Line 3 replaces content with 18.</li><li>Old 17 is gone — one value at a time.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>First print reads 17; assignment overwrites; second print reads 18.</div></div></section>
+18
+19</div></div>
+  <ul class="linenotes"><li>Line 3 creates box age holding 17.</li><li>Line 5 overwrites it with 18 — 17 is gone.</li><li>Line 7 reads 18, adds 1, stores 19 back.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>First print reads 17. Assignment overwrites with 18. The last line computes 18 + 1 and stores 19, which the final print shows.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -69,22 +84,22 @@ System.out.println(age); // 18</code></pre><div class="out">▶ Output
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: int age; System.out.println(age);</b>Why: Empty box — Java refuses to guess (local vars).<br><b>✅ Fix:</b> <code>Initialize: int age = 0;</code></div><div class="callout warn"><b>❌ Mistake 2: age = &quot;old&quot;; (age is int)</b>Why: Wrong food in box.<br><b>✅ Fix:</b> <code>Keep type: age = 19; or use String label.</code></div><div class="callout err"><b>❌ Mistake 3: Using = when meaning ==.</b>Why: = stores; == compares (later lesson).<br><b>✅ Fix:</b> <code>Store with =, compare with ==.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: int age; then printing age.</b>Why: An empty local box — Java refuses to guess and the compiler stops you.<br><b>✅ Fix:</b> <code>Always initialize: int age = 0; then use it.</code></div><div class="callout warn"><b>❌ Mistake 2: age = &quot;old&quot;; when age is int.</b>Why: Wrong food in the box: text cannot live in an int.<br><b>✅ Fix:</b> <code>Keep the type: age = 19; — or declare a String box instead.</code></div><div class="callout err"><b>❌ Mistake 3: Writing = when you mean ==.</b>Why: Single = stores; double == compares. Different jobs, different symbols.<br><b>✅ Fix:</b> <code>Store with =, compare with == (full lesson soon).</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Trace it</b><p>int x = 2; x = x + 3; print x. What shows?</p>
+  <div class="practice"><b>Trace it</b><p>int x = 2; x = x + 3; print x. What shows, and why?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Right side computes first, then stores.</div><div class="sol callout"><b>Solution</b>5. x+3 = 5 stored back into x.</div></div><div class="practice"><b>Name them</b><p>Name boxes for: user city, score. Declare with starting values.</p>
+  <div class="hint callout"><b>Hint</b>Right side computes first, then stores.</div><div class="sol callout"><b>Solution</b>5 — x + 3 reads 2, makes 5, stores it back into x.</div></div><div class="practice"><b>Name them</b><p>Name and declare boxes for: the user’s city and their game score, with starting values.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>camelCase, types String/int.</div><div class="sol callout"><b>Solution</b>String userCity = &quot;Pune&quot;; int score = 0;</div></div></section>
+  <div class="hint callout"><b>Hint</b>camelCase; types String and int.</div><div class="sol callout"><b>Solution</b>String userCity = &quot;Pune&quot;; int score = 0;</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Variable = type + name + value.</li><li>= stores; names are camelCase.</li><li>One box holds one current value.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What three parts does every variable have?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Store your age and city, print both.</div>
+  <div class="prose"><ul><li>Variable = type + name + value.</li><li>Single = stores; names are camelCase and case-sensitive.</li><li>One box holds one current value; right side computes first.</li><li>Locals must be initialized before reading.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What three parts does every variable have, and which computes first in x = x + 3?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Store your age and city in variables and print both in one friendly line.</div>
   <p><b>Related:</b> <a href="../lessons/comments.html">Comments and Readable Code</a> · <a href="./primitives.html">Next: Primitive Data Types →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -92,8 +107,8 @@ System.out.println(age); // 18</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'variables',[{"id":"q1","prompt":"int age = 18 means…","options":[{"t":"Create int box “age” holding 18","ok":true},{"t":"Check if age equals 18"},{"t":"Create 18 boxes"},{"t":"Delete age"}],"explain":"Declare + initialize in one line."},{"id":"q2","prompt":"After age = 19, the old 17…","options":[{"t":"Is replaced","ok":true},{"t":"Stays alongside"},{"t":"Doubles"},{"t":"Moves to another box"}],"explain":"One box, one current value."},{"id":"q3","prompt":"Why initialize before use?","options":[{"t":"Java will not guess empty boxes","ok":true},{"t":"It runs faster"},{"t":"Boxes look nicer"},{"t":"Required by printers"}],"explain":"Definite assignment rule."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Declare: new labelled box with soup 17.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int age\u003c/div>\u003cdiv class=\"vl\">17\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Read: peek without emptying.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">age\u003c/div>\u003cdiv class=\"vl\">17 → print\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Update: swap to 18. Old gone.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">age\u003c/div>\u003cdiv class=\"vl\">18 ✨\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'variables',[{"id":"q1","prompt":"int age = 18 means…","options":[{"t":"Create an int box named age holding 18","ok":true},{"t":"Check whether age equals 18"},{"t":"Create 18 boxes"},{"t":"Delete age"}],"explain":"Declare + initialize in a single line."},{"id":"q2","prompt":"After age = 19, the old value 17…","options":[{"t":"Is gone, replaced","ok":true},{"t":"Stays alongside the 19"},{"t":"Doubles itself"},{"t":"Moves to another box"}],"explain":"One box holds exactly one current value."},{"id":"q3","prompt":"Why must locals be initialized before use?","options":[{"t":"Java will not guess; the compiler rejects empty boxes","ok":true},{"t":"It runs faster"},{"t":"Boxes look nicer"},{"t":"Printers require it"}],"explain":"Definite assignment is a compile-time rule for locals."},{"id":"q4","prompt":"x = x + 3 with x starting at 2 gives…","options":[{"t":"5","ok":true},{"t":"23"},{"t":"x + 3 (text)"},{"t":"A compiler error"}],"explain":"Read 2, add 3, store 5 back."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Declare: a fresh labelled box holding 17.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int age\u003c/div>\u003cdiv class=\"vl\">17\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Read: peek without emptying the box.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">age\u003c/div>\u003cdiv class=\"vl\">17 → print\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Update: swap in 18. The old value is gone.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">age\u003c/div>\u003cdiv class=\"vl\">18 ✨\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

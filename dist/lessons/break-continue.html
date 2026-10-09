@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>break and continue · Java Foundations</title>
-<meta name="description" content="break = emergency exit. continue = skip this dance move but stay at the party. Both reshape loops without nesting.">
+<meta name="description" content="break is the emergency exit; continue is skipping one dance move while staying at the party. Both reshape loops without extra nesting — used sparingly, they clarify; abused, they maze.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,83 @@
     <span class="chip">⏱ 10 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>break = emergency exit. continue = skip this dance move but stay at the party. Both reshape loops without nesting.</p>
-  <div class="callout"><b>🔎 Motivating question</b>In a bus queue, what is the difference between leaving and letting one person pass?</div>
+  <div class="prose"><p>break is the emergency exit; continue is skipping one dance move while staying at the party. Both reshape loops without extra nesting — used sparingly, they clarify; abused, they maze.</p>
+  <div class="callout"><b>🔎 Motivating question</b>In a bus queue, what is the difference between LEAVING and letting one person pass?</div>
   <h2>Objectives</h2><ul><li>Skip with continue</li><li>Exit with break</li><li>Trace both in a loop</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/while-loops.html">while and do-while Loops</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Hopscotch: continue = skip square 4, keep hopping. break = stop game, go home. Skipping ≠ quitting.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: skipping every square finishes nothing. Overused continue/break hides logic — prefer clear conditions.</div></div></section>
+  <div class="prose"><p>Hopscotch: continue = hop OVER square 4 and keep playing. break = stop the game entirely and go home. Skipping one turn is not quitting the game.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: skip EVERY square and you finish nothing — and peppering loops with exits hides the real logic. Prefer a clear condition; reserve break/continue for “found it!” and “skip bad data”.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>continue</b>: jump to next iteration (update still runs in for). <b>break</b>: exit loop now.</p><p>Use continue to skip bad data; break on “found it!” to stop searching.</p><p>Both pair with if; avoid break soup — one exit is clearest.</p></div></section>
+  <div class="prose"><p><b>continue</b> abandons the CURRENT round and jumps to the next check (a for-loop’s update still runs first). <b>break</b> abandons the ENTIRE loop immediately.</p><p>Canonical uses: continue skips bad records; break stops a search the moment the target is found (“found it, stop looking”).</p><p>Both pair with an if. In a while-loop, continue SKIPS the rest of the body — including your increment if it sits at the bottom. That ordering bug creates infinite loops.</p><p>One break on “found” reads clearly; five exits scattered around is maze logic. When exits multiply, restructure with a method return or a flag.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Labeled break/continue</b> (outer: ...) can exit nested loops from the inside — rare, but the only clean escape from double loops.</li><li>In for-loops continue still executes the <b>update</b>; in while-loops it does NOT re-run anything except the check. Same word, different mechanics.</li><li><b>return</b> exits the whole METHOD (stronger than break); <b>System.exit</b> kills the program (strongest — almost never what you want).</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hopscotch</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hopscotch control</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="for (int i = 1; i &lt;= 5; i++) {
-  if (i == 3) continue; // skip 3
-  if (i == 5) break;    // stop before 5
-  System.out.print(i + &quot; &quot;);
-}
-// prints: 1 2 4">Copy</button></div>
-  <pre><code>for (int i = 1; i &lt;= 5; i++) {
-  if (i == 3) continue; // skip 3
-  if (i == 5) break;    // stop before 5
-  System.out.print(i + &quot; &quot;);
-}
-// prints: 1 2 4</code></pre><div class="out">▶ Output
-1 2 4</div></div>
-  <ul class="linenotes"><li>i=3 skipped, loop continues.</li><li>i=5 exits immediately.</li><li>Output 1 2 4.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Continue jumps over print for 3; break abandons loop at 5.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    for (int i = 1; i &lt;= 5; i++) {
+      if (i == 3) {
+        continue; // skip printing 3, keep looping
+      }
+      if (i == 5) {
+        break; // stop the whole loop before 5
+      }
+      System.out.println(i);
+    }
+    System.out.println(&quot;over&quot;);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    for (int i = 1; i &lt;= 5; i++) {
+      if (i == 3) {
+        continue; // skip printing 3, keep looping
+      }
+      if (i == 5) {
+        break; // stop the whole loop before 5
+      }
+      System.out.println(i);
+    }
+    System.out.println(&quot;over&quot;);
+  }
+}</code></pre><div class="out">▶ Output
+1
+2
+4
+over</div></div>
+  <ul class="linenotes"><li>i = 3: the print is jumped over, loop continues.</li><li>i = 5: the loop is abandoned on the spot.</li><li>Printed: 1, 2, 4 — then “over”.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>continue skips only round 3’s print; break at 5 ends everything. The code after the loop always runs.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="loop"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Skip vs stop: set rounds.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Skip versus stop: trace 5 rounds.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="5" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: break expecting skip</b>Why: Break quits everything.<br><b>✅ Fix:</b> <code>Use continue to skip one.</code></div><div class="callout warn"><b>❌ Mistake 2: continue in while without update</b>Why: Skips the update → infinite!<br><b>✅ Fix:</b> <code>Update before continue, or use for.</code></div><div class="callout err"><b>❌ Mistake 3: Many breaks everywhere</b>Why: Maze logic.<br><b>✅ Fix:</b> <code>One break on found; else restructure.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: break when you meant skip-one.</b>Why: break quits the ENTIRE loop — rounds 4 and 5 never happen.<br><b>✅ Fix:</b> <code>Skip-one is continue; quit-all is break.</code></div><div class="callout warn"><b>❌ Mistake 2: continue in a while-loop with the increment at the bottom.</b>Why: continue jumps OVER the increment → frozen state → infinite loop.<br><b>✅ Fix:</b> <code>Increment BEFORE any continue, or prefer for-loops with skips.</code></div><div class="callout err"><b>❌ Mistake 3: Exits on every other line (“break soup”).</b>Why: Readers cannot tell the loop’s real shape anymore.<br><b>✅ Fix:</b> <code>One break for “found”; otherwise restructure.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Skip evens?</b><p>Print odds 1..9 using continue.</p>
+  <div class="practice"><b>Print the odds</b><p>Print odd numbers 1–9 using continue to skip evens.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>if even → continue.</div><div class="sol callout"><b>Solution</b>if (i % 2 == 0) continue; print(i);</div></div><div class="practice"><b>Find and stop</b><p>Stop at first 7 in 1..10 with break.</p>
+  <div class="hint callout"><b>Hint</b>if even → continue; else print.</div><div class="sol callout"><b>Solution</b>for (int i = 1; i &lt;= 9; i++) { if (i % 2 == 0) continue; System.out.println(i); }</div></div><div class="practice"><b>Find and stop</b><p>Search 1–10 for the first 7: print it and stop. No extra rounds.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>if == 7 break.</div><div class="sol callout"><b>Solution</b>Loop; if (i==7){found; break;}</div></div></section>
+  <div class="hint callout"><b>Hint</b>if (i == 7) { ...; break; }</div><div class="sol callout"><b>Solution</b>for (int i = 1; i &lt;= 10; i++) { if (i == 7) { System.out.println(i); break; } }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>continue skips one round.</li><li>break exits the loop.</li><li>In while, update before continue.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Give one good use for each.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Print 1..10 skipping multiples of 3.</div>
+  <div class="prose"><ul><li>continue skips one round; break exits all rounds.</li><li>In while, increment BEFORE any continue.</li><li>break on “found”; continue on “skip bad data”.</li><li>Code after the loop always runs.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Give one legitimate use for each — and one abuse for each.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Print 1–10 while skipping multiples of 3, using continue.</div>
   <p><b>Related:</b> <a href="../lessons/while-loops.html">while and do-while Loops</a> · <a href="./nested-loops.html">Next: Nested Loops →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +116,8 @@
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'break-continue',[{"id":"q1","prompt":"continue does…","options":[{"t":"Skip rest of this round, next round","ok":true},{"t":"Exit loop"},{"t":"Restart program"},{"t":"Skip all future"}],"explain":"One skip."},{"id":"q2","prompt":"break does…","options":[{"t":"Exit the loop now","ok":true},{"t":"Skip one"},{"t":"Pause"},{"t":"Nothing"}],"explain":"Emergency exit."},{"id":"q3","prompt":"Output of code above?","options":[{"t":"1 2 4","ok":true},{"t":"1 2 3 4 5"},{"t":"1 2 4 5"},{"t":"3 5"}],"explain":"Skip 3, stop at 5."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Hop 1, 2 normally.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">1 ✓\u003c/div>\u003cdiv class=\"box\">2 ✓\u003c/div>\u003c/div>"},{"caption":"3: continue — skip, keep going.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">3 ⏭️ skip\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">4 ✓\u003c/div>\u003c/div>"},{"caption":"5: break — game over.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">5 🛑 stop\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'break-continue',[{"id":"q1","prompt":"continue does…","options":[{"t":"Skips the rest of this round, starts the next","ok":true},{"t":"Exits the loop"},{"t":"Restarts the program"},{"t":"Skips all future rounds"}],"explain":"Exactly one round is abandoned."},{"id":"q2","prompt":"break does…","options":[{"t":"Exits the loop immediately","ok":true},{"t":"Skips one round"},{"t":"Pauses for input"},{"t":"Nothing"}],"explain":"The emergency exit, no rounds after."},{"id":"q3","prompt":"The program above prints…","options":[{"t":"1, 2, 4, over","ok":true},{"t":"1, 2, 3, 4, 5"},{"t":"1, 2, 4, 5, over"},{"t":"3, 5"}],"explain":"3 skipped, 5 never printed (break first), over always."},{"id":"q4","prompt":"continue inside a while-loop is risky because…","options":[{"t":"It can jump over the increment, freezing the loop","ok":true},{"t":"It deletes the condition"},{"t":"It always breaks instead"},{"t":"While forbids continue"}],"explain":"Skipped updates = frozen state = infinite spin."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Hop 1, 2 normally.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">1 ✓\u003c/div>\u003cdiv class=\"box\">2 ✓\u003c/div>\u003c/div>"},{"caption":"3: continue — skip it, keep playing.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">3 ⏭️ skip\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">4 ✓\u003c/div>\u003c/div>"},{"caption":"5: break — game over, go home.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">5 🛑 stop\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

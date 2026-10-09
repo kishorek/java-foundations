@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Literals and Constants · Java Foundations</title>
-<meta name="description" content="Literals are values typed directly: 42, 3.5, single letters, quoted text, true. Constants (final) give them names so magic numbers vanish.">
+<meta name="description" content="Literals are values typed directly into code: 42, 3.5, single letters, quoted text, true. Constants (final) give important ones names, so magic numbers stop haunting the codebase.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,40 +32,52 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Literals are values typed directly: 42, 3.5, single letters, quoted text, true. Constants (final) give them names so magic numbers vanish.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do buildings label “EXIT” instead of painting mysterious green rectangles?</div>
+  <div class="prose"><p>Literals are values typed directly into code: 42, 3.5, single letters, quoted text, true. Constants (final) give important ones names, so magic numbers stop haunting the codebase.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do buildings label doors “EXIT” instead of painting mysterious green rectangles everywhere?</div>
   <h2>Objectives</h2><ul><li>Spot literals in code</li><li>Use final constants</li><li>Apply L, f, and text rules</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/references.html">Reference Types and Object References</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Name tags vs sticky notes. 3.14159 scribbled everywhere = sticky notes. final double PI = 3.14159 = engraved tag — one truth, reused safely.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: engraved tags cannot change. final is a promise — reassigning breaks the build on purpose.</div></div></section>
+  <div class="prose"><p>Name tags versus sticky notes. The number 3.14159 scribbled in twenty places is twenty sticky notes that rot separately. final double PI = 3.14159 is one engraved tag — a single truth, reused safely.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: engraved tags cannot be re-engraved. final is a compiler-enforced promise — reassigning it breaks the build ON PURPOSE, loudly, at once.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Integer literals are <b>int</b> (add <b>L</b> for long). Decimals are <b>double</b> (add <b>f</b> for float).</p><p><b>Single-quoted</b> char vs <b>double-quoted</b> String. <b>true/false</b>, and underscores: 1_000_000.</p><p><b>final double PI = 3.14159;</b> names a constant. UPPER_CASE by convention; set once.</p></div></section>
+  <div class="prose"><p>Integer literals are <b>int</b> by birth (add <b>L</b> for long). Decimal literals are <b>double</b> (add <b>f</b> for float). Single quotes make char, double quotes make String, and 1_000_000 shows underscores are human-only decoration.</p><p><b>final double PI = 3.14159;</b> names a constant: assigned exactly once, then locked. Convention writes constants in <b>UPPER_CASE</b> so they visually shout “do not touch”.</p><p>Char and escape details: ’\n’ is newline, ’\t’ is tab, ’\\’ is one backslash. Inside "..." the same escapes work, so "a\nb" prints two lines.</p><p>Java 17 also offers <b>text blocks</b> (“""...""”) for multi-line strings — HTML, SQL, JSON without plus-chains. Preview now, master later.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Underscores may sit BETWEEN digits only: 1_000 ok, _100 and 100_ are illegal. Bases: 0b101 (binary), 017 (octal!), 0xFF (hex) — note the sneaky leading-zero octal.</li><li><b>final</b> on a reference locks the SLIP, not the house: final StringBuilder sb can still append. Immutability and final-ness are different ideas.</li><li>A <b>magic number</b> is any unexplained literal in logic. Name it, and the code starts documenting itself.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Sticky notes → name tags</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Sticky notes become name tags</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="final double PI = 3.14159;
-int count = 1_000;
-long big = 5_000_000_000L;
-float ratio = 0.5f;
-char first = &#39;J&#39;;
-double circle = PI * 2 * 2; // r=2
-System.out.println(circle);">Copy</button></div>
-  <pre><code>final double PI = 3.14159;
-int count = 1_000;
-long big = 5_000_000_000L;
-float ratio = 0.5f;
-char first = 'J';
-double circle = PI * 2 * 2; // r=2
-System.out.println(circle);</code></pre><div class="out">▶ Output
-12.56636</div></div>
-  <ul class="linenotes"><li>PI named once, reused.</li><li>_ only helps humans read.</li><li>L and f pick the right type.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>PI × 2 × r with r=2 gives 2πr ≈ 12.566. Named constant keeps it correct everywhere.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    final double PI = 3.14159; // engraved tag
+    int count = 1000;
+    long big = 5000000000L;
+    double circle = PI * 2 * 2; // 2πr with r = 2
+    System.out.println(&quot;PI = &quot; + PI);
+    System.out.println(&quot;count = &quot; + count);
+    System.out.println(&quot;circle = &quot; + circle);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    final double PI = 3.14159; // engraved tag
+    int count = 1000;
+    long big = 5000000000L;
+    double circle = PI * 2 * 2; // 2πr with r = 2
+    System.out.println(&quot;PI = &quot; + PI);
+    System.out.println(&quot;count = &quot; + count);
+    System.out.println(&quot;circle = &quot; + circle);
+  }
+}</code></pre><div class="out">▶ Output
+PI = 3.14159
+count = 1000
+circle = 12.56636</div></div>
+  <ul class="linenotes"><li>PI is named once, then reused — change it in one place.</li><li>The L suffix makes the huge literal a long.</li><li>circle computes 3.14159 × 4 = 12.56636.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Named constant keeps every use consistent; the math is plain 2πr with r = 2.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -74,22 +86,22 @@ System.out.println(circle);</code></pre><div class="out">▶ Output
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: double x = 3.14159; scattered 20 times.</b>Why: Change means 20 edits + misses.<br><b>✅ Fix:</b> <code>final double PI = 3.14159; reuse PI.</code></div><div class="callout warn"><b>❌ Mistake 2: PI = 3.0; after final.</b>Why: Final forbids reassign.<br><b>✅ Fix:</b> <code>Remove final or keep one assignment.</code></div><div class="callout err"><b>❌ Mistake 3: char c = &quot;J&quot;;</b>Why: String ≠ char.<br><b>✅ Fix:</b> <code>char c = 'J';</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: The same 0.18 tax rate scattered across 20 lines.</b>Why: One law change means 20 edits — and you WILL miss one.<br><b>✅ Fix:</b> <code>final double TAX_RATE = 0.18; then reuse TAX_RATE everywhere.</code></div><div class="callout warn"><b>❌ Mistake 2: PI = 3.0; after declaring it final.</b>Why: final means assigned-once; the compiler rejects the betrayal.<br><b>✅ Fix:</b> <code>Remove final (if it must vary) or keep the single assignment.</code></div><div class="callout err"><b>❌ Mistake 3: Expecting final to freeze an object’s insides.</b>Why: final locks the slip. final StringBuilder sb = ...; sb.append(&quot;x&quot;); is perfectly legal.<br><b>✅ Fix:</b> <code>Want frozen content? Use String (immutable) — a later lesson.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Name the magic</b><p>Replace 0.18 tax in price * 0.18 with a constant.</p>
+  <div class="practice"><b>Name the magic</b><p>Replace the magic 0.18 in price * 0.18 with a named constant.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>final double TAX_RATE = 0.18;</div><div class="sol callout"><b>Solution</b>final double TAX_RATE = 0.18; price * TAX_RATE;</div></div><div class="practice"><b>Spot literal types</b><p>Types of: 7, 7L, 7.0, 7.0f, '7', &quot;7&quot;?</p>
+  <div class="hint callout"><b>Hint</b>final double TAX_RATE = 0.18;</div><div class="sol callout"><b>Solution</b>final double TAX_RATE = 0.18; then price * TAX_RATE;</div></div><div class="practice"><b>Spot the literal types</b><p>Name the type of each: 7, 7L, 7.0, 7.0f, ’7’, &quot;7&quot;.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>int, long, double, float, char, String.</div><div class="sol callout"><b>Solution</b>int, long, double, float, char, String.</div></div></section>
+  <div class="hint callout"><b>Hint</b>int, long, double, float, char, String.</div><div class="sol callout"><b>Solution</b>int, long, double, float, char, String — in that order.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Literals have default types; suffixes override.</li><li>Name magic numbers as UPPER_CASE final.</li><li>Single quotes char, double quotes String.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What literal needs L and what needs f?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Replace one magic number in old code with a final constant.</div>
+  <div class="prose"><ul><li>Literals have default types; suffixes override them.</li><li>Name magic numbers as UPPER_CASE final constants.</li><li>Single quotes char, double quotes String.</li><li>final locks the reference, not the object.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Which literal needs L, which needs f, and where may underscores sit?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Find one magic number in your old code and promote it to a final constant.</div>
   <p><b>Related:</b> <a href="../lessons/references.html">Reference Types and Object References</a> · <a href="./casting.html">Next: Type Conversion and Casting →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +109,8 @@ System.out.println(circle);</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'literals',[{"id":"q1","prompt":"3.5 is which type by default?","options":[{"t":"double","ok":true},{"t":"float"},{"t":"int"},{"t":"long"}],"explain":"Decimals default double."},{"id":"q2","prompt":"final means…","options":[{"t":"Set once, then locked","ok":true},{"t":"Secret value"},{"t":"Faster typing"},{"t":"Bigger number"}],"explain":"Single assignment promise."},{"id":"q3","prompt":"'a' vs \"a\"?","options":[{"t":"char vs String","ok":true},{"t":"Same thing"},{"t":"String vs char"},{"t":"Both numbers"}],"explain":"Single = char, double = String."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Magic numbers everywhere.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">0.18 … 0.18 … 0.18\u003c/div>\u003c/div>"},{"caption":"One engraved tag.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">TAX_RATE\u003c/div>\u003cdiv class=\"vl\">0.18 🔒\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Reuse safely; change once.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">price × TAX_RATE\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">always right\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'literals',[{"id":"q1","prompt":"3.5 is which type by default?","options":[{"t":"double","ok":true},{"t":"float"},{"t":"int"},{"t":"long"}],"explain":"Bare decimals are born double; float demands the f."},{"id":"q2","prompt":"final on a variable means…","options":[{"t":"Assigned once, then locked","ok":true},{"t":"Secret and hidden"},{"t":"Faster to type"},{"t":"A bigger number"}],"explain":"A single-assignment promise the compiler enforces."},{"id":"q3","prompt":"Single vs double quotes?","options":[{"t":"char vs String","ok":true},{"t":"Exactly the same"},{"t":"String vs char"},{"t":"Both are numbers"}],"explain":"Singles tile one char; doubles build String objects."},{"id":"q4","prompt":"final StringBuilder sb = new StringBuilder(); sb.append(\"x\"); — legal?","options":[{"t":"Yes — final locks the slip, not the house","ok":true},{"t":"No — final freezes everything"},{"t":"Only on Fridays"},{"t":"Only for Strings"}],"explain":"final ≠ immutable. The reference is locked; the object still works."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Magic numbers scattered everywhere.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">0.18 … 0.18 … 0.18\u003c/div>\u003c/div>"},{"caption":"One engraved tag instead.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">TAX_RATE\u003c/div>\u003cdiv class=\"vl\">0.18 🔒\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Reuse safely; change exactly once.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">price × TAX_RATE\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">always right\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

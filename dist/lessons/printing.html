@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Printing Output · Java Foundations</title>
-<meta name="description" content="Printing is your X-ray: show values, test guesses, and make friendly output. Master println vs print in ten minutes.">
+<meta name="description" content="Printing is your X-ray into the program: show values, test guesses, and produce friendly output. Ten minutes here pays off in every debugging session forever.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Printing is your X-ray: show values, test guesses, and make friendly output. Master println vs print in ten minutes.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you check what is inside a wrapped box without opening your program’s brain?</div>
+  <div class="prose"><p>Printing is your X-ray into the program: show values, test guesses, and produce friendly output. Ten minutes here pays off in every debugging session forever.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you check what is inside a wrapped box without cracking open your program’s skull?</div>
   <h2>Objectives</h2><ul><li>Use println vs print</li><li>Print text and numbers</li><li>Format simple lines</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/first-program.html">Your First Java Program</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Label printer. println prints a label and feeds a new line; print stays on the same line; printf fills a form with blanks (“name: ___, age: ___”).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: printers use ink. println uses text only — no colors or fonts without extra tools.</div></div></section>
+  <div class="prose"><p>A label printer. println prints a label and feeds a fresh line; print stays on the same line; printf fills in a form with blanks (“name: ___, age: ___”) so numbers line up.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: label printers use ink, fonts, and colors. println speaks plain text only — no colors, no bold, no layout beyond characters and line breaks.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>println</b> prints + newline. <b>print</b> stays on the line. Combine for layouts.</p><p>Text goes in <b>"quotes"</b>; numbers bare. <b>+</b> joins pieces.</p><p><b>printf</b> formats: %d integer, %.2f two decimals, %s text, %n newline.</p></div></section>
+  <div class="prose"><p><b>println</b> prints then moves to a new line. <b>print</b> stays on the current line. Combine them to build exact layouts.</p><p>Text goes in <b>double quotes</b>; numbers stand bare. The <b>+</b> operator joins pieces left to right — and the moment one side is a String, everything becomes text.</p><p><b>printf</b> formats with placeholders: <b>%d</b> integers, <b>%f</b> decimals (%.2f = two places), <b>%s</b> text, <b>%n</b> newline. It does NOT auto-break lines — end with %n.</p><p>Evaluation order bites: "Age: " + 18 + 2 makes "Age: 182" (text from the first +), while "Age: " + (18 + 2) makes "Age: 20". Brackets first, always.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>System.out</b> is the standard output stream; println/print/printf are methods on a PrintStream object. Errors go to <b>System.err</b> instead.</li><li><b>%.2f</b> rounds (2.555 → 2.56); <b>%d</b> with a double crashes (use %f); <b>%%</b> prints a literal percent sign.</li><li><b>%n</b> is the portable newline (Windows vs Linux differ); avoid hard-coding \n in printf.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Print heads</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,19 +50,31 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="System.out.println(&quot;Apples: &quot; + 3);
-System.out.print(&quot;Total: &quot;);
-System.out.println(3 * 2);
-System.out.printf(&quot;Price: $%.2f%n&quot;, 2.5);">Copy</button></div>
-  <pre><code>System.out.println(&quot;Apples: &quot; + 3);
-System.out.print(&quot;Total: &quot;);
-System.out.println(3 * 2);
-System.out.printf(&quot;Price: $%.2f%n&quot;, 2.5);</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    System.out.println(&quot;Apples: &quot; + 3);
+    System.out.print(&quot;Total: &quot;);
+    System.out.println(3 * 2);
+    System.out.printf(&quot;Price: $%.2f%n&quot;, 2.5);
+    System.out.printf(&quot;%s is %d years old%n&quot;, &quot;Ada&quot;, 18);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    System.out.println(&quot;Apples: &quot; + 3);
+    System.out.print(&quot;Total: &quot;);
+    System.out.println(3 * 2);
+    System.out.printf(&quot;Price: $%.2f%n&quot;, 2.5);
+    System.out.printf(&quot;%s is %d years old%n&quot;, &quot;Ada&quot;, 18);
+  }
+}</code></pre><div class="out">▶ Output
 Apples: 3
 Total: 6
-Price: $2.50</div></div>
-  <ul class="linenotes"><li>Line 1 joins text + number → Apples: 3.</li><li>Lines 2-3 share one line: Total: 6.</li><li>Line 4 formats 2.5 as $2.50.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>+ with a string makes a string. 3*2 = 6 stays on the print line. printf rounds to 2 decimals.</div></div></section>
+Price: $2.50
+Ada is 18 years old</div></div>
+  <ul class="linenotes"><li>Line 3 joins text + number into “Apples: 3”.</li><li>Lines 4–5 share one line: “Total: 6”.</li><li>Line 6 formats 2.5 as $2.50; line 7 mixes %s and %d.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>“+” with a String builds text. 3*2 computes to 6 on the still-open print line. printf fills each placeholder in order and rounds 2.5 to two decimals.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -70,22 +83,24 @@ Price: $2.50</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: println(&quot;3 + 2&quot;) expecting 5.</b>Why: Quotes mean literal text.<br><b>✅ Fix:</b> <code>Remove quotes: println(3 + 2); // 5</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting + between pieces.</b>Why: Java cannot glue by adjacency.<br><b>✅ Fix:</b> <code>&quot;Apples: &quot; + 3.</code></div><div class="callout err"><b>❌ Mistake 3: printf without %n.</b>Why: Next output sticks to same line.<br><b>✅ Fix:</b> <code>End format with %n.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: println(&quot;3 + 2&quot;) and expecting 5.</b>Why: Quotes mean literal text — the computer prints exactly what is inside.<br><b>✅ Fix:</b> <code>Drop the quotes to compute: println(3 + 2); // 5</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting the + between pieces: println(&quot;Apples: &quot; 3).</b>Why: Java cannot glue by placing things side by side.<br><b>✅ Fix:</b> <code>&quot;Apples: &quot; + 3 — the plus is the glue.</code></div><div class="callout err"><b>❌ Mistake 3: printf with no %n, then wondering why the next output sticks.</b>Why: printf never breaks the line by itself.<br><b>✅ Fix:</b> <code>End every printf format with %n.</code></div><div class="callout err"><b>❌ Mistake 4: &quot;Age: &quot; + 18 + 2 giving “Age: 182”.</b>Why: Left-to-right: (&quot;Age: &quot; + 18) is text, then + 2 glues more text.<br><b>✅ Fix:</b> <code>&quot;Age: &quot; + (18 + 2) — brackets compute first.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
   <div class="practice"><b>Predict it</b><p>What prints? System.out.print(&quot;A&quot;); System.out.println(&quot;B&quot;); System.out.println(&quot;C&quot;);</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>print stays, println breaks.</div><div class="sol callout"><b>Solution</b>AB on line 1, C on line 2.</div></div><div class="practice"><b>Format money</b><p>Print 19.9 as $19.90 with printf.</p>
+  <div class="hint callout"><b>Hint</b>print stays, println breaks.</div><div class="sol callout"><b>Solution</b>AB on line one, then C on line two.</div></div><div class="practice"><b>Format money</b><p>Print the value 19.9 as $19.90 using printf.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>%.2f and %n.</div><div class="sol callout"><b>Solution</b>System.out.printf(&quot;$%.2f%n&quot;, 19.9);</div></div></section>
+  <div class="hint callout"><b>Hint</b>%.2f plus %n.</div><div class="sol callout"><b>Solution</b>System.out.printf(&quot;$%.2f%n&quot;, 19.9);</div></div><div class="practice"><b>Fix the age line</b><p>Fix so it prints “Age: 20”: System.out.println(&quot;Age: &quot; + 18 + 2);</p>
+  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
+  <div class="hint callout"><b>Hint</b>Brackets.</div><div class="sol callout"><b>Solution</b>System.out.println(&quot;Age: &quot; + (18 + 2));</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>println breaks line; print does not.</li><li>+ joins text; bare numbers compute.</li><li>printf formats with %d %.2f %s.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When would you pick print over println?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Print a tiny receipt: 3 lines + formatted total.</div>
+  <div class="prose"><ul><li>println breaks the line; print does not.</li><li>Plus joins text left-to-right; brackets compute first.</li><li>printf formats with %d, %.2f, %s — end with %n.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When would you deliberately pick print over println?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Print a tiny shop receipt: 3 item lines plus one formatted total.</div>
   <p><b>Related:</b> <a href="../lessons/first-program.html">Your First Java Program</a> · <a href="./comments.html">Next: Comments and Readable Code →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -93,8 +108,8 @@ Price: $2.50</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'printing',[{"id":"q1","prompt":"println vs print?","options":[{"t":"println adds a new line; print does not","ok":true},{"t":"print is faster to type only"},{"t":"They are identical"},{"t":"print deletes text"}],"explain":"The ln = line break."},{"id":"q2","prompt":"System.out.println(3 + 2) prints?","options":[{"t":"5","ok":true},{"t":"3 + 2"},{"t":"32"},{"t":"Error"}],"explain":"No quotes → math happens."},{"id":"q3","prompt":"%.2f formats…","options":[{"t":"A decimal with 2 places","ok":true},{"t":"An integer"},{"t":"Text centered"},{"t":"A date"}],"explain":"f = float, .2 = two places."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"print stays on the line.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>print(\"Total: \")\u003c/b>\u003cbr>cursor waits…\u003c/div>\u003c/div>"},{"caption":"println feeds a new line.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>println(6)\u003c/b>\u003cbr>Total: 6 ⏎\u003c/div>\u003c/div>"},{"caption":"printf fills blanks precisely.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>$%.2f\u003c/b>\u003cbr>2.5 → 2.50\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'printing',[{"id":"q1","prompt":"println vs print?","options":[{"t":"println breaks the line; print stays on it","ok":true},{"t":"print is just faster to type"},{"t":"They are identical"},{"t":"print deletes text"}],"explain":"The “ln” literally means “line”: print + newline."},{"id":"q2","prompt":"System.out.println(3 + 2) prints…","options":[{"t":"5","ok":true},{"t":"3 + 2"},{"t":"32"},{"t":"A compiler error"}],"explain":"No quotes → real arithmetic happens first."},{"id":"q3","prompt":"%.2f formats…","options":[{"t":"A decimal rounded to 2 places","ok":true},{"t":"An integer"},{"t":"Centered text"},{"t":"A calendar date"}],"explain":"f = floating point, .2 = two places after the dot."},{"id":"q4","prompt":"\"Total: \" + 2 + 3 prints…","options":[{"t":"Total: 23","ok":true},{"t":"Total: 5"},{"t":"Total: 2 + 3"},{"t":"A compiler error"}],"explain":"Left-to-right text gluing: (\"Total: \"+2) is text, then +3 glues again."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"print stays on the line, cursor waiting.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>print(\"Total: \")\u003c/b>\u003cbr>cursor waits…\u003c/div>\u003c/div>"},{"caption":"println feeds a fresh line.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>println(6)\u003c/b>\u003cbr>Total: 6 ⏎\u003c/div>\u003c/div>"},{"caption":"printf fills blanks precisely.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>$%.2f\u003c/b>\u003cbr>2.5 → 2.50\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Comments and Readable Code · Java Foundations</title>
-<meta name="description" content="Code tells what; comments tell why. Future you will thank present you — write both for humans.">
+<meta name="description" content="Code tells WHAT the machine does; comments tell WHY a human chose it. Future you — debugging at midnight — will thank present you.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 10 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Code tells what; comments tell why. Future you will thank present you — write both for humans.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do museums put little plaques next to paintings?</div>
+  <div class="prose"><p>Code tells WHAT the machine does; comments tell WHY a human chose it. Future you — debugging at midnight — will thank present you.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do museums put little plaques next to paintings instead of letting the art speak?</div>
   <h2>Objectives</h2><ul><li>Write // and /* */ comments</li><li>Explain why comments help</li><li>Name variables clearly</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/printing.html">Printing Output</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Museum plaque. The painting (code) shows; the plaque (comment) explains why it matters and what to notice. No plaque on every brushstroke.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: plaques never repaint. Comments never run — wrong comments actively mislead. Update or delete them.</div></div></section>
+  <div class="prose"><p>Museum plaque. The painting (code) shows what is there; the plaque (comment) explains why it matters and what to notice. Nobody plaques every brushstroke — and nobody should comment every line.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: plaques never repaint themselves. Comments never execute — a stale comment that contradicts the code actively misleads, which is worse than silence.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>//</b> comments one line. <b>/* */</b> spans many. <b>/** */</b> documents for tools.</p><p>Comment the <b>why</b>, not the what: // discounts apply after 18:00 (law), not // add 1.</p><p>Clear names beat comments: <b>adultAge</b> needs none; <b>x2</b> needs rescue.</p></div></section>
+  <div class="prose"><p><b>//</b> comments out the rest of one line. <b>/* … */</b> spans many lines. <b>/** … */</b> is documentation the javadoc tool turns into web pages.</p><p>Comment the <b>why</b>, never the what: “law in our town” earns its place; “add 1” merely repeats the code.</p><p>Clear names beat comments every time: <b>adultAge</b> needs no help, while <b>x2</b> needs rescue. When a comment explains WHAT, rename instead.</p><p>Comments are also light switches: beginners temporarily disable code by commenting it out while testing. Delete such corpses before finishing — version control remembers.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>The compiler strips comments <b>before</b> checking code — they cannot affect behavior, speed, or output in any way.</li><li><b>Javadoc</b> comments (/** … */) with tags like @param and @return generate API docs; libraries live on them.</li><li>Commenting out code as “backup” rots within days. Real backup is a commit — delete the corpse.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Plaque vs painting</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,45 +50,52 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// Good: explains WHY
-int adultAge = 18; // law in our town
-/* Long note:
-   Prices include tax.
-   Change taxRate in one place. */
-System.out.println(adultAge);">Copy</button></div>
-  <pre><code>// Good: explains WHY
-int adultAge = 18; // law in our town
-/* Long note:
-   Prices include tax.
-   Change taxRate in one place. */
-System.out.println(adultAge);</code></pre><div class="out">▶ Output
-18</div></div>
-  <ul class="linenotes"><li>Comment the rule source (law).</li><li>Block comment warns about tax design.</li><li>Code itself stays clean.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Comments vanish at compile; only println runs. Readers still learn the rule.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    // WHY 18? It is the legal adult age in our town.
+    int adultAge = 18;
+    /* Prices below include tax.
+       Change TAX_RATE in one place only. */
+    System.out.println(&quot;Adult at &quot; + adultAge);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    // WHY 18? It is the legal adult age in our town.
+    int adultAge = 18;
+    /* Prices below include tax.
+       Change TAX_RATE in one place only. */
+    System.out.println(&quot;Adult at &quot; + adultAge);
+  }
+}</code></pre><div class="out">▶ Output
+Adult at 18</div></div>
+  <ul class="linenotes"><li>The // comment explains the rule’s source — the why.</li><li>The block comment warns about the tax design.</li><li>The code itself stays clean and readable.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Comments vanished during compilation; only the println ran. Readers still learn the rule behind the number.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Comments change nothing — output stays.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Comments change nothing — the output stays.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="18" size="8" aria-label="value"> <input data-in value=" (comment ignored)" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: // adds one to x then x++;</b>Why: Restates the obvious; noise.<br><b>✅ Fix:</b> <code>Explain why: // retry count resets after logout.</code></div><div class="callout warn"><b>❌ Mistake 2: Old comment lies: // max 5 when code allows 10.</b>Why: Stale comments mislead.<br><b>✅ Fix:</b> <code>Update with code or delete.</code></div><div class="callout err"><b>❌ Mistake 3: Commenting out code as “backup”.</b>Why: Rot piles up.<br><b>✅ Fix:</b> <code>Delete; git remembers.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: x++; // adds one to x</b>Why: Restates the obvious — pure noise that trains readers to ignore ALL your comments.<br><b>✅ Fix:</b> <code>Explain the why: // retry count resets after logout.</code></div><div class="callout warn"><b>❌ Mistake 2: A stale comment: “max 5” while the code allows 10.</b>Why: Contradicting prose is worse than silence — readers trust it and break things.<br><b>✅ Fix:</b> <code>Update the comment with the code, or delete it.</code></div><div class="callout err"><b>❌ Mistake 3: Commented-out code kept as “backup” for months.</b>Why: It rots, confuses, and nobody dares delete it.<br><b>✅ Fix:</b> <code>Delete it. Git remembers everything.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Keep or kill?</b><p>Which comment helps? A) // increment i, i++ B) // retry 3x: server drops first ping.</p>
+  <div class="practice"><b>Keep or kill?</b><p>Which comment helps? A) // increment i, i++ B) // retry 3 times: the server drops the first ping.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Why &gt; what.</div><div class="sol callout"><b>Solution</b>B helps; A restates.</div></div><div class="practice"><b>Name it well</b><p>Rename int d (days until trip) + comment if needed.</p>
+  <div class="hint callout"><b>Hint</b>Why beats what.</div><div class="sol callout"><b>Solution</b>B helps — it carries knowledge the code cannot show. A restates the visible.</div></div><div class="practice"><b>Name it well</b><p>Rename int d (days until the trip) so well that no comment is needed.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Good name may need no comment.</div><div class="sol callout"><b>Solution</b>int daysUntilTrip; // no comment needed.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Full words, camelCase.</div><div class="sol callout"><b>Solution</b>int daysUntilTrip; — the name IS the documentation.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>// line, /* */ block, /** */ docs.</li><li>Comment why, name what.</li><li>Stale comments are bugs in prose.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What should a comment explain that code cannot?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Add one why-comment to your Hello program.</div>
+  <div class="prose"><ul><li>// line, /* */ block, /** */ documentation.</li><li>Comment WHY; let names say WHAT.</li><li>Stale comments are bugs written in prose.</li><li>Commented-out code is not backup — delete it.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What should a comment explain that code fundamentally cannot?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Add one genuine why-comment to your own Hello program.</div>
   <p><b>Related:</b> <a href="../lessons/printing.html">Printing Output</a> · <a href="./variables.html">Next: Variables: Your Program's Storage Boxes →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +103,8 @@ System.out.println(adultAge);</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'comments',[{"id":"q1","prompt":"Which comment style is one line?","options":[{"t":"//","ok":true},{"t":"/* */"},{"t":"\u003c!-- -->"},{"t":"#"}],"explain":"// to end of line."},{"id":"q2","prompt":"Best comment?","options":[{"t":"Why this rule/value exists","ok":true},{"t":"Restating the code"},{"t":"Your lunch plans"},{"t":"Deleted code backup"}],"explain":"Why survives; what is visible."},{"id":"q3","prompt":"Do comments affect running?","options":[{"t":"No — removed before run","ok":true},{"t":"Yes, they speed it up"},{"t":"Yes, they print"},{"t":"Only on Fridays"}],"explain":"For humans only."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Code paints (runs).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>println(18)\u003c/b>\u003cbr>paints 18\u003c/div>\u003c/div>"},{"caption":"Comment plaques (ignored by JVM).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>// law: 18\u003c/b>\u003cbr>for humans\u003c/div>\u003c/div>"},{"caption":"Together: clear + correct.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>adultAge = 18\u003c/b>\u003cbr>+ why note\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'comments',[{"id":"q1","prompt":"Which comment style covers one line?","options":[{"t":"//","ok":true},{"t":"/* */"},{"t":"\u003c!-- -->"},{"t":"#"}],"explain":"Double-slash runs to the end of the line."},{"id":"q2","prompt":"The best use of a comment is…","options":[{"t":"Why this rule or value exists","ok":true},{"t":"Restating what the code says"},{"t":"Your lunch plans"},{"t":"Backing up deleted code"}],"explain":"Why survives; what is already visible on screen."},{"id":"q3","prompt":"Do comments change the running program?","options":[{"t":"No — stripped before compilation finishes","ok":true},{"t":"Yes, they speed it up"},{"t":"Yes, they print"},{"t":"Only on Fridays"}],"explain":"For humans only, always."},{"id":"q4","prompt":"You find code commented out six months ago. Best move?","options":[{"t":"Delete it (version control remembers)","ok":true},{"t":"Keep it forever, just in case"},{"t":"Uncomment it all at once"},{"t":"Copy it to another file"}],"explain":"Dead code is a liability; history lives in git, not in comments."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Code paints (it runs).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>println(18)\u003c/b>\u003cbr>paints 18\u003c/div>\u003c/div>"},{"caption":"Comment plaques (the JVM skips them).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>// law: 18\u003c/b>\u003cbr>for humans\u003c/div>\u003c/div>"},{"caption":"Together: clear and correct.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>adultAge = 18\u003c/b>\u003cbr>+ why note\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

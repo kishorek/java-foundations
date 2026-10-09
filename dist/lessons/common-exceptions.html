@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Common Exceptions &amp; Defensive Code · Java Foundations</title>
-<meta name="description" content="Five usual suspects cause 90% of crashes. Learn their faces and程式 defend before they strike.">
+<meta name="description" content="Five usual suspects cause the overwhelming majority of beginner crashes. Memorize their faces, guard at the door, and turn explosions into friendly messages.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Five usual suspects cause 90% of crashes. Learn their faces and程式 defend before they strike.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What do seatbelts, helmets, and null-checks share?</div>
+  <div class="prose"><p>Five usual suspects cause the overwhelming majority of beginner crashes. Memorize their faces, guard at the door, and turn explosions into friendly messages.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What do seatbelts, helmets, and null-checks have in common?</div>
   <h2>Objectives</h2><ul><li>Guard null and input</li><li>Validate before acting</li><li>Write helpful messages</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/exceptions.html">Exception Handling: try/catch/finally</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Bouncer photos wall: NullPointer (ghost guest), IndexOutOfBounds (wrong seat), NumberFormat (fake ticket), InputMismatch (wrong currency), FileNotFound (wrong hall). Check ID at the door (validate) — do not fight inside.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: photos age. New suspects appear — read the exception NAME + line, not memory.</div></div></section>
+  <div class="prose"><p>The bouncer’s photo wall. NullPointer (ghost guest), IndexOutOfBounds (wrong seat), NumberFormat (forged ticket), InputMismatch (wrong currency), FileNotFound (wrong hall). Check IDs AT THE DOOR (validate inputs) — never brawl inside the club.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: photo walls age and new faces appear. Always read the exception’s NAME plus its LINE — never pattern-match from memory alone.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>null</b>: check != null. <b>Index</b>: check 0..len-1. <b>Number</b>: hasNextInt/try-catch.</p><p><b>Validate input</b> ranges; <b>fail fast</b> with clear messages.</p><p>Distinguish <b>bug</b> (fix code) vs <b>expected</b> (handle: missing file → default).</p></div></section>
+  <div class="prose"><p>Meet them: <b>NullPointerException</b> (method on null) → guard with != null. <b>IndexOutOfBounds</b> → check 0 to len minus 1. <b>NumberFormat / InputMismatch</b> → hasNextInt or try-catch. <b>FileNotFound / NoSuchFile</b> → check or handle.</p><p><b>Validate at the door</b>: ranges, nulls, formats — BEFORE acting. Fail FAST with messages naming the rule AND the value.</p><p>Separate <b>BUGS</b> (fix the code: null where impossible) from <b>EXPECTED EVENTS</b> (handle them: users lose files). Catching NullPointer to “fix” it hides the bug.</p><p>Write messages for TIRED HUMANS: what was expected, what arrived, where. Short cries like “Error!!” help nobody.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>IllegalArgumentException</b> is the validation workhorse: throw it yourself for bad parameters — unchecked, loud, precise.</li><li><b>Guard clauses</b> (if bad, throw or return) at method tops beat nested validation pyramids and read like door policy.</li><li>Log exceptions with their <b>stack traces</b> in real apps — the trace shows the exact path to the crime, not just the headline.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Wanted wall</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,46 +50,60 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="String name = null;
-if (name != null) System.out.println(name.length());
-else System.out.println(&quot;Name missing — using Guest&quot;);
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="String name = null; // ghost guest arrives
+if (name != null) {
+  System.out.println(name.length());
+} else {
+  System.out.println(&quot;Name missing - using Guest&quot;);
+}
 int[] a = {1, 2};
-if (a.length &gt; 5) System.out.println(a[5]);
-else System.out.println(&quot;No seat 5&quot;);">Copy</button></div>
-  <pre><code>String name = null;
-if (name != null) System.out.println(name.length());
-else System.out.println(&quot;Name missing — using Guest&quot;);
+int want = 5;
+if (want &gt;= 0 &amp;&amp; want &lt; a.length) {
+  System.out.println(a[want]);
+} else {
+  System.out.println(&quot;No seat 5&quot;);
+}">Copy</button></div>
+  <pre><code>String name = null; // ghost guest arrives
+if (name != null) {
+  System.out.println(name.length());
+} else {
+  System.out.println(&quot;Name missing - using Guest&quot;);
+}
 int[] a = {1, 2};
-if (a.length &gt; 5) System.out.println(a[5]);
-else System.out.println(&quot;No seat 5&quot;);</code></pre><div class="out">▶ Output
-Name missing — using Guest
-No seat 5</div></div>
-  <ul class="linenotes"><li>Null guarded.</li><li>Bounds guarded.</li><li>Friendly fallbacks.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Defensive checks convert crashes into messages.</div></div></section>
+int want = 5;
+if (want &gt;= 0 &amp;&amp; want &lt; a.length) {
+  System.out.println(a[want]);
+} else {
+  System.out.println(&quot;No seat 5&quot;);
+}</code></pre><div class="out">▶ Output
+Name missing - using Guest, then No seat 5.</div></div>
+  <ul class="linenotes"><li>Null diverted to a friendly fallback.</li><li>Seat 5 checked against real doors first.</li><li>Crashes converted into messages.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Door checks converted two detonations into two polite sentences.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Guard seats 0-1; try 5.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Guard seats 0–1, then try 5.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="5" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: s.length() hoping non-null</b>Why: Hope is not a guard.<br><b>✅ Fix:</b> <code>if (s != null &amp;&amp; !s.isEmpty())</code></div><div class="callout warn"><b>❌ Mistake 2: Catching NullPointer to “fix”</b>Why: Hides the bug.<br><b>✅ Fix:</b> <code>Prevent null; fix source.</code></div><div class="callout err"><b>❌ Mistake 3: Cryptic “Error!!”</b>Why: Unactionable.<br><b>✅ Fix:</b> <code>“Age must be 0..150, got -5.”</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: s.length() on a hopeful non-null.</b>Why: Hope is not a guard — one null, one crash.<br><b>✅ Fix:</b> <code>Check first: if (s != null &amp;&amp; !s.isEmpty()).</code></div><div class="callout warn"><b>❌ Mistake 2: Catching NullPointerException to “handle” it.</b>Why: Treats the symptom, buries the disease — the null source lives on.<br><b>✅ Fix:</b> <code>PREVENT the null; fix whatever produced it.</code></div><div class="callout err"><b>❌ Mistake 3: &quot;Error!!&quot; as the entire message.</b>Why: Unactionable: which rule? what value? where?<br><b>✅ Fix:</b> <code>Name rule plus evidence: &quot;Age must be 0-150&quot;.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Guard it</b><p>Guard a[5] on length-2.</p>
+  <div class="practice"><b>Guard the seat</b><p>Guard a[5] on a length-2 array with a friendly fallback.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>if length &gt; 5.</div><div class="sol callout"><b>Solution</b>if (i &gt;= 0 &amp;&amp; i &lt; a.length)...</div></div><div class="practice"><b>Bug or expected?</b><p>Missing user file: bug or handle?</p>
+  <div class="hint callout"><b>Hint</b>Bounds check first.</div><div class="sol callout"><b>Solution</b>if (i &gt;= 0 &amp;&amp; i &lt; a.length) use it; else report &quot;No seat 5&quot;.</div></div><div class="practice"><b>Bug or weather?</b><p>A user’s config file is missing. Bug to fix, or event to handle?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Users lose files.</div><div class="sol callout"><b>Solution</b>Expected → default + message.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Users lose files; code does not.</div><div class="sol callout"><b>Solution</b>Expected event: start with defaults and tell the user.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Know the 5 faces.</li><li>Validate at the door.</li><li>Bugs fixed; expected handled.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Name 3 suspects + their guard.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Add one guard to your input code.</div>
+  <div class="prose"><ul><li>Know the five faces by name.</li><li>Validate at the door; fail fast and loud.</li><li>Bugs get fixed; expected events get handled.</li><li>Messages carry rule plus value plus place.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Name three suspects plus each one’s door-guard.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Add ONE real guard to your input code this week.</div>
   <p><b>Related:</b> <a href="../lessons/exceptions.html">Exception Handling: try/catch/finally</a> · <a href="./collections.html">Next: Collections: List, Set, Map →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -96,8 +111,8 @@ No seat 5</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'common-exceptions',[{"id":"q1","prompt":"Null-safe length?","options":[{"t":"s != null check first","ok":true},{"t":"Try and pray"},{"t":"Catch and ignore"},{"t":"Delete s"}],"explain":"Guard at door."},{"id":"q2","prompt":"Catching NullPointer instead of fixing?","options":[{"t":"Bad — hides bug","ok":true},{"t":"Great"},{"t":"Required"},{"t":"Faster"}],"explain":"Fix source."},{"id":"q3","prompt":"Good error message…","options":[{"t":"States rule + got value","ok":true},{"t":"“Error!!”"},{"t":"Blank"},{"t":"Stack only"}],"explain":"Actionable."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Ghost: null → NPE.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">👻 null.length() 💥\u003c/div>\u003c/div>"},{"caption":"Wrong seat: a[5] → bounds.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">💺 a[5] on len-2 💥\u003c/div>\u003c/div>"},{"caption":"ID check: guard → message ✓.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🛡️ check first → safe\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'common-exceptions',[{"id":"q1","prompt":"Null-safe length needs…","options":[{"t":"A null check before touching","ok":true},{"t":"Hope and prayer"},{"t":"Catch-and-ignore"},{"t":"Deleting s"}],"explain":"ID check at the door, always."},{"id":"q2","prompt":"Catching NullPointer instead of fixing the source is…","options":[{"t":"Bug-burying — fix the producer","ok":true},{"t":"Best practice"},{"t":"Required by Java"},{"t":"Faster code"}],"explain":"Silence is not a cure."},{"id":"q3","prompt":"A genuinely helpful error message…","options":[{"t":"States the rule plus the offending value","ok":true},{"t":"Says \"Error!!\""},{"t":"Is blank"},{"t":"Shows only a stack"}],"explain":"Rule plus evidence = actionable."},{"id":"q4","prompt":"Index guards must check…","options":[{"t":"0 \u003c= i \u003c length","ok":true},{"t":"i > 0 only"},{"t":"i != 0"},{"t":"Nothing — trust"}],"explain":"Both walls matter: negatives crash too."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Ghost guest: null length detonates.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">null.length() !\u003c/div>\u003c/div>"},{"caption":"Wrong seat: index 5 on length 2.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a[5] on len-2 !\u003c/div>\u003c/div>"},{"caption":"Door policy: check first, stay safe.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">check first → safe\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

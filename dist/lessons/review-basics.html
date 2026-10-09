@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Review: Basics Checkpoint · Java Foundations</title>
-<meta name="description" content="Pause and strengthen: stages 1-2 in one sweep. Your review queue below spotlights what you personally missed.">
+<meta name="description" content="Pause and strengthen: stages 1–2 in one sweep. This checkpoint replays the big three — pipeline, types, text — and your personal review queue spotlights what YOU missed.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,62 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Pause and strengthen: stages 1-2 in one sweep. Your review queue below spotlights what you personally missed.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What sticks after two stages — and what needs one more rep?</div>
+  <div class="prose"><p>Pause and strengthen: stages 1–2 in one sweep. This checkpoint replays the big three — pipeline, types, text — and your personal review queue spotlights what YOU missed.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What actually stuck after two stages — and what needs exactly one more rep?</div>
   <h2>Objectives</h2><ul><li>Recall stages 1-2</li><li>Fix weak spots</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/scanner.html">User Input with Scanner</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Garden check-up: walk rows 1-2, water dry spots (missed quizzes), praise blooming ones. Personal review beats re-reading everything.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: gardens need seasons. One review helps; spaced repeats (later projects) lock it in.</div></div></section>
+  <div class="prose"><p>The garden check-up. Walk rows 1–2, water ONLY the dry spots (your missed quizzes), praise the blooming ones. Targeted review beats re-reading everything by miles.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: one watering never finishes a garden. This checkpoint helps; the spaced repeats inside later PROJECTS lock it in permanently.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Revisit: <b>programs</b> (input→process→output), <b>JDK→JVM</b> pipeline, <b>variables + types</b>, <b>casting</b>, <b>strings + Scanner</b>.</p><p>Open your <b>Review section</b> (progress page): missed questions resurface here first.</p><p>Rule: explain each answer aloud in one sentence before checking.</p></div></section>
+  <div class="prose"><p>Replay the pipeline: <b>source → javac → bytecode → JVM</b>. JDK builds, JRE runs, JVM executes. File name matches class, case included.</p><p>Replay types: <b>8 primitives</b>, int/double defaults, L/f suffixes, int-division truncation, casts chop. Plus references: slips vs houses, null guards.</p><p>Replay text: <b>+ knots new strings</b> left-to-right, equals compares content, length counts all, and the Scanner newline crumb gets eaten.</p><p>Method: COVER each answer and recall before checking. Blurt the 8 primitives from memory. Re-run one full program by hand. Passive rereading is the enemy.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Retrieval practice</b> (recalling without looking) builds far stronger memory than rereading — every recall box here is the actual study technique.</li><li><b>Spaced repetition</b>: this checkpoint plus project reuse beats cramming. Missed-quiz review (progress page) automates the spacing.</li><li>Explain each fix ALOUD in one sentence. Teaching — even to a rubber duck — exposes fake understanding instantly.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Water dry spots</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Water the dry spots</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int a = 5, b = 2;
-System.out.println(a / b);      // ?
-System.out.println(a / 2.0);    // ?
+System.out.println(a / b);   // int math: ?
+System.out.println(a / 2.0); // double math: ?
 String s = &quot;hi&quot;;
-System.out.println(s + &quot;!&quot;);    // ?">Copy</button></div>
+System.out.println(s + &quot;!&quot;);  // new string: ?">Copy</button></div>
   <pre><code>int a = 5, b = 2;
-System.out.println(a / b);      // ?
-System.out.println(a / 2.0);    // ?
+System.out.println(a / b);   // int math: ?
+System.out.println(a / 2.0); // double math: ?
 String s = &quot;hi&quot;;
-System.out.println(s + &quot;!&quot;);    // ?</code></pre><div class="out">▶ Output
-2
-2.5
-hi!</div></div>
-  <ul class="linenotes"><li>int/int vs double.</li><li>String + builds new.</li><li>Predict before running.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Truncation, widening, and concat — the big three of stage 2.</div></div></section>
+System.out.println(s + &quot;!&quot;);  // new string: ?</code></pre><div class="out">▶ Output
+2, then 2.5, then hi!.</div></div>
+  <ul class="linenotes"><li>int/int truncates before anyone sees decimals.</li><li>One double lifts the whole expression.</li><li>Plus with text builds a fresh string.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Truncation, widening, and concat — the big three of stage 2, in four lines.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Reps: int division.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Reps: divide ints, feel truncation.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="5" size="8" aria-label="value"> <select data-in aria-label="operator"><option>/</option></select> <input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Rereading without recall</b>Why: Illusion of knowing.<br><b>✅ Fix:</b> <code>Cover answers; recall first.</code></div><div class="callout warn"><b>❌ Mistake 2: Skipping the newline trap</b>Why: It returns in projects!<br><b>✅ Fix:</b> <code>Re-do one Scanner exercise.</code></div><div class="callout err"><b>❌ Mistake 3: == for strings again</b>Why: Old habit.<br><b>✅ Fix:</b> <code>equals — tattoo it (mentally).</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Rereading lessons without recall.</b>Why: Fluency illusion: recognition feels like knowledge.<br><b>✅ Fix:</b> <code>Cover answers; recall FIRST, then check.</code></div><div class="callout warn"><b>❌ Mistake 2: Skipping the newline trap “just this once”.</b>Why: It returns inside every project with input.<br><b>✅ Fix:</b> <code>Re-do one Scanner exercise end to end.</code></div><div class="callout err"><b>❌ Mistake 3: == for strings, AGAIN.</b>Why: Old habits resurrect under pressure.<br><b>✅ Fix:</b> <code>equals — say it while typing, until boring.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Blurting</b><p>Write all 8 primitives from memory.</p>
+  <div class="practice"><b>Blurt the eight</b><p>Write all 8 primitives from memory with rough ranges.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>4 int-ish, 2 float, char, boolean.</div><div class="sol callout"><b>Solution</b>byte short int long float double char boolean.</div></div><div class="practice"><b>Fix three</b><p>Fix: (int)3.9→?, 5/2→2.5?, s==“x”?.</p>
+  <div class="hint callout"><b>Hint</b>4 integer-ish, 2 decimal, char, boolean.</div><div class="sol callout"><b>Solution</b>byte short int long float double char boolean — plus ranges from the types lesson.</div></div><div class="practice"><b>Fix all three</b><p>Fix: (int)3.9 “rounds”, 5/2 “is 2.5”, s == &quot;x&quot; compares.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Chop, cast, equals.</div><div class="sol callout"><b>Solution</b>3; (double)5/2; s.equals(&quot;x&quot;).</div></div></section>
+  <div class="hint callout"><b>Hint</b>Chop, cast, equals.</div><div class="sol callout"><b>Solution</b>(int)3.9 is 3 (chop); (double)5/2 is 2.5; s.equals(&quot;x&quot;) compares.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Input→process→output; JDK→JVM.</li><li>Types + truncation + equals.</li><li>Scanner trap: eat newline.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Teach stages 1-2 to a rubber duck in 2 minutes.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Retry every missed quiz from stages 1-2.</div>
+  <div class="prose"><ul><li>Pipeline: source, javac, bytecode, JVM.</li><li>Types plus truncation plus equals.</li><li>Scanner trap: eat the newline.</li><li>Recall beats rereading, always.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Teach stages 1–2 to a rubber duck in 2 minutes flat.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Retry EVERY missed quiz from stages 1–2 this week.</div>
   <p><b>Related:</b> <a href="../lessons/scanner.html">User Input with Scanner</a> · <a href="./boolean-expr.html">Next: Boolean Expressions →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +95,8 @@ hi!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'review-basics',[{"id":"q1","prompt":"5/2 (ints) vs 5/2.0?","options":[{"t":"2 vs 2.5","ok":true},{"t":"2.5 vs 2"},{"t":"Both 2"},{"t":"Both 2.5"}],"explain":"Int truncates; double lifts."},{"id":"q2","prompt":"JDK contains…","options":[{"t":"JRE + compiler + tools","ok":true},{"t":"Only the JVM"},{"t":"Only libraries"},{"t":"Nothing"}],"explain":"Full kitchen."},{"id":"q3","prompt":"After nextInt, read a line: ?","options":[{"t":"Extra nextLine first","ok":true},{"t":"Nothing needed"},{"t":"Close Scanner"},{"t":"Use nextInt again"}],"explain":"Eat the newline."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Row 1: pipeline green.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">javac → java ✓\u003c/div>\u003c/div>"},{"caption":"Row 2: types need water.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">5/2 = 2 💧 review\u003c/div>\u003c/div>"},{"caption":"Bloom: equals + Scanner ✓.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">equals ✓ newline ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'review-basics',[{"id":"q1","prompt":"5/2 (ints) versus 5/2.0?","options":[{"t":"2 versus 2.5","ok":true},{"t":"2.5 versus 2"},{"t":"Both 2"},{"t":"Both 2.5"}],"explain":"Int truncates; a double lifts the math."},{"id":"q2","prompt":"The JDK contains…","options":[{"t":"JRE plus compiler plus tools","ok":true},{"t":"Only the JVM"},{"t":"Only libraries"},{"t":"Nothing extra"}],"explain":"The full kitchen: build AND run."},{"id":"q3","prompt":"After nextInt, reading a full line needs…","options":[{"t":"One extra nextLine first","ok":true},{"t":"Nothing special"},{"t":"Closing the Scanner"},{"t":"Another nextInt"}],"explain":"Eat the abandoned newline crumb."},{"id":"q4","prompt":"Best review method, scientifically?","options":[{"t":"Recall without looking (retrieval)","ok":true},{"t":"Rereading highlights"},{"t":"Watching videos fast"},{"t":"Copying notes"}],"explain":"Retrieval builds memory; rereading builds illusions."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Row 1: pipeline green and steady.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">javac to java done\u003c/div>\u003c/div>"},{"caption":"Row 2: types thirsty — water 5/2.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">5/2 = 2, review\u003c/div>\u003c/div>"},{"caption":"Bloom: equals plus Scanner clean.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">equals, newline done\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

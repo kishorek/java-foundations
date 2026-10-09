@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Useful String Methods · Java Foundations</title>
-<meta name="description" content="Strings come with a toolkit: measure, peek, slice, compare, clean. Learn 7 and you handle 90% of text tasks.">
+<meta name="description" content="Strings ship with a power toolkit: measure, peek, slice, find, compare, clean, split. Seven methods handle roughly 90% of all text work you will ever do.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,63 +32,78 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Strings come with a toolkit: measure, peek, slice, compare, clean. Learn 7 and you handle 90% of text tasks.</p>
-  <div class="callout"><b>🔎 Motivating question</b>If books had instant tools — length, find word, tear chapter — which would you use daily?</div>
+  <div class="prose"><p>Strings ship with a power toolkit: measure, peek, slice, find, compare, clean, split. Seven methods handle roughly 90% of all text work you will ever do.</p>
+  <div class="callout"><b>🔎 Motivating question</b>If books had instant tools — ruler, tweezers, scissors, finder — which would you reach for daily?</div>
   <h2>Objectives</h2><ul><li>Use length, charAt, substring</li><li>Compare with equals</li><li>Split and trim text</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/arrays-2d.html">Two-Dimensional Arrays</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Swiss knife: length() ruler, charAt() tweezers, substring() scissors, equals() scale, toUpperCase() megaphone, trim() towel, split() cutter.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: scissors on strings return new paper — originals never cut (immutability, next lesson).</div></div></section>
+  <div class="prose"><p>The Swiss knife. length() the ruler, charAt() the tweezers, substring() the scissors, equals() the scale, toUpperCase() the megaphone, trim() the towel, split() the cutter. One tool per job.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real scissors cut the original. String scissors return FRESH paper — the original never changes (immutability, next lesson). Forgetting this discards every “edit”.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>length()</b>, <b>charAt(i)</b>, <b>substring(a,b)</b> (b excluded!), <b>indexOf(x)</b> (-1 = missing).</p><p><b>equals()</b> content; <b>equalsIgnoreCase()</b>; <b>toUpperCase/LowerCase()</b>; <b>trim()</b>; <b>split(",")</b>.</p><p>Indexes 0-based; charAt(length) crashes like arrays.</p></div></section>
+  <div class="prose"><p>Measure & peek: <b>length()</b>, <b>charAt(i)</b> (0-based, crashes past the end like arrays), <b>indexOf(x)</b> returning −1 for “absent”.</p><p>Slice: <b>substring(start, end)</b> — start INCLUDED, end EXCLUDED. "Java".substring(0, 2) is "Ja", never "Jav".</p><p>Compare & clean: <b>equals()</b> and <b>equalsIgnoreCase()</b> for content; <b>toUpperCase()/toLowerCase()</b>; <b>trim()</b> shaves edge whitespace; <b>split(",")</b> cuts "a,b" into ["a","b"].</p><p>Case matters everywhere: equals is exact, indexOf finds exact case, and charAt(length) is out-of-bounds — text has doors too.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>substring shares nothing</b> (modern JVMs copy) — but treat results as fresh strings regardless; the original is never modified.</li><li><b>split takes a REGEX</b>, not plain text: split(".") splits on EVERYTHING (dot = any char). Escape it: split("\\."). A genuine trap.</li><li><b>indexOf</b> has overloads: indexOf("a", 5) searches FROM position 5 — the backbone of find-all loops.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Swiss knife</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Swiss knife demo</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="String s = &quot;  Java Rocks  &quot;;
-System.out.println(s.trim());
-System.out.println(s.trim().length());
-System.out.println(&quot;Java&quot;.equals(&quot;java&quot;));
-System.out.println(&quot;Java&quot;.substring(0, 2));">Copy</button></div>
-  <pre><code>String s = &quot;  Java Rocks  &quot;;
-System.out.println(s.trim());
-System.out.println(s.trim().length());
-System.out.println(&quot;Java&quot;.equals(&quot;java&quot;));
-System.out.println(&quot;Java&quot;.substring(0, 2));</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    String s = &quot;  Java Rocks  &quot;;
+    String clean = s.trim();
+    System.out.println(clean);
+    System.out.println(&quot;len = &quot; + clean.length());
+    System.out.println(&quot;Java vs java: &quot; + &quot;Java&quot;.equals(&quot;java&quot;));
+    System.out.println(&quot;slice = &quot; + &quot;Java&quot;.substring(0, 2));
+    System.out.println(&quot;at = &quot; + &quot;Java&quot;.indexOf(&quot;v&quot;));
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    String s = &quot;  Java Rocks  &quot;;
+    String clean = s.trim();
+    System.out.println(clean);
+    System.out.println(&quot;len = &quot; + clean.length());
+    System.out.println(&quot;Java vs java: &quot; + &quot;Java&quot;.equals(&quot;java&quot;));
+    System.out.println(&quot;slice = &quot; + &quot;Java&quot;.substring(0, 2));
+    System.out.println(&quot;at = &quot; + &quot;Java&quot;.indexOf(&quot;v&quot;));
+  }
+}</code></pre><div class="out">▶ Output
 Java Rocks
-10
-false
-Ja</div></div>
-  <ul class="linenotes"><li>trim removes edge spaces.</li><li>Length after trim = 10.</li><li>substring(0,2) = Ja.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Cleaned, measured, compared (case matters!), sliced.</div></div></section>
+len = 10
+Java vs java: false
+slice = Ja
+at = 2</div></div>
+  <ul class="linenotes"><li>trim shaves edge spaces → "Java Rocks", length 10.</li><li>equals is case-exact → false.</li><li>substring(0,2) keeps 0–1 → "Ja"; indexOf("v") → 2.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Cleaned, measured, compared (case counts!), sliced with excluded end, located by position.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Clean + slice text.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Clean text then slice it.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="  Java " size="8" aria-label="value"> <input data-in value="Rocks" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: s == &quot;Java&quot;</b>Why: House compare.<br><b>✅ Fix:</b> <code>s.equals(&quot;Java&quot;)</code></div><div class="callout warn"><b>❌ Mistake 2: substring(0, 5) expecting 5 chars inclusive</b>Why: End excluded.<br><b>✅ Fix:</b> <code>0..5 gives 0-4.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting trim result</b>Why: Returns new string!<br><b>✅ Fix:</b> <code>s = s.trim();</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: s == &quot;Java&quot; to compare words.</b>Why: Identity again — same content, usually different houses.<br><b>✅ Fix:</b> <code>s.equals(&quot;Java&quot;) for content, always.</code></div><div class="callout warn"><b>❌ Mistake 2: substring(0, 5) expecting FIVE inclusive chars.</b>Why: End index is EXCLUDED: 0..5 yields positions 0–4.<br><b>✅ Fix:</b> <code>Want 5 chars? substring(0, 5) gives exactly 5 — positions 0,1,2,3,4.</code></div><div class="callout err"><b>❌ Mistake 3: s.trim(); then using s unchanged.</b>Why: trim returns a FRESH string; the call alone edits nothing.<br><b>✅ Fix:</b> <code>Catch it: s = s.trim();</code></div><div class="callout err"><b>❌ Mistake 4: split(&quot;.&quot;) to cut on dots.</b>Why: split takes REGEX — &quot;.&quot; means “any character”, shredding everything.<br><b>✅ Fix:</b> <code>Escape it: split(&quot;\\.&quot;) — regex tax.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>First 3</b><p>First 3 chars of name.</p>
+  <div class="practice"><b>First three</b><p>Take the first 3 characters of any name variable.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>substring(0,3).</div><div class="sol callout"><b>Solution</b>name.substring(0, 3);</div></div><div class="practice"><b>Find @</b><p>Check email contains @.</p>
+  <div class="hint callout"><b>Hint</b>substring(0, 3).</div><div class="sol callout"><b>Solution</b>name.substring(0, 3); // positions 0,1,2</div></div><div class="practice"><b>Find the @</b><p>Check whether an email String contains &quot;@&quot;.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>indexOf != -1.</div><div class="sol callout"><b>Solution</b>email.indexOf(&quot;@&quot;) != -1;</div></div></section>
+  <div class="hint callout"><b>Hint</b>indexOf returns −1 when absent.</div><div class="sol callout"><b>Solution</b>email.indexOf(&quot;@&quot;) != -1;</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>7 tools cover most text jobs.</li><li>End index excluded; -1 means missing.</li><li>Methods return new strings.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Which method finds a word’s position?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Clean + slice your full name 3 ways.</div>
+  <div class="prose"><ul><li>Seven tools cover nearly all text jobs.</li><li>End index excluded; −1 means absent.</li><li>Methods return fresh strings — catch them.</li><li>Case always matters; split takes regex.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Which method finds a word’s position, and what does “absent” look like?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Clean, slice, and search your own full name three ways.</div>
   <p><b>Related:</b> <a href="../lessons/arrays-2d.html">Two-Dimensional Arrays</a> · <a href="./string-immut.html">Next: String Immutability →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -96,8 +111,8 @@ Ja</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'string-methods',[{"id":"q1","prompt":"\"Java\".substring(0,2)?","options":[{"t":"Ja","ok":true},{"t":"Jav"},{"t":"av"},{"t":"JaV"}],"explain":"End excluded."},{"id":"q2","prompt":"indexOf missing gives?","options":[{"t":"-1","ok":true},{"t":"0"},{"t":"null"},{"t":"Error"}],"explain":"-1 = absent."},{"id":"q3","prompt":"Compare text?","options":[{"t":"equals()","ok":true},{"t":"=="},{"t":"="},{"t":"!="}],"explain":"Content check."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Ruler: length 10.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Java Rocks\" → 10\u003c/div>\u003c/div>"},{"caption":"Tweezers: charAt(0) = J.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">pick slot 0 → J\u003c/div>\u003c/div>"},{"caption":"Scissors: substring(0,2) = Ja.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">cut 0..2 → Ja ✂️\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'string-methods',[{"id":"q1","prompt":"\"Java\".substring(0, 2) is…","options":[{"t":"Ja","ok":true},{"t":"Jav"},{"t":"av"},{"t":"avJ"}],"explain":"End excluded: positions 0 and 1 only."},{"id":"q2","prompt":"indexOf for a missing piece returns…","options":[{"t":"-1","ok":true},{"t":"0"},{"t":"null"},{"t":"A crash"}],"explain":"−1 is the universal “absent” signal."},{"id":"q3","prompt":"Text content compares with…","options":[{"t":"equals()","ok":true},{"t":"=="},{"t":"="},{"t":"!="}],"explain":"Content check — identity need not apply."},{"id":"q4","prompt":"split(\".\") misbehaves because…","options":[{"t":"split takes regex, and . means “any char”","ok":true},{"t":"Dots are illegal"},{"t":"Split needs two dots"},{"t":"Strings cannot split"}],"explain":"Escape the dot: split(\"\\\\.\")."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Ruler: \"Java Rocks\" is 10 long.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Java Rocks\" → 10\u003c/div>\u003c/div>"},{"caption":"Tweezers: charAt(0) plucks J.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">pick slot 0 → J\u003c/div>\u003c/div>"},{"caption":"Scissors: substring(0,2) cuts Ja.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">cut 0..2 → Ja ✂️\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

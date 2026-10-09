@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Review: OOP Checkpoint · Java Foundations</title>
-<meta name="description" content="Blueprints to packages: can you model a tiny library from scratch? This checkpoint connects the whole OOP arc.">
+<meta name="description" content="Blueprints to packages: can you model a tiny library from NOTHING? This checkpoint chains the entire OOP arc into one buildable story.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 20 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Blueprints to packages: can you model a tiny library from scratch? This checkpoint connects the whole OOP arc.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What makes a library more than a pile of books?</div>
+  <div class="prose"><p>Blueprints to packages: can you model a tiny library from NOTHING? This checkpoint chains the entire OOP arc into one buildable story.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What makes a library MORE than a pile of books?</div>
   <h2>Objectives</h2><ul><li>Recall classes to packages</li><li>Fix weak spots</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/packages.html">Packages and Imports</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Museum audit: rooms (packages), exhibits (objects), rules (encapsulation), wings (inheritance), passes (interfaces), combined installs (composition).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: audits admire; builders build. Finish by coding the mini-library below.</div></div></section>
+  <div class="prose"><p>The museum audit. Rooms (packages), exhibits (objects), rules (encapsulation), wings (inheritance), passes (interfaces), combined installs (composition). Audit, then BUILD.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: audits admire; builders build. Reading this review twice teaches nothing — the mini-library below must be TYPED and RUN.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Chain: <b>class/object → fields/methods → constructor/this → encapsulation → static → inheritance/override → polymorphism → abstract/interface → composition → packages</b>.</p><p>One-line each: say what problem each solves (reuse? safety? swap?).</p><p>Then build: Book + Library with borrow/return, tested by hand.</p></div></section>
+  <div class="prose"><p>Chain it aloud: <b>class/object → fields/methods → constructor/this → encapsulation → static → inheritance/override → polymorphism → abstract/interface → composition → packages</b>.</p><p>One line EACH: what problem does it solve? Reuse? Safety? Swap-ability? If any link lacks a one-liner, revisit that lesson now.</p><p>Then BUILD: Book plus Library with borrow/return, tested by hand with two books and three operations. Small, complete, yours.</p><p>Finish by explaining your design to the duck: why composition here, why private there, what would break if public.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Design interviews probe EXACTLY this chain: “model a library” tests every link in 20 minutes. This review is interview prep in disguise.</li><li>The <b>is-a test</b> plus <b>one-job methods</b> plus <b>private-first</b> cover most design sins beginners commit.</li><li>Prefer <b>has-a</b> by default; inherit for true kinds; promise with interfaces; shelve with packages. The full decision tree, one breath.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Museum audit</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -50,46 +51,47 @@
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class MiniBook {
-  private String title;
-  MiniBook(String t){ title = t; }
-  String getTitle(){ return title; }
+  private String title;              // vault
+  MiniBook(String t) { title = t; }  // birth
+  String getTitle() { return title; } // window
 }
 MiniBook b = new MiniBook(&quot;Dune&quot;);
-System.out.println(b.getTitle());">Copy</button></div>
+// b.getTitle() gives &quot;Dune&quot;">Copy</button></div>
   <pre><code>class MiniBook {
-  private String title;
-  MiniBook(String t){ title = t; }
-  String getTitle(){ return title; }
+  private String title;              // vault
+  MiniBook(String t) { title = t; }  // birth
+  String getTitle() { return title; } // window
 }
 MiniBook b = new MiniBook(&quot;Dune&quot;);
-System.out.println(b.getTitle());</code></pre><div class="out">▶ Output
-Dune</div></div>
-  <ul class="linenotes"><li>Private + constructor + getter.</li><li>The OOP minimum.</li><li>Next: add borrowed flag.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Encapsulated birth + safe read.</div></div></section>
+// b.getTitle() gives &quot;Dune&quot;</code></pre><div class="out">▶ Output
+&quot;Dune&quot; via the safe window.</div></div>
+  <ul class="linenotes"><li>Private plus constructor plus getter: the OOP minimum.</li><li>Add borrowed flag plus borrow/return next.</li><li>Then a Library holding many MiniBooks.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Encapsulated birth plus guarded read — the smallest honest object.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Assemble the minimum.</span>
-  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Dune" size="8" aria-label="value"> <input data-in value=" ✓" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
+  <span style="font-size:.9rem;color:var(--ink-2)">Assemble the OOP minimum.</span>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Dune" size="8" aria-label="value"> <input data-in value=" ready" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: All public “for speed”</b>Why: No guards.<br><b>✅ Fix:</b> <code>Private + methods.</code></div><div class="callout warn"><b>❌ Mistake 2: Inheritance for Library-Book</b>Why: Wrong is-a.<br><b>✅ Fix:</b> <code>Compose.</code></div><div class="callout err"><b>❌ Mistake 3: God class does all</b>Why: Untestable.<br><b>✅ Fix:</b> <code>Split Book/Library.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: All-public “for speed”.</b>Why: No guards, no rules, no safety — fast today, broken forever.<br><b>✅ Fix:</b> <code>Private plus methods. Always.</code></div><div class="callout warn"><b>❌ Mistake 2: Inheritance for Library–Book.</b>Why: Failed is-a test, accepted anyway.<br><b>✅ Fix:</b> <code>Compose: Library HAS books.</code></div><div class="callout err"><b>❌ Mistake 3: God-class doing everything.</b>Why: Untestable blob; changes detonate randomly.<br><b>✅ Fix:</b> <code>Split Book from Library from UI.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Add state</b><p>Add borrowed + borrow()/returnBook().</p>
+  <div class="practice"><b>Add state</b><p>Add borrowed plus borrow() and returnBook() to MiniBook.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>boolean + two methods.</div><div class="sol callout"><b>Solution</b>private boolean borrowed; void borrow(){...}</div></div><div class="practice"><b>Add Library</b><p>Library holds List&lt;MiniBook&gt; + add().</p>
+  <div class="hint callout"><b>Hint</b>boolean plus two one-line methods.</div><div class="sol callout"><b>Solution</b>private boolean borrowed; void borrow() { borrowed = true; } void returnBook() { borrowed = false; }</div></div><div class="practice"><b>Add the Library</b><p>Library holds many MiniBooks plus add(). Which relation?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Composition.</div><div class="sol callout"><b>Solution</b>class Library{ List&lt;MiniBook&gt; books = new ArrayList&lt;&gt;(); ... }</div></div></section>
+  <div class="hint callout"><b>Hint</b>Holder, not kind.</div><div class="sol callout"><b>Solution</b>class Library { ... list of MiniBook ... } — composition.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Model: has-a vs is-a first.</li><li>Encapsulate, then polymorph.</li><li>Packages shelve it.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Tell the OOP story in 60 seconds.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Build MiniBook + Library + 3 tests.</div>
+  <div class="prose"><ul><li>Model has-a vs is-a FIRST.</li><li>Encapsulate, then polymorph.</li><li>Packages shelve the result.</li><li>Build it — reading is not training.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Tell the whole OOP story in 60 seconds, aloud.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Build MiniBook plus Library plus 3 hand-tests this week.</div>
   <p><b>Related:</b> <a href="../lessons/packages.html">Packages and Imports</a> · <a href="./exceptions.html">Next: Exception Handling: try/catch/finally →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +99,8 @@ Dune</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'review-oop',[{"id":"q1","prompt":"Library-Book relation?","options":[{"t":"Composition (has-a)","ok":true},{"t":"Inheritance"},{"t":"Override"},{"t":"Static"}],"explain":"Holder."},{"id":"q2","prompt":"this.title = title fixes…","options":[{"t":"Shadowing","ok":true},{"t":"Loops"},{"t":"Imports"},{"t":"Typos only"}],"explain":"Field vs param."},{"id":"q3","prompt":"Interface allows…","options":[{"t":"Many per class","ok":true},{"t":"One parent only (same as class)"},{"t":"New directly"},{"t":"State storage"}],"explain":"Many sockets."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Rooms: packages shelve.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">📦 com.lib\u003c/div>\u003c/div>"},{"caption":"Exhibits: objects with rules.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">📕 Dune · guarded\u003c/div>\u003c/div>"},{"caption":"Passes: interfaces combine.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔌 Borrowable ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'review-oop',[{"id":"q1","prompt":"Library–Book relation?","options":[{"t":"Composition (has-a)","ok":true},{"t":"Inheritance"},{"t":"Overriding"},{"t":"A static"}],"explain":"Holder, never kind."},{"id":"q2","prompt":"this.title = title fixes…","options":[{"t":"Shadowing (field vs parameter)","ok":true},{"t":"Loops"},{"t":"Imports"},{"t":"Typos only"}],"explain":"Disambiguation, surgical."},{"id":"q3","prompt":"One class may implement…","options":[{"t":"Many interfaces","ok":true},{"t":"One parent (same as class)"},{"t":"Nothing"},{"t":"Only one"}],"explain":"Many sockets per device."},{"id":"q4","prompt":"Design default: prefer…","options":[{"t":"has-a; inherit true kinds; promise via interfaces","ok":true},{"t":"Always inherit"},{"t":"Always public"},{"t":"One giant class"}],"explain":"The full decision tree in one breath."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Rooms: packages shelve exhibits.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">com.lib shelves\u003c/div>\u003c/div>"},{"caption":"Exhibits: guarded objects.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Dune, guarded\u003c/div>\u003c/div>"},{"caption":"Passes: interfaces combine.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Borrowable promise\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

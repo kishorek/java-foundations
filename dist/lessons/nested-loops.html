@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nested Loops · Java Foundations</title>
-<meta name="description" content="A loop inside a loop draws tables, grids, and patterns. Outer = rows, inner = seats per row.">
+<meta name="description" content="A loop inside a loop draws tables, grids, and patterns. The outer loop picks the ROW; the inner loop visits every SEAT in that row. Clocks do this (hours × minutes); cinemas do this (rows × seats).">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,63 +32,76 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>A loop inside a loop draws tables, grids, and patterns. Outer = rows, inner = seats per row.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How does a cinema fill 5 rows × 8 seats without naming each seat?</div>
+  <div class="prose"><p>A loop inside a loop draws tables, grids, and patterns. The outer loop picks the ROW; the inner loop visits every SEAT in that row. Clocks do this (hours × minutes); cinemas do this (rows × seats).</p>
+  <div class="callout"><b>🔎 Motivating question</b>How does one usher seat 5 rows × 8 chairs without memorizing every chair?</div>
   <h2>Objectives</h2><ul><li>Trace inner/outer counters</li><li>Print grids and tables</li><li>Count total iterations</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/break-continue.html">break and continue</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Cinema usher: outer walks rows 1-5; for each row, inner counts seats 1-8. Total visits = rows × seats. Clocks do this too (hours × minutes).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: ushers get tired quadratically. 100×100 = 10,000 visits — nested loops can get slow fast.</div></div></section>
+  <div class="prose"><p>The cinema usher walks rows 1–5 (outer); at EACH row, they count seats 1–8 (inner, restarting every row). Total seat visits = rows × seats = 40. The inner loop always runs to completion per outer round.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: ushers tire linearly, but nested work multiplies QUADRATICALLY — 100×100 is 10,000 visits, 10,000×10,000 is a hundred million. Nested loops are the #1 accidental slowness.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Outer</b> picks row; <b>inner</b> runs fully per row. Use different counters (r, c).</p><p>Total = rows × cols. Trace small (2×3) before big.</p><p>Print grids: inner print(), outer println() for new row.</p></div></section>
+  <div class="prose"><p>Structure: the <b>outer</b> counter picks the row; the <b>inner</b> counter runs FULLY for each row. Use DIFFERENT variables (r and c) — sharing one corrupts the outer count.</p><p>Total inner runs = <b>rows × cols</b>. Always trace a tiny 2×3 before trusting a 100×100.</p><p>Grid printing pattern: inner uses <b>print</b> (stay on row), outer ends with <b>println</b> (new row). Swap them and the grid collapses into confetti.</p><p>Inner loops restart fresh each outer round — c goes 1..3 for EVERY r. Forgetting the restart is impossible structurally (the inner for re-initializes), which is the beauty of it.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Time cost multiplies: O(rows × cols). A 1000×1000 grid is a MILLION inner runs — feel this before writing image or table code.</li><li><b>break</b> exits only its OWN loop; escaping both needs a labeled break or a method return.</li><li>Rectangular grids use equal inner counts; <b>jagged</b> grids vary per row — arrays-2d makes this concrete.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Cinema fill</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Cinema seating</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="for (int r = 1; r &lt;= 2; r++) {
-  for (int c = 1; c &lt;= 3; c++) {
-    System.out.print(r + &quot;x&quot; + c + &quot; &quot;);
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    for (int r = 1; r &lt;= 2; r++) {
+      for (int c = 1; c &lt;= 3; c++) {
+        System.out.print(r + &quot;x&quot; + c + &quot; &quot;);
+      }
+      System.out.println(); // end of row r
+    }
+    System.out.println(&quot;seats = 6&quot;);
   }
-  System.out.println();
 }">Copy</button></div>
-  <pre><code>for (int r = 1; r &lt;= 2; r++) {
-  for (int c = 1; c &lt;= 3; c++) {
-    System.out.print(r + &quot;x&quot; + c + &quot; &quot;);
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    for (int r = 1; r &lt;= 2; r++) {
+      for (int c = 1; c &lt;= 3; c++) {
+        System.out.print(r + &quot;x&quot; + c + &quot; &quot;);
+      }
+      System.out.println(); // end of row r
+    }
+    System.out.println(&quot;seats = 6&quot;);
   }
-  System.out.println();
 }</code></pre><div class="out">▶ Output
 1x1 1x2 1x3 
-2x1 2x2 2x3</div></div>
-  <ul class="linenotes"><li>Row 1: 1x1 1x2 1x3.</li><li>Row 2: 2x1 2x2 2x3.</li><li>println breaks the row.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Inner completes 3 per outer; 2×3 = 6 prints over 2 lines.</div></div></section>
+2x1 2x2 2x3 
+seats = 6</div></div>
+  <ul class="linenotes"><li>Row 1 prints 1x1 1x2 1x3, then println breaks the row.</li><li>Row 2 prints 2x1 2x2 2x3 the same way.</li><li>2 × 3 = 6 inner runs over 2 lines.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The inner loop completes all 3 seats per outer row; println separates rows; total = 2 × 3.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="loop"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Rows × seats: set rows.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Rows × seats: set the row count.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Reusing i in both loops</b>Why: Inner corrupts outer counter.<br><b>✅ Fix:</b> <code>Use r and c.</code></div><div class="callout warn"><b>❌ Mistake 2: println inside inner</b>Why: One per cell, not per row.<br><b>✅ Fix:</b> <code>print in inner, println in outer.</code></div><div class="callout err"><b>❌ Mistake 3: Huge nesting (1000×1000)</b>Why: Million visits — slow.<br><b>✅ Fix:</b> <code>Rethink or break early.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Reusing i in BOTH loops.</b>Why: The inner loop overwrites the outer counter — rows miscount, chaos, sometimes infinite.<br><b>✅ Fix:</b> <code>Outer r, inner c. Different jobs, different names.</code></div><div class="callout warn"><b>❌ Mistake 2: println inside the INNER loop.</b>Why: Every cell gets its own line — the grid becomes a vertical list.<br><b>✅ Fix:</b> <code>print inside, println in the outer after the inner finishes.</code></div><div class="callout err"><b>❌ Mistake 3: Casual 10000×10000 nesting “for a table”.</b>Why: A hundred million inner runs — the program appears frozen.<br><b>✅ Fix:</b> <code>Estimate rows × cols FIRST; break early or rethink.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Count visits</b><p>3 rows × 4 seats = ?</p>
+  <div class="practice"><b>Count the visits</b><p>3 rows × 4 seats: how many inner-loop runs?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Multiply.</div><div class="sol callout"><b>Solution</b>12 inner runs.</div></div><div class="practice"><b>Star triangle</b><p>Print *, **, *** with nested loops.</p>
+  <div class="hint callout"><b>Hint</b>Multiply.</div><div class="sol callout"><b>Solution</b>12 inner runs.</div></div><div class="practice"><b>Star triangle</b><p>Print this with nested loops: * then ** then ***.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Row r prints r stars.</div><div class="sol callout"><b>Solution</b>Outer r=1..3, inner c=1..r print *.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Row r prints exactly r stars.</div><div class="sol callout"><b>Solution</b>for (int r = 1; r &lt;= 3; r++) { for (int c = 1; c &lt;= r; c++) System.out.print(&quot;*&quot;); System.out.println(); }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Outer rows, inner seats.</li><li>Total = rows × cols.</li><li>Different counters; println per row.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>How many runs for 4×5?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Print a 4×4 multiplication corner.</div>
+  <div class="prose"><ul><li>Outer = rows, inner = seats per row.</li><li>Total work = rows × cols — estimate first.</li><li>Different counters; print inside, println per row.</li><li>Inner restarts fresh every outer round.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>How many inner runs for 4×5, and where does the row break go?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Print a 4×4 multiplication corner (r × c) as a grid.</div>
   <p><b>Related:</b> <a href="../lessons/break-continue.html">break and continue</a> · <a href="./methods.html">Next: Methods →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -96,8 +109,8 @@
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'nested-loops',[{"id":"q1","prompt":"2 rows × 3 cols = inner runs?","options":[{"t":"6","ok":true},{"t":"5"},{"t":"4"},{"t":"9"}],"explain":"Multiply."},{"id":"q2","prompt":"Use different counters because…","options":[{"t":"Sharing corrupts the outer count","ok":true},{"t":"Java requires a-z"},{"t":"Speed"},{"t":"Style only"}],"explain":"Inner would overwrite."},{"id":"q3","prompt":"New row via…","options":[{"t":"println in outer after inner","ok":true},{"t":"print in inner only"},{"t":"break always"},{"t":"No newline"}],"explain":"Row break after seats."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Row 1: seats 1-3.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Row1: 1x1 1x2 1x3\u003c/div>\u003c/div>"},{"caption":"Row 2: seats 1-3.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Row2: 2x1 2x2 2x3\u003c/div>\u003c/div>"},{"caption":"Total 6 = 2 × 3.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total\u003c/div>\u003cdiv class=\"vl\">6\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'nested-loops',[{"id":"q1","prompt":"2 rows × 3 cols means inner runs…","options":[{"t":"6","ok":true},{"t":"5"},{"t":"4"},{"t":"9"}],"explain":"Multiply: every row hosts a full inner run."},{"id":"q2","prompt":"Separate counters matter because…","options":[{"t":"A shared counter gets corrupted by the inner loop","ok":true},{"t":"Java requires the whole alphabet"},{"t":"It runs faster"},{"t":"Style points only"}],"explain":"The inner loop would overwrite the outer’s progress."},{"id":"q3","prompt":"A new grid row starts via…","options":[{"t":"println in the outer, after the inner","ok":true},{"t":"print in the inner only"},{"t":"break, always"},{"t":"No newline at all"}],"explain":"Row break after all its seats print."},{"id":"q4","prompt":"10 rows × 100 seats costs…","options":[{"t":"1000 inner runs","ok":true},{"t":"110 runs"},{"t":"100 runs"},{"t":"10 runs"}],"explain":"Multiply. Always estimate before nesting big."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Row 1: seats 1x1, 1x2, 1x3.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Row1: 1x1 1x2 1x3\u003c/div>\u003c/div>"},{"caption":"Row 2: seats 2x1, 2x2, 2x3.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Row2: 2x1 2x2 2x3\u003c/div>\u003c/div>"},{"caption":"Total 6 visits = 2 × 3.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total\u003c/div>\u003cdiv class=\"vl\">6\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

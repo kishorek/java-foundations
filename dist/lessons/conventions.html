@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Coding Conventions &amp; Maintainable Code · Java Foundations</title>
-<meta name="description" content="Readable code is kind code: clear names, small methods, tidy format. Future teammates (and you) read 10× more than write.">
+<meta name="description" content="Readable code is KIND code: clear names, small methods, tidy format. Everyone (including future you) READS ten times more than they write — optimize for readers.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Readable code is kind code: clear names, small methods, tidy format. Future teammates (and you) read 10× more than write.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do road signs share colors and shapes?</div>
+  <div class="prose"><p>Readable code is KIND code: clear names, small methods, tidy format. Everyone (including future you) READS ten times more than they write — optimize for readers.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do road signs share colors, shapes, and positions worldwide?</div>
   <h2>Objectives</h2><ul><li>Name well, format code</li><li>Write small methods</li><li>Explain readability payoff</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/maven-structure.html">Project Structure, Maven &amp; Dependencies</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Road rules: camelCase streets (userAge), PascalCase cities (TaskManager), UPPER roads (MAX_SIZE), braces like lane lines. google-java-format = self-driving painter.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: paint does not fix potholes (logic). Format + names help; tests prove.</div></div></section>
+  <div class="prose"><p>Road rules. camelCase streets (userAge), PascalCase cities (TaskManager), UPPER highways (MAX_SIZE), braces as lane lines. Formatters are self-driving painters — run one and never debate spacing again.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: fresh paint fixes no potholes (logic). Format plus names HELP reading; only TESTS prove correctness. Style is necessary, never sufficient.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Names</b>: variables/methods camelCase, classes PascalCase, constants UPPER. Booleans ask: isEmpty, canBorrow.</p><p><b>Small methods</b> (<20 lines), one job, early returns. <b>Format</b>: 2/4 spaces, braces always.</p><p><b>Comments</b> why; delete dead code; no magic numbers.</p></div></section>
+  <div class="prose"><p><b>Names</b>: variables/methods camelCase, classes PascalCase, constants UPPER_SNAKE. Booleans ASK: isEmpty, canBorrow, hasMoney — questions read true in ifs.</p><p><b>Small methods</b> (fits on screen, one job), early guard returns, braces ALWAYS (even single-line). Nesting past three deep wants extraction.</p><p><b>Format mechanically</b>: one formatter (google-java-format or IDE default), run on save. Debates about spaces are officially over.</p><p><b>Comments WHY</b>; delete dead code and magic numbers; keep lines short enough to read without scrolling. Code is UI for programmers.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Google Java Style: 2-space indent, 100-char lines, braces on ifs ALWAYS — the most common professional baseline.</li><li><b>Boy-scout rule</b>: leave every file cleaner than you found it — one rename, one extraction per visit compounds fast.</li><li>Linters (Checkstyle, Error Prone) automate taste: unused imports, hidden fields, and 200-line methods flagged at build time.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Road signs</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,23 +50,26 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// murky vs maintainable
-// int d; // days? dollars?
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// Murky vs maintainable
+// int d; // days? dollars? donuts?
 int daysUntilTrip = 7;
-boolean canBorrow(Book b) {
-  if (b == null) return false;
-  return b.isAvailable();
-}">Copy</button></div>
-  <pre><code>// murky vs maintainable
-// int d; // days? dollars?
+boolean fileExists(String path) {
+  return path != null &amp;&amp; !path.isEmpty();
+}
+// One 80-line method does print+save+email:
+// split into printBill(), saveBill(), emailBill().">Copy</button></div>
+  <pre><code>// Murky vs maintainable
+// int d; // days? dollars? donuts?
 int daysUntilTrip = 7;
-boolean canBorrow(Book b) {
-  if (b == null) return false;
-  return b.isAvailable();
-}</code></pre><div class="out">▶ Output
-(style — reads clean)</div></div>
-  <ul class="linenotes"><li>Name tells all.</li><li>Guard first, flat logic.</li><li>No mystery d.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Names + tiny methods explain themselves.</div></div></section>
+boolean fileExists(String path) {
+  return path != null &amp;&amp; !path.isEmpty();
+}
+// One 80-line method does print+save+email:
+// split into printBill(), saveBill(), emailBill().</code></pre><div class="out">▶ Output
+Style lesson: reads clean, runs the same.</div></div>
+  <ul class="linenotes"><li>Names teach: daysUntilTrip needs no comment.</li><li>Boolean asks a question: fileExists.</li><li>Big methods split into named helpers.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Names plus tiny methods explain themselves; behavior unchanged.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -74,22 +78,22 @@ boolean canBorrow(Book b) {
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: int d, x2, tmp everywhere</b>Why: Riddles.<br><b>✅ Fix:</b> <code>daysUntilTrip, retryCount.</code></div><div class="callout warn"><b>❌ Mistake 2: 80-line method</b>Why: Untestable maze.<br><b>✅ Fix:</b> <code>Extract 3 helpers.</code></div><div class="callout err"><b>❌ Mistake 3: Commented-out corpses</b>Why: Rot.<br><b>✅ Fix:</b> <code>Delete; git keeps history.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: int d, x2, tmp scattered everywhere.</b>Why: Riddles, not names — every reader pays the decoding tax.<br><b>✅ Fix:</b> <code>daysUntilTrip, retryCount: full words, real meaning.</code></div><div class="callout warn"><b>❌ Mistake 2: One 80-line method doing everything.</b>Why: Untestable maze with five hidden jobs.<br><b>✅ Fix:</b> <code>Extract helpers until each fits on screen.</code></div><div class="callout err"><b>❌ Mistake 3: Commented-out corpses kept “just in case”.</b>Why: Rot that nobody dares touch.<br><b>✅ Fix:</b> <code>Delete. Git is the backup, not comments.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Rename</b><p>Rename boolean f (file exists?).</p>
+  <div class="practice"><b>Rename it</b><p>Rename boolean f (does the file exist?).</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Asks a question.</div><div class="sol callout"><b>Solution</b>boolean fileExists;</div></div><div class="practice"><b>Split it</b><p>Split print+save+email method.</p>
+  <div class="hint callout"><b>Hint</b>Ask a question.</div><div class="sol callout"><b>Solution</b>boolean fileExists;</div></div><div class="practice"><b>Split it</b><p>Split a print+save+email method into three.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>3 helpers.</div><div class="sol callout"><b>Solution</b>printBill(), saveBill(), emailBill().</div></div></section>
+  <div class="hint callout"><b>Hint</b>One verb each.</div><div class="sol callout"><b>Solution</b>printBill(), saveBill(), emailBill() — call in order.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Names teach; format guides.</li><li>Small methods, early returns.</li><li>Delete dead code.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What three naming cases for what?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Format + rename one old file.</div>
+  <div class="prose"><ul><li>Names teach; format guides.</li><li>Small methods, early returns, always braces.</li><li>Delete dead code; comment WHY.</li><li>Style necessary, tests sufficient.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What three naming cases apply to what — and booleans?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Format plus rename ONE old file this week.</div>
   <p><b>Related:</b> <a href="../lessons/maven-structure.html">Project Structure, Maven &amp; Dependencies</a> · <a href="./proj-calculator.html">Next: Project: Simple Calculator →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +101,8 @@ boolean canBorrow(Book b) {
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'conventions',[{"id":"q1","prompt":"Class naming?","options":[{"t":"PascalCase (TaskManager)","ok":true},{"t":"camelCase"},{"t":"UPPER"},{"t":"lowercase"}],"explain":"Cities capitalized."},{"id":"q2","prompt":"Boolean naming?","options":[{"t":"Asks: isEmpty, canBorrow","ok":true},{"t":"Nouns only"},{"t":"Single letters"},{"t":"Numbers"}],"explain":"Questions read well."},{"id":"q3","prompt":"Method size?","options":[{"t":"Small, one job","ok":true},{"t":"80+ lines fine"},{"t":"Whole app"},{"t":"No methods"}],"explain":"Testable pieces."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Streets camelCase.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">userAge 🛣️\u003c/div>\u003c/div>"},{"caption":"Cities PascalCase.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">TaskManager 🏙️\u003c/div>\u003c/div>"},{"caption":"Highways UPPER.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">MAX_SIZE 🛣️\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'conventions',[{"id":"q1","prompt":"Class naming case?","options":[{"t":"PascalCase (TaskManager)","ok":true},{"t":"camelCase"},{"t":"UPPER"},{"t":"lowercase"}],"explain":"Cities capitalized, streets camel."},{"id":"q2","prompt":"Boolean names should…","options":[{"t":"Ask questions: isEmpty, canBorrow","ok":true},{"t":"Stay nouns only"},{"t":"Be single letters"},{"t":"Be numbers"}],"explain":"Questions read true inside ifs."},{"id":"q3","prompt":"Method size guidance?","options":[{"t":"Small, one job, fits on screen","ok":true},{"t":"80+ lines is fine"},{"t":"Whole app in one"},{"t":"No methods at all"}],"explain":"Testable pieces beat mazes."},{"id":"q4","prompt":"Dead commented-out code should be…","options":[{"t":"Deleted (git remembers)","ok":true},{"t":"Kept forever"},{"t":"Uncommented all at once"},{"t":"Mailed around"}],"explain":"History lives in version control, not prose."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Streets camelCase: userAge.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">userAge road\u003c/div>\u003c/div>"},{"caption":"Cities PascalCase: TaskManager.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">TaskManager city\u003c/div>\u003c/div>"},{"caption":"Highways UPPER: MAX_SIZE.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">MAX_SIZE road\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

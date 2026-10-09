@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Two-Dimensional Arrays · Java Foundations</title>
-<meta name="description" content="A 2D array is a grid: rows of rows. Cinema seats, chessboards, marks tables — [row][seat].">
+<meta name="description" content="A 2D array is a grid: rows of rows. Cinema seats, chessboards, mark tables, pixels — anything with [row][seat] addressing lives here.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,57 +32,82 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>A 2D array is a grid: rows of rows. Cinema seats, chessboards, marks tables — [row][seat].</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you find seat “row C, seat 4” without checking every chair?</div>
+  <div class="prose"><p>A 2D array is a grid: rows of rows. Cinema seats, chessboards, mark tables, pixels — anything with [row][seat] addressing lives here.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you find “block C, seat 4” without inspecting every chair in the cinema?</div>
   <h2>Objectives</h2><ul><li>Create grids</li><li>Index [row][col]</li><li>Loop nested rows</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/traverse-arrays.html">Traversing and Updating Arrays</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Cinema: block C, chair 4 → grid[2][3] (0-based). Jagged rows exist (balcony shorter) — each row is its own array.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cinemas label from 1. Code labels from 0 — grid[0][0] is the true first seat.</div></div></section>
+  <div class="prose"><p>The cinema. Block C, chair 4 = grid[2][3] (zero-based backstage). Some balconies are shorter — each row is its OWN array, so rows may legally differ in length (jagged).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cinemas label from 1 and forgive mistakes. Code labels from 0 and punishes: grid[0][0] is the true first seat, and grid[5][0] on 2 rows detonates.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>int[][] g = new int[2][3];</b> 2 rows × 3 cols. <b>g[r][c]</b> one seat.</p><p><b>g.length</b> rows; <b>g[r].length</b> cols in row r (may vary).</p><p>Nested loops: outer rows, inner cols.</p></div></section>
+  <div class="prose"><p>Declare: <b>int[][] g = new int[2][3];</b> (2 rows × 3 seats, zero-filled) or pre-filled <b>{{1,0,1},{0,1,1}}</b>. Read/write one seat: <b>g[r][c]</b>.</p><p><b>g.length</b> = row count; <b>g[r].length</b> = seats in row r — PER ROW, because jagged rows exist. Never assume all rows match.</p><p>Fill/visit with NESTED loops: outer walks rows, inner walks that row’s seats. Print rows with the print/println pattern from nested-loops.</p><p>Memory truth: there is no true “rectangle” — a 2D array is an array OF array-references. g[0] and g[1] are independent trays that happen to sit in one holder.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Jagged arrays</b> are normal: new int[3][] then g[0] = new int[2]; g[1] = new int[5]; — each row sized separately.</li><li><b>g.length</b> rows vs <b>g[r].length</b> cols-in-that-row: using g[0].length for every row breaks on jagged grids.</li><li>Row swap is O(1): int[] t = g[0]; g[0] = g[1]; g[1] = t; — slips trade places, seats never move.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Cinema grid</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Cinema grid mechanics</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int[][] seats = {{1, 0, 1}, {0, 1, 1}};
-System.out.println(seats[0][1]); // 0 (taken?)
-System.out.println(seats.length + &quot;x&quot; + seats[0].length);">Copy</button></div>
-  <pre><code>int[][] seats = {{1, 0, 1}, {0, 1, 1}};
-System.out.println(seats[0][1]); // 0 (taken?)
-System.out.println(seats.length + &quot;x&quot; + seats[0].length);</code></pre><div class="out">▶ Output
-0
-2x3</div></div>
-  <ul class="linenotes"><li>2 rows, 3 cols.</li><li>Row 0 seat 1 = 0.</li><li>Size 2x3.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Grid read by two numbers; lengths per dimension.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int[][] seats = {{1, 0, 1}, {0, 1, 1}}; // 1 = free
+    System.out.println(&quot;seat[0][1] = &quot; + seats[0][1]);
+    System.out.println(&quot;size = &quot; + seats.length + &quot;x&quot; + seats[0].length);
+    int free = 0;
+    for (int r = 0; r &lt; seats.length; r++) {
+      for (int c = 0; c &lt; seats[r].length; c++) {
+        if (seats[r][c] == 1) free++;
+      }
+    }
+    System.out.println(&quot;free = &quot; + free);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int[][] seats = {{1, 0, 1}, {0, 1, 1}}; // 1 = free
+    System.out.println(&quot;seat[0][1] = &quot; + seats[0][1]);
+    System.out.println(&quot;size = &quot; + seats.length + &quot;x&quot; + seats[0].length);
+    int free = 0;
+    for (int r = 0; r &lt; seats.length; r++) {
+      for (int c = 0; c &lt; seats[r].length; c++) {
+        if (seats[r][c] == 1) free++;
+      }
+    }
+    System.out.println(&quot;free = &quot; + free);
+  }
+}</code></pre><div class="out">▶ Output
+seat[0][1] = 0
+size = 2x3
+free = 4</div></div>
+  <ul class="linenotes"><li>Row 0, seat 1 reads 0 (taken).</li><li>Size: 2 rows × 3 seats.</li><li>Nested tour counts the 1s: four free.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Two-number addressing reads one seat; per-row lengths drive the nested count of free seats.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Pick a seat index.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Pick a seat number to inspect.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="1" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: seats[3][0] on 2 rows</b>Why: Row 3 missing.<br><b>✅ Fix:</b> <code>Rows 0..1 only.</code></div><div class="callout warn"><b>❌ Mistake 2: Assuming all rows equal</b>Why: Jagged possible.<br><b>✅ Fix:</b> <code>Use g[r].length per row.</code></div><div class="callout err"><b>❌ Mistake 3: Single loop for grid</b>Why: Visits rows, not seats.<br><b>✅ Fix:</b> <code>Nest two loops.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: seats[3][0] on a 2-row grid.</b>Why: Row 3 was never built — same detonation, two dimensions.<br><b>✅ Fix:</b> <code>Rows 0..length−1; check seats.length first.</code></div><div class="callout warn"><b>❌ Mistake 2: Using seats[0].length for EVERY row.</b>Why: Works until a jagged row arrives — then miscounts or crashes.<br><b>✅ Fix:</b> <code>Inner bound is seats[r].length, per current row.</code></div><div class="callout err"><b>❌ Mistake 3: One flat loop “visiting seats”.</b>Why: A single loop visits ROWS (each an array), not seats.<br><b>✅ Fix:</b> <code>Nest: outer rows, inner seats[r].length.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>First seat</b><p>Value at seats[0][0]?</p>
+  <div class="practice"><b>First seat</b><p>What is seats[0][0] in the program? Which corner is it?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Row0 col0.</div><div class="sol callout"><b>Solution</b>1.</div></div><div class="practice"><b>Count free</b><p>Count 1s (free) with nested loops.</p>
+  <div class="hint callout"><b>Hint</b>Row 0, seat 0.</div><div class="sol callout"><b>Solution</b>1 — the top-left corner.</div></div><div class="practice"><b>Count the taken</b><p>Count 0s (taken seats) with nested loops.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>if == 1 count++.</div><div class="sol callout"><b>Solution</b>4 free seats.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Mirror the free-count with == 0.</div><div class="sol callout"><b>Solution</b>2 taken seats.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Grid = array of arrays.</li><li>[row][col], both 0-based.</li><li>Rows: g.length; cols: g[r].length.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>How do you count all seats?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Model a 3×3 tic-tac-toe board.</div>
+  <div class="prose"><ul><li>Grid = array of row-arrays.</li><li>[row][col], both zero-based.</li><li>Rows: g.length; seats: g[r].length per row.</li><li>Nested loops tour; rows may be jagged.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>How do you count ALL seats, and why per-row length?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Model a 3×3 tic-tac-toe board and print it as a grid.</div>
   <p><b>Related:</b> <a href="../lessons/traverse-arrays.html">Traversing and Updating Arrays</a> · <a href="./string-methods.html">Next: Useful String Methods →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -90,8 +115,8 @@ System.out.println(seats.length + &quot;x&quot; + seats[0].length);</code></pre>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'arrays-2d',[{"id":"q1","prompt":"seats[0][1] means…","options":[{"t":"Row 0, col 1","ok":true},{"t":"Row 1, col 0"},{"t":"Seat 1 total"},{"t":"Row 1 col 1"}],"explain":"[row][col]."},{"id":"q2","prompt":"Rows count via…","options":[{"t":"g.length","ok":true},{"t":"g[0].length only"},{"t":"g.size"},{"t":"len(g)"}],"explain":"Outer length."},{"id":"q3","prompt":"Fill a grid: use…","options":[{"t":"Nested loops","ok":true},{"t":"One if"},{"t":"switch"},{"t":"No loops"}],"explain":"Rows × cols."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"2 blocks × 3 chairs.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0,0\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0,1\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0,2\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Seat [0][1] = 0 (taken).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">row 0, seat 1 → 0\u003c/div>\u003c/div>"},{"caption":"Row 1 next: 0 1 1.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1,0\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1,1\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1,2\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'arrays-2d',[{"id":"q1","prompt":"seats[0][1] addresses…","options":[{"t":"Row 0, seat 1","ok":true},{"t":"Row 1, seat 0"},{"t":"Seat 1 total"},{"t":"Row 1, seat 1"}],"explain":"[row][col], both zero-based."},{"id":"q2","prompt":"Row count is read via…","options":[{"t":"g.length","ok":true},{"t":"g[0].length"},{"t":"g.size"},{"t":"len(g)"}],"explain":"Outer length = number of rows."},{"id":"q3","prompt":"Filling every seat needs…","options":[{"t":"Nested loops (rows × seats)","ok":true},{"t":"A single if"},{"t":"A switch"},{"t":"No loops"}],"explain":"Two dimensions demand two loops."},{"id":"q4","prompt":"A 2D Java array really is…","options":[{"t":"An array of array-references (rows can differ)","ok":true},{"t":"One solid rectangle in memory"},{"t":"A list of Strings"},{"t":"A single row"}],"explain":"Holder of independent row-trays — hence jagged."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Two blocks × three chairs each.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0,0\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0,1\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0,2\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Seat [0][1] reads 0 (taken).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">row 0, seat 1 → 0\u003c/div>\u003c/div>"},{"caption":"Row 1 next: 0, 1, 1.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1,0\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1,1\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1,2\u003c/div>\u003cdiv class=\"val\">1\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">
