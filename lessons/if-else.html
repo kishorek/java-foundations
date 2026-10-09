@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>if, else if, and else · Java Foundations</title>
-<meta name="description" content="if lets programs choose. One question, two futures — the code picks the true path and skips the other.">
+<meta name="description" content="if lets programs CHOOSE. One question, two futures — the code walks exactly one path and skips the other. Most “intelligence” in software is just well-arranged choices.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,66 +32,80 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>if lets programs choose. One question, two futures — the code picks the true path and skips the other.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What do traffic lights do that a straight road cannot?</div>
+  <div class="prose"><p>if lets programs CHOOSE. One question, two futures — the code walks exactly one path and skips the other. Most “intelligence” in software is just well-arranged choices.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What can traffic lights do that a straight open road cannot?</div>
   <h2>Objectives</h2><ul><li>Write if-else chains</li><li>Trace which branch runs</li><li>Avoid dangling else</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/boolean-expr.html">Boolean Expressions</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Fork in a trek path. Sign asks “rain?” — left shelter, else viewpoint. You walk exactly one branch, never both.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: trekkers can turn back. Code cannot un-run a branch — choice is one-way per run.</div></div></section>
+  <div class="prose"><p>A fork on a trek path with a sign: “raining? left to shelter — else right to the viewpoint.” You walk exactly one branch, never both, and the sign decides which.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: trekkers can turn back and try the other fork. Code cannot un-run a branch — each run commits to one path permanently.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>if (cond) { } else if { } else { }</b>. First true branch runs; rest skipped.</p><p><b>else</b> catches everything left. Chain from specific to general.</p><p>Beware <b>= vs ==</b> and missing braces with two lines.</p></div></section>
+  <div class="prose"><p>Shape: <b>if (cond) { } else if (cond) { } else { }</b>. The FIRST true branch runs; everything else is skipped, including all later else-ifs.</p><p>Order conditions <b>specific → general</b>: test ≥ 90 before ≥ 75, or the 90s get swallowed by the 75s and grade A becomes unreachable.</p><p>The final <b>else</b> catches everything left over — the safety net. Leave it off only when “do nothing” is genuinely correct.</p><p>Braces are armor: a braceless if controls exactly ONE following statement, and the classic bug is adding a second line that silently escapes the if. Always brace.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>An if-chain is <b>exclusive</b>: at most ONE branch runs. Separate ifs are <b>independent</b>: several can fire. Choosing wrong between them is a top-5 beginner bug.</li><li><b>if (x > 5);</b> with a stray semicolon is an EMPTY if — the block below always runs. The compiler stays silent; only your eyes catch it.</li><li>Conditions must be <b>boolean</b>: if (5) and if ("yes") do not compile. No truthy/falsy shortcuts in Java.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Fork path</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Fork in the path</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int marks = 82;
-if (marks &gt;= 90) {
-  System.out.println(&quot;A&quot;);
-} else if (marks &gt;= 75) {
-  System.out.println(&quot;B&quot;);
-} else {
-  System.out.println(&quot;Keep going&quot;);
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int marks = 82;
+    if (marks &gt;= 90) {
+      System.out.println(&quot;Grade A&quot;);
+    } else if (marks &gt;= 75) {
+      System.out.println(&quot;Grade B&quot;);
+    } else if (marks &gt;= 60) {
+      System.out.println(&quot;Grade C&quot;);
+    } else {
+      System.out.println(&quot;Keep going&quot;);
+    }
+  }
 }">Copy</button></div>
-  <pre><code>int marks = 82;
-if (marks &gt;= 90) {
-  System.out.println(&quot;A&quot;);
-} else if (marks &gt;= 75) {
-  System.out.println(&quot;B&quot;);
-} else {
-  System.out.println(&quot;Keep going&quot;);
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int marks = 82;
+    if (marks &gt;= 90) {
+      System.out.println(&quot;Grade A&quot;);
+    } else if (marks &gt;= 75) {
+      System.out.println(&quot;Grade B&quot;);
+    } else if (marks &gt;= 60) {
+      System.out.println(&quot;Grade C&quot;);
+    } else {
+      System.out.println(&quot;Keep going&quot;);
+    }
+  }
 }</code></pre><div class="out">▶ Output
-B</div></div>
-  <ul class="linenotes"><li>82 fails ≥90, passes ≥75 → B.</li><li>Only one branch prints.</li><li>else is the safety net.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>First true condition wins; later branches skipped entirely.</div></div></section>
+Grade B</div></div>
+  <ul class="linenotes"><li>82 fails ≥ 90, passes ≥ 75 → Grade B.</li><li>Only that one branch prints; the rest are skipped.</li><li>The else is the net catching everything below 60.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>First true condition wins and the chain exits immediately — later branches never even evaluate.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Try marks; watch the branch.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Try different marks; watch which branch fires.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="82" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: if (marks = 90)</b>Why: Assignment, always truthy-ish (actually int error).<br><b>✅ Fix:</b> <code>if (marks == 90)</code></div><div class="callout warn"><b>❌ Mistake 2: Two ifs when else-if needed</b>Why: Both can fire.<br><b>✅ Fix:</b> <code>Chain else-if for exclusive choices.</code></div><div class="callout err"><b>❌ Mistake 3: if (x &gt; 5); { ... }</b>Why: Stray ; ends the if!<br><b>✅ Fix:</b> <code>Remove the semicolon.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: if (marks = 90) with single =.</b>Why: Assignment, not a question — and an int is not boolean, so it fails loudly.<br><b>✅ Fix:</b> <code>Ask with double: if (marks == 90).</code></div><div class="callout warn"><b>❌ Mistake 2: Two separate ifs where one chain was meant.</b>Why: Independent ifs can BOTH fire (≥75 AND ≥60 both print) — exclusive choice needs else-if.<br><b>✅ Fix:</b> <code>Chain them: if / else if / else.</code></div><div class="callout err"><b>❌ Mistake 3: if (x &gt; 5); { launch(); } with a stray semicolon.</b>Why: The semicolon IS the if-body (empty); launch() always runs, checked or not.<br><b>✅ Fix:</b> <code>Delete the semicolon. Then brace everything.</code></div><div class="callout err"><b>❌ Mistake 4: Testing ≥ 60 BEFORE ≥ 90 in the chain.</b>Why: The general net catches everything first; Grade A becomes dead code.<br><b>✅ Fix:</b> <code>Order specific → general, always.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Grade it</b><p>marks=45 → what prints? Trace.</p>
+  <div class="practice"><b>Grade it</b><p>marks = 45. Trace the chain and name the exact output.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Falls to else.</div><div class="sol callout"><b>Solution</b>Keep going.</div></div><div class="practice"><b>Fizz-ish</b><p>Print “even” if n%2==0 else “odd”.</p>
+  <div class="hint callout"><b>Hint</b>Fall through each failing check.</div><div class="sol callout"><b>Solution</b>Fails 90, 75, 60 → else prints “Keep going”.</div></div><div class="practice"><b>Even or odd</b><p>Print “even” when n % 2 == 0, else “odd”.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>One if-else.</div><div class="sol callout"><b>Solution</b>if (n % 2 == 0) ... else ...</div></div></section>
+  <div class="hint callout"><b>Hint</b>One if, one else.</div><div class="sol callout"><b>Solution</b>if (n % 2 == 0) { System.out.println(&quot;even&quot;); } else { System.out.println(&quot;odd&quot;); }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>First true branch runs, rest skipped.</li><li>Order specific → general.</li><li>No stray semicolon after if.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Why order conditions specific-first?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write rain-or-shine planner with if-else.</div>
+  <div class="prose"><ul><li>First true branch runs; the rest are skipped.</li><li>Order conditions specific → general.</li><li>else-if = exclusive; separate ifs = independent.</li><li>No stray semicolons; always brace.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Why does branch ORDER change program meaning?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write a rain-or-shine weekend planner with a 3-branch chain.</div>
   <p><b>Related:</b> <a href="../lessons/boolean-expr.html">Boolean Expressions</a> · <a href="./nested-cond.html">Next: Nested Conditions →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +113,8 @@ B</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'if-else',[{"id":"q1","prompt":"marks=95 prints?","options":[{"t":"A","ok":true},{"t":"B"},{"t":"Both A and B"},{"t":"Nothing"}],"explain":"First true wins."},{"id":"q2","prompt":"How many branches run per if-chain?","options":[{"t":"At most one","ok":true},{"t":"All true ones"},{"t":"Always two"},{"t":"Zero or all"}],"explain":"Exclusive choice."},{"id":"q3","prompt":"if (x > 5); is bad because…","options":[{"t":"Semicolon ends if early","ok":true},{"t":"x is small"},{"t":"Brackets missing"},{"t":"Java hates x"}],"explain":"Empty statement swallows the check."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Ask: marks ≥ 90? No.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">≥90? ❌\u003c/div>\u003c/div>"},{"caption":"Ask: ≥ 75? Yes → B.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">≥75? ✓\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>B\u003c/b>\u003c/div>\u003c/div>"},{"caption":"Other branches skipped.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">else ignored\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'if-else',[{"id":"q1","prompt":"marks = 95 prints…","options":[{"t":"Grade A","ok":true},{"t":"Grade B"},{"t":"Both A and B"},{"t":"Nothing"}],"explain":"First true branch wins; the chain exits at ≥ 90."},{"id":"q2","prompt":"How many branches of one if-chain can run?","options":[{"t":"At most one","ok":true},{"t":"All true ones"},{"t":"Always exactly two"},{"t":"Zero or all"}],"explain":"Exclusivity is the whole point of else-if."},{"id":"q3","prompt":"if (x > 5); { go(); } is dangerous because…","options":[{"t":"The semicolon silently ends the if; go() always runs","ok":true},{"t":"x is too small"},{"t":"Braces are missing"},{"t":"Java dislikes x"}],"explain":"An empty statement swallows the entire condition."},{"id":"q4","prompt":"Checking ≥ 60 before ≥ 90 breaks grading because…","options":[{"t":"The general case swallows the specific one","ok":true},{"t":"90 is not a number"},{"t":"Else is required first"},{"t":"Marks cannot exceed 60"}],"explain":"Order specific → general, or top grades die."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Ask: marks ≥ 90? No — walk on.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">≥90? ❌\u003c/div>\u003c/div>"},{"caption":"Ask: marks ≥ 75? Yes → Grade B.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">≥75? ✓\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Grade B\u003c/b>\u003c/div>\u003c/div>"},{"caption":"Everything below is skipped unseen.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">else ignored\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

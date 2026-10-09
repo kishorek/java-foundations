@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Your First Java Program · Java Foundations</title>
-<meta name="description" content="Every Java program wears the same uniform: a class shell and a main door. Learn it once, recognize it forever.">
+<meta name="description" content="Every Java program wears the same uniform: a class shell and a main door. Learn the uniform once and you will recognize — and write — every program in this course.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Every Java program wears the same uniform: a class shell and a main door. Learn it once, recognize it forever.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do all letters start with “Dear…” and end with a signature?</div>
+  <div class="prose"><p>Every Java program wears the same uniform: a class shell and a main door. Learn the uniform once and you will recognize — and write — every program in this course.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do all formal letters start with “Dear…” and end with a signature?</div>
   <h2>Objectives</h2><ul><li>Explain class + main</li><li>Write Hello World</li><li>Run it and read output</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/setup.html">Setting Up Java and Running a Program</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Envelope + letter. Class = envelope with your name (Hello). main = “start reading here” arrow. JVM always opens the envelope at main.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: you can read a letter anywhere. JVM must start at exactly main(String[] args) — no substitutes.</div></div></section>
+  <div class="prose"><p>Envelope plus letter. The class is the envelope with your name on it (Main). main is the big arrow saying “start reading HERE”. The JVM always opens the envelope exactly at main.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: you can start reading a letter anywhere. The JVM cannot — it demands precisely main(String[] args). Close cousins like Main or main() with no args are rejected.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>public class Hello</b> names the blueprint. File must be Hello.java.</p><p><b>public static void main(String[] args)</b> is the start door. Memorize its shape; meaning comes later.</p><p>Statements end with <b>;</b> Braces <b>{ }</b> group code. println prints + new line.</p></div></section>
+  <div class="prose"><p><b>public class Main</b> names the blueprint; the file must be Main.java. Everything the program owns lives inside its braces.</p><p><b>public static void main(String[] args)</b> is the start door. Each word has a technical meaning you will earn over the course — for now, memorize its exact shape.</p><p>Statements end with <b>;</b> and braces <b>{ }</b> group code into blocks. <b>System.out.println</b> prints text plus a newline. The JVM runs main top-down, line by line.</p><p>Later you will learn what public, static, void, and String[] args each mean (methods, scope, arrays). For now they are the magic words that open the door — spelled exactly.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>public</b> = visible to the JVM launcher. <b>static</b> = runnable without building an object first. <b>void</b> = returns nothing. <b>String[] args</b> = command-line words handed to your program.</li><li>The entry signature must match <b>exactly</b>: public static void main(String[] args). Even Main (capital M) fails the search.</li><li>One file can hold many classes, but at most one <b>public</b> class — and the file is named after it.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Entering main</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,22 +50,26 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Hello {
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
   public static void main(String[] args) {
     System.out.println(&quot;Hello, Java!&quot;);
     System.out.println(&quot;I am learning.&quot;);
+    System.out.println(&quot;Line by line.&quot;);
   }
 }">Copy</button></div>
-  <pre><code>public class Hello {
+  <pre><code>public class Main {
   public static void main(String[] args) {
     System.out.println(&quot;Hello, Java!&quot;);
     System.out.println(&quot;I am learning.&quot;);
+    System.out.println(&quot;Line by line.&quot;);
   }
 }</code></pre><div class="out">▶ Output
 Hello, Java!
-I am learning.</div></div>
-  <ul class="linenotes"><li>Line 1: envelope named Hello.</li><li>Line 2: start-here door.</li><li>Lines 3-4: two instructions, each ends with ;</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>JVM enters main, runs line 3 (print), then line 4, then exits. Order is top-down.</div></div></section>
+I am learning.
+Line by line.</div></div>
+  <ul class="linenotes"><li>Line 1: the envelope, named Main.</li><li>Line 2: the start-here door, exact shape.</li><li>Lines 3–5: three instructions, each ending with a semicolon, running top-down.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The JVM entered main, ran line 3 (print), then 4, then 5, then exited. Order is strictly top-down — no skipping, no guessing.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -73,22 +78,22 @@ I am learning.</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: main spelled Main or missing String[] args.</b>Why: JVM looks for the exact signature.<br><b>✅ Fix:</b> <code>Copy exactly: public static void main(String[] args).</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting the semicolon.</b>Why: Java cannot tell where instruction ends.<br><b>✅ Fix:</b> <code>End every statement with ;</code></div><div class="callout err"><b>❌ Mistake 3: File Hello.java but class hello.</b>Why: Case mismatch breaks build.<br><b>✅ Fix:</b> <code>Match exactly: Hello / Hello.java.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: main spelled Main, or String[] args missing.</b>Why: The JVM searches for one exact signature and accepts no substitutes.<br><b>✅ Fix:</b> <code>Copy precisely: public static void main(String[] args).</code></div><div class="callout warn"><b>❌ Mistake 2: A forgotten semicolon at a line end.</b>Why: Without it Java cannot tell where the instruction ends.<br><b>✅ Fix:</b> <code>End every statement with a semicolon.</code></div><div class="callout err"><b>❌ Mistake 3: File Main.java but class main (lowercase).</b>Why: Case mismatch: the envelope name does not match the file.<br><b>✅ Fix:</b> <code>Match exactly: Main inside Main.java.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Label the uniform</b><p>In the code, mark: envelope, door, instruction.</p>
+  <div class="practice"><b>Label the uniform</b><p>In the code above, point at: the envelope, the door, and one instruction.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>class / main / println.</div><div class="sol callout"><b>Solution</b>Envelope: public class Hello. Door: main line. Instructions: println lines.</div></div><div class="practice"><b>Add a third line</b><p>Print your name as a third line. Where does it go?</p>
+  <div class="hint callout"><b>Hint</b>class line / main line / println line.</div><div class="sol callout"><b>Solution</b>Envelope: public class Main. Door: the main line. Instruction: any println line.</div></div><div class="practice"><b>Add a fourth line</b><p>Print your own name as a fourth line. Exactly where does it go?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Inside main, before closing }.</div><div class="sol callout"><b>Solution</b>Add System.out.println(&quot;Ada&quot;); after line 4.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Inside main, before its closing brace.</div><div class="sol callout"><b>Solution</b>Add System.out.println(&quot;Ada&quot;); after the third println, still inside main.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Class = envelope; main = start door.</li><li>Statements end with ; braces group.</li><li>JVM runs main top-down.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Write the main line from memory.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Type Hello by hand (do not copy) and run it.</div>
+  <div class="prose"><ul><li>Class = envelope; main = start door.</li><li>Statements end with semicolons; braces group.</li><li>The JVM runs main strictly top-down.</li><li>Memorize the main shape exactly.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Write the main method header from memory, then check.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Type the program by hand — do not copy-paste — and run it.</div>
   <p><b>Related:</b> <a href="../lessons/setup.html">Setting Up Java and Running a Program</a> · <a href="./printing.html">Next: Printing Output →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -96,8 +101,8 @@ I am learning.</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'first-program',[{"id":"q1","prompt":"Where does the JVM start?","options":[{"t":"main(String[] args)","ok":true},{"t":"Any line it likes"},{"t":"The last line"},{"t":"Comments"}],"explain":"Fixed entry point."},{"id":"q2","prompt":"What ends a Java statement?","options":[{"t":"Semicolon ;","ok":true},{"t":"Period ."},{"t":"New paragraph"},{"t":"Emoji"}],"explain":"; terminates statements."},{"id":"q3","prompt":"Class Hello must be in…","options":[{"t":"Hello.java","ok":true},{"t":"hello.java"},{"t":"Hello.txt"},{"t":"Anything"}],"explain":"Exact match, case-sensitive."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"JVM finds the envelope Hello.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Hello.class\u003c/b>\u003cbr>envelope\u003c/div>\u003c/div>"},{"caption":"Opens the door: main.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>main\u003c/b>\u003cbr>start here →\u003c/div>\u003c/div>"},{"caption":"Runs each println top-down.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Hello, Java!\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">I am learning.\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'first-program',[{"id":"q1","prompt":"Where does the JVM start executing?","options":[{"t":"main(String[] args)","ok":true},{"t":"Any line it likes"},{"t":"The last line"},{"t":"Inside comments"}],"explain":"One fixed entry point — that is what makes programs predictable."},{"id":"q2","prompt":"What terminates a Java statement?","options":[{"t":"A semicolon","ok":true},{"t":"A period"},{"t":"A new paragraph"},{"t":"An emoji"}],"explain":"The semicolon marks “instruction complete”."},{"id":"q3","prompt":"Public class Main must live in…","options":[{"t":"Main.java","ok":true},{"t":"main.java"},{"t":"Main.txt"},{"t":"Anything you like"}],"explain":"Exact match, case-sensitive — the oldest rule in Java."},{"id":"q4","prompt":"What does static mean in the main line (preview)?","options":[{"t":"Runnable without building an object first","ok":true},{"t":"Unchangeable forever"},{"t":"Invisible to others"},{"t":"Runs twice"}],"explain":"static here = no object needed to enter. (Unchangeable is final — a later lesson.)"}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"The JVM finds the envelope Main.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Main.class\u003c/b>\u003cbr>envelope\u003c/div>\u003c/div>"},{"caption":"It opens the door: main.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>main\u003c/b>\u003cbr>start here →\u003c/div>\u003c/div>"},{"caption":"It runs each println top-down.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Hello, Java!\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">I am learning.\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

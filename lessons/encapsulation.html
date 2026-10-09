@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Encapsulation · Java Foundations</title>
-<meta name="description" content="Hide the engine, show the steering wheel. Private fields + public methods keep objects valid even when callers are careless.">
+<meta name="description" content="Hide the engine, show the steering wheel. Private fields plus public methods keep objects VALID even when callers are careless, rushed, or malicious.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,72 +32,76 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Hide the engine, show the steering wheel. Private fields + public methods keep objects valid even when callers are careless.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why can’t bank customers open the vault but can use the ATM?</div>
+  <div class="prose"><p>Hide the engine, show the steering wheel. Private fields plus public methods keep objects VALID even when callers are careless, rushed, or malicious.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why can’t bank customers open the vault, yet anyone may use the ATM?</div>
   <h2>Objectives</h2><ul><li>Make fields private</li><li>Write getters/setters</li><li>Validate inside setters</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/this-keyword.html">The this Keyword</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Medicine bottle: child-proof cap (private) + measured spoon (public method). Direct handfuls blocked; safe doses allowed.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: caps annoy adults too. Encapsulation needs well-designed methods — or users pry the cap (reflection/hacks).</div></div></section>
+  <div class="prose"><p>The child-proof medicine bottle: locked cap (private) + measured spoon (public method). Direct handfuls are impossible; safe measured doses are easy. The rules live in ONE place.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: caps annoy careful adults too. Encapsulation demands WELL-DESIGNED methods — clumsy APIs make users pry the cap off (or duplicate the logic outside). Design the spoon lovingly.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>private</b> fields; <b>public getters/setters</b>: getTitle(), setPages(n) with checks.</p><p><b>Validate inside setters</b>: reject negatives, clamp ranges. One guard protects all callers.</p><p>Expose behavior (borrow()), not raw flags.</p></div></section>
+  <div class="prose"><p>Make fields <b>private</b>; expose <b>public getters/setters</b>: getPages(), setPages(n). The setter VALIDATES — rejecting negatives, clamping ranges — so ONE guard protects EVERY caller.</p><p>Expose BEHAVIOR, not raw flags: borrow() (which checks limits) beats setBorrowed(true) (which checks nothing). Methods carry rules; naked setters carry none.</p><p>Read-only = getter with NO setter (title readable, unchangeable). Write-only is rare — question it when tempted.</p><p>Validation errors should speak loudly: throw with a message naming the rule. Silent ignoring ("if valid, store; else shrug") hides bugs for months.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>private</b> = this class only. The compiler REJECTS outside touches — the guardrail is mechanical, not social.</li><li>Getters returning MUTABLE objects (lists, dates) leak the insides: callers mutate your privates. Return copies or unmodifiable views.</li><li>Java 16+ <b>records</b> (record Book(String title)) auto-give private-final fields plus getters — encapsulation pre-packed for simple data carriers.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Vault + ATM</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Vault plus ATM</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Book {
-  private int pages;
+  private int pages; // hidden vault
   public int getPages() { return pages; }
   public void setPages(int p) {
-    if (p &gt; 0) pages = p;
+    if (p &lt;= 0) throw new IllegalArgumentException(&quot;pages must be &gt; 0&quot;);
+    pages = p;
   }
 }
 Book b = new Book();
-b.setPages(-5);
-b.setPages(200);
-System.out.println(b.getPages());">Copy</button></div>
+b.setPages(-5);  // rejected loudly
+b.setPages(200); // accepted
+b.getPages();    // 200">Copy</button></div>
   <pre><code>class Book {
-  private int pages;
+  private int pages; // hidden vault
   public int getPages() { return pages; }
   public void setPages(int p) {
-    if (p &gt; 0) pages = p;
+    if (p &lt;= 0) throw new IllegalArgumentException(&quot;pages must be &gt; 0&quot;);
+    pages = p;
   }
 }
 Book b = new Book();
-b.setPages(-5);
-b.setPages(200);
-System.out.println(b.getPages());</code></pre><div class="out">▶ Output
-200</div></div>
-  <ul class="linenotes"><li>pages hidden.</li><li>-5 rejected.</li><li>200 accepted.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Setter guards; invalid ignored, valid stored.</div></div></section>
+b.setPages(-5);  // rejected loudly
+b.setPages(200); // accepted
+b.getPages();    // 200</code></pre><div class="out">▶ Output
+Exception on minus 5; then 200 accepted and reported.</div></div>
+  <ul class="linenotes"><li>pages is unreachable from outside.</li><li>Minus 5 detonates with a clear message.</li><li>200 stores; the getter reports it.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The setter guards the single doorway — invalid values never reach the field.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Guard: try -5 vs 200.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Guards admit 200, reject minus 5.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="200" size="8" aria-label="value"> <select data-in aria-label="operator"><option>+</option></select> <input data-in value="0" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: public int pages; anyone sets -5</b>Why: No guard.<br><b>✅ Fix:</b> <code>private + setter check.</code></div><div class="callout warn"><b>❌ Mistake 2: Setter without check</b>Why: Pointless wrapper.<br><b>✅ Fix:</b> <code>Add if (p &gt; 0).</code></div><div class="callout err"><b>❌ Mistake 3: Getter returning mutable list directly</b>Why: Callers mutate inside!<br><b>✅ Fix:</b> <code>Return copy/unmodifiable.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: public int pages; — anyone sets minus 5.</b>Why: No doorway, no guard. Corruption needs exactly one careless line.<br><b>✅ Fix:</b> <code>private plus a validating setter.</code></div><div class="callout warn"><b>❌ Mistake 2: A setter with zero checks.</b>Why: A pointless wrapper — all ceremony, no protection.<br><b>✅ Fix:</b> <code>Validate inside: reject non-positive with a clear error.</code></div><div class="callout err"><b>❌ Mistake 3: getList() returning the live private list.</b>Why: Callers clear() your insides directly — encapsulation theater.<br><b>✅ Fix:</b> <code>Return a copy or an unmodifiable view.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Guard age</b><p>setAge allows 0..150 only.</p>
+  <div class="practice"><b>Guard an age</b><p>Write setAge allowing only 0–150, loudly rejecting the rest.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>if in range assign.</div><div class="sol callout"><b>Solution</b>if (a&gt;=0 &amp;&amp; a&lt;=150) age=a;</div></div><div class="practice"><b>Read-only?</b><p>Make title read-only.</p>
+  <div class="hint callout"><b>Hint</b>Range check plus throw.</div><div class="sol callout"><b>Solution</b>if (a &lt; 0 || a &gt; 150) throw new IllegalArgumentException(&quot;age 0-150&quot;); age = a;</div></div><div class="practice"><b>Make it read-only</b><p>Expose title for reading but never writing.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Getter, no setter.</div><div class="sol callout"><b>Solution</b>private title + getTitle only.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Half the pair.</div><div class="sol callout"><b>Solution</b>private String title plus getTitle() only. No setter exists.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Hide fields, expose safe actions.</li><li>Validate once inside.</li><li>Read-only = getter only.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What is the “cap” and the “spoon”?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Privatize Pen fields + add guarded setter.</div>
+  <div class="prose"><ul><li>Hide fields; expose safe actions.</li><li>Validate once, inside, loudly.</li><li>Read-only = getter without setter.</li><li>Never leak mutable insides.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What are the “cap” and the “spoon” in your own words?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Privatize one class’s fields and add ONE guarded setter.</div>
   <p><b>Related:</b> <a href="../lessons/this-keyword.html">The this Keyword</a> · <a href="./access-mods.html">Next: Access Modifiers →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -105,8 +109,8 @@ System.out.println(b.getPages());</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'encapsulation',[{"id":"q1","prompt":"Encapsulation = ?","options":[{"t":"Private data + public safe methods","ok":true},{"t":"All public"},{"t":"No methods"},{"t":"Delete data"}],"explain":"Cap + spoon."},{"id":"q2","prompt":"Output above?","options":[{"t":"200","ok":true},{"t":"-5"},{"t":"0"},{"t":"Error"}],"explain":"-5 rejected."},{"id":"q3","prompt":"Where to validate?","options":[{"t":"Inside setters/methods","ok":true},{"t":"In every caller"},{"t":"Never"},{"t":"In comments"}],"explain":"One guard, all safe."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Vault (private pages) locked.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔒 pages: ?\u003c/div>\u003c/div>"},{"caption":"ATM setPages(-5) → denied.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">-5 ❌ rejected\u003c/div>\u003c/div>"},{"caption":"ATM setPages(200) → accepted.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">200 ✓ stored\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'encapsulation',[{"id":"q1","prompt":"Encapsulation means…","options":[{"t":"Private data plus public safe operations","ok":true},{"t":"Everything public"},{"t":"No methods at all"},{"t":"Deleting data"}],"explain":"Locked cap plus measured spoon."},{"id":"q2","prompt":"setPages(minus 5) above…","options":[{"t":"Throws with a clear message","ok":true},{"t":"Stores minus 5 quietly"},{"t":"Stores 0"},{"t":"Deletes the book"}],"explain":"The guard rejects loudly at the single doorway."},{"id":"q3","prompt":"Validation belongs…","options":[{"t":"Inside setters and methods, once","ok":true},{"t":"Copied into every caller"},{"t":"Nowhere — trust callers"},{"t":"Only in comments"}],"explain":"One guard protects all callers, present and future."},{"id":"q4","prompt":"getList() handing out the live list is bad because…","options":[{"t":"Callers can mutate your privates directly","ok":true},{"t":"Lists are slow"},{"t":"Getters must return int"},{"t":"It looks ugly"}],"explain":"The vault door, left wide open from inside."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Vault (private pages) locked shut.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔒 pages: ?\u003c/div>\u003c/div>"},{"caption":"ATM setPages(minus 5) rejected loudly.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">-5 ❌ rejected\u003c/div>\u003c/div>"},{"caption":"ATM setPages(200) accepted.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">200 ✓ stored\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

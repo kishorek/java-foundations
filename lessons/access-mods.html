@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Access Modifiers · Java Foundations</title>
-<meta name="description" content="Who may enter which room? private (me), package (neighbors), protected (family+neighbors), public (everyone).">
+<meta name="description" content="Who may enter which room? private (just me), package (neighbors), protected (family + neighbors), public (everyone). Start locked; open deliberately, one door at a time.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,66 +32,68 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Who may enter which room? private (me), package (neighbors), protected (family+neighbors), public (everyone).</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do diaries have locks but notice boards do not?</div>
+  <div class="prose"><p>Who may enter which room? private (just me), package (neighbors), protected (family + neighbors), public (everyone). Start locked; open deliberately, one door at a time.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do diaries have locks while notice boards do not?</div>
   <h2>Objectives</h2><ul><li>Use private/public</li><li>Explain package/protected</li><li>Pick correct visibility</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/encapsulation.html">Encapsulation</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>House: bedroom private, kitchen package (flatmates), family heirloom protected (kids + flatmates), gate public. Start locked, open as needed.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: locks are social, not vaults (reflection can peek). Design intent, not NSA security.</div></div></section>
+  <div class="prose"><p>The house. Bedroom = private (you only). Kitchen = package (flatmates wander in). Heirloom = protected (kids + flatmates). Gate = public (the world). Start every room locked; open as needed, never by default.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: house locks stop polite visitors, not burglars with tools (reflection can pry). Access levels express DESIGN INTENT to teammates and the compiler — not bank-vault security.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>private</b>: class only. <b>(default)</b>: package. <b>protected</b>: package + kids. <b>public</b>: all.</p><p>Rule: <b>most restrictive that works</b>. Fields private; helpers private; API public.</p><p>Packages group neighbors; protected helps inheritance (later).</p></div></section>
+  <div class="prose"><p>Spectrum: <b>private</b> (this class) → <b>package-private</b> / default, no keyword (this package) → <b>protected</b> (package + subclasses) → <b>public</b> (everyone).</p><p>Golden rule: the <b>most restrictive level that works</b>. Fields private; single-use helpers private; the class’s promised API public.</p><p>Packages group NEIGHBORS (com.shop.cart); protected additionally reaches CHILDREN anywhere (inheritance lesson). Most beginners need private + public + occasional package.</p><p>Widening is easy, tightening breaks callers: start strict. A public method is a PROMISE — removing it later breaks everyone who believed you.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Default (no modifier) = <b>package-private</b>: visible across the same package. Tests commonly use it to reach internals without going public.</li><li><b>protected</b> = package + subclasses (even in other packages). The subclass-only-outside-package corner confuses everyone once.</li><li>Top-level classes allow ONLY public or package-private — private/protected top-level classes do not exist.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: House rooms</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: House floor plan</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Demo {
-  private int secret = 1;
-  int neighbor = 2;        // package
-  protected int heir = 3;
-  public int open = 4;
-  private void help() {}
-  public void serve() { help(); }
-}">Copy</button></div>
+  private int secret = 1;   // this class only
+  int neighbor = 2;         // package neighbors
+  protected int heir = 3;   // + subclasses
+  public int open = 4;      // everyone
+  private void help() { ... } // hidden helper
+  void packageHelp() { ... }  // neighbors may call
+  public void serve() { help(); } // public face">Copy</button></div>
   <pre><code>class Demo {
-  private int secret = 1;
-  int neighbor = 2;        // package
-  protected int heir = 3;
-  public int open = 4;
-  private void help() {}
-  public void serve() { help(); }
-}</code></pre><div class="out">▶ Output
-(design lesson — compiles)</div></div>
-  <ul class="linenotes"><li>secret: class only.</li><li>serve public, help private.</li><li>Open from strict → loose.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Visibility shapes who can call what; compiler enforces.</div></div></section>
+  private int secret = 1;   // this class only
+  int neighbor = 2;         // package neighbors
+  protected int heir = 3;   // + subclasses
+  public int open = 4;      // everyone
+  private void help() { ... } // hidden helper
+  void packageHelp() { ... }  // neighbors may call
+  public void serve() { help(); } // public face</code></pre><div class="out">▶ Output
+Design lesson: each member visible exactly as marked.</div></div>
+  <ul class="linenotes"><li>secret: class-only, invisible outside.</li><li>Each level opens exactly one wider circle.</li><li>serve() is public; its helpers stay hidden.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Visibility shapes every legal call; the compiler enforces the floor plan mechanically.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Least privilege: start locked.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Least privilege: start locked, open deliberately.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="private" size="8" aria-label="value"> <input data-in value=" first" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Everything public</b>Why: No guards possible.<br><b>✅ Fix:</b> <code>Private by default.</code></div><div class="callout warn"><b>❌ Mistake 2: private test helper untested</b>Why: Cannot reach from test...<br><b>✅ Fix:</b> <code>Package-private helper for tests.</code></div><div class="callout err"><b>❌ Mistake 3: protected for everything</b>Why: Overexposed to kids.<br><b>✅ Fix:</b> <code>Private unless kids need it.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Everything public “for convenience”.</b>Why: Zero guards possible; every field is a global variable in disguise.<br><b>✅ Fix:</b> <code>Private by default; justify each public.</code></div><div class="callout warn"><b>❌ Mistake 2: private helper that tests need to reach.</b>Why: Untestable internals rot untested.<br><b>✅ Fix:</b> <code>Package-private helper: testable, still not public API.</code></div><div class="callout err"><b>❌ Mistake 3: protected sprinkled everywhere “for later”.</b>Why: Exposes internals to all future children — accidental API surface.<br><b>✅ Fix:</b> <code>Private until a real child genuinely needs it.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Rank it</b><p>Order strict→loose: public, private, protected, package.</p>
+  <div class="practice"><b>Rank the spectrum</b><p>Order strict → loose: public, private, protected, package.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Me &lt; neighbors &lt; family &lt; all.</div><div class="sol callout"><b>Solution</b>private, package, protected, public.</div></div><div class="practice"><b>Choose</b><p>Helper used in one class only?</p>
+  <div class="hint callout"><b>Hint</b>Me, then neighbors, then family, then everyone.</div><div class="sol callout"><b>Solution</b>private, package-private, protected, public.</div></div><div class="practice"><b>Choose the level</b><p>A helper used inside ONE class only. Level?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Tightest.</div><div class="sol callout"><b>Solution</b>private.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Tightest that works.</div><div class="sol callout"><b>Solution</b>private.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>private &lt; package &lt; protected &lt; public.</li><li>Most restrictive that works.</li><li>Helpers private; API public.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What can “neighbors” (package) see?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Audit one class: tighten one member.</div>
+  <div class="prose"><ul><li>private, package, protected, public — in that order.</li><li>Most restrictive that works, always.</li><li>Helpers private; promised API public.</li><li>Public is forever — choose carefully.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What exactly can “neighbors” (same package) see that outsiders cannot?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Audit one of your classes: tighten one member today.</div>
   <p><b>Related:</b> <a href="../lessons/encapsulation.html">Encapsulation</a> · <a href="./static-members.html">Next: Static Members →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +101,8 @@
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'access-mods',[{"id":"q1","prompt":"Most restrictive?","options":[{"t":"private","ok":true},{"t":"public"},{"t":"protected"},{"t":"package"}],"explain":"Class only."},{"id":"q2","prompt":"Default (no word) = ?","options":[{"t":"Package neighbors","ok":true},{"t":"Public"},{"t":"Private only"},{"t":"Nobody"}],"explain":"Same package."},{"id":"q3","prompt":"Fields should start…","options":[{"t":"private","ok":true},{"t":"public"},{"t":"protected always"},{"t":"No modifier thought"}],"explain":"Lock first."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Bedroom 🔒 private: me only.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔒 secret\u003c/div>\u003c/div>"},{"caption":"Kitchen: flatmates (package).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🍳 neighbor\u003c/div>\u003c/div>"},{"caption":"Gate: everyone (public).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🚪 open\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'access-mods',[{"id":"q1","prompt":"Most restrictive level?","options":[{"t":"private","ok":true},{"t":"public"},{"t":"protected"},{"t":"package-private"}],"explain":"This class only — maximum lockdown."},{"id":"q2","prompt":"No modifier at all means…","options":[{"t":"Package neighbors may enter","ok":true},{"t":"Public to all"},{"t":"Private always"},{"t":"Nobody, ever"}],"explain":"The default is the neighborhood."},{"id":"q3","prompt":"New fields should start…","options":[{"t":"private","ok":true},{"t":"public"},{"t":"protected always"},{"t":"Whatever"}],"explain":"Lock first; open with justification."},{"id":"q4","prompt":"Making a public method private later…","options":[{"t":"Breaks every caller using it","ok":true},{"t":"Is always safe"},{"t":"Speeds things up"},{"t":"Changes nothing"}],"explain":"Public is a promise — tightening breaks believers."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Bedroom private: you only.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔒 secret\u003c/div>\u003c/div>"},{"caption":"Kitchen: flatmates too.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🍳 neighbor\u003c/div>\u003c/div>"},{"caption":"Gate public: the world.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🚪 open\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

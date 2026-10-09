@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ArrayList and HashMap · Java Foundations</title>
-<meta name="description" content="Your two daily drivers: ArrayList (growable queue) and HashMap (ticket shelf). Learn 6 methods each and build real apps.">
+<meta name="description" content="Your two daily drivers, mastered: ArrayList (the growable queue) and HashMap (the ticket shelf). Six methods each covers nearly all real-world use.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,65 +32,74 @@
     <span class="chip">⏱ 18 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Your two daily drivers: ArrayList (growable queue) and HashMap (ticket shelf). Learn 6 methods each and build real apps.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you run a canteen line plus a locker room?</div>
+  <div class="prose"><p>Your two daily drivers, mastered: ArrayList (the growable queue) and HashMap (the ticket shelf). Six methods each covers nearly all real-world use.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you run a canteen line AND a locker room at once?</div>
   <h2>Objectives</h2><ul><li>Use ArrayList add/get</li><li>Use HashMap put/get</li><li>Loop entries safely</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/collections.html">Collections: List, Set, Map</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Canteen tray line (ArrayList: add, get(2), set, remove, size) + locker tickets (HashMap: put, get, containsKey, remove, keySet). Trays shift when one leaves; lockers do not.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: tray line shifts cost (remove first = move all). Lockers need good tickets (hash) — mutable keys break.</div></div></section>
+  <div class="prose"><p>Canteen tray line (ArrayList: add, get, set, remove, size) plus locker tickets (HashMap: put, get, containsKey, remove, keySet). Trays SHIFT when one leaves mid-line; lockers never shift — different physics.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: pulling the FIRST tray forces everyone to shuffle forward (linear cost). And lockers demand GOOD tickets: mutable keys whose hash changes mid-stay lose their coats forever.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>ArrayList</b>: add, get(i), set(i,v), remove(i), size(). Grows; get fast, front-remove slow.</p><p><b>HashMap</b>: put(k,v), get(k), getOrDefault, containsKey, remove(k), keySet/entrySet. No order promise.</p><p>Loop maps via <b>entrySet</b>; never edit while for-each (use iterator/removeIf).</p></div></section>
+  <div class="prose"><p><b>ArrayList</b>: add(v), add(i,v), get(i), set(i,v), remove(i), size(). Grows automatically; get is instant; front-removal shuffles everyone behind.</p><p><b>HashMap</b>: put(k,v), get(k) (null when absent!), getOrDefault(k, d), containsKey(k), remove(k), keySet and entrySet. NO order promise.</p><p>Missing keys return <b>null</b>: unboxing that null into an int detonates with NullPointerException. Default armor: getOrDefault(k, 0).</p><p>Loop maps via <b>entrySet</b> (both sides at once); NEVER structurally edit inside for-each (ConcurrentModificationException) — use removeIf or an Iterator.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>ArrayList grows about 1.5x when full (amortized cheap adds); remove(0) is linear — Deques serve queue-duty better.</li><li><b>HashMap</b> hashes keys to buckets: good hashCode means even spread and near-instant gets. Mutating a stored key’s hash fields loses the entry.</li><li><b>entrySet loop</b>: for each entry, getKey plus getValue — one pass, both sides, no re-lookup.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Line + lockers</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Line plus lockers</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="import java.util.*;
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 List&lt;String&gt; line = new ArrayList&lt;&gt;();
-line.add(&quot;Ada&quot;); line.add(&quot;Bob&quot;);
+line.add(&quot;Ada&quot;);
+line.add(&quot;Bob&quot;);
 Map&lt;String, String&gt; locker = new HashMap&lt;&gt;();
 locker.put(&quot;A1&quot;, &quot;Ada bag&quot;);
-System.out.println(line.get(0) + &quot; | &quot; + locker.get(&quot;A1&quot;));
-System.out.println(line.size() + &quot; &quot; + locker.containsKey(&quot;A1&quot;));">Copy</button></div>
-  <pre><code>import java.util.*;
+// line.get(0)=&quot;Ada&quot;  locker.get(&quot;A1&quot;)=&quot;Ada bag&quot;
+// line.size()=2  locker.containsKey(&quot;A1&quot;)=true">Copy</button></div>
+  <pre><code>import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 List&lt;String&gt; line = new ArrayList&lt;&gt;();
-line.add(&quot;Ada&quot;); line.add(&quot;Bob&quot;);
+line.add(&quot;Ada&quot;);
+line.add(&quot;Bob&quot;);
 Map&lt;String, String&gt; locker = new HashMap&lt;&gt;();
 locker.put(&quot;A1&quot;, &quot;Ada bag&quot;);
-System.out.println(line.get(0) + &quot; | &quot; + locker.get(&quot;A1&quot;));
-System.out.println(line.size() + &quot; &quot; + locker.containsKey(&quot;A1&quot;));</code></pre><div class="out">▶ Output
-Ada | Ada bag
-2 true</div></div>
-  <ul class="linenotes"><li>Growable line.</li><li>Ticket shelf.</li><li>Size 2, has A1.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Indexed vs keyed retrieval, both dynamic.</div></div></section>
+// line.get(0)=&quot;Ada&quot;  locker.get(&quot;A1&quot;)=&quot;Ada bag&quot;
+// line.size()=2  locker.containsKey(&quot;A1&quot;)=true</code></pre><div class="out">▶ Output
+Ada plus Ada bag, then size 2 and hasA1 true.</div></div>
+  <ul class="linenotes"><li>Growable line: two join.</li><li>Ticket shelf: A1 maps to bag.</li><li>Indexed AND keyed retrieval side by side.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Dynamic structures, two access styles: by position and by ticket.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Line positions 0-1.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Line positions 0–1, locker A1.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="0" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: line[0] bracket on list</b>Why: Lists use get()!<br><b>✅ Fix:</b> <code>line.get(0).</code></div><div class="callout warn"><b>❌ Mistake 2: map.get missing → NPE on unbox</b>Why: null + int = crash.<br><b>✅ Fix:</b> <code>getOrDefault(k, 0).</code></div><div class="callout err"><b>❌ Mistake 3: Remove while for-each</b>Why: ConcurrentModification!<br><b>✅ Fix:</b> <code>removeIf / iterator.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: line[0] brackets on a List.</b>Why: Lists are objects with METHODS — brackets are array syntax.<br><b>✅ Fix:</b> <code>line.get(0). Brackets for arrays, methods for Lists.</code></div><div class="callout warn"><b>❌ Mistake 2: int n = map.get(&quot;missing&quot;) — unboxing null.</b>Why: Absent gives null; auto-unbox detonates with NPE.<br><b>✅ Fix:</b> <code>map.getOrDefault(&quot;missing&quot;, 0) — armor by default.</code></div><div class="callout err"><b>❌ Mistake 3: map.remove(k) inside for-each over keySet.</b>Why: Structural edit mid-tour: ConcurrentModificationException.<br><b>✅ Fix:</b> <code>removeIf with a condition, or an explicit Iterator.</code></div><div class="callout err"><b>❌ Mistake 4: Expecting HashMap to print in insertion order.</b>Why: No order promise — today’s order is coincidence.<br><b>✅ Fix:</b> <code>Need order? LinkedHashMap preserves insertion.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Queue ops</b><p>Add 3, get 2nd, remove 1st, size?</p>
+  <div class="practice"><b>Queue drills</b><p>Add 3 names, read the 2nd, remove the 1st, report size.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>0-based.</div><div class="sol callout"><b>Solution</b>add×3, get(1), remove(0), size 2.</div></div><div class="practice"><b>Counter map</b><p>Count “a” in list with map.</p>
+  <div class="hint callout"><b>Hint</b>Zero-based throughout.</div><div class="sol callout"><b>Solution</b>add 3 times; get(1); remove(0); size() is now 2.</div></div><div class="practice"><b>Word counter</b><p>Count occurrences of each word in a list using a Map.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>getOrDefault+1.</div><div class="sol callout"><b>Solution</b>m.put(w, m.getOrDefault(w,0)+1);</div></div></section>
+  <div class="hint callout"><b>Hint</b>getOrDefault plus 1.</div><div class="sol callout"><b>Solution</b>for each w: count.put(w, count.getOrDefault(w, 0) + 1);</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>List: add/get/set/remove/size.</li><li>Map: put/get/contains/remove.</li><li>Missing → null; use getOrDefault.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>How do you safely count words with a map?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Build a phonebook map: 3 entries.</div>
+  <div class="prose"><ul><li>List: add, get, set, remove, size.</li><li>Map: put, get, contains, remove; missing is null.</li><li>Missing armor: getOrDefault.</li><li>Never edit inside for-each.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>How do you count word frequencies with a map, in one loop?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Build a 3-entry phonebook Map and query it twice.</div>
   <p><b>Related:</b> <a href="../lessons/collections.html">Collections: List, Set, Map</a> · <a href="./generics.html">Next: Generics and Type Safety →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -98,8 +107,8 @@ Ada | Ada bag
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'arraylist-hashmap',[{"id":"q1","prompt":"Growable ordered?","options":[{"t":"ArrayList","ok":true},{"t":"Array"},{"t":"Set"},{"t":"Map"}],"explain":"Dynamic queue."},{"id":"q2","prompt":"Missing key get returns?","options":[{"t":"null","ok":true},{"t":"0"},{"t":"Error always"},{"t":"Empty string"}],"explain":"Absent = null."},{"id":"q3","prompt":"Loop k+v via…","options":[{"t":"entrySet","ok":true},{"t":"Indexes"},{"t":"keys only"},{"t":"values only"}],"explain":"Entries pair."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Line: Ada, Bob join.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🧍 Ada → Bob\u003c/div>\u003c/div>"},{"caption":"Locker: A1 → Ada bag.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔑 A1 → 🎒\u003c/div>\u003c/div>"},{"caption":"get(0) + get(\"A1\") serve.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Ada | Ada bag ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'arraylist-hashmap',[{"id":"q1","prompt":"Growable and ordered?","options":[{"t":"ArrayList","ok":true},{"t":"Plain array"},{"t":"Set"},{"t":"Map"}],"explain":"The dynamic queue — grows on demand."},{"id":"q2","prompt":"get() on a missing HashMap key returns…","options":[{"t":"null","ok":true},{"t":"0"},{"t":"An empty string"},{"t":"It always errors"}],"explain":"Absent = null. Unbox it blindly and suffer."},{"id":"q3","prompt":"Keys AND values together loop via…","options":[{"t":"entrySet()","ok":true},{"t":"Indexes"},{"t":"keys only"},{"t":"values only"}],"explain":"Entries carry both sides per step."},{"id":"q4","prompt":"Removing inside for-each over a map…","options":[{"t":"Throws ConcurrentModificationException","ok":true},{"t":"Works fine"},{"t":"Skips silently"},{"t":"Deletes the map"}],"explain":"Structural edits need removeIf or Iterator."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Canteen line: Ada, then Bob.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Ada → Bob\u003c/div>\u003c/div>"},{"caption":"Locker ticket A1 holds the bag.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">A1 holds bag\u003c/div>\u003c/div>"},{"caption":"get(0) plus get(A1) serve together.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Ada and bag\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

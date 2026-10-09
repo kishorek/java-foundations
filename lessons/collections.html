@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Collections: List, Set, Map · Java Foundations</title>
-<meta name="description" content="Arrays are fixed trays; collections are smart shelves: lists keep order, sets ban duplicates, maps find by key.">
+<meta name="description" content="Arrays are fixed trays; collections are SMART shelves. Lists keep ORDER, Sets ban DUPLICATES, Maps find by KEY. Three tools, three promises, zero confusion after this lesson.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,58 +32,66 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Arrays are fixed trays; collections are smart shelves: lists keep order, sets ban duplicates, maps find by key.</p>
-  <div class="callout"><b>🔎 Motivating question</b>When do you need a queue, a guest-list, or a labeled shelf?</div>
+  <div class="prose"><p>Arrays are fixed trays; collections are SMART shelves. Lists keep ORDER, Sets ban DUPLICATES, Maps find by KEY. Three tools, three promises, zero confusion after this lesson.</p>
+  <div class="callout"><b>🔎 Motivating question</b>When do you need a queue, a guest-list, or a labeled coat shelf?</div>
   <h2>Objectives</h2><ul><li>Pick List/Set/Map</li><li>Explain order vs unique</li><li>Sketch key-value use</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/common-exceptions.html">Common Exceptions &amp; Defensive Code</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Party tools: List = photo queue (order, dupes ok). Set = VIP guest list (unique). Map = coat check ticket → coat (key finds value).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: coat tickets cost memory + hashing. Tiny fixed data? Array still wins.</div></div></section>
+  <div class="prose"><p>Party tools. List = photo queue (ordered, duplicates fine). Set = VIP guest list (each name once). Map = coat-check tickets (ticket finds coat instantly).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: coat tickets cost machinery (hashing, memory). Storing three fixed scores? The humble array wins — smart shelves earn their keep at scale and change.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>List</b>: ordered, indexed, dupes ok. <b>Set</b>: unique, no index. <b>Map</b>: key→value, keys unique.</p><p>Program to <b>interfaces</b>: List<String> l = new ArrayList<>(). Swap later freely.</p><p>Equals/hashCode decide uniqueness/keys for objects.</p></div></section>
+  <div class="prose"><p><b>List</b>: ordered, indexed with get(2), duplicates welcome. <b>Set</b>: unique only, NO index, NO order promise. <b>Map</b>: key to value pairs, keys unique, values may repeat.</p><p>Code to INTERFACES: List<String> team = new ArrayList<>(); — swap ArrayList for another List later without touching callers. Concrete-left is lock-in.</p><p>For YOUR objects, <b>equals and hashCode</b> decide uniqueness and key matching. Defaults use identity: twins count as strangers until you override both together.</p><p>Map views: <b>keySet()</b> (tickets), <b>values()</b> (coats), <b>entrySet()</b> (pairs). Loop entrySet to visit both sides at once.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>HashSet and HashMap</b> order is unspecified AND unstable across runs — never rely on it; Linked variants preserve insertion order.</li><li>Set and Map hashing needs <b>consistent equals plus hashCode</b>: equal objects MUST share hash codes, or lookups silently miss.</li><li>Big-O feel: ArrayList get is instant, contains scans; HashMap get is near-instant. Structure choice IS performance choice.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Party tools</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Three party tools</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="List&lt;String&gt; queue = List.of(&quot;Ada&quot;, &quot;Bob&quot;, &quot;Ada&quot;);
-Set&lt;String&gt; guests = Set.of(&quot;Ada&quot;, &quot;Bob&quot;);
-Map&lt;String, Integer&gt; age = Map.of(&quot;Ada&quot;, 18);
-System.out.println(queue.size() + &quot; &quot; + guests.size() + &quot; &quot; + age.get(&quot;Ada&quot;));">Copy</button></div>
-  <pre><code>List&lt;String&gt; queue = List.of(&quot;Ada&quot;, &quot;Bob&quot;, &quot;Ada&quot;);
-Set&lt;String&gt; guests = Set.of(&quot;Ada&quot;, &quot;Bob&quot;);
-Map&lt;String, Integer&gt; age = Map.of(&quot;Ada&quot;, 18);
-System.out.println(queue.size() + &quot; &quot; + guests.size() + &quot; &quot; + age.get(&quot;Ada&quot;));</code></pre><div class="out">▶ Output
-3 2 18</div></div>
-  <ul class="linenotes"><li>List keeps dupe Ada.</li><li>Set drops dupe.</li><li>Map finds by key.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Same names, three tools, three answers.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="import java.util.List;
+import java.util.Map;
+import java.util.Set;
+List&lt;String&gt; queue = List.of(&quot;Ada&quot;, &quot;Bob&quot;, &quot;Ada&quot;); // dupes kept
+Set&lt;String&gt; guests = Set.of(&quot;Ada&quot;, &quot;Bob&quot;);        // dupes refused
+Map&lt;String, Integer&gt; age = Map.of(&quot;Ada&quot;, 18);     // ticket to coat
+// queue.size()=3  guests.size()=2  age.get(&quot;Ada&quot;)=18">Copy</button></div>
+  <pre><code>import java.util.List;
+import java.util.Map;
+import java.util.Set;
+List&lt;String&gt; queue = List.of(&quot;Ada&quot;, &quot;Bob&quot;, &quot;Ada&quot;); // dupes kept
+Set&lt;String&gt; guests = Set.of(&quot;Ada&quot;, &quot;Bob&quot;);        // dupes refused
+Map&lt;String, Integer&gt; age = Map.of(&quot;Ada&quot;, 18);     // ticket to coat
+// queue.size()=3  guests.size()=2  age.get(&quot;Ada&quot;)=18</code></pre><div class="out">▶ Output
+queue=3, guests=2, Ada=18.</div></div>
+  <ul class="linenotes"><li>The List keeps both Adas in order.</li><li>The Set admits each name once.</li><li>The Map finds 18 by ticket "Ada".</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Same names through three tools, three different answers — each structure’s promise, demonstrated.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Key finds value.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Tickets find coats instantly.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Ada" size="8" aria-label="value"> <input data-in value=" → 18" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Set expecting order/index</b>Why: No index promise.<br><b>✅ Fix:</b> <code>Use List for order.</code></div><div class="callout warn"><b>❌ Mistake 2: Map with dupe keys expecting two</b>Why: Keys unique — second wins.<br><b>✅ Fix:</b> <code>Check containsKey.</code></div><div class="callout err"><b>❌ Mistake 3: ArrayList&lt;String&gt; everywhere (concrete)</b>Why: Locked in.<br><b>✅ Fix:</b> <code>List&lt;String&gt; l = new ArrayList&lt;&gt;();</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Set expected to keep insertion order or indexes.</b>Why: No index exists, no order promised — get(0) does not even compile.<br><b>✅ Fix:</b> <code>Order plus index needs List. Uniqueness needs Set.</code></div><div class="callout warn"><b>❌ Mistake 2: Map with duplicate keys expecting both kept.</b>Why: Keys are unique: the second put REPLACES the first, silently.<br><b>✅ Fix:</b> <code>Check containsKey first when replacement matters.</code></div><div class="callout err"><b>❌ Mistake 3: ArrayList&lt;String&gt; team = ... everywhere (concrete left).</b>Why: Locked to one implementation — swapping costs touch-everywhere.<br><b>✅ Fix:</b> <code>List&lt;String&gt; team = new ArrayList&lt;&gt;(); — interface left.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Pick tool</b><p>Unique voters? Leaderboard order? Phone→name?</p>
+  <div class="practice"><b>Pick the tool</b><p>Unique voters? Ranked leaderboard? Phone-number to name lookup?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Set / List / Map.</div><div class="sol callout"><b>Solution</b>Set, List, Map.</div></div><div class="practice"><b>Dupe keys</b><p>put(&quot;a&quot;,1) then put(&quot;a&quot;,2): get?</p>
+  <div class="hint callout"><b>Hint</b>Set, List, Map.</div><div class="sol callout"><b>Solution</b>Voters: Set. Leaderboard: List. Lookup: Map.</div></div><div class="practice"><b>Duplicate keys</b><p>put(&quot;a&quot;, 1) then put(&quot;a&quot;, 2): what does get(&quot;a&quot;) return?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Last wins.</div><div class="sol callout"><b>Solution</b>2.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Last write wins.</div><div class="sol callout"><b>Solution</b>2 — replacement, not addition.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>List order, Set unique, Map keyed.</li><li>Code to interfaces.</li><li>Keys unique; values may repeat.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Which tool for “no duplicate emails”?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Store 5 tasks in a List; 3 tags in a Set.</div>
+  <div class="prose"><ul><li>List = order, Set = unique, Map = keyed.</li><li>Program to interfaces, not implementations.</li><li>Keys unique; values may repeat.</li><li>Hash order is not a promise.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Which tool guarantees “no duplicate emails” — and why not the others?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Hold 5 tasks in a List and 3 tags in a Set this week.</div>
   <p><b>Related:</b> <a href="../lessons/common-exceptions.html">Common Exceptions &amp; Defensive Code</a> · <a href="./arraylist-hashmap.html">Next: ArrayList and HashMap →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -91,8 +99,8 @@ System.out.println(queue.size() + &quot; &quot; + guests.size() + &quot; &quot; 
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'collections',[{"id":"q1","prompt":"Allows dupes + order?","options":[{"t":"List","ok":true},{"t":"Set"},{"t":"Map keys"},{"t":"None"}],"explain":"Queue semantics."},{"id":"q2","prompt":"Unique only?","options":[{"t":"Set","ok":true},{"t":"List"},{"t":"Map values"},{"t":"Array"}],"explain":"Guest list."},{"id":"q3","prompt":"Find by ticket?","options":[{"t":"Map","ok":true},{"t":"Set"},{"t":"List only"},{"t":"None"}],"explain":"Key→value."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"List queue: Ada, Bob, Ada.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">📋 Ada → Bob → Ada\u003c/div>\u003c/div>"},{"caption":"Set list: Ada, Bob (once).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">✅ Ada · Bob\u003c/div>\u003c/div>"},{"caption":"Map ticket Ada → 18.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🎟️ Ada → 18\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'collections',[{"id":"q1","prompt":"Ordered WITH duplicates allowed?","options":[{"t":"List","ok":true},{"t":"Set"},{"t":"Map keys"},{"t":"None"}],"explain":"Queue semantics: order kept, repeats kept."},{"id":"q2","prompt":"Uniqueness enforced by…","options":[{"t":"Set","ok":true},{"t":"List"},{"t":"Map values"},{"t":"Arrays"}],"explain":"The guest-list promise: each once."},{"id":"q3","prompt":"Ticket to value lookup is…","options":[{"t":"Map","ok":true},{"t":"Set"},{"t":"List only"},{"t":"None"}],"explain":"Keys find values — the coat check."},{"id":"q4","prompt":"HashSet iteration order is…","options":[{"t":"Unspecified — never rely on it","ok":true},{"t":"Always sorted"},{"t":"Insertion order"},{"t":"Reverse order"}],"explain":"Hash order is an implementation detail, not a promise."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"List queue: Ada, Bob, Ada in line.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Ada → Bob → Ada\u003c/div>\u003c/div>"},{"caption":"Set list: Ada, Bob — once each.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Ada, Bob\u003c/div>\u003c/div>"},{"caption":"Map ticket Ada to 18.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Ada → 18\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

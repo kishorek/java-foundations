@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>What Is Source Code? · Java Foundations</title>
-<meta name="description" content="Source code is the human-readable text you write. The computer later translates it — but humans must read it first, including future you.">
+<meta name="description" content="Source code is the human-readable text you write and edit. The computer later translates it — but humans must read it first, including future you at 2 a.m.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 10 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Source code is the human-readable text you write. The computer later translates it — but humans must read it first, including future you.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do chefs write recipes instead of just filming themselves once?</div>
+  <div class="prose"><p>Source code is the human-readable text you write and edit. The computer later translates it — but humans must read it first, including future you at 2 a.m.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do chefs write recipes down instead of just filming themselves cooking once?</div>
   <h2>Objectives</h2><ul><li>Explain source code</li><li>Read a tiny code sample</li><li>Tell code from the running app</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/algorithm.html">What Is an Algorithm?</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>A recipe book vs the meal. The book (source) can be shared, edited, and re-cooked. The meal (running app) disappears after eating.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: you can still eat without the recipe. A computer cannot run without translated code — source alone does nothing until built.</div></div></section>
+  <div class="prose"><p>A recipe book versus the meal. The book (source) can be shared, reviewed, corrected, and re-cooked a thousand times. The meal (the running app) disappears after eating.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: you can still eat without the recipe. A computer cannot run untranslated source — the text alone does nothing until it is built. Source is potential, not dinner.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Source code</b> = plain-text instructions in a language like Java. Files end in <b>.java</b>.</p><p>Code has strict <b>syntax</b> (spelling/grammar). One missing semicolon can stop translation.</p><p>We write for two readers: the translator (strict) and humans (need clear names and layout).</p></div></section>
+  <div class="prose"><p><b>Source code</b> is plain-text instructions in a language like Java. Java files end in <b>.java</b> and contain classes, methods, and statements.</p><p>Code obeys strict <b>syntax</b> (spelling and grammar). One missing semicolon can stop the whole translation — the translator has no sense of humor about it.</p><p>You always write for two readers: the translator, which is strict but dumb, and humans, who need clear names, layout, and comments. Professionals optimize for the humans.</p><p>Code is edited far more than it is written. A typical file is read hundreds of times per change, which is why readability rules in this course are not decoration.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Java source is <b>Unicode text</b>; the compiler reads it and produces <b>bytecode</b> files ending in <b>.class</b>.</li><li>The compiler checks syntax <b>and</b> types before producing anything — a file with one error yields no runnable output at all.</li><li>By convention, one <b>public</b> class per file, and the file name matches it exactly: <b>Hello</b> lives in <b>Hello.java</b>.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Source → translator → app</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -62,8 +63,9 @@ public class Hello {
   }
 }</code></pre><div class="out">▶ Output
 Hi, future programmer!</div></div>
-  <ul class="linenotes"><li>Line 1 is a comment — for humans only.</li><li>Lines 2-3 wrap the program in a class + starting point.</li><li>Line 4 is the real instruction.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The translator keeps line 4 as an instruction and ignores the comment. Running prints the text.</div></div></section>
+  <ul class="linenotes"><li>Line 1 is a comment — for humans only, ignored by the translator.</li><li>Lines 2–3 wrap the program in a class plus its starting point.</li><li>Line 4 is the one real instruction.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The translator keeps line 4 as an instruction and discards the comment. Running the result prints the text.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -72,22 +74,22 @@ Hi, future programmer!</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Editing the app instead of the code.</b>Why: The running app is output; fixes go in source.<br><b>✅ Fix:</b> <code>Change .java, rebuild, run again.</code></div><div class="callout warn"><b>❌ Mistake 2: Ignoring one red semicolon error.</b>Why: Syntax is all-or-nothing for the translator.<br><b>✅ Fix:</b> <code>Read the first error line, fix, rebuild.</code></div><div class="callout err"><b>❌ Mistake 3: Names like a1, x2, tmp.</b>Why: Works for the machine, painful for humans.<br><b>✅ Fix:</b> <code>Use total, userName, price.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Trying to fix the running app instead of the code.</b>Why: The running app is output; the cause lives in source. Patching output fixes nothing.<br><b>✅ Fix:</b> <code>Change the .java file, rebuild, run again.</code></div><div class="callout warn"><b>❌ Mistake 2: Ignoring one red semicolon error.</b>Why: Translation is all-or-nothing: one error, zero program.<br><b>✅ Fix:</b> <code>Read the FIRST error line, fix exactly that, rebuild.</code></div><div class="callout err"><b>❌ Mistake 3: Names like a1, x2, tmp everywhere.</b>Why: Compiles fine, reads terribly — and code is read far more than written.<br><b>✅ Fix:</b> <code>Use total, userName, price.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Find the syntax</b><p>Which line would break translation? A) // hi B) System.out.println(&quot;hi&quot;) C) System.out.println(&quot;hi&quot;);</p>
+  <div class="practice"><b>Find the syntax break</b><p>Which line stops translation? A) // hi B) System.out.println(&quot;hi&quot;) C) System.out.println(&quot;hi&quot;);</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Java statements end with ;</div><div class="sol callout"><b>Solution</b>B — missing semicolon. C is correct.</div></div><div class="practice"><b>Rename well</b><p>Rename int a1 (price of apples) to a good name.</p>
+  <div class="hint callout"><b>Hint</b>Java statements end with a semicolon.</div><div class="sol callout"><b>Solution</b>B is missing its semicolon. C is correct; A is a comment and always safe.</div></div><div class="practice"><b>Rename well</b><p>Rename int a1 (the price of apples) to a good name.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>What is it? Use full words.</div><div class="sol callout"><b>Solution</b>int applePrice; or int priceApples;</div></div></section>
+  <div class="hint callout"><b>Hint</b>Say what it IS, in full words.</div><div class="sol callout"><b>Solution</b>int applePrice; — future you says thanks.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Source code is text humans write and edit.</li><li>Syntax must be exact; comments are free notes.</li><li>Name things for humans, not just the machine.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What are the two readers of source code?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Open Hello.java (next lessons) and add a comment with your name.</div>
+  <div class="prose"><ul><li>Source code is text humans write, read, and edit.</li><li>Syntax must be exact; comments are free notes.</li><li>Name things for humans, not just the machine.</li><li>One public class per file, file name matches it.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Who are the two readers of source code, and what does each want?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Open Hello.java and add a comment with your name and today’s date.</div>
   <p><b>Related:</b> <a href="../lessons/algorithm.html">What Is an Algorithm?</a> · <a href="./execute.html">Next: How Computers Execute Programs →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +97,8 @@ Hi, future programmer!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'source-code',[{"id":"q1","prompt":"Source code is…","options":[{"t":"Human-readable text the translator builds from","ok":true},{"t":"The running app itself"},{"t":"Electricity in wires"},{"t":"A password"}],"explain":"Source is the recipe text; the app is the meal."},{"id":"q2","prompt":"Java source files end with…","options":[{"t":".java","ok":true},{"t":".exe"},{"t":".jpg"},{"t":".txt only"}],"explain":"By convention and tooling: .java."},{"id":"q3","prompt":"Why do comments exist?","options":[{"t":"Explain why for humans; ignored by translator","ok":true},{"t":"Make code run faster"},{"t":"Required on every line"},{"t":"Encrypt code"}],"explain":"Comments help readers, never change behavior."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"You write source (.java).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Hello.java\u003c/b>\u003cbr>println(\"Hi\")\u003c/div>\u003c/div>"},{"caption":"Translator checks syntax strictly.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>javac\u003c/b>\u003cbr>missing ; ? STOP\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Hello.class\u003c/b>\u003cbr>bytecode\u003c/div>\u003c/div>"},{"caption":"Running shows the app.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Run\u003c/b>\u003cbr>java Hello\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Output\u003c/b>\u003cbr>Hi!\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'source-code',[{"id":"q1","prompt":"Source code is…","options":[{"t":"Human-readable text the translator builds from","ok":true},{"t":"The running app itself"},{"t":"Electricity in wires"},{"t":"A password"}],"explain":"Source is the recipe text; the app is the meal."},{"id":"q2","prompt":"Java source files end with…","options":[{"t":".java","ok":true},{"t":".exe"},{"t":".jpg"},{"t":".txt only"}],"explain":"By convention and tooling: .java in, .class out."},{"id":"q3","prompt":"Why do comments exist?","options":[{"t":"To explain why, for humans; the translator ignores them","ok":true},{"t":"To make code run faster"},{"t":"They are required on every line"},{"t":"To encrypt code"}],"explain":"Comments help readers and never change behavior."},{"id":"q4","prompt":"One error in a 500-line file means…","options":[{"t":"No runnable program until it is fixed","ok":true},{"t":"The other 499 lines still run"},{"t":"Only that line is skipped"},{"t":"The error line runs twice"}],"explain":"Compilation is all-or-nothing."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"You write source (Hello.java).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Hello.java\u003c/b>\u003cbr>println(\"Hi\")\u003c/div>\u003c/div>"},{"caption":"The translator checks syntax strictly.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>javac\u003c/b>\u003cbr>missing ; ? STOP\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Hello.class\u003c/b>\u003cbr>bytecode\u003c/div>\u003c/div>"},{"caption":"Running shows the app.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Run\u003c/b>\u003cbr>java Hello\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Output\u003c/b>\u003cbr>Hi!\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

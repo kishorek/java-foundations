@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Parameters and Return Values · Java Foundations</title>
-<meta name="description" content="Parameters are order slips (inputs); return is the served plate (output). void serves nothing back.">
+<meta name="description" content="Parameters are order slips going IN; return is the served plate coming OUT. void methods shout “done!”; value methods hand you something to use.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,75 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Parameters are order slips (inputs); return is the served plate (output). void serves nothing back.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How does one kitchen make “less spicy, extra rice” for each table differently?</div>
+  <div class="prose"><p>Parameters are order slips going IN; return is the served plate coming OUT. void methods shout “done!”; value methods hand you something to use.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How does ONE kitchen serve “less spicy, extra rice” to table 3 and “extra spicy” to table 7?</div>
   <h2>Objectives</h2><ul><li>Pass parameters</li><li>Return values with return</li><li>Tell void from value methods</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/methods.html">Methods</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Service counter: slip says paneer, spice 2 (parameters). Kitchen returns a plate (return value) or just shouts “done!” (void). Different slips, same kitchen.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: kitchens guess missing slips. Java refuses — wrong count/type of arguments is a compile error.</div></div></section>
+  <div class="prose"><p>The service counter. Each slip lists dish + tweaks (parameters: paneer, spice 2). The kitchen returns a plate (return value) or just shouts “done!” (void). Same kitchen, different slips, different plates.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: kitchens guess missing details (“spice 2-ish?”). Java REFUSES — wrong count or wrong types of arguments is a compile error, not a guess. Precision in, precision out.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Parameter</b> = slot in definition. <b>Argument</b> = value at call. Types must match.</p><p><b>return value;</b> sends back one value and exits. Caller stores/prints it.</p><p><b>void</b> returns nothing. Max one return value — pack more in arrays/objects later.</p></div></section>
+  <div class="prose"><p><b>Parameter</b> = the slot in the DEFINITION (int a). <b>Argument</b> = the value at the CALL (4). Types, order, and count must all match.</p><p><b>return value;</b> sends ONE value back to the caller and exits immediately — code after return never runs. The caller should CATCH it: int s = add(4, 5);</p><p><b>void</b> methods return nothing (a bare return; just exits early). Java methods return AT MOST one value — need more? Pack them in an array or object (later).</p><p>Arguments are COPIED in (pass-by-value): changing a parameter inside never touches the caller’s variable. For primitives this is absolute; objects share the house (references lesson).</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Signature</b> matching is compile-time: add(4) or add("x", "y") fails BEFORE running. Read the error — it names the expected types.</li><li>An ignored return value compiles fine but wastes work: add(4, 5); alone computes 9 and drops it. Catch or use it.</li><li><b>return;</b> (bare) is legal ONLY in void methods, as an early exit. Value methods must return a value on EVERY path.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Order slip</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Order slip in, plate out</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="static int add(int a, int b) {
-  return a + b;
-}
-// call:
-int s = add(4, 5);
-System.out.println(s); // 9">Copy</button></div>
-  <pre><code>static int add(int a, int b) {
-  return a + b;
-}
-// call:
-int s = add(4, 5);
-System.out.println(s); // 9</code></pre><div class="out">▶ Output
-9</div></div>
-  <ul class="linenotes"><li>a,b are slots; 4,5 are values.</li><li>return sends 9 back.</li><li>s catches the plate.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>add computes 4+5, returns 9, println shows it.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  static int add(int a, int b) {
+    return a + b; // serve the plate, exit now
+  }
+
+  public static void main(String[] args) {
+    int s = add(4, 5); // argument values 4, 5 fill slots a, b
+    System.out.println(s); // 9
+    System.out.println(add(10, 20)); // 30, used directly
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  static int add(int a, int b) {
+    return a + b; // serve the plate, exit now
+  }
+
+  public static void main(String[] args) {
+    int s = add(4, 5); // argument values 4, 5 fill slots a, b
+    System.out.println(s); // 9
+    System.out.println(add(10, 20)); // 30, used directly
+  }
+}</code></pre><div class="out">▶ Output
+9
+30</div></div>
+  <ul class="linenotes"><li>a, b are slots; 4, 5 are the filled-in values.</li><li>return sends 9 back and exits add instantly.</li><li>s catches the plate; the second call feeds println directly.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>First call computes 4 + 5 and stores 9 in s; second call computes 30 inside the print.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Order slip: pick a, b.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Order slip in: pick a and b.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="4" size="8" aria-label="value"> <select data-in aria-label="operator"><option>+</option></select> <input data-in value="5" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: add(4) missing arg</b>Why: Slot unfilled.<br><b>✅ Fix:</b> <code>add(4, 5).</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting to use return value</b>Why: Plate gets cold (ignored).<br><b>✅ Fix:</b> <code>int s = add(4,5);</code></div><div class="callout err"><b>❌ Mistake 3: return; in int method</b>Why: Must serve the declared type.<br><b>✅ Fix:</b> <code>return a + b;</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: add(4) — one argument missing.</b>Why: An unfilled slot: the compiler rejects the call outright.<br><b>✅ Fix:</b> <code>Fill every slot: add(4, 5).</code></div><div class="callout warn"><b>❌ Mistake 2: add(4, 5); alone, ignoring the 9.</b>Why: Compiles, computes, drops the plate on the floor.<br><b>✅ Fix:</b> <code>Catch it: int s = add(4, 5); — or use it directly.</code></div><div class="callout err"><b>❌ Mistake 3: return; inside an int method.</b>Why: Value methods must serve the declared type on ALL paths.<br><b>✅ Fix:</b> <code>return a + b; — always a value of the right type.</code></div><div class="callout err"><b>❌ Mistake 4: Expecting TWO return values.</b>Why: Java serves one plate per method, no trays.<br><b>✅ Fix:</b> <code>Pack multiples in an array or a small object (later stages).</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Write square</b><p>int square(int n) returning n*n.</p>
+  <div class="practice"><b>Write square</b><p>Write int square(int n) returning n * n, then print square(7).</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>return n * n;</div><div class="sol callout"><b>Solution</b>static int square(int n){ return n*n; }</div></div><div class="practice"><b>void or value?</b><p>printBill vs getTotal: which returns?</p>
+  <div class="hint callout"><b>Hint</b>One return line.</div><div class="sol callout"><b>Solution</b>static int square(int n) { return n * n; } … System.out.println(square(7)); // 49</div></div><div class="practice"><b>void or value?</b><p>printBill() vs getTotal(): which returns something, and how do you tell?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Print = void; compute = value.</div><div class="sol callout"><b>Solution</b>printBill void; getTotal returns double.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Does the caller NEED a result?</div><div class="sol callout"><b>Solution</b>getTotal returns (double); printBill is void. Name + need decide.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Parameters in, return out.</li><li>Types/counts must match.</li><li>Catch the return value.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Can a method return two values directly?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write double/total method for a bill.</div>
+  <div class="prose"><ul><li>Parameters in, return out — matched exactly.</li><li>Catch the return value or lose the work.</li><li>One return value max; bare return only in void.</li><li>Arguments are copied; parameters are private.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Can a Java method return two values directly? How do pros pack more?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write a bill-total method (double in, double out) and test it twice.</div>
   <p><b>Related:</b> <a href="../lessons/methods.html">Methods</a> · <a href="./scope.html">Next: Variable Scope and Lifetime →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +108,8 @@ System.out.println(s); // 9</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'params-return',[{"id":"q1","prompt":"Parameter vs argument?","options":[{"t":"Slot in definition vs value at call","ok":true},{"t":"Same thing"},{"t":"Return vs void"},{"t":"Loop vs if"}],"explain":"Slip design vs filled slip."},{"id":"q2","prompt":"add(4,5) with (4) missing…","options":[{"t":"Compile error","ok":true},{"t":"Runs as 9"},{"t":"Uses 0"},{"t":"Asks user"}],"explain":"Count/type must match."},{"id":"q3","prompt":"return does…","options":[{"t":"Send value back + exit method","ok":true},{"t":"Print always"},{"t":"Loop again"},{"t":"Delete method"}],"explain":"One plate, then back."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Slip: add(4, 5).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a=4, b=5\u003c/div>\u003c/div>"},{"caption":"Kitchen: 4+5.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">compute 9\u003c/div>\u003c/div>"},{"caption":"Serve plate 9 back.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>return 9\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">s = 9\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'params-return',[{"id":"q1","prompt":"Parameter vs argument?","options":[{"t":"Slot in the definition vs value at the call","ok":true},{"t":"The same thing"},{"t":"Return vs void"},{"t":"Loop vs if"}],"explain":"Slip design versus filled-in slip."},{"id":"q2","prompt":"add(4) when two ints are required…","options":[{"t":"Fails to compile","ok":true},{"t":"Runs as 9"},{"t":"Uses 0 for b"},{"t":"Asks the user"}],"explain":"Count and types must match — checked before running."},{"id":"q3","prompt":"return inside a method does…","options":[{"t":"Sends a value back AND exits immediately","ok":true},{"t":"Always prints"},{"t":"Loops again"},{"t":"Deletes the method"}],"explain":"One plate served, kitchen visit over."},{"id":"q4","prompt":"Changing a parameter inside the method affects the caller’s variable…","options":[{"t":"Never (arguments are copied in)","ok":true},{"t":"Always"},{"t":"Only for ints"},{"t":"Only on Fridays"}],"explain":"Pass-by-value: the method gets a private copy."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Slip arrives: add(4, 5).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a=4, b=5 (copies)\u003c/div>\u003c/div>"},{"caption":"Kitchen computes 4 + 5.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">compute 9\u003c/div>\u003c/div>"},{"caption":"Plate 9 served back to s.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>return 9\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">s = 9\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inheritance · Java Foundations</title>
-<meta name="description" content="Children reuse parents: Student is a Person with extras. Write shared code once in the parent.">
+<meta name="description" content="Children REUSE parents: a Student IS a Person with extras. Shared code lives once in the parent; differences live in the child. Hand-me-downs, but for logic.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,64 +32,76 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Children reuse parents: Student is a Person with extras. Write shared code once in the parent.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do younger siblings get hand-me-downs?</div>
+  <div class="prose"><p>Children REUSE parents: a Student IS a Person with extras. Shared code lives once in the parent; differences live in the child. Hand-me-downs, but for logic.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do younger siblings get hand-me-down jackets?</div>
   <h2>Objectives</h2><ul><li>Extend a parent class</li><li>Reuse with super</li><li>Explain single inheritance</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/static-members.html">Static Members</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Family wardrobe: parent owns jackets (name, walk()). Child Student extends Person, adds grade, reuses jackets, may tailor (override later). Java: one wardrobe donor only (single inheritance).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: hand-me-downs may not fit. Child cannot remove parent traits — only add/refine. Wrong “is-a”? Use composition.</div></div></section>
+  <div class="prose"><p>The family wardrobe. Parent owns jackets — name, walk(). Child Student extends Person: inherits every jacket, adds grade and study(). And Java allows exactly ONE wardrobe donor (single inheritance of classes).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: hand-me-downs sometimes don’t fit, and you cannot RETURN a parent trait — children only ADD or refine. Wrong “is-a”? That is composition’s job (later lesson).</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>class Student extends Person</b>. Child gets fields/methods (non-private).</p><p><b>super(...)</b> first line builds parent part. <b>super.method()</b> calls parent version.</p><p>Java: <b>one parent class</b>, many interfaces. Test: “is-a”? Student is a Person ✓.</p></div></section>
+  <div class="prose"><p><b>class Student extends Person</b>: the child receives all non-private fields and methods, then adds its own. Reuse without copy-paste.</p><p><b>super(...)</b> as the FIRST constructor line builds the parent part before the child part. Parent constructs first, always. super.method() calls the parent version explicitly.</p><p>Java: <b>ONE parent class</b> per class (single inheritance) but MANY interfaces (later lessons). The limit kills the deadly diamond ambiguity.</p><p>LITMUS TEST: say “X is a Y” aloud. “Student is a Person” passes → inherit. “Book is a Library” fails → that is has-a (composition). Run the test every time.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Constructors are NOT inherited — each class writes its own, chaining upward with super(...). No super call plus no no-arg parent = compile error.</li><li><b>private</b> parent members are NOT inherited (invisible to children); the rest are. Choose visibility with children in mind.</li><li>Every class secretly extends <b>Object</b> (toString, equals live there) — the universal ancestor at the very top.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hand-me-downs</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hand-me-down wardrobe</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Person { String name; Person(String n){ name=n; } }
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Person {
+  String name;
+  Person(String n) { name = n; }
+}
 class Student extends Person {
   int grade;
-  Student(String n, int g){ super(n); grade=g; }
+  Student(String n, int g) {
+    super(n);   // build the Person part FIRST
+    grade = g;  // then add the Student part
+  }
 }
-Student s = new Student(&quot;Ada&quot;, 90);
-System.out.println(s.name + &quot; &quot; + s.grade);">Copy</button></div>
-  <pre><code>class Person { String name; Person(String n){ name=n; } }
+Student s = new Student(&quot;Ada&quot;, 90); // name Ada, grade 90">Copy</button></div>
+  <pre><code>class Person {
+  String name;
+  Person(String n) { name = n; }
+}
 class Student extends Person {
   int grade;
-  Student(String n, int g){ super(n); grade=g; }
+  Student(String n, int g) {
+    super(n);   // build the Person part FIRST
+    grade = g;  // then add the Student part
+  }
 }
-Student s = new Student(&quot;Ada&quot;, 90);
-System.out.println(s.name + &quot; &quot; + s.grade);</code></pre><div class="out">▶ Output
-Ada 90</div></div>
-  <ul class="linenotes"><li>Student reuses name.</li><li>super builds parent.</li><li>Adds grade.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Parent part + child part assembled in order.</div></div></section>
+Student s = new Student(&quot;Ada&quot;, 90); // name Ada, grade 90</code></pre><div class="out">▶ Output
+Student Ada holds grade 90 with inherited name.</div></div>
+  <ul class="linenotes"><li>Student reuses name without redeclaring it.</li><li>super(n) constructs the parent slice.</li><li>The child only adds what is genuinely new.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Parent part assembled first, child part second — one whole object, two layers.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Parent + child data.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Parent data plus child data.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Ada" size="8" aria-label="value"> <input data-in value=", 90" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Forgetting super(...)</b>Why: Parent unbuilt (if no no-arg).<br><b>✅ Fix:</b> <code>super(n); first line.</code></div><div class="callout warn"><b>❌ Mistake 2: Book extends Library (wrong is-a)</b>Why: Book is-not-a Library.<br><b>✅ Fix:</b> <code>Library has Books (composition).</code></div><div class="callout err"><b>❌ Mistake 3: Expecting two parents</b>Why: Single class inheritance.<br><b>✅ Fix:</b> <code>Extend one; implement interfaces.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Forgetting super(...) when the parent lacks a no-arg constructor.</b>Why: The parent part never builds — compile error, rightly.<br><b>✅ Fix:</b> <code>super(n); as the constructor’s very first line.</code></div><div class="callout warn"><b>❌ Mistake 2: class Book extends Library (wrong is-a).</b>Why: A book is NOT a library — inheritance models kind, not location.<br><b>✅ Fix:</b> <code>Library HAS books: composition, not extends.</code></div><div class="callout err"><b>❌ Mistake 3: Expecting a second parent class.</b>Why: Java forbids class multitasking (the diamond problem).<br><b>✅ Fix:</b> <code>Extend ONE class; implement MANY interfaces.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Is-a?</b><p>Car/Engine: inheritance or not?</p>
+  <div class="practice"><b>Is-a or has-a?</b><p>Car vs Engine: inherit or compose? Apply the aloud test.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Is engine a car?</div><div class="sol callout"><b>Solution</b>No — composition (has-a).</div></div><div class="practice"><b>Add Teacher</b><p>Teacher extends Person + subject.</p>
+  <div class="hint callout"><b>Hint</b>Try saying “Engine is a Car”.</div><div class="sol callout"><b>Solution</b>Composition — a Car HAS an engine. The test fails, so no extends.</div></div><div class="practice"><b>Add a Teacher</b><p>Teacher extends Person with a subject field. Sketch it.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Mirror Student.</div><div class="sol callout"><b>Solution</b>class Teacher extends Person { String subject; ... }</div></div></section>
+  <div class="hint callout"><b>Hint</b>Mirror Student exactly.</div><div class="sol callout"><b>Solution</b>class Teacher extends Person { String subject; Teacher(String n, String s) { super(n); subject = s; } }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>extends reuses parent.</li><li>super builds parent first.</li><li>Use only for true is-a.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When inheritance vs composition?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Model Animal → Dog with extends.</div>
+  <div class="prose"><ul><li>extends reuses the parent, then adds.</li><li>super(...) builds the parent first.</li><li>Single parent class; many interfaces.</li><li>The “X is a Y” test decides extends vs has-a.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When does inheritance win over composition? State the test.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Model Animal to Dog with extends and super, on paper first.</div>
   <p><b>Related:</b> <a href="../lessons/static-members.html">Static Members</a> · <a href="./overriding.html">Next: Method Overriding →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +109,8 @@ Ada 90</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'inheritance',[{"id":"q1","prompt":"Student extends Person: Student…","options":[{"t":"Reuses Person + adds more","ok":true},{"t":"Loses Person traits"},{"t":"Has two parents"},{"t":"Deletes Person"}],"explain":"Add, not remove."},{"id":"q2","prompt":"super(n) does…","options":[{"t":"Build parent part first","ok":true},{"t":"Call child again"},{"t":"Delete parent"},{"t":"Print n"}],"explain":"Parent construction leads."},{"id":"q3","prompt":"Java class inheritance?","options":[{"t":"Single (one parent)","ok":true},{"t":"Multiple parents"},{"t":"None"},{"t":"Unlimited"}],"explain":"One extends; many implements."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Parent wardrobe: name, walk().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Person\u003c/b>\u003cbr>name · walk()\u003c/div>\u003c/div>"},{"caption":"Child inherits + adds grade.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Student\u003c/b>\u003cbr>+ grade · study()\u003c/div>\u003c/div>"},{"caption":"super(n) sews parent part first.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">super → Person\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">+ Student\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'inheritance',[{"id":"q1","prompt":"Student extends Person means Student…","options":[{"t":"Reuses Person, then adds more","ok":true},{"t":"Loses Person traits"},{"t":"Gains two parents"},{"t":"Deletes Person"}],"explain":"Add and refine — never remove."},{"id":"q2","prompt":"super(n) in the child constructor…","options":[{"t":"Builds the parent part first","ok":true},{"t":"Calls the child again"},{"t":"Deletes the parent"},{"t":"Prints n"}],"explain":"Parents construct before children, always."},{"id":"q3","prompt":"Java class inheritance is…","options":[{"t":"Single — one parent per class","ok":true},{"t":"Multiple parents allowed"},{"t":"Impossible"},{"t":"Unlimited"}],"explain":"One extends; many implements. No diamonds."},{"id":"q4","prompt":"Library–Book should be modeled as…","options":[{"t":"Composition (Library has Books)","ok":true},{"t":"Book extends Library"},{"t":"Library extends Book"},{"t":"No relation"}],"explain":"“Book is a Library” fails the aloud test."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Parent wardrobe: name, walk().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Person\u003c/b>\u003cbr>name · walk()\u003c/div>\u003c/div>"},{"caption":"Child inherits all, adds grade.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Student\u003c/b>\u003cbr>+ grade · study()\u003c/div>\u003c/div>"},{"caption":"super(n) sews the parent layer first.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">super → Person\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">+ Student\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

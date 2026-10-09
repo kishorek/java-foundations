@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Basic Algorithms: Search, Count, Min/Max · Java Foundations</title>
-<meta name="description" content="Four tiny superpowers: find biggest, count matches, search an item, track minimum. Same loop skeleton, different memory.">
+<meta name="description" content="Four tiny superpowers from ONE loop skeleton: find the biggest, find the smallest, count the matches, locate an item. Learn the skeleton once; the “memory” you keep is the only thing that changes.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 20 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Four tiny superpowers: find biggest, count matches, search an item, track minimum. Same loop skeleton, different memory.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you find the tallest student in a line without measuring twice?</div>
+  <div class="prose"><p>Four tiny superpowers from ONE loop skeleton: find the biggest, find the smallest, count the matches, locate an item. Learn the skeleton once; the “memory” you keep is the only thing that changes.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you find the tallest student in a line without measuring anyone twice?</div>
   <h2>Objectives</h2><ul><li>Find min/max in an array</li><li>Count matches</li><li>Write linear search</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/stringbuilder.html">StringBuilder</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Trophy walk: hold current champion (best so far), walk the line, swap when taller appears. Counting = clicker per match. Searching = stop at first name match.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: empty line has no champion — guard empty arrays or crash on a[0].</div></div></section>
+  <div class="prose"><p>The trophy walk. Crown the first student champion (best so far), walk the line, swap crowns whenever someone taller appears. Counting = clicker per match. Searching = stop at the first name called.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: an EMPTY line has no first student — crowning a[0] of nothing crashes. Empty input is the edge case every algorithm must answer.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Max/min</b>: best = a[0]; loop rest, update. <b>Count</b>: c=0, c++ on match.</p><p><b>Linear search</b>: return index or -1. Stop early with break/return.</p><p>Init matters: max to first (not 0, negatives!), count to 0.</p></div></section>
+  <div class="prose"><p><b>Max/min</b>: crown best = a[0], tour the REST, swap on strictly-better. Initializing to 0 instead breaks on all-negative inputs — crown a REAL contender.</p><p><b>Counting</b>: clicker c = 0, c++ on every match. <b>Linear search</b>: walk, return the index on match, <b>−1</b> for “absent” (−1 can never be a valid index, so it is unambiguous).</p><p>Stop early when the answer is final: search returns the moment it finds; max/min must finish the whole line (a taller student could be last).</p><p>All three share ONE skeleton: init memory → tour every slot → update memory → report. New problem? Same skeleton, different memory. That is the transferable skill.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>These are <b>O(n)</b>: work grows linearly with input size — twice the students, twice the steps. Your first complexity class, felt not memorized.</li><li><b>Sentinel values</b>: −1 for “not found”, 0 for “none counted”. Pick values OUTSIDE the answer domain so “absent” never mimics a result.</li><li>Empty arrays need an explicit decision: throw, return −1/Optional, or require non-empty. “a[0] and pray” is the bug.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Trophy walk</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,49 +50,68 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int[] a = {4, 9, 2, 9};
-int max = a[0], count9 = 0, pos2 = -1;
-for (int i = 0; i &lt; a.length; i++) {
-  if (a[i] &gt; max) max = a[i];
-  if (a[i] == 9) count9++;
-  if (a[i] == 2) pos2 = i;
-}
-System.out.println(max + &quot; &quot; + count9 + &quot; &quot; + pos2);">Copy</button></div>
-  <pre><code>int[] a = {4, 9, 2, 9};
-int max = a[0], count9 = 0, pos2 = -1;
-for (int i = 0; i &lt; a.length; i++) {
-  if (a[i] &gt; max) max = a[i];
-  if (a[i] == 9) count9++;
-  if (a[i] == 2) pos2 = i;
-}
-System.out.println(max + &quot; &quot; + count9 + &quot; &quot; + pos2);</code></pre><div class="out">▶ Output
-9 2 2</div></div>
-  <ul class="linenotes"><li>Champion starts at first.</li><li>Each slot tested once.</li><li>Results: 9, two 9s, 2 at index 2.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>One walk collects three answers — same skeleton, different notes.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int[] a = {4, 9, 2, 9};
+    int max = a[0];   // crown the first contender
+    int count9 = 0;   // clicker for nines
+    int pos2 = -1;    // sentinel: not found yet
+    for (int i = 0; i &lt; a.length; i++) {
+      if (a[i] &gt; max) max = a[i];
+      if (a[i] == 9) count9++;
+      if (a[i] == 2) pos2 = i;
+    }
+    System.out.println(&quot;max = &quot; + max);
+    System.out.println(&quot;nines = &quot; + count9);
+    System.out.println(&quot;first 2 at = &quot; + pos2);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int[] a = {4, 9, 2, 9};
+    int max = a[0];   // crown the first contender
+    int count9 = 0;   // clicker for nines
+    int pos2 = -1;    // sentinel: not found yet
+    for (int i = 0; i &lt; a.length; i++) {
+      if (a[i] &gt; max) max = a[i];
+      if (a[i] == 9) count9++;
+      if (a[i] == 2) pos2 = i;
+    }
+    System.out.println(&quot;max = &quot; + max);
+    System.out.println(&quot;nines = &quot; + count9);
+    System.out.println(&quot;first 2 at = &quot; + pos2);
+  }
+}</code></pre><div class="out">▶ Output
+max = 9
+nines = 2
+first 2 at = 2</div></div>
+  <ul class="linenotes"><li>The champion starts as a REAL element, not 0.</li><li>Each slot is tested once, three memories updated.</li><li>Results: max 9, two nines, 2 sits at index 2.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>One walk collects three answers — same skeleton, three different memories. 4 crowns, 9 dethrones, 2 and 9 counted and located.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Search doors 0-3.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Search doors 0–3 for the target.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: max = 0 with negatives</b>Why: 0 beats -5 wrongly.<br><b>✅ Fix:</b> <code>max = a[0].</code></div><div class="callout warn"><b>❌ Mistake 2: Empty array a[0]</b>Why: No champion — crash.<br><b>✅ Fix:</b> <code>if (a.length == 0) handle.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting -1 for missing</b>Why: 0 looks like found at 0.<br><b>✅ Fix:</b> <code>Init -1, set on found.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: max = 0 “to be safe” with all-negative data.</b>Why: 0 outranks −5 — the “champion” never fought anyone.<br><b>✅ Fix:</b> <code>Crown a real contender: max = a[0].</code></div><div class="callout warn"><b>❌ Mistake 2: Crowning a[0] of an EMPTY array.</b>Why: No first student exists — crash on step one.<br><b>✅ Fix:</b> <code>Decide empty up front: if (a.length == 0) ... handle.</code></div><div class="callout err"><b>❌ Mistake 3: Returning 0 for “not found”.</b>Why: 0 LOOKS like “found at slot 0” — ambiguity bug.<br><b>✅ Fix:</b> <code>Sentinel −1: outside every valid index.</code></div><div class="callout err"><b>❌ Mistake 4: Counting with an uninitialized clicker.</b>Why: Locals have no defaults — compile error.<br><b>✅ Fix:</b> <code>int count = 0; before the tour.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Min it</b><p>Min of {4,9,2,9}.</p>
+  <div class="practice"><b>Find the min</b><p>Find the minimum of {4, 9, 2, 9} using the skeleton.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Mirror max with &lt;.</div><div class="sol callout"><b>Solution</b>2.</div></div><div class="practice"><b>Count evens</b><p>Count evens in array.</p>
+  <div class="hint callout"><b>Hint</b>Mirror max with &lt;, crown a[0].</div><div class="sol callout"><b>Solution</b>min ends at 2.</div></div><div class="practice"><b>Count the evens</b><p>Count even numbers in any int array.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>% 2 == 0 → c++.</div><div class="sol callout"><b>Solution</b>Loop + counter.</div></div></section>
+  <div class="hint callout"><b>Hint</b>% 2 == 0 → click.</div><div class="sol callout"><b>Solution</b>int c = 0; for (int v : a) if (v % 2 == 0) c++;</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>One loop, many answers.</li><li>Init champion to first; missing = -1.</li><li>Guard empty arrays.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What three inits for max/count/search?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Find min + count of 5 in your ages.</div>
+  <div class="prose"><ul><li>One skeleton: init memory → tour → update → report.</li><li>Crown real contenders; sentinel −1 means absent.</li><li>Decide the empty case explicitly.</li><li>Feel O(n): double input, double steps.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What are the three “memories” (inits) for max / count / search?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Find the min AND count of 5s in your own ages array.</div>
   <p><b>Related:</b> <a href="../lessons/stringbuilder.html">StringBuilder</a> · <a href="./classes-objects.html">Next: Classes and Objects →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +119,8 @@ System.out.println(max + &quot; &quot; + count9 + &quot; &quot; + pos2);</code><
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'algorithms-basic',[{"id":"q1","prompt":"Max init for unknown values?","options":[{"t":"a[0]","ok":true},{"t":"0 always"},{"t":"999999"},{"t":"-1"}],"explain":"First real contender."},{"id":"q2","prompt":"Search missing returns?","options":[{"t":"-1","ok":true},{"t":"0"},{"t":"null"},{"t":"length"}],"explain":"-1 = absent."},{"id":"q3","prompt":"Output above?","options":[{"t":"9 2 2","ok":true},{"t":"4 1 0"},{"t":"9 1 2"},{"t":"2 2 9"}],"explain":"Max 9, two 9s, 2 at 2."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Champion = 4 (first).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">🏆 max\u003c/div>\u003cdiv class=\"vl\">4\u003c/div>\u003c/div>\u003c/div>"},{"caption":"See 9 → swap champion!","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">🏆 max\u003c/div>\u003cdiv class=\"vl\">9 ✨\u003c/div>\u003c/div>\u003c/div>"},{"caption":"2, 9: count 9s = 2, done.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">count9\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'algorithms-basic',[{"id":"q1","prompt":"Max over unknown values initializes to…","options":[{"t":"a[0] (a real contender)","ok":true},{"t":"0, always"},{"t":"999999"},{"t":"-1"}],"explain":"Crown someone real — 0 loses to negatives."},{"id":"q2","prompt":"Search with no match returns…","options":[{"t":"-1","ok":true},{"t":"0"},{"t":"null"},{"t":"The length"}],"explain":"−1 lives outside every valid index."},{"id":"q3","prompt":"The program above prints…","options":[{"t":"max = 9, nines = 2, first 2 at = 2","ok":true},{"t":"max = 4, nines = 1, first 2 at = 0"},{"t":"max = 9, nines = 1, first 2 at = 2"},{"t":"max = 2, nines = 2, first 2 at = 9"}],"explain":"Walk it: 4 crowns, 9 dethrones + clicks, 2 locates, 9 clicks."},{"id":"q4","prompt":"max = 0 fails on {-5, -3} because…","options":[{"t":"0 outranks all real candidates","ok":true},{"t":"Negatives crash loops"},{"t":"0 is not an integer"},{"t":"Arrays hate zero"}],"explain":"The fake champion never loses — wrong answer, no error."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Crown student one: 4. 🏆","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">🏆 max\u003c/div>\u003cdiv class=\"vl\">4\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Student two (9) dethrones!","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">🏆 max\u003c/div>\u003cdiv class=\"vl\">9 ✨\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Clicker: two nines counted. Done.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">count9\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

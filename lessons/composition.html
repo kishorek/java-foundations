@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Composition · Java Foundations</title>
-<meta name="description" content="Has-a beats is-a when reuse is the goal: a Library has Books; a Car has an Engine. Assemble, do not inherit.">
+<meta name="description" content="HAS-a beats IS-a whenever reuse — not kind — is the goal. A Library HAS Books; a Car HAS an Engine. Assemble parts; don’t inherit glue.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,70 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Has-a beats is-a when reuse is the goal: a Library has Books; a Car has an Engine. Assemble, do not inherit.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Is a library a kind of book — or a holder of books?</div>
+  <div class="prose"><p>HAS-a beats IS-a whenever reuse — not kind — is the goal. A Library HAS Books; a Car HAS an Engine. Assemble parts; don’t inherit glue.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Is a library a KIND of book — or a HOLDER of books?</div>
   <h2>Objectives</h2><ul><li>Favor has-a over is-a</li><li>Model Library has Books</li><li>Explain delegation</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/interfaces.html">Interfaces</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Lego castle: walls, gate, tower snapped together. Swap the gate without rebuilding the castle. Inheritance would glue them forever.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: Lego needs connectors (methods passing calls). For true specialization (Student is Person), inheritance still wins.</div></div></section>
+  <div class="prose"><p>Lego castle. Walls, gate, tower SNAPPED together, each replaceable. Swap the gate without rebuilding the castle. Inheritance would have GLUED them forever — one crack spreads everywhere.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: Lego needs CONNECTOR discipline (methods that delegate calls inward). And for TRUE specialization — Student IS a Person — inheritance still wins. The test decides, not fashion.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Field of another type</b>: class Library { List<Book> books; }. <b>Delegate</b>: library.add() calls book methods.</p><p>Prefer when: reuse code, no is-a, want swap-ability (different Engine).</p><p>Test: “is-a”? No → compose.</p></div></section>
+  <div class="prose"><p>Shape: a <b>FIELD of another type</b> — class Library { List<Book> books; } — plus <b>delegation</b>: library methods call inward (book.borrow()).</p><p>Prefer composition when: reusing code WITHOUT kind-claims, wanting SWAPPABLE parts (today’s engine, tomorrow’s electric), or dodging fragile deep hierarchies.</p><p>Inheritance exposes parent internals to children (fragile base class); composition exposes ONLY what you delegate. Less surface, fewer surprises.</p><p>THE TEST, again: “Car is an Engine” fails aloud → field, not extends. “Student is a Person” passes → extends. Run it every time.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Delegation</b> = outer method calls the part’s method. Car.start() calls engine.start(). Manual but explicit — no spooky inherited behavior.</li><li>“Favor composition over inheritance” is the famous pro-design principle — decades of burned teams agree.</li><li>Passing parts through constructors (dependency injection) makes composition testable: test with a fake engine. Preview of pro design.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Lego</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Lego assembly</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Engine { void start(){ System.out.println(&quot;Vroom&quot;); } }
-class Car {
-  Engine engine = new Engine();
-  void start(){ engine.start(); }
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Engine {
+  void start() { System.out.println(&quot;Vroom&quot;); }
 }
-new Car().start();">Copy</button></div>
-  <pre><code>class Engine { void start(){ System.out.println(&quot;Vroom&quot;); } }
 class Car {
-  Engine engine = new Engine();
-  void start(){ engine.start(); }
+  private Engine engine = new Engine(); // HAS-a
+  void start() { engine.start(); }       // delegate inward
 }
-new Car().start();</code></pre><div class="out">▶ Output
-Vroom</div></div>
-  <ul class="linenotes"><li>Car has Engine.</li><li>start delegates.</li><li>Swap engine freely.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Composition + delegation: Car asks its part to work.</div></div></section>
+Car c = new Car();
+c.start(); // &quot;Vroom&quot; — the part did the work">Copy</button></div>
+  <pre><code>class Engine {
+  void start() { System.out.println(&quot;Vroom&quot;); }
+}
+class Car {
+  private Engine engine = new Engine(); // HAS-a
+  void start() { engine.start(); }       // delegate inward
+}
+Car c = new Car();
+c.start(); // &quot;Vroom&quot; — the part did the work</code></pre><div class="out">▶ Output
+Vroom — the owned part performed.</div></div>
+  <ul class="linenotes"><li>Car OWNS an Engine (field), not IS one.</li><li>start() delegates — one line, total control.</li><li>Swap the Engine type freely; Car’s face never changes.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Composition plus delegation: the Car asks its owned part to perform.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Assemble parts.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Snap parts together.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Car" size="8" aria-label="value"> <input data-in value=" + Engine" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Car extends Engine</b>Why: Car is-not-an Engine!<br><b>✅ Fix:</b> <code>Car has Engine.</code></div><div class="callout warn"><b>❌ Mistake 2: Exposing engine publicly</b>Why: Callers bypass Car.<br><b>✅ Fix:</b> <code>Private + delegate.</code></div><div class="callout err"><b>❌ Mistake 3: Inherit for code reuse only</b>Why: Fragile hierarchy.<br><b>✅ Fix:</b> <code>Compose + delegate.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: class Car extends Engine.</b>Why: A Car is NOT an Engine — kind-claim lies, and engine upgrades now require surgery.<br><b>✅ Fix:</b> <code>Field plus delegate: private Engine engine.</code></div><div class="callout warn"><b>❌ Mistake 2: Exposing the part: public Engine engine.</b>Why: Callers bypass the Car entirely — guards, logging, swaps all defeated.<br><b>✅ Fix:</b> <code>Private part; deliberate delegate methods.</code></div><div class="callout err"><b>❌ Mistake 3: Inheriting PURELY to reuse code.</b>Why: “Free” reuse with fragile-base-class interest payments forever.<br><b>✅ Fix:</b> <code>Reuse via composition; inherit only true is-a.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Is-a or has-a?</b><p>Library/Book: which?</p>
+  <div class="practice"><b>Is-a or has-a?</b><p>Library vs Book: which relationship, and the test result?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Holder?</div><div class="sol callout"><b>Solution</b>Has-a → composition.</div></div><div class="practice"><b>Delegate</b><p>Library.borrow(title) delegates to?</p>
+  <div class="hint callout"><b>Hint</b>Say it aloud.</div><div class="sol callout"><b>Solution</b>Has-a → composition. “Book is a Library” fails the test.</div></div><div class="practice"><b>Delegate it</b><p>Library.borrow(title) should reuse Book.borrow(). Sketch one line.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Find book, call borrow.</div><div class="sol callout"><b>Solution</b>book.borrow();</div></div></section>
+  <div class="hint callout"><b>Hint</b>Find, then forward.</div><div class="sol callout"><b>Solution</b>Find the book, then call its borrow() — locate, delegate.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Has-a → field + delegate.</li><li>Swap-able, loosely coupled.</li><li>Is-a? inherit. Otherwise compose.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Give one inheritance and one composition example.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Refactor one extends into has-a.</div>
+  <div class="prose"><ul><li>Has-a = field plus delegation.</li><li>Swappable, loosely coupled, testable.</li><li>Is-a? inherit. Otherwise compose.</li><li>Private parts; deliberate delegates.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Give one TRUE inheritance and one TRUE composition from real life.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Refactor one extends in your code into has-a and compare.</div>
   <p><b>Related:</b> <a href="../lessons/interfaces.html">Interfaces</a> · <a href="./packages.html">Next: Packages and Imports →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +103,8 @@ Vroom</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'composition',[{"id":"q1","prompt":"Library-Book is…","options":[{"t":"Composition (has-a)","ok":true},{"t":"Inheritance"},{"t":"Override"},{"t":"Static"}],"explain":"Holder, not kind."},{"id":"q2","prompt":"Benefit?","options":[{"t":"Swap parts, less coupling","ok":true},{"t":"Fewer files"},{"t":"Faster typing"},{"t":"More parents"}],"explain":"Lego swap."},{"id":"q3","prompt":"Car.start above delegates to…","options":[{"t":"engine.start()","ok":true},{"t":"Nothing"},{"t":"super"},{"t":"static"}],"explain":"Part does work."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Bricks: Engine, Wheels.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Engine\u003c/div>\u003cdiv class=\"box\">Wheels\u003c/div>\u003c/div>"},{"caption":"Snap into Car.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Car\u003c/b> has Engine + Wheels 🧱\u003c/div>\u003c/div>"},{"caption":"Swap engine, castle stands.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Engine 🔄 same Car\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'composition',[{"id":"q1","prompt":"Library–Book models as…","options":[{"t":"Composition (has-a)","ok":true},{"t":"Inheritance"},{"t":"Overriding"},{"t":"A static"}],"explain":"Holder, not kind — the Lego answer."},{"id":"q2","prompt":"Composition’s big win is…","options":[{"t":"Swappable parts with tiny exposed surface","ok":true},{"t":"Fewer files"},{"t":"Faster typing"},{"t":"More parents"}],"explain":"Snap-out, snap-in — castle stands."},{"id":"q3","prompt":"Car.start() above reaches the engine via…","options":[{"t":"Delegation to the owned part","ok":true},{"t":"Nothing"},{"t":"super"},{"t":"A static"}],"explain":"The one-line forward is the whole pattern."},{"id":"q4","prompt":"Inherit vs compose decision rule?","options":[{"t":"The “X is a Y” aloud test","ok":true},{"t":"Coin flip"},{"t":"Always inherit"},{"t":"Always compose"}],"explain":"Kind-claim passes → extends. Else → field."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Loose bricks: Engine, Wheels.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Engine\u003c/div>\u003cdiv class=\"box\">Wheels\u003c/div>\u003c/div>"},{"caption":"Snap both into Car.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Car\u003c/b> has Engine + Wheels 🧱\u003c/div>\u003c/div>"},{"caption":"Swap the engine; castle stands.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Engine, same Car\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

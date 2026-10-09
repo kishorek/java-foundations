@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Interfaces · Java Foundations</title>
-<meta name="description" content="Interfaces are pure promises: “can do X” with zero how. A class can sign many — Java’s answer to multiple inheritance.">
+<meta name="description" content="Pure promises: “can do X”, with ZERO how. A class may sign MANY — Java’s answer to multiple inheritance, minus the diamond wars.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,70 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Interfaces are pure promises: “can do X” with zero how. A class can sign many — Java’s answer to multiple inheritance.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How can a phone, camera, and drone all “take photos” differently?</div>
+  <div class="prose"><p>Pure promises: “can do X”, with ZERO how. A class may sign MANY — Java’s answer to multiple inheritance, minus the diamond wars.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How can a phone, a camera, and a drone all “take photos” completely differently?</div>
   <h2>Objectives</h2><ul><li>Define an interface</li><li>Implement multiple ones</li><li>Choose interface vs class</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/abstract-classes.html">Abstract Classes</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Plug sockets: shape (method names) fixed, wiring inside varies. Drone, phone, camera all plug into Flyable/Capturable sockets. One device, many sockets.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: sockets do not power themselves. Interfaces hold no object state (until Java 8 defaults) — behavior contracts only.</div></div></section>
+  <div class="prose"><p>Wall sockets. The SHAPE (method names) is fixed; the wiring behind each socket differs per device. Drone, phone, camera all plug into Flyable/Capturable sockets. One device, MANY sockets simultaneously.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: sockets generate no power themselves. Interfaces carry (almost) no state and no constructors — behavior contracts only. Need shared machinery? That is abstract classes’ job.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>interface Borrowable { void borrow(); }</b> <b>class Book implements Borrowable</b>. Must write all methods.</p><p>One class, <b>many interfaces</b>. Many classes, one interface → polymorphism.</p><p>Vs abstract: no lineage needed. Use for capabilities (can-fly, can-save).</p></div></section>
+  <div class="prose"><p>Declare <b>interface Borrowable { void borrow(); }</b>; sign with <b>class Book implements Borrowable</b>. Every method MUST be written — unsigned promises are compile errors.</p><p>ONE class, MANY interfaces: class Drone implements Flyable, Capturable. MANY classes, ONE interface → full polymorphism across unrelated families.</p><p>Versus abstract: NO lineage required — a Drone and a Phone share Capturable with zero family ties. Use interfaces for CAPABILITIES (can-fly, can-save).</p><p>Since Java 8, interfaces may carry <b>default</b> (shared fallback) and <b>static</b> helpers — but fields stay constants only. Still contracts first, always.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Interface methods are implicitly <b>public abstract</b>; implementations MUST be public — shrinking visibility breaks the deal.</li><li>A class can <b>extend one, implement many</b>: class D extends Base implements A, B — the one sentence ending the “which?” debate.</li><li><b>Functional interfaces</b> (exactly one method: Runnable, Comparator) plug into lambdas — the doorway to modern Java style.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Sockets</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Wall sockets</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="interface Speaker { void speak(); }
-class Robot implements Speaker {
-  public void speak(){ System.out.println(&quot;Beep!&quot;); }
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="interface Speaker { void speak(); } // the promise
+class Robot implements Speaker {    // signing it
+  public void speak() { System.out.println(&quot;Beep!&quot;); }
 }
-Speaker s = new Robot();
-s.speak();">Copy</button></div>
-  <pre><code>interface Speaker { void speak(); }
-class Robot implements Speaker {
-  public void speak(){ System.out.println(&quot;Beep!&quot;); }
+class Human implements Speaker {    // unrelated family!
+  public void speak() { System.out.println(&quot;Hello!&quot;); }
 }
-Speaker s = new Robot();
-s.speak();</code></pre><div class="out">▶ Output
-Beep!</div></div>
-  <ul class="linenotes"><li>Promise declared.</li><li>Robot signs + delivers.</li><li>Use via promise type.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Contract fulfilled; polymorphism via interface.</div></div></section>
+Speaker s = new Robot(); // promise-typed remote
+s.speak(); // &quot;Beep!&quot;">Copy</button></div>
+  <pre><code>interface Speaker { void speak(); } // the promise
+class Robot implements Speaker {    // signing it
+  public void speak() { System.out.println(&quot;Beep!&quot;); }
+}
+class Human implements Speaker {    // unrelated family!
+  public void speak() { System.out.println(&quot;Hello!&quot;); }
+}
+Speaker s = new Robot(); // promise-typed remote
+s.speak(); // &quot;Beep!&quot;</code></pre><div class="out">▶ Output
+Beep! via the promise-typed remote.</div></div>
+  <ul class="linenotes"><li>Promise declared once, signatures fixed.</li><li>Robot AND Human sign — zero shared blood.</li><li>Used through the promise type: polymorphism.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Contract fulfilled by Robot; the promise-typed call dispatches to Robot’s version.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Sign the promise.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Sign the promise, keep it.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Beep" size="8" aria-label="value"> <input data-in value="!" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Forgetting a method</b>Why: Contract broken — error.<br><b>✅ Fix:</b> <code>Implement all.</code></div><div class="callout warn"><b>❌ Mistake 2: Expecting one interface only</b>Why: Many allowed!<br><b>✅ Fix:</b> <code>implements A, B.</code></div><div class="callout err"><b>❌ Mistake 3: new Speaker()</b>Why: Promise, not a thing.<br><b>✅ Fix:</b> <code>new Robot().</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Implementing 2 of 3 interface methods.</b>Why: Unsigned promise = broken contract — compile error.<br><b>✅ Fix:</b> <code>Write ALL of them (or stay abstract).</code></div><div class="callout warn"><b>❌ Mistake 2: “One interface per class max.”</b>Why: The opposite: many sockets per device is the POINT.<br><b>✅ Fix:</b> <code>implements Flyable, Capturable — comma away.</code></div><div class="callout err"><b>❌ Mistake 3: new Speaker() directly.</b>Why: A promise is not a thing — no state, no constructor.<br><b>✅ Fix:</b> <code>new the IMPLEMENTER: new Robot().</code></div><div class="callout err"><b>❌ Mistake 4: Package-private void speak() as the implementation.</b>Why: Interface methods are public; shrinking breaks the signature.<br><b>✅ Fix:</b> <code>public void speak() — always public.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Write Drawable</b><p>interface Drawable { void draw(); }</p>
+  <div class="practice"><b>Write Drawable</b><p>Declare interface Drawable with void draw();</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>No body.</div><div class="sol callout"><b>Solution</b>interface Drawable{ void draw(); }</div></div><div class="practice"><b>Two promises</b><p>class D implements A, B — ok?</p>
+  <div class="hint callout"><b>Hint</b>No body, semicolon.</div><div class="sol callout"><b>Solution</b>interface Drawable { void draw(); }</div></div><div class="practice"><b>Two sockets?</b><p>Can class D implement both A and B? What does that buy?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Yes!</div><div class="sol callout"><b>Solution</b>Yes — multiple allowed.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Comma.</div><div class="sol callout"><b>Solution</b>Yes: class D implements A, B — two capabilities, one device.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Pure can-do contracts.</li><li>Many per class.</li><li>Enables cross-family polymorphism.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When interface vs abstract class?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write Playable interface + two implementers.</div>
+  <div class="prose"><ul><li>Pure can-do contracts, zero how.</li><li>Many per class; many classes per contract.</li><li>Cross-family polymorphism unlocked.</li><li>public always; all methods or abstract.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When interface versus abstract class? Give the one-line rule.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write one Playable interface plus two unrelated implementers.</div>
   <p><b>Related:</b> <a href="../lessons/abstract-classes.html">Abstract Classes</a> · <a href="./composition.html">Next: Composition →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +103,8 @@ Beep!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'interfaces',[{"id":"q1","prompt":"A class can implement…","options":[{"t":"Many interfaces","ok":true},{"t":"Zero only"},{"t":"One max"},{"t":"None ever"}],"explain":"Many sockets."},{"id":"q2","prompt":"new on interface?","options":[{"t":"No — implement first","ok":true},{"t":"Yes"},{"t":"Sometimes"},{"t":"With static"}],"explain":"Contract only."},{"id":"q3","prompt":"Use interface for…","options":[{"t":"Capability across families","ok":true},{"t":"Parent-child reuse only"},{"t":"Storing state"},{"t":"Deleting code"}],"explain":"Can-do promises."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Socket: speak() shape.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔌 Speaker.speak()\u003c/div>\u003c/div>"},{"caption":"Robot plugs in.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Robot → Beep!\u003c/div>\u003c/div>"},{"caption":"Human plugs in too.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Human → Hello!\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'interfaces',[{"id":"q1","prompt":"One class may implement…","options":[{"t":"As many interfaces as it likes","ok":true},{"t":"At most one"},{"t":"Zero, always"},{"t":"None, ever"}],"explain":"Many sockets per device — the core advantage."},{"id":"q2","prompt":"new on an interface…","options":[{"t":"Banned — implement something first","ok":true},{"t":"Always fine"},{"t":"Sometimes fine"},{"t":"Fine if static"}],"explain":"Contracts have no constructors."},{"id":"q3","prompt":"Reach for interfaces for…","options":[{"t":"Capabilities shared across unrelated families","ok":true},{"t":"Parent-child code reuse"},{"t":"Storing state"},{"t":"Deleting code"}],"explain":"Can-do promises, lineage-free."},{"id":"q4","prompt":"Interface method implementations must be…","options":[{"t":"public","ok":true},{"t":"private"},{"t":"package-private"},{"t":"protected"}],"explain":"Promises are public; shrinking breaks the signature."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Socket shape fixed: speak().","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🔌 Speaker.speak()\u003c/div>\u003c/div>"},{"caption":"Robot plugs in → Beep.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Robot → Beep!\u003c/div>\u003c/div>"},{"caption":"Human plugs in → Hello. Same socket.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Human → Hello!\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

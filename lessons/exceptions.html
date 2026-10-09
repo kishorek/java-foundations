@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Exception Handling: try/catch/finally · Java Foundations</title>
-<meta name="description" content="Exceptions are fire alarms: unexpected guests (missing file, bad input) that must be caught, guided out, or announced.">
+<meta name="description" content="Exceptions are fire alarms for the unexpected: missing files, bad input, dead networks. Java forces a plan — catch them, clean up, or honestly warn callers.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,67 +32,70 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Exceptions are fire alarms: unexpected guests (missing file, bad input) that must be caught, guided out, or announced.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What should a wedding planner do when an uninvited guest arrives?</div>
+  <div class="prose"><p>Exceptions are fire alarms for the unexpected: missing files, bad input, dead networks. Java forces a plan — catch them, clean up, or honestly warn callers.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What SHOULD a wedding planner do when an uninvited guest walks in?</div>
   <h2>Objectives</h2><ul><li>Write try-catch</li><li>Use finally and throw</li><li>Explain propagation</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/packages.html">Packages and Imports</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Wedding bouncer: try the party, catch gatecrashers by type (NoSeat vs NoFood), finally clean up. throw = shout “fire!”; throws = sign “may shout”.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: catching every alarm and napping (empty catch) burns the hall. Handle or escalate honestly.</div></div></section>
+  <div class="prose"><p>The wedding bouncer team. TRY hosts the party; CATCH ushers each crasher-type out by species; FINALLY cleans up no matter what. throw = shout “FIRE!”; throws = the sign warning “may shout”.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: catching every alarm then NAPPING (empty catch) burns the hall down quietly. Handle honestly, recover, or escalate — never swallow.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>try { risky } catch (IOException e) { plan B } finally { cleanup }</b>. Catch specific first.</p><p><b>throw new IllegalArgumentException("age?")</b> signals. <b>throws</b> warns callers.</p><p>Flow jumps to catch; finally always runs (even on return).</p></div></section>
+  <div class="prose"><p>Shape: <b>try { risky } catch (IOException e) { plan B } finally { cleanup }</b>. Catch SPECIFIC types first — a general Exception catch first makes the specific ones unreachable (compile error).</p><p>When the alarm fires, normal flow JUMPS to the matching catch; finally runs ALWAYS — success, failure, even return. Cleanup lives there.</p><p>Raise your own: <b>throw new IllegalArgumentException("age?")</b>. Warn callers with <b>throws</b>: void load() throws IOException — “call me inside try”.</p><p>Two honest philosophies: RECOVER when a plan B exists (retry, default); let it PROPAGATE when only the caller can decide. Both honest; swallowing is neither.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Throwable</b> splits into Error (do not catch — JVM trouble) and Exception. Exceptions split into CHECKED (handle-or-declare, compiler-enforced) vs UNCHECKED RuntimeException (bugs, optional).</li><li><b>Checked</b> (IOException): compiler FORCES try-or-declare. <b>Unchecked</b> (NullPointer, IllegalArgument): compile freely — they signal bugs, not weather.</li><li><b>try-with-resources</b> auto-closes files; multi-catch (catch (A | B e)) merges handlers; rethrowing preserves the original stack.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Fire drill</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Fire-drill flow</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="try {
-  int age = Integer.parseInt(&quot;18&quot;);
+  int age = Integer.parseInt(&quot;18&quot;); // risky: text to number
   System.out.println(&quot;Age &quot; + age);
 } catch (NumberFormatException e) {
-  System.out.println(&quot;Type digits please!&quot;);
+  System.out.println(&quot;Type digits please!&quot;); // plan B
 } finally {
-  System.out.println(&quot;Done checking&quot;);
-}">Copy</button></div>
+  System.out.println(&quot;Done checking&quot;); // ALWAYS runs
+}
+// With &quot;abc&quot; instead: plan B prints, finally still runs.">Copy</button></div>
   <pre><code>try {
-  int age = Integer.parseInt(&quot;18&quot;);
+  int age = Integer.parseInt(&quot;18&quot;); // risky: text to number
   System.out.println(&quot;Age &quot; + age);
 } catch (NumberFormatException e) {
-  System.out.println(&quot;Type digits please!&quot;);
+  System.out.println(&quot;Type digits please!&quot;); // plan B
 } finally {
-  System.out.println(&quot;Done checking&quot;);
-}</code></pre><div class="out">▶ Output
-Age 18
-Done checking</div></div>
-  <ul class="linenotes"><li>Risky parse in try.</li><li>Bad text → catch plan B.</li><li>finally always speaks.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Parse succeeded; catch skipped; finally ran.</div></div></section>
+  System.out.println(&quot;Done checking&quot;); // ALWAYS runs
+}
+// With &quot;abc&quot; instead: plan B prints, finally still runs.</code></pre><div class="out">▶ Output
+Age 18, then Done checking. (&quot;abc&quot; would print plan B instead.)</div></div>
+  <ul class="linenotes"><li>Risky parse sits inside try.</li><li>Bad text diverts to the matching catch.</li><li>finally speaks on EVERY path.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Parse succeeded so catch slept; finally ran regardless — its entire job description.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Parse risk: try numbers.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Parsing risk: numbers versus text.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="18" size="8" aria-label="value"> <select data-in aria-label="operator"><option>+</option></select> <input data-in value="0" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: catch (Exception e) {} empty</b>Why: Swallows fire silently.<br><b>✅ Fix:</b> <code>Log + recover or rethrow.</code></div><div class="callout warn"><b>❌ Mistake 2: Generic before specific</b>Why: Unreachable code error.<br><b>✅ Fix:</b> <code>Specific → general.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting cleanup</b>Why: Files leak.<br><b>✅ Fix:</b> <code>finally or try-with-resources.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: catch (Exception e) {} — empty and silent.</b>Why: The fire burns on, unreported, while the program “works”.<br><b>✅ Fix:</b> <code>Log it, recover, or rethrow. Never nap through alarms.</code></div><div class="callout warn"><b>❌ Mistake 2: Catching general Exception BEFORE specific ones.</b>Why: Unreachable-catch compile error — the net order is illegal.<br><b>✅ Fix:</b> <code>Specific species first, general safety-net last.</code></div><div class="callout err"><b>❌ Mistake 3: Cleanup code AFTER the try instead of finally.</b>Why: An exception jumps OVER it — files leak, locks freeze.<br><b>✅ Fix:</b> <code>Cleanup in finally (or try-with-resources).</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Add guard</b><p>Wrap parseInt(input) with catch.</p>
+  <div class="practice"><b>Wrap a parse</b><p>Guard Integer.parseInt(input) with a NumberFormatException catch.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>NumberFormatException.</div><div class="sol callout"><b>Solution</b>try{...}catch(NumberFormatException e){...}</div></div><div class="practice"><b>Finally?</b><p>File opened in try — where close?</p>
+  <div class="hint callout"><b>Hint</b>Try the risk, catch the species.</div><div class="sol callout"><b>Solution</b>try { int n = Integer.parseInt(input); ... } catch (NumberFormatException e) { System.out.println(&quot;digits please&quot;); }</div></div><div class="practice"><b>Place the cleanup</b><p>A file opens in try. Where does close() go, and why?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Always runs.</div><div class="sol callout"><b>Solution</b>finally (or try-with-resources).</div></div></section>
+  <div class="hint callout"><b>Hint</b>The always-runs block.</div><div class="sol callout"><b>Solution</b>finally — success, failure, and return all pass through it.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>try risky, catch specific, finally cleans.</li><li>throw signals; throws warns.</li><li>Never empty-catch.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What jumps where when an exception fires?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Wrap one parse with try-catch.</div>
+  <div class="prose"><ul><li>Try the risk, catch the species, finally cleans.</li><li>throw signals; throws warns callers.</li><li>Specific before general; never empty-catch.</li><li>Recover with plan B or propagate honestly.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Narrate exactly where control jumps when a parse fails.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Wrap one real parse in your code with try-catch this week.</div>
   <p><b>Related:</b> <a href="../lessons/packages.html">Packages and Imports</a> · <a href="./common-exceptions.html">Next: Common Exceptions &amp; Defensive Code →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -100,8 +103,8 @@ Done checking</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'exceptions',[{"id":"q1","prompt":"finally runs…","options":[{"t":"Always","ok":true},{"t":"On success only"},{"t":"On catch only"},{"t":"Never"}],"explain":"Cleanup guarantee."},{"id":"q2","prompt":"throw vs throws?","options":[{"t":"Signal now vs warn callers","ok":true},{"t":"Same thing"},{"t":"Opposites reversed"},{"t":"Loops"}],"explain":"Shout vs sign."},{"id":"q3","prompt":"Catch order?","options":[{"t":"Specific → general","ok":true},{"t":"General → specific"},{"t":"Random"},{"t":"Alphabetical"}],"explain":"Reachable first."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Party in try.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🎉 try: parse \"18\"\u003c/div>\u003c/div>"},{"caption":"Crash? catch by type guides out.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🚨 catch → plan B\u003c/div>\u003c/div>"},{"caption":"finally cleans always.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🧹 finally ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'exceptions',[{"id":"q1","prompt":"finally executes…","options":[{"t":"Always — every path","ok":true},{"t":"Only on success"},{"t":"Only in catch"},{"t":"Never"}],"explain":"The cleanup guarantee, no exceptions (pun intended)."},{"id":"q2","prompt":"throw versus throws?","options":[{"t":"Signal now versus warn callers","ok":true},{"t":"Identical twins"},{"t":"Reversed opposites"},{"t":"Loop keywords"}],"explain":"Shout the alarm vs post the warning sign."},{"id":"q3","prompt":"Catch-block order must be…","options":[{"t":"Specific species before general nets","ok":true},{"t":"General before specific"},{"t":"Random"},{"t":"Alphabetical"}],"explain":"Otherwise the specific nets are unreachable."},{"id":"q4","prompt":"Empty catch blocks are…","options":[{"t":"Alarm-swallowing bugs — log, recover, or rethrow","ok":true},{"t":"Best practice"},{"t":"Faster code"},{"t":"Required style"}],"explain":"Silence is not handling."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Party runs inside try.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">try: parse \"18\"\u003c/div>\u003c/div>"},{"caption":"Crash? matching catch guides out.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">catch → plan B\u003c/div>\u003c/div>"},{"caption":"finally cleans up, always.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">finally done\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

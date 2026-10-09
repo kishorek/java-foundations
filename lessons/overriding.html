@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Method Overriding · Java Foundations</title>
-<meta name="description" content="Same signature, new behavior: child tailors the hand-me-down. @Override proves you meant it.">
+<meta name="description" content="Same signature, NEW behavior: the child tailors the hand-me-down to fit. @Override is the tag proving the alteration was intentional — not an accident.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,70 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Same signature, new behavior: child tailors the hand-me-down. @Override proves you meant it.</p>
-  <div class="callout"><b>🔎 Motivating question</b>When does a child cook the family curry differently — and say so?</div>
+  <div class="prose"><p>Same signature, NEW behavior: the child tailors the hand-me-down to fit. @Override is the tag proving the alteration was intentional — not an accident.</p>
+  <div class="callout"><b>🔎 Motivating question</b>When does a child cook the family curry differently — and announce it?</div>
   <h2>Objectives</h2><ul><li>Override with @Override</li><li>Tell overload from override</li><li>Use dynamic dispatch simply</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/inheritance.html">Inheritance</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Tailor shop: parent jacket speak() says “...”. Child Dog re-cuts it to “Woof!”. Tag @Override = “yes, intentional alteration”. Overloading = same name, new sizes (different inputs) — different shop.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: tailoring needs same measurements (signature). Different inputs = overload, not override.</div></div></section>
+  <div class="prose"><p>The tailor shop. Parent jacket speak() says “...”. Child Dog re-cuts the SAME jacket to “Woof!”. The @Override tag stitched on says “yes, deliberate alteration”. (Same name with DIFFERENT inputs is overloading — a different shop across the street.)</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: tailoring needs IDENTICAL measurements (signature). Change the inputs and you have sewn a NEW garment (overload) while the old one still hangs there — the classic “why is my override ignored?!”</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>@Override void speak()</b>: same name + inputs + compatible return. Runtime picks child version.</p><p><b>Overload</b>: same name, different inputs (compile-time choice). Keep apart!</p><p>Rules: cannot weaken access; static/private do not override.</p></div></section>
+  <div class="prose"><p><b>Override</b> = same name plus same parameter types plus compatible return, new body. Tag it <b>@Override</b> so typos become compile errors instead of silent new methods.</p><p>At runtime the OBJECT’s version runs, not the reference’s — Animal a = new Dog(); a.speak() barks. This <b>dynamic dispatch</b> powers all polymorphism.</p><p><b>Overload</b> = same name, DIFFERENT inputs, chosen at COMPILE time. Override vs overload differ in every column: timing, rules, purpose. Keep them surgically apart.</p><p>Rules: cannot weaken access (public stays public); static and private methods do NOT override (they hide or stay put); final methods forbid overriding entirely.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>@Override</b> is compiler-checked documentation: wrong signature plus tag = instant error. Always tag. No exceptions.</li><li>An override may return a SUBTYPE (Dog instead of Animal) — narrowing the promise is safe. This is called a covariant return.</li><li><b>super.speak()</b> inside the override calls the PARENT version — for extending behavior (“parent thing, plus mine”) rather than replacing it.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Tailor</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Tailor shop</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Animal { void speak(){ System.out.println(&quot;...&quot;); } }
-class Dog extends Animal {
-  @Override void speak(){ System.out.println(&quot;Woof!&quot;); }
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Animal {
+  void speak() { System.out.println(&quot;...&quot;); }
 }
-Animal a = new Dog();
-a.speak(); // Woof!">Copy</button></div>
-  <pre><code>class Animal { void speak(){ System.out.println(&quot;...&quot;); } }
 class Dog extends Animal {
-  @Override void speak(){ System.out.println(&quot;Woof!&quot;); }
+  @Override
+  void speak() { System.out.println(&quot;Woof!&quot;); } // tailored
 }
-Animal a = new Dog();
-a.speak(); // Woof!</code></pre><div class="out">▶ Output
+Animal a = new Dog(); // reference Animal, object Dog
+a.speak(); // &quot;Woof!&quot; — the OBJECT decides">Copy</button></div>
+  <pre><code>class Animal {
+  void speak() { System.out.println(&quot;...&quot;); }
+}
+class Dog extends Animal {
+  @Override
+  void speak() { System.out.println(&quot;Woof!&quot;); } // tailored
+}
+Animal a = new Dog(); // reference Animal, object Dog
+a.speak(); // &quot;Woof!&quot; — the OBJECT decides</code></pre><div class="out">▶ Output
 Woof!</div></div>
-  <ul class="linenotes"><li>Same signature.</li><li>@Override guards typos.</li><li>Child version runs.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Dynamic dispatch: object type (Dog) wins over reference type (Animal).</div></div></section>
+  <ul class="linenotes"><li>Identical signature, brand-new body.</li><li>@Override guards against typo-ghosts.</li><li>Object type (Dog) beats reference type (Animal).</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Dynamic dispatch: at runtime the JVM follows the OBJECT to Dog.speak, ignoring the reference’s quieter version.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Which speak runs?</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Which speak runs? The object’s.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Woof" size="8" aria-label="value"> <input data-in value="!" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: void speak(String s) “override”</b>Why: Different inputs = overload!<br><b>✅ Fix:</b> <code>Match exactly for override.</code></div><div class="callout warn"><b>❌ Mistake 2: Missing @Override + typo speek</b>Why: Silent new method, bug hides.<br><b>✅ Fix:</b> <code>Always @Override.</code></div><div class="callout err"><b>❌ Mistake 3: Reducing public → private</b>Why: Illegal weakening.<br><b>✅ Fix:</b> <code>Keep or widen.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: void speak(String s) claimed as “override”.</b>Why: Different inputs = OVERLOAD — a new method; the parent one still runs polymorphically.<br><b>✅ Fix:</b> <code>Match name plus inputs plus return exactly for a true override.</code></div><div class="callout warn"><b>❌ Mistake 2: Typo speek() with no @Override tag.</b>Why: Silent brand-new method; the parent version keeps running; confusion for weeks.<br><b>✅ Fix:</b> <code>@Override on EVERY override — typos detonate at compile time.</code></div><div class="callout err"><b>❌ Mistake 3: Shrinking public to private in the child.</b>Why: Illegal weakening — callers promised public get locked doors.<br><b>✅ Fix:</b> <code>Keep access, or widen it. Never narrow.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Overload or override?</b><p>speak() vs speak(String): which?</p>
+  <div class="practice"><b>Overload or override?</b><p>Parent speak() vs child speak(String s): which relationship?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Inputs differ.</div><div class="sol callout"><b>Solution</b>Overload.</div></div><div class="practice"><b>Add Cat</b><p>Cat speaks Meow via override.</p>
+  <div class="hint callout"><b>Hint</b>Inputs differ — check the columns.</div><div class="sol callout"><b>Solution</b>OVERLOAD. Different inputs, compile-time choice.</div></div><div class="practice"><b>Add a Cat</b><p>Cat extends Animal, speaking “Meow” via override.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>@Override void speak.</div><div class="sol callout"><b>Solution</b>class Cat extends Animal { @Override void speak(){...} }</div></div></section>
+  <div class="hint callout"><b>Hint</b>Tag it.</div><div class="sol callout"><b>Solution</b>class Cat extends Animal { @Override void speak() { System.out.println(&quot;Meow!&quot;); } }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Override = same shape, new behavior.</li><li>Always tag @Override.</li><li>Overload ≠ override.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What three things must match for override?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Override toString in a class.</div>
+  <div class="prose"><ul><li>Override = same shape, new behavior.</li><li>@Override always — no exceptions.</li><li>Object type wins at runtime.</li><li>Overload is not override, in every column.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>List the three things that must match for a true override.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Override toString() in one of your classes and print it.</div>
   <p><b>Related:</b> <a href="../lessons/inheritance.html">Inheritance</a> · <a href="./polymorphism.html">Next: Polymorphism →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +103,8 @@ Woof!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'overriding',[{"id":"q1","prompt":"Override needs…","options":[{"t":"Same signature, new body","ok":true},{"t":"Different inputs"},{"t":"New name"},{"t":"Static"}],"explain":"Same measurements, new cut."},{"id":"q2","prompt":"@Override helps…","options":[{"t":"Catch typos at compile","ok":true},{"t":"Run faster"},{"t":"Hide code"},{"t":"Add parents"}],"explain":"Intent tag."},{"id":"q3","prompt":"a = new Dog(); a.speak() → ?","options":[{"t":"Woof!","ok":true},{"t":"..."},{"t":"Error"},{"t":"Nothing"}],"explain":"Object type wins."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Parent jacket: speak → ...","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Animal: \"...\"\u003c/div>\u003c/div>"},{"caption":"Child re-cuts: Woof!.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Dog: \"Woof!\" ✂️\u003c/div>\u003c/div>"},{"caption":"Wearing Dog → Woof sounds.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Dog → Woof! 🔊\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'overriding',[{"id":"q1","prompt":"Overriding requires…","options":[{"t":"Same signature, new body","ok":true},{"t":"Different inputs"},{"t":"A brand-new name"},{"t":"Static methods"}],"explain":"Same measurements, new cut — the tailor’s rule."},{"id":"q2","prompt":"@Override exists to…","options":[{"t":"Turn typos into compile errors","ok":true},{"t":"Run code faster"},{"t":"Hide the code"},{"t":"Add more parents"}],"explain":"Intent made compiler-checkable."},{"id":"q3","prompt":"Animal a = new Dog(); a.speak() prints…","options":[{"t":"Woof!","ok":true},{"t":"..."},{"t":"A compiler error"},{"t":"Nothing"}],"explain":"The object outranks the reference at runtime."},{"id":"q4","prompt":"Overload differs from override in that it…","options":[{"t":"Changes inputs and binds at compile time","ok":true},{"t":"Changes nothing at all"},{"t":"Binds at runtime"},{"t":"Needs no name match"}],"explain":"Same name, new sizes — a different shop entirely."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Parent jacket: speak says “...”.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Animal: \"...\"\u003c/div>\u003c/div>"},{"caption":"Child re-cuts it: “Woof!”.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Dog: \"Woof!\" ✂️\u003c/div>\u003c/div>"},{"caption":"Wearing Dog always sounds Woof.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Dog → Woof! 🔊\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

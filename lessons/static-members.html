@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Static Members · Java Foundations</title>
-<meta name="description" content="static belongs to the blueprint, shared by all houses. Counters, constants, Math helpers — one copy for everyone.">
+<meta name="description" content="static belongs to the BLUEPRINT, shared by every house. Counters, constants, Math-style helpers — one copy for all, reachable with no object at all.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,64 +32,68 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>static belongs to the blueprint, shared by all houses. Counters, constants, Math helpers — one copy for everyone.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What does a colony share vs own privately?</div>
+  <div class="prose"><p>static belongs to the BLUEPRINT, shared by every house. Counters, constants, Math-style helpers — one copy for all, reachable with no object at all.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What does a whole colony share, versus what each home owns privately?</div>
   <h2>Objectives</h2><ul><li>Tell static from instance</li><li>Use Math-style helpers</li><li>Explain shared state risk</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/access-mods.html">Access Modifiers</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Colony park (static, shared) vs home garden (instance, per house). totalBooks counts all; title differs per book. Park litter affects all — shared state risk!</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: parks need no house to visit. Static needs no object — but cannot see instance gardens (no this).</div></div></section>
+  <div class="prose"><p>The colony park (static, ONE shared) versus home gardens (instance, per house). totalBooks counts ALL books; title differs per book. Litter in the park bothers EVERYONE — shared mutable state is shared risk.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: anyone may stroll into the park without owning a house — static needs NO object — but from the park you CANNOT see into private gardens (no this, no instance fields). Different world, different rules.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>static int total</b>: one copy. <b>static void</b>: call via ClassName.method(). No object needed.</p><p>Use for: constants, pure helpers (Math.max), counters. Avoid mutable shared state.</p><p>Static cannot use <b>this</b> or instance fields.</p></div></section>
+  <div class="prose"><p><b>static</b> fields and methods live ONCE per class: static int total. Call via the class name: Book.getTotal(), Math.max(3, 9). No new needed, ever.</p><p>Perfect for: <b>constants</b> (static final), <b>pure helpers</b> (Math style), <b>counters</b>. Suspicious for: mutable shared state — hidden globals that make tests order-dependent.</p><p>Static code CANNOT use <b>this</b> or touch instance fields — there is no “current object” in blueprint-land.</p><p>Read statics through the CLASS (Book.total), never through an object (b.total compiles but lies about ownership — linters flag it).</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>static final</b> = true constants (like Math.PI). static alone = shared mutable — handle with gloves.</li><li><b>Static initializers</b> (static { ... }) run once when the class first loads — for complex one-time setup.</li><li>Utility classes (Math style) hide their constructors and expose ONLY statics: pure toolboxes, never instantiated.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Park vs garden</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Park versus gardens</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Book {
-  static int total = 0;
-  String title;
+  static int total = 0; // ONE park sign, shared
+  String title;         // per-house garden
   Book(String t) { title = t; total++; }
 }
-new Book(&quot;A&quot;); new Book(&quot;B&quot;);
-System.out.println(Book.total); // 2">Copy</button></div>
+new Book(&quot;A&quot;);
+new Book(&quot;B&quot;);
+System.out.println(Book.total); // prints 2">Copy</button></div>
   <pre><code>class Book {
-  static int total = 0;
-  String title;
+  static int total = 0; // ONE park sign, shared
+  String title;         // per-house garden
   Book(String t) { title = t; total++; }
 }
-new Book(&quot;A&quot;); new Book(&quot;B&quot;);
-System.out.println(Book.total); // 2</code></pre><div class="out">▶ Output
-2</div></div>
-  <ul class="linenotes"><li>total shared.</li><li>Each birth ++.</li><li>Read via class name.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Two objects, one counter incremented twice.</div></div></section>
+new Book(&quot;A&quot;);
+new Book(&quot;B&quot;);
+System.out.println(Book.total); // prints 2</code></pre><div class="out">▶ Output
+total = 2 after two births.</div></div>
+  <ul class="linenotes"><li>total exists once, whatever the object count.</li><li>Each birth ticks the shared sign.</li><li>Read it via the CLASS name.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Two objects constructed, one shared counter incremented twice.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Shared counter: add books.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Shared counter ticks per birth.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="1" size="8" aria-label="value"> <select data-in aria-label="operator"><option>+</option></select> <input data-in value="1" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: this.total in static</b>Why: No this object!<br><b>✅ Fix:</b> <code>Use Book.total.</code></div><div class="callout warn"><b>❌ Mistake 2: Mutable static favoritism</b>Why: Hidden global, tests clash.<br><b>✅ Fix:</b> <code>Prefer instance or constants.</code></div><div class="callout err"><b>❌ Mistake 3: book.total (via object)</b>Why: Works but misleads.<br><b>✅ Fix:</b> <code>Book.total (class).</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: this.total inside a static method.</b>Why: No “current object” exists in blueprint-land.<br><b>✅ Fix:</b> <code>Name the class: Book.total.</code></div><div class="callout warn"><b>❌ Mistake 2: Mutable static used as an “easy cache”.</b>Why: Hidden global: tests clash, threads race, order starts to matter.<br><b>✅ Fix:</b> <code>Constants and pure helpers: yes. Shared mutable: instance or inject.</code></div><div class="callout err"><b>❌ Mistake 3: b.total — reading static via an object.</b>Why: Compiles, but implies the object OWNS it. Lies in code form.<br><b>✅ Fix:</b> <code>Book.total — ownership printed honestly.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Call it</b><p>Call Math.max(3,9) — object needed?</p>
+  <div class="practice"><b>Call without objects</b><p>Call Math.max(3, 9). Was any object built?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Static.</div><div class="sol callout"><b>Solution</b>No: Math.max(3, 9) → 9.</div></div><div class="practice"><b>Counter</b><p>Add static count to Pen.</p>
+  <div class="hint callout"><b>Hint</b>Class name plus dot.</div><div class="sol callout"><b>Solution</b>No object: Math.max(3, 9) gives 9. Pure static call.</div></div><div class="practice"><b>Add a counter</b><p>Add a birth-counter to your Pen class.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>++ in constructor.</div><div class="sol callout"><b>Solution</b>static int count; count++ in Pen().</div></div></section>
+  <div class="hint callout"><b>Hint</b>static int, plus-plus in constructor.</div><div class="sol callout"><b>Solution</b>static int count = 0; then count++ inside Pen(...).</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Shared: one copy, ClassName.access.</li><li>Helpers + constants = great; mutable = risky.</li><li>No this in static.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Instance vs static: where does each live?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Add a static counter to a class.</div>
+  <div class="prose"><ul><li>Shared = one copy, reached via ClassName.</li><li>Helpers plus constants: ideal. Mutable shared: risky.</li><li>No this in static-land.</li><li>Utility classes = static toolboxes.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Instance versus static: where does each live, and how many copies exist?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Add a static counter to one of your classes and watch it tick.</div>
   <p><b>Related:</b> <a href="../lessons/access-mods.html">Access Modifiers</a> · <a href="./inheritance.html">Next: Inheritance →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +101,8 @@ System.out.println(Book.total); // 2</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'static-members',[{"id":"q1","prompt":"static means…","options":[{"t":"One copy shared by all","ok":true},{"t":"Copy per object"},{"t":"Deleted"},{"t":"Private always"}],"explain":"Blueprint-level."},{"id":"q2","prompt":"Output above?","options":[{"t":"2","ok":true},{"t":"0"},{"t":"1"},{"t":"Error"}],"explain":"Two births."},{"id":"q3","prompt":"Static cannot use…","options":[{"t":"this / instance fields","ok":true},{"t":"Parameters"},{"t":"Locals"},{"t":"Constants"}],"explain":"No object in scope."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Gardens: per house (title).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">A 🌱\u003c/div>\u003cdiv class=\"box\">B 🌿\u003c/div>\u003c/div>"},{"caption":"Park: one shared (total).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total (shared)\u003c/div>\u003cdiv class=\"vl\">0 → 2\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Each birth ticks the park sign.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new A → 1\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">new B → 2\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'static-members',[{"id":"q1","prompt":"static means…","options":[{"t":"One copy shared by the whole class","ok":true},{"t":"A copy per object"},{"t":"Deleted after use"},{"t":"Private forever"}],"explain":"Blueprint-level ownership."},{"id":"q2","prompt":"Two Books built; Book.total reads…","options":[{"t":"2","ok":true},{"t":"0"},{"t":"1"},{"t":"It errors"}],"explain":"Two births ticked the one sign."},{"id":"q3","prompt":"Static code CANNOT touch…","options":[{"t":"this and instance fields","ok":true},{"t":"Parameters"},{"t":"Local variables"},{"t":"Constants"}],"explain":"No current object exists there."},{"id":"q4","prompt":"Reading statics should go through…","options":[{"t":"The class name (Book.total)","ok":true},{"t":"Any object (b.total)"},{"t":"Comments"},{"t":"Strings"}],"explain":"Ownership printed honestly."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Gardens: private per house (titles).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">A 🌱\u003c/div>\u003cdiv class=\"box\">B 🌿\u003c/div>\u003c/div>"},{"caption":"Park: ONE shared sign (total).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total (shared)\u003c/div>\u003cdiv class=\"vl\">0 → 2\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Each birth ticks the park sign.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new A → 1\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">new B → 2\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

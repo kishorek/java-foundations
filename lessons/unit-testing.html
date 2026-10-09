@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Basic Unit Testing · Java Foundations</title>
-<meta name="description" content="Unit tests are robot taste-testers: feed known input, check expected vs actual. Green = safe to change code.">
+<meta name="description" content="Unit tests are robot taste-testers: feed known inputs, compare expected versus actual. Green means safe to refactor; red names the exact betrayal.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Unit tests are robot taste-testers: feed known input, check expected vs actual. Green = safe to change code.</p>
+  <div class="prose"><p>Unit tests are robot taste-testers: feed known inputs, compare expected versus actual. Green means safe to refactor; red names the exact betrayal.</p>
   <div class="callout"><b>🔎 Motivating question</b>Why do chefs taste with a spoon instead of serving blindly?</div>
   <h2>Objectives</h2><ul><li>Write a JUnit test</li><li>Compare expected vs actual</li><li>Explain why tests help</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/files.html">File Reading and Writing</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Taste spoon: recipe add(2,3) must taste 5. @Test writes the spoon; assertEquals(expected, actual) sips. Red spoon → fix recipe, not the spoon.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: spoons test one dish. 100% spoons ≠ no bugs — also test edges (0, negatives, empty).</div></div></section>
+  <div class="prose"><p>The taste spoon. Recipe add(2,3) MUST taste 5. @Test writes the spoon; assertEquals(expected, actual) sips. Red spoon → fix the RECIPE, never blame the spoon.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: spoons test single dishes, never whole banquets. 100% passing spoons still miss integration bugs — also test edges (0, negatives, empties) and a few journeys end to end.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>@Test void adds() { assertEquals(5, add(2,3)); }</b> JUnit 5 + import static Assertions.*.</p><p><b>Expected first, actual second</b>. Name tests like sentences: rejectsNegativeAge.</p><p>Run via IDE/Maven; red → read message (expected 5 but was 4 at line X).</p></div></section>
+  <div class="prose"><p>Shape: <b>@Test void adds() { assertEquals(5, add(2, 3)); }</b> with JUnit 5. Import the Assertions statically; name tests like sentences (rejectsNegativeAge).</p><p>Order is <b>EXPECTED first, actual second</b>: assertEquals(5, add(2,3)). Swapped order still works but prints confusing failure messages.</p><p>Run via IDE green-button or <b>mvn test</b>; red output reads “expected 5 but was 4” plus the exact line. Fix code, never edit the test to match bugs.</p><p>Test EDGES, not just sunshine: 0, negatives, empties, nulls. Bugs breed at boundaries — the middle usually behaves.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>JUnit 5 (Jupiter): <b>@Test</b>, <b>@BeforeEach</b> setup, <b>assertEquals / assertTrue / assertThrows</b> — the working vocabulary.</li><li><b>assertThrows(IllegalArgumentException.class, () -> ...)</b> tests FAILURE paths — guards deserve tests too.</li><li>Tests are executable SPECIFICATIONS: read them to learn what code promises. Write them for Main’s helpers in the capstone.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Taste spoons</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,51 +50,54 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// Calculator.java
-static int add(int a, int b){ return a + b; }
-// CalculatorTest.java
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// Calculator.java: the recipe
+static int add(int a, int b) { return a + b; }
+// CalculatorTest.java: the spoons
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 class CalculatorTest {
-  @Test void adds(){ assertEquals(5, add(2, 3)); }
-  @Test void zero(){ assertEquals(3, add(3, 0)); }
+  @Test void adds() { assertEquals(5, add(2, 3)); }
+  @Test void zeroEdge() { assertEquals(3, add(3, 0)); }
+  @Test void negatives() { assertEquals(0, add(-2, 2)); }
 }">Copy</button></div>
-  <pre><code>// Calculator.java
-static int add(int a, int b){ return a + b; }
-// CalculatorTest.java
+  <pre><code>// Calculator.java: the recipe
+static int add(int a, int b) { return a + b; }
+// CalculatorTest.java: the spoons
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 class CalculatorTest {
-  @Test void adds(){ assertEquals(5, add(2, 3)); }
-  @Test void zero(){ assertEquals(3, add(3, 0)); }
+  @Test void adds() { assertEquals(5, add(2, 3)); }
+  @Test void zeroEdge() { assertEquals(3, add(3, 0)); }
+  @Test void negatives() { assertEquals(0, add(-2, 2)); }
 }</code></pre><div class="out">▶ Output
-2 tests, green ✓</div></div>
-  <ul class="linenotes"><li>Two tiny checks.</li><li>Expected vs actual order.</li><li>Edge zero covered.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Known answers guard future edits.</div></div></section>
+3 tests, all green.</div></div>
+  <ul class="linenotes"><li>Two files: recipe plus spoons.</li><li>Expected first, actual second — always.</li><li>Sunshine plus edges: zero and negatives.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Known answers guard every future edit — refactor fearlessly.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Taste: 2 + 3 must be 5.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Taste it: 2 + 3 must be 5.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="2" size="8" aria-label="value"> <select data-in aria-label="operator"><option>+</option></select> <input data-in value="3" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: assertEquals(actual, expected) swapped</b>Why: Confusing message.<br><b>✅ Fix:</b> <code>Expected first!</code></div><div class="callout warn"><b>❌ Mistake 2: No edge tests</b>Why: Happy path only.<br><b>✅ Fix:</b> <code>Add 0, empty, negative.</code></div><div class="callout err"><b>❌ Mistake 3: Testing with prints, not asserts</b>Why: Human must eyeball.<br><b>✅ Fix:</b> <code>Assert; robot judges.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: assertEquals(actual, expected) — swapped.</b>Why: Works, but failure messages read backwards.<br><b>✅ Fix:</b> <code>Expected FIRST, actual second. Always.</code></div><div class="callout warn"><b>❌ Mistake 2: Sunshine-only tests (happy paths).</b>Why: Edges harbor the bugs; middles behave.<br><b>✅ Fix:</b> <code>Add 0, empty, negative, null-adjacent cases.</code></div><div class="callout err"><b>❌ Mistake 3: Testing by eyeballing prints, not asserts.</b>Why: Humans must stare every run; robots judge instantly.<br><b>✅ Fix:</b> <code>Assert; let the machine deliver verdicts.</code></div><div class="callout err"><b>❌ Mistake 4: Editing the TEST to match buggy code.</b>Why: Shooting the taste-spoon for reporting poison.<br><b>✅ Fix:</b> <code>Red means fix the RECIPE.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Write one</b><p>Test square(4) == 16.</p>
+  <div class="practice"><b>Write one test</b><p>Test that square(4) equals 16.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>assertEquals(16, square(4)).</div><div class="sol callout"><b>Solution</b>@Test void sq(){ assertEquals(16, square(4)); }</div></div><div class="practice"><b>Edge it</b><p>Add test: add(-2, 2) == 0.</p>
+  <div class="hint callout"><b>Hint</b>assertEquals(16, square(4)).</div><div class="sol callout"><b>Solution</b>@Test void sq() { assertEquals(16, square(4)); }</div></div><div class="practice"><b>Edge it</b><p>Add a negatives test for add.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Negatives.</div><div class="sol callout"><b>Solution</b>assertEquals(0, add(-2, 2));</div></div></section>
+  <div class="hint callout"><b>Hint</b>Minus plus plus.</div><div class="sol callout"><b>Solution</b>@Test void neg() { assertEquals(0, add(-2, 2)); }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Robots check known answers.</li><li>Expected first; edges included.</li><li>Red → read, fix code.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What does a failing test tell you exactly?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write 2 tests for your add/square method.</div>
+  <div class="prose"><ul><li>Robots check known answers tirelessly.</li><li>Expected first; edges included.</li><li>Red names the betrayal — fix code.</li><li>Tests are executable specifications.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What exactly does a failing test tell you — and not tell you?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write 2 real tests for your own add/square method.</div>
   <p><b>Related:</b> <a href="../lessons/files.html">File Reading and Writing</a> · <a href="./maven-structure.html">Next: Project Structure, Maven &amp; Dependencies →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -101,8 +105,8 @@ class CalculatorTest {
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'unit-testing',[{"id":"q1","prompt":"assertEquals order?","options":[{"t":"Expected, actual","ok":true},{"t":"Actual, expected"},{"t":"Random"},{"t":"Actual only"}],"explain":"Message reads right."},{"id":"q2","prompt":"Green tests mean…","options":[{"t":"Checked cases pass (not bug-free)","ok":true},{"t":"Zero bugs ever"},{"t":"No need to run again"},{"t":"Code deleted"}],"explain":"Spoons, not proof."},{"id":"q3","prompt":"Best test name?","options":[{"t":"rejectsNegativeAge","ok":true},{"t":"test1"},{"t":"stuff"},{"t":"x"}],"explain":"Sentence names."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Spoon 1: add(2,3) → 5?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">expect 5, got 5 🟢\u003c/div>\u003c/div>"},{"caption":"Spoon 2: add(3,0) → 3?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">expect 3, got 3 🟢\u003c/div>\u003c/div>"},{"caption":"All green → serve safely.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">2/2 green ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'unit-testing',[{"id":"q1","prompt":"assertEquals argument order?","options":[{"t":"Expected, then actual","ok":true},{"t":"Actual, then expected"},{"t":"Random"},{"t":"Actual only"}],"explain":"Failure messages read correctly only this way."},{"id":"q2","prompt":"Green tests prove…","options":[{"t":"Checked cases pass — not bug-freedom","ok":true},{"t":"Zero bugs exist"},{"t":"Never run again needed"},{"t":"Code can be deleted"}],"explain":"Spoons sample; banquets need more."},{"id":"q3","prompt":"Best test method name?","options":[{"t":"rejectsNegativeAge","ok":true},{"t":"test1"},{"t":"stuff"},{"t":"x"}],"explain":"Sentence names document intent."},{"id":"q4","prompt":"A red test means…","options":[{"t":"Fix the recipe code","ok":true},{"t":"Edit the test to match"},{"t":"Delete the test"},{"t":"Ignore it"}],"explain":"Spoons report; recipes obey."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Spoon 1: add(2,3) must be 5.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">expect 5, got 5\u003c/div>\u003c/div>"},{"caption":"Spoon 2: add(3,0) must be 3.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">expect 3, got 3\u003c/div>\u003c/div>"},{"caption":"All green: serve safely.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">3 of 3 green\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

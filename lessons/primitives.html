@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Primitive Data Types · Java Foundations</title>
-<meta name="description" content="Java has exactly 8 built-in value types. Pick the smallest box that safely fits — usually int, double, boolean, char.">
+<meta name="description" content="Java ships exactly 8 built-in value types — no more, no less. Pick the smallest box that safely fits your data; in practice that means int, double, boolean, and char carry 95% of beginner code.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 20 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Java has exactly 8 built-in value types. Pick the smallest box that safely fits — usually int, double, boolean, char.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why sell milk in 250ml, 500ml, and 1L — not just one giant tanker?</div>
+  <div class="prose"><p>Java ships exactly 8 built-in value types — no more, no less. Pick the smallest box that safely fits your data; in practice that means int, double, boolean, and char carry 95% of beginner code.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do shops sell milk in 250 ml, 500 ml, and 1 L instead of one giant tanker per customer?</div>
   <h2>Objectives</h2><ul><li>Name the 8 primitives</li><li>Pick int vs double vs boolean</li><li>Explain ranges simply</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/variables.html">Variables: Your Program's Storage Boxes</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Measuring cups. byte (tiny espresso), int (mug), long (bucket), float/double (graduated cylinders), char (single letter tile), boolean (light switch).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cups spill visibly. Numeric overflow wraps silently (127 + 1 → -128 in byte). Choose big enough!</div></div></section>
+  <div class="prose"><p>Measuring cups. byte is the espresso shot, int the everyday mug, long the bucket; float and double are graduated cylinders of different precision; char is a single letter tile; boolean is a light switch.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cups spill visibly and loudly. Numeric overflow wraps SILENTLY — byte 127 + 1 becomes -128 with no warning. Undersized boxes corrupt data instead of complaining.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Integers: <b>byte</b> ±128, <b>short</b> ±32k, <b>int</b> ±2 billion (default), <b>long</b> huge (add L).</p><p>Decimals: <b>float</b> ~7 digits (add f), <b>double</b> ~15 digits (default for 3.5). Use double unless told otherwise.</p><p><b>char</b> one UTF-16 unit (like a), <b>boolean</b> true/false. char is a number underneath (A = 65).</p></div></section>
+  <div class="prose"><p>Integers: <b>byte</b> (±128), <b>short</b> (±32 thousand), <b>int</b> (±2.1 billion, the default), <b>long</b> (about ±9.2 × 10¹⁸, needs an L suffix). Bigger box, bigger range, more memory.</p><p>Decimals: <b>float</b> (~7 trustworthy digits, needs an f suffix) vs <b>double</b> (~15–16 digits, the default for 3.5). Money and science want double; float is for special cases like graphics.</p><p><b>char</b> holds one UTF-16 code unit in single quotes — (int) ’A’ is 65 underneath. <b>boolean</b> is exactly true or false, nothing else, no 0/1 tricks like C.</p><p>Naked numbers have default types: 5 is int, 3.5 is double, true is boolean. Suffixes override: 5L is long, 3.5f is float, ’a’ is char.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Exact ranges: byte −128..127, short −32,768..32,767, int −2,147,483,648..2,147,483,647, long ≈ ±9.2×10¹⁸, char 0..65,535.</li><li><b>long big = 8000000000;</b> FAILS — the literal is int-sized first, so it overflows before assignment. Always write 8000000000L.</li><li><b>float t = 36.6;</b> FAILS — 36.6 is double and Java never silently squeezes it. Write 36.6f or use double.</li><li>A char is secretly a number: ’A’+1 is ’B’, and (int)’A’ is 65. Emoji mostly need TWO chars (surrogate pairs) — char is a UTF-16 unit, not “one symbol”.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Sizing boxes</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,47 +50,62 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int people = 30;
-long worldPop = 8_000_000_000L;
-double price = 19.99;
-float temp = 36.6f;
-char grade = &#39;A&#39;;
-boolean passed = true;
-System.out.println(people + &quot; &quot; + price + &quot; &quot; + grade);">Copy</button></div>
-  <pre><code>int people = 30;
-long worldPop = 8_000_000_000L;
-double price = 19.99;
-float temp = 36.6f;
-char grade = 'A';
-boolean passed = true;
-System.out.println(people + &quot; &quot; + price + &quot; &quot; + grade);</code></pre><div class="out">▶ Output
-30 19.99 A</div></div>
-  <ul class="linenotes"><li>L marks long; f marks float.</li><li>3.5 alone is double.</li><li>char uses single quotes.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each literal fits its type; + with strings joins for display.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int people = 30;
+    long worldPop = 8000000000L;
+    double price = 19.99;
+    float temp = 36.6f;
+    char grade = &#39;A&#39;;
+    boolean passed = true;
+    System.out.println(people);
+    System.out.println(worldPop);
+    System.out.println(price + &quot; &quot; + temp + &quot; &quot; + grade + &quot; &quot; + passed);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int people = 30;
+    long worldPop = 8000000000L;
+    double price = 19.99;
+    float temp = 36.6f;
+    char grade = 'A';
+    boolean passed = true;
+    System.out.println(people);
+    System.out.println(worldPop);
+    System.out.println(price + &quot; &quot; + temp + &quot; &quot; + grade + &quot; &quot; + passed);
+  }
+}</code></pre><div class="out">▶ Output
+30
+8000000000
+19.99 36.6 A true</div></div>
+  <ul class="linenotes"><li>The L marks a long literal; the f marks a float literal.</li><li>Bare 3.5-style decimals are always double.</li><li>char uses single quotes; boolean prints as true/false.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each literal fits its declared type exactly; the last line joins everything into text for display.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Integers vs decimals: try 5 / 2 as int math.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Integers vs decimals: try 5 / 2 as pure int math.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="5" size="8" aria-label="value"> <select data-in aria-label="operator"><option>/</option></select> <input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: long x = 8000000000; (no L)</b>Why: Bare number is int — too big!<br><b>✅ Fix:</b> <code>long x = 8_000_000_000L;</code></div><div class="callout warn"><b>❌ Mistake 2: float t = 36.6; (no f)</b>Why: 36.6 is double; cannot squeeze silently.<br><b>✅ Fix:</b> <code>float t = 36.6f; or use double.</code></div><div class="callout err"><b>❌ Mistake 3: char c = &quot;a&quot;;</b>Why: Double quotes = String, not char.<br><b>✅ Fix:</b> <code>char c = 'a';</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: long x = 8000000000; with no L.</b>Why: The bare literal is int — it overflows BEFORE the assignment happens.<br><b>✅ Fix:</b> <code>long x = 8000000000L; — suffix the literal itself.</code></div><div class="callout warn"><b>❌ Mistake 2: float t = 36.6; with no f.</b>Why: 36.6 is born double; Java will not squeeze it silently.<br><b>✅ Fix:</b> <code>float t = 36.6f; — or simply use double.</code></div><div class="callout err"><b>❌ Mistake 3: char c = &quot;a&quot;; with double quotes.</b>Why: Double quotes build a String object, never a char.<br><b>✅ Fix:</b> <code>char c = ’a’; — singles for tiles, doubles for strings.</code></div><div class="callout err"><b>❌ Mistake 4: byte b = 100; b = b + 1; expecting 101 in a byte.</b>Why: byte math promotes to int — and 127 + 1 wraps to -128 anyway.<br><b>✅ Fix:</b> <code>Use int for math; treat byte/short as storage types.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Pick types</b><p>Choose types: person age, planet population, pi, grade letter, light on/off.</p>
+  <div class="practice"><b>Pick types</b><p>Choose the best type for each: a person’s age, planet population, pi, a grade letter, a light on/off.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>int, long, double, char, boolean.</div><div class="sol callout"><b>Solution</b>int age; long population; double pi; char grade; boolean on.</div></div><div class="practice"><b>char math?</b><p>What is (int) 'A'? Guess, then run.</p>
+  <div class="hint callout"><b>Hint</b>int, long, double, char, boolean.</div><div class="sol callout"><b>Solution</b>int age; long population; double pi; char grade; boolean on.</div></div><div class="practice"><b>Char arithmetic</b><p>What does System.out.println((int) ’A’); print? Guess, then run it.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Unicode number underneath.</div><div class="sol callout"><b>Solution</b>65. (int) shows the code unit.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Every char hides a number underneath.</div><div class="sol callout"><b>Solution</b>65 — the UTF-16 code unit for capital A.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>8 primitives; default int and double.</li><li>L for long, f for float, single quotes for char.</li><li>Overflow wraps: size your box.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Name the 8 primitives without peeking.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Declare one variable of each of int, double, char, boolean and print them.</div>
+  <div class="prose"><ul><li>8 primitives; bare integers default to int, decimals to double.</li><li>L marks long, f marks float, single quotes mark char.</li><li>Overflow wraps silently — size the box before the math.</li><li>char is a UTF-16 number; boolean is strictly true/false.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Name all 8 primitives plus each one’s rough range, without peeking.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Declare one variable of each of int, double, char, boolean and print them with labels.</div>
   <p><b>Related:</b> <a href="../lessons/variables.html">Variables: Your Program's Storage Boxes</a> · <a href="./references.html">Next: Reference Types and Object References →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +113,8 @@ System.out.println(people + &quot; &quot; + price + &quot; &quot; + grade);</cod
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'primitives',[{"id":"q1","prompt":"Default type of 3.5?","options":[{"t":"double","ok":true},{"t":"float"},{"t":"int"},{"t":"char"}],"explain":"Decimals default to double."},{"id":"q2","prompt":"Which needs a suffix?","options":[{"t":"long big = 8000000000L","ok":true},{"t":"int n = 5"},{"t":"boolean b = true"},{"t":"char c = globals"}],"explain":"Big longs need L; floats need f."},{"id":"q3","prompt":"byte b = 127; b + 1 becomes?","options":[{"t":"-128 (overflow wraps)","ok":true},{"t":"128 safely"},{"t":"Error always"},{"t":"0 exactly"}],"explain":"Tiny types wrap — pick bigger."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"byte: espresso cup (-128..127).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">byte\u003c/div>\u003cdiv class=\"vl\">127\u003c/div>\u003c/div>\u003c/div>"},{"caption":"int: everyday mug (±2B).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int\u003c/div>\u003cdiv class=\"vl\">2,147,483,647\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Overflow: one more sip spills to -128.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">byte+1\u003c/div>\u003cdiv class=\"vl\">-128 ⚠️\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'primitives',[{"id":"q1","prompt":"The default type of 3.5 is…","options":[{"t":"double","ok":true},{"t":"float"},{"t":"int"},{"t":"long"}],"explain":"Bare decimals are born double; float needs the f suffix."},{"id":"q2","prompt":"Which declaration NEEDS a suffix to compile?","options":[{"t":"long big = 8000000000L","ok":true},{"t":"int n = 5"},{"t":"boolean b = true"},{"t":"char c = ’x’"}],"explain":"Huge longs overflow int range without L; the rest are already exact."},{"id":"q3","prompt":"byte b = 127; then b + 1 behaves as…","options":[{"t":"-128 (overflow wraps silently)","ok":true},{"t":"128, safely"},{"t":"A compiler error"},{"t":"Exactly 0"}],"explain":"Tiny types wrap around — size the box before the math."},{"id":"q4","prompt":"(int) ’A’ gives 65 because…","options":[{"t":"char stores a UTF-16 number underneath","ok":true},{"t":"A is the 65th letter typed"},{"t":"Casting adds 64"},{"t":"65 is random"}],"explain":"Chars ARE numbers wearing letter costumes."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"byte: the espresso shot (−128..127).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">byte\u003c/div>\u003cdiv class=\"vl\">127\u003c/div>\u003c/div>\u003c/div>"},{"caption":"int: the everyday mug (±2.1 billion).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int\u003c/div>\u003cdiv class=\"vl\">2,147,483,647\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Overflow: one sip too many wraps to −128.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">byte+1\u003c/div>\u003cdiv class=\"vl\">-128 ⚠️\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

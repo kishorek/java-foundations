@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Setting Up Java and Running a Program · Java Foundations</title>
-<meta name="description" content="Time to cook for real: install JDK 17, write Hello.java, compile, run. Five minutes of setup pays off for the whole course.">
+<meta name="description" content="Time to cook for real: install JDK 17, write Main.java, compile, run. Five minutes of setup pays off for the entire course — this exact loop is every lesson from here on.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 20 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Time to cook for real: install JDK 17, write Hello.java, compile, run. Five minutes of setup pays off for the whole course.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What is the smallest possible victory that proves your kitchen works?</div>
+  <div class="prose"><p>Time to cook for real: install JDK 17, write Main.java, compile, run. Five minutes of setup pays off for the entire course — this exact loop is every lesson from here on.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What is the smallest possible victory that proves your whole kitchen works?</div>
   <h2>Objectives</h2><ul><li>Install JDK 17</li><li>Compile with javac</li><li>Run with java</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/jdk-jre-jvm.html">JDK, JRE, and JVM</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>First pancake. It may look odd, but flipping one proves heat, pan, and batter. Hello World proves editor, compiler, and runner.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: pancakes get eaten. Hello World gets kept — you will reuse this exact workflow for every lesson.</div></div></section>
+  <div class="prose"><p>The first pancake. It may look odd, but flipping one proves the heat, the pan, and the batter all at once. Hello World proves your editor, compiler, and runner all at once.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: pancakes get eaten and forgotten. Hello World gets kept — you will repeat this exact save → compile → run workflow for every program in this course.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>1 Install JDK 17 (Temurin or Oracle), 2 check <b>java -version</b>, 3 create <b>Hello.java</b>, 4 run <b>javac Hello.java</b>, 5 run <b>java Hello</b>.</p><p>File name must match class name: <b>Hello</b> in <b>Hello.java</b>. Case matters.</p><p>Read errors top-first: semicolon-expected means add a semicolon where it points.</p></div></section>
+  <div class="prose"><p>The ritual: 1 install JDK 17, 2 verify with <b>java -version</b>, 3 create <b>Main.java</b>, 4 run <b>javac Main.java</b> (produces <b>Main.class</b>), 5 run <b>java Main</b>.</p><p>The file name must match the public class: class <b>Main</b> lives in <b>Main.java</b>, case-sensitive. <b>Hello</b> in <b>hello.java</b> fails — Java never forgives case.</p><p><b>javac</b> wants the FILE (Main.java); <b>java</b> wants the CLASS (Main, no extension). Mixing them up is every beginner’s first error and this lesson vaccinates you.</p><p>Read errors top-first: fix error #1 and rebuild — later errors are often ghosts caused by the first. A “semicolon expected” error points at the exact line missing it.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>javac Main.java</b> produces <b>Main.class</b> (bytecode). <b>java Main</b> starts the JVM, which loads that class and calls its main.</li><li>Java is <b>case-sensitive everywhere</b>: Main, main, and MAIN are three different names.</li><li>If commands are “not found”, your shell’s <b>PATH</b> lacks the JDK’s bin folder — reinstall with the “add to PATH” option or set JAVA_HOME.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Your first build</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,23 +50,26 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Hello {
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
   public static void main(String[] args) {
     System.out.println(&quot;My kitchen works!&quot;);
   }
 }
-// javac Hello.java
-// java Hello">Copy</button></div>
-  <pre><code>public class Hello {
+// Then in the terminal:
+// javac Main.java
+// java Main">Copy</button></div>
+  <pre><code>public class Main {
   public static void main(String[] args) {
     System.out.println(&quot;My kitchen works!&quot;);
   }
 }
-// javac Hello.java
-// java Hello</code></pre><div class="out">▶ Output
+// Then in the terminal:
+// javac Main.java
+// java Main</code></pre><div class="out">▶ Output
 My kitchen works!</div></div>
-  <ul class="linenotes"><li>Save exactly as Hello.java.</li><li>javac makes Hello.class.</li><li>java Hello prints the line.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Compiler translated cleanly, JVM executed main, println showed output. Full loop works.</div></div></section>
+  <ul class="linenotes"><li>Save EXACTLY as Main.java — capitals matter.</li><li>javac translates it into Main.class.</li><li>java Main executes it and prints the line.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Clean compile → valid Main.class; the JVM loaded it, entered main, ran println. The full loop works end to end.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -74,22 +78,22 @@ My kitchen works!</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: File named hello.java (lowercase).</b>Why: Java demands Hello == Hello.<br><b>✅ Fix:</b> <code>Rename to Hello.java exactly.</code></div><div class="callout warn"><b>❌ Mistake 2: Running javac Hello (no .java).</b>Why: javac wants the file; java wants the class.<br><b>✅ Fix:</b> <code>javac Hello.java then java Hello.</code></div><div class="callout err"><b>❌ Mistake 3: “illegal start” or “; expected”.</b>Why: Typo in syntax.<br><b>✅ Fix:</b> <code>Compare each line to the example; fix first error only.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: File named main.java (lowercase m).</b>Why: Java demands Main == Main.java — case included.<br><b>✅ Fix:</b> <code>Rename the file to Main.java exactly.</code></div><div class="callout warn"><b>❌ Mistake 2: Running javac Main (no .java) or java Main.java (with it).</b>Why: javac wants the FILE; java wants the CLASS. Backwards both ways.<br><b>✅ Fix:</b> <code>javac Main.java, then java Main. Tattoo it.</code></div><div class="callout err"><b>❌ Mistake 3: A “semicolon expected” error you ignore.</b>Why: Translation is all-or-nothing; one typo, zero program.<br><b>✅ Fix:</b> <code>Go to the line number it names, add the semicolon, rebuild.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Order the ritual</b><p>Order: A) java Hello B) javac Hello.java C) save Hello.java.</p>
+  <div class="practice"><b>Order the ritual</b><p>Put in order: A) java Main B) javac Main.java C) save Main.java.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Write → build → run.</div><div class="sol callout"><b>Solution</b>C → B → A.</div></div><div class="practice"><b>Break it on purpose</b><p>Remove one semicolon, run javac. What is the first error?</p>
+  <div class="hint callout"><b>Hint</b>Write → build → run.</div><div class="sol callout"><b>Solution</b>C → B → A. Every time, for months.</div></div><div class="practice"><b>Break it on purpose</b><p>Delete one semicolon, run javac. What is the FIRST error line? Put the semicolon back.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Read the line number it gives.</div><div class="sol callout"><b>Solution</b>Error says a semicolon is expected, pointing at the line. Add it back.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Read only the first error; ignore the rest.</div><div class="sol callout"><b>Solution</b>An error saying a semicolon is expected, pointing at the broken line. Later errors vanish once it is fixed.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Install JDK 17; verify with java -version.</li><li>Save → javac → java, every time.</li><li>File name = class name, exactly.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What two commands turn Hello.java into output?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Actually run Hello World on your machine now.</div>
+  <div class="prose"><ul><li>Install JDK 17; verify both version commands.</li><li>Save → javac → java, every time.</li><li>File name = class name, exactly, case included.</li><li>javac takes files, java takes classes.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What two commands turn Main.java into visible output, and what does each consume?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Actually run Hello World on your own machine right now — no reading ahead until it prints.</div>
   <p><b>Related:</b> <a href="../lessons/jdk-jre-jvm.html">JDK, JRE, and JVM</a> · <a href="./first-program.html">Next: Your First Java Program →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +101,8 @@ My kitchen works!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'setup',[{"id":"q1","prompt":"Correct workflow?","options":[{"t":"Save → javac → java","ok":true},{"t":"java → javac → save"},{"t":"javac → save → java"},{"t":"Only java, no save"}],"explain":"Write, build, run."},{"id":"q2","prompt":"File/class rule?","options":[{"t":"Public class Hello must live in Hello.java","ok":true},{"t":"Any name works"},{"t":"File must be .txt"},{"t":"Class must be lowercase"}],"explain":"Names match, case-sensitive."},{"id":"q3","prompt":"javac reports an error. You should…","options":[{"t":"Fix the first error and rebuild","ok":true},{"t":"Ignore and run java anyway"},{"t":"Reinstall everything"},{"t":"Delete the file"}],"explain":"First error often causes the rest."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"1 Write Hello.java in editor.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Hello.java\u003c/b>\u003cbr>println(...)\u003c/div>\u003c/div>"},{"caption":"2 javac translates to Hello.class.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>javac\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Hello.class\u003c/b>\u003c/div>\u003c/div>"},{"caption":"3 java runs it. Output!","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>java Hello\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>My kitchen works!\u003c/b>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'setup',[{"id":"q1","prompt":"The correct workflow is…","options":[{"t":"Save → javac → java","ok":true},{"t":"java → javac → save"},{"t":"javac → save → java"},{"t":"Only java, no saving"}],"explain":"Write it, build it, run it — that order, always."},{"id":"q2","prompt":"The file/class naming rule?","options":[{"t":"Public class Main must live in Main.java","ok":true},{"t":"Any file name works"},{"t":"The file must be .txt"},{"t":"Class names must be lowercase"}],"explain":"Exact match, case-sensitive, or compilation fails."},{"id":"q3","prompt":"javac reports five errors. You should…","options":[{"t":"Fix the first error and rebuild","ok":true},{"t":"Ignore them and run java anyway"},{"t":"Reinstall everything"},{"t":"Delete the file"}],"explain":"Error #1 frequently causes #2–#5 as ghosts."},{"id":"q4","prompt":"java Main.java (with extension) fails because…","options":[{"t":"java wants a class name, not a file","ok":true},{"t":"Main.java is too long"},{"t":"Java cannot print"},{"t":"The file is empty"}],"explain":"javac takes files; java takes classes. Different tools, different arguments."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"1 Write Main.java in an editor.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Main.java\u003c/b>\u003cbr>println(...)\u003c/div>\u003c/div>"},{"caption":"2 javac translates it to Main.class.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>javac\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Main.class\u003c/b>\u003c/div>\u003c/div>"},{"caption":"3 java runs it. Output appears!","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>java Main\u003c/b>\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>My kitchen works!\u003c/b>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

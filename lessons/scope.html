@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Variable Scope and Lifetime · Java Foundations</title>
-<meta name="description" content="Scope = where a variable is visible and alive. Braces are hotel rooms — what happens inside usually stays inside.">
+<meta name="description" content="Scope = where a variable is visible AND alive. Braces are hotel rooms: what happens in the room mostly stays in the room — and checkout (the closing brace) deletes everything inside.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,65 +32,75 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Scope = where a variable is visible and alive. Braces are hotel rooms — what happens inside usually stays inside.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why can’t the lobby hear your shower singing?</div>
+  <div class="prose"><p>Scope = where a variable is visible AND alive. Braces are hotel rooms: what happens in the room mostly stays in the room — and checkout (the closing brace) deletes everything inside.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why can’t the hotel lobby hear your shower singing?</div>
   <h2>Objectives</h2><ul><li>Explain block scope</li><li>Spot shadowing</li><li>Fix scope errors</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/params-return.html">Parameters and Return Values</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Hotel rooms: lobby variable visible everywhere on floor; room variable dies at checkout (}). Inner rooms see outer; outer cannot see inner.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: hotels share Wi-Fi. Code rooms share nothing unless passed as parameters — no snooping.</div></div></section>
+  <div class="prose"><p>Hotel rooms. The lobby whiteboard (outer variable) is visible from every room on the floor; a room’s diary (inner variable) dies at checkout. Inner rooms see outward; the lobby cannot see inward.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: hotels share Wi-Fi and gossip. Code rooms share NOTHING unless values are passed as parameters or returned — no snooping across braces, ever.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Block scope</b>: declared in { } lives there only. Loop counter dies after loop.</p><p><b>Shadowing</b>: inner same-name hides outer — confusing, avoid.</p><p><b>Lifetime</b>: created at declaration, destroyed at }. Use smallest scope.</p></div></section>
+  <div class="prose"><p><b>Block scope</b>: a variable declared inside { } lives ONLY there. Loop counters, if-block temps — all checked out at the closing brace.</p><p><b>Shadowing</b>: declaring an inner variable with an outer’s name HIDES the outer one inside. Legal, confusing, avoid — rename instead.</p><p><b>Lifetime</b>: born at declaration, destroyed at }. Using a variable after its brace is a compile error, not a weird value — the compiler protects you.</p><p>Rule of thumb: declare each variable in the SMALLEST brace-block that needs it, as LATE as possible. Wide variables invite distant bugs.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Java is <b>lexically scoped</b>: visibility is decided by brace NESTING in the source, never by who-called-whom at runtime.</li><li>A <b>for-loop header variable</b> (for (int i...)) is scoped TO the loop — the classic “cannot find symbol: i” after the loop.</li><li>You CANNOT redeclare a name in the same block (int x twice = error), but a nested block MAY shadow method parameters and fields — don’t.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hotel rooms</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hotel checkout</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int hall = 1;
-if (true) {
-  int room = 2;
-  System.out.println(hall + room); // 3
-}
-System.out.println(hall); // 1
-// System.out.println(room); // ERROR: gone">Copy</button></div>
-  <pre><code>int hall = 1;
-if (true) {
-  int room = 2;
-  System.out.println(hall + room); // 3
-}
-System.out.println(hall); // 1
-// System.out.println(room); // ERROR: gone</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int hall = 1; // lobby: visible everywhere below
+    if (true) {
+      int room = 2; // room: dies at the closing brace
+      System.out.println(hall + room); // 3: inner sees outer
+    }
+    System.out.println(hall); // 1: outer never saw room
+    // System.out.println(room); // COMPILE ERROR: checked out
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int hall = 1; // lobby: visible everywhere below
+    if (true) {
+      int room = 2; // room: dies at the closing brace
+      System.out.println(hall + room); // 3: inner sees outer
+    }
+    System.out.println(hall); // 1: outer never saw room
+    // System.out.println(room); // COMPILE ERROR: checked out
+  }
+}</code></pre><div class="out">▶ Output
 3
 1</div></div>
-  <ul class="linenotes"><li>hall visible inside.</li><li>room dies at }.</li><li>Uncommented line fails.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Inner sees outer; outer cannot see inner after checkout.</div></div></section>
+  <ul class="linenotes"><li>hall is visible inside the if — outward visibility works.</li><li>room dies at its }; the commented line would not compile.</li><li>Uncomment it yourself and read the exact error.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Inner sees outer (3 = 1 + 2); outer cannot see inner, so only hall prints after.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Rooms: combine hall + room.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Rooms combine: hall + room.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="1" size="8" aria-label="value"> <select data-in aria-label="operator"><option>+</option></select> <input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Using loop i after loop</b>Why: Checked out.<br><b>✅ Fix:</b> <code>Declare before loop if needed.</code></div><div class="callout warn"><b>❌ Mistake 2: Shadowing: two ages</b>Why: Which age?!<br><b>✅ Fix:</b> <code>Rename inner.</code></div><div class="callout err"><b>❌ Mistake 3: Giant method-wide vars</b>Why: Everything sees, bugs hide.<br><b>✅ Fix:</b> <code>Declare close to use.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Using the loop counter after its loop.</b>Why: Checked out at } — “cannot find symbol” is the compiler telling you so.<br><b>✅ Fix:</b> <code>Declare the counter BEFORE the loop if later code needs it.</code></div><div class="callout warn"><b>❌ Mistake 2: Shadowing: int x outside, int x inside.</b>Why: Two boxes, one name — every reader (including you) will confuse them.<br><b>✅ Fix:</b> <code>Rename the inner one. Different jobs, different names.</code></div><div class="callout err"><b>❌ Mistake 3: Declaring everything at the top “to be safe”.</b>Why: Giant visibility = bugs can strike from anywhere; readers track the whole method.<br><b>✅ Fix:</b> <code>Declare close to first use, in the smallest block.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Alive?</b><p>{ int q=5; } print(q) — works?</p>
+  <div class="practice"><b>Alive or not?</b><p>{ int q = 5; } System.out.println(q); — compiles?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Checked out.</div><div class="sol callout"><b>Solution</b>No — out of scope.</div></div><div class="practice"><b>Fix shadow</b><p>Fix: int x=1; { int x=2; }</p>
+  <div class="hint callout"><b>Hint</b>Where did q check out?</div><div class="sol callout"><b>Solution</b>No — q died at }. Move the print inside, or declare q outside.</div></div><div class="practice"><b>Fix the shadow</b><p>Fix: int x = 1; { int x = 2; } (same block family).</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Rename.</div><div class="sol callout"><b>Solution</b>int y = 2; inside.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Actually this FAILS to compile — same method, nested block. Rename.</div><div class="sol callout"><b>Solution</b>int x = 1; { int y = 2; } — shadowing locals like this is rejected; rename.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Braces bound life.</li><li>Inner sees outer, not reverse.</li><li>Smallest scope wins.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Where should you declare a loop-only variable?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Shrink one wide variable’s scope.</div>
+  <div class="prose"><ul><li>Braces bound both visibility and life.</li><li>Inner sees outer; outer never sees inner.</li><li>Smallest block, latest declaration wins.</li><li>Shadowed names are a readability debt.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Where should a variable used ONLY inside a loop be declared — and why?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Shrink one over-wide variable’s scope in your old code.</div>
   <p><b>Related:</b> <a href="../lessons/params-return.html">Parameters and Return Values</a> · <a href="./debugging.html">Next: Debugging and Reading Errors →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -98,8 +108,8 @@ System.out.println(hall); // 1
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'scope',[{"id":"q1","prompt":"Room variable after } …","options":[{"t":"Gone (out of scope)","ok":true},{"t":"Still usable"},{"t":"Moves to lobby"},{"t":"Doubles"}],"explain":"Lifetime ends."},{"id":"q2","prompt":"Inner block sees…","options":[{"t":"Outer variables","ok":true},{"t":"Nothing"},{"t":"Future code"},{"t":"Other files"}],"explain":"Inner sees outer."},{"id":"q3","prompt":"Shadowing is…","options":[{"t":"Same name hiding outer — avoid","ok":true},{"t":"Required"},{"t":"A loop"},{"t":"A type"}],"explain":"Confusing; rename."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Lobby hall = 1 (floor sees).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">hall\u003c/div>\u003cdiv class=\"vl\">1\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Room 2 opens: sees hall + room.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">room\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Checkout: room gone.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">room ❌ gone\u003c/div>\u003cdiv class=\"box\">hall ✓ stays\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'scope',[{"id":"q1","prompt":"A room variable after its } is…","options":[{"t":"Gone — using it is a compile error","ok":true},{"t":"Still fully usable"},{"t":"Moved to the lobby"},{"t":"Doubled"}],"explain":"Lifetime ends at the brace. The compiler enforces it."},{"id":"q2","prompt":"An inner block can see…","options":[{"t":"Outer (enclosing) variables","ok":true},{"t":"Nothing at all"},{"t":"Future code below"},{"t":"Other files’ locals"}],"explain":"Visibility flows inward, never outward."},{"id":"q3","prompt":"Shadowing is…","options":[{"t":"One name hiding another — rename to avoid it","ok":true},{"t":"Required in every method"},{"t":"A kind of loop"},{"t":"A data type"}],"explain":"Legal but confusing — clarity wins."},{"id":"q4","prompt":"A for-loop’s int i after the loop…","options":[{"t":"Does not exist (scoped to the loop)","ok":true},{"t":"Holds the last value"},{"t":"Holds zero"},{"t":"Holds the count"}],"explain":"Header variables die with their loop."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Lobby board hall = 1, floor sees it.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">hall\u003c/div>\u003cdiv class=\"vl\">1\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Room 2 opens: sees hall AND room.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">room\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Checkout: room deleted, hall stays.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">room ❌ gone\u003c/div>\u003cdiv class=\"box\">hall ✓ stays\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Array Indexing and Bounds · Java Foundations</title>
-<meta name="description" content="Index 0 is first, length-1 is last. Touching outside is like knocking on a door that does not exist — Java stops you loudly.">
+<meta name="description" content="Index 0 is first, length−1 is last, and anything else is a door that does not exist. Java guards every knock — wrong doors don’t return garbage, they detonate loudly.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Index 0 is first, length-1 is last. Touching outside is like knocking on a door that does not exist — Java stops you loudly.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do buildings skip “floor 0” in some countries but programmers love it?</div>
+  <div class="prose"><p>Index 0 is first, length−1 is last, and anything else is a door that does not exist. Java guards every knock — wrong doors don’t return garbage, they detonate loudly.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do some countries skip “floor 0” while programmers worship it?</div>
   <h2>Objectives</h2><ul><li>Use 0-based indexes</li><li>Explain length vs last index</li><li>Avoid out-of-bounds</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/arrays.html">Arrays</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Hotel floors 0-4 (5 floors). Last = floors-1 = 4. Knocking on floor 9 → security (exception) escorts you out.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: hotels may forgive. Java never forgives out-of-bounds — instant ArrayIndexOutOfBoundsException.</div></div></section>
+  <div class="prose"><p>The hotel with floors 0–4 (five floors). The top floor is floors − 1 = 4. Knock on floor 9 and security (ArrayIndexOutOfBoundsException) escorts you out — no fake rooms, no polite lies.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: hotels sometimes forgive trespassers. Java NEVER forgives out-of-bounds: instant exception, exact line number, every time. The strictness is the feature.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>First = 0, last = length-1</b>. Loop: <b>i < a.length</b>, never <=.</p><p><b>a[a.length]</b> always crashes. Check bounds before wild indexes.</p><p>Use <b>length</b> (arrays) vs <b>length()</b> (strings) — no brackets for arrays!</p></div></section>
+  <div class="prose"><p>First slot = <b>0</b>, last slot = <b>length − 1</b>. The universal safe loop is <b>for (i = 0; i < a.length; i++)</b> — strict <, never <=.</p><p><b>a[a.length]</b> ALWAYS crashes: the highest door number is one less than the count. Off-by-one here is the most common array bug in existence.</p><p>Arrays use <b>a.length</b> (a FIELD, no brackets); Strings use <b>s.length()</b> (a METHOD). Mixing them up is a rite of passage — now you are vaccinated.</p><p>Bounds are checked at RUNTIME on every access: safety costs a nanosecond and saves days of “why is my data weird” (other languages return garbage instead).</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>The exception names the crime: <b>ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3</b> — read it, go to the line, fix the index.</li><li>Negative indexes are equally illegal: a[-1] crashes. (Python-style wrap-around does NOT exist in Java.)</li><li><b>Enhanced for-loops</b> (for (int v : a)) cannot go out of bounds BY CONSTRUCTION — one reason pros prefer them for reading.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Hotel doors</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,42 +50,54 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int[] a = {5, 6, 7};
-System.out.println(a[0]);          // 5
-System.out.println(a[a.length-1]); // 7
-// System.out.println(a[3]); // crash: 0..2 only">Copy</button></div>
-  <pre><code>int[] a = {5, 6, 7};
-System.out.println(a[0]);          // 5
-System.out.println(a[a.length-1]); // 7
-// System.out.println(a[3]); // crash: 0..2 only</code></pre><div class="out">▶ Output
-5
-7</div></div>
-  <ul class="linenotes"><li>First slot 0.</li><li>Last = length-1.</li><li>Index 3 missing → crash.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Length 3 → doors 0,1,2. Door 3 does not exist.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int[] a = {5, 6, 7};
+    System.out.println(&quot;first = &quot; + a[0]);
+    System.out.println(&quot;last = &quot; + a[a.length - 1]);
+    System.out.println(&quot;doors = &quot; + a.length);
+    // System.out.println(a[3]); // door 3 missing: CRASH
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int[] a = {5, 6, 7};
+    System.out.println(&quot;first = &quot; + a[0]);
+    System.out.println(&quot;last = &quot; + a[a.length - 1]);
+    System.out.println(&quot;doors = &quot; + a.length);
+    // System.out.println(a[3]); // door 3 missing: CRASH
+  }
+}</code></pre><div class="out">▶ Output
+first = 5
+last = 7
+doors = 3</div></div>
+  <ul class="linenotes"><li>First door is 0, always.</li><li>Last door is length − 1, always.</li><li>Door 3 on a 3-long array does not exist.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Length 3 means doors 0, 1, 2 exist. Door 3 stays commented — uncomment it to meet the exception personally.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Knock on doors 0-5.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Knock on doors 0–5 and feel the rules.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="3" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: for (i = 0; i &lt;= a.length; i++)</b>Why: Visits one ghost door.<br><b>✅ Fix:</b> <code>i &lt; a.length.</code></div><div class="callout warn"><b>❌ Mistake 2: a.length() with brackets</b>Why: Arrays use length (field-like).<br><b>✅ Fix:</b> <code>a.length — strings use length().</code></div><div class="callout err"><b>❌ Mistake 3: Guessing “last = length”</b>Why: Off by one.<br><b>✅ Fix:</b> <code>Last = length - 1.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: for (i = 0; i &lt;= a.length; i++)</b>Why: Visits one ghost door past the end — crashes on the final round, every time.<br><b>✅ Fix:</b> <code>Strict less-than: i &lt; a.length. Tattoo it.</code></div><div class="callout warn"><b>❌ Mistake 2: a.length() with brackets on an array.</b>Why: Arrays expose length as DATA; only Strings (and friends) compute length().<br><b>✅ Fix:</b> <code>a.length for arrays, s.length() for strings.</code></div><div class="callout err"><b>❌ Mistake 3: Assuming the last index equals the length.</b>Why: The eternal off-by-one: 3 doors means top door 2.<br><b>✅ Fix:</b> <code>Last = length − 1. Say it aloud.</code></div><div class="callout err"><b>❌ Mistake 4: Catching the exception to “handle” a wrong index.</b>Why: Masks the bug — the index math is still wrong underneath.<br><b>✅ Fix:</b> <code>Fix the INDEX, don’t sedate the symptom.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Last of 7</b><p>Length-7 array: last index?</p>
+  <div class="practice"><b>Last of seven</b><p>An array has length 7. Last valid index?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>-1.</div><div class="sol callout"><b>Solution</b>6.</div></div><div class="practice"><b>Fix loop</b><p>Fix &lt;= to visit exactly length.</p>
+  <div class="hint callout"><b>Hint</b>Minus one.</div><div class="sol callout"><b>Solution</b>6.</div></div><div class="practice"><b>Fix the tour</b><p>Fix this to visit exactly every slot: for (int i = 0; i &lt;= a.length; i++)</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>&lt; length.</div><div class="sol callout"><b>Solution</b>for (i=0;i&lt;a.length;i++)</div></div></section>
+  <div class="hint callout"><b>Hint</b>One character changes.</div><div class="sol callout"><b>Solution</b>for (int i = 0; i &lt; a.length; i++) — &lt;= becomes &lt;.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>0 first, length-1 last.</li><li>Loop with &lt; length.</li><li>Outside → loud exception.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Doors 0..n-1: how many doors for length n?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Print first, middle, last of an array safely.</div>
+  <div class="prose"><ul><li>0 first, length − 1 last — no exceptions.</li><li>Tour with strict &lt; length.</li><li>Outside the doors → loud exception, exact line.</li><li>length vs length(): field vs method.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>A length-n array has how many doors, numbered how?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Print the first, middle, and last elements of an array — safely.</div>
   <p><b>Related:</b> <a href="../lessons/arrays.html">Arrays</a> · <a href="./traverse-arrays.html">Next: Traversing and Updating Arrays →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -92,8 +105,8 @@ System.out.println(a[a.length-1]); // 7
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'indexing-bounds',[{"id":"q1","prompt":"Length-4 last index?","options":[{"t":"3","ok":true},{"t":"4"},{"t":"0"},{"t":"-1"}],"explain":"length-1."},{"id":"q2","prompt":"a[4] on length-4?","options":[{"t":"ArrayIndexOutOfBoundsException","ok":true},{"t":"0"},{"t":"null"},{"t":"4"}],"explain":"Doors 0-3 only."},{"id":"q3","prompt":"Arrays use…","options":[{"t":"a.length (no brackets)","ok":true},{"t":"a.length()"},{"t":"a.size()"},{"t":"len(a)"}],"explain":"Field-like; strings differ."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"5 floors: doors 0-4.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">5\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">6\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">7\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Knock 2 → opens (7).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a[2] → 7 ✓\u003c/div>\u003c/div>"},{"caption":"Knock 3 → security! 🚨","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a[3] → 💥 out of bounds\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'indexing-bounds',[{"id":"q1","prompt":"A length-4 array’s last index is…","options":[{"t":"3","ok":true},{"t":"4"},{"t":"0"},{"t":"-1"}],"explain":"length − 1, always and forever."},{"id":"q2","prompt":"a[4] on a length-4 array…","options":[{"t":"Throws ArrayIndexOutOfBoundsException","ok":true},{"t":"Returns 0 quietly"},{"t":"Returns null"},{"t":"Compiles the array away"}],"explain":"Doors 0–3 exist. Door 4 is wall."},{"id":"q3","prompt":"Array length is read via…","options":[{"t":"a.length (field, no brackets)","ok":true},{"t":"a.length()"},{"t":"a.size()"},{"t":"len(a)"}],"explain":"Data on arrays; work on Strings."},{"id":"q4","prompt":"a[-1] in Java…","options":[{"t":"Crashes like any out-of-bounds","ok":true},{"t":"Reads the last element"},{"t":"Reads the first element"},{"t":"Returns null"}],"explain":"No Python-style wrap-around. Negative = illegal."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Five floors? Doors 0–4 (shown: 3).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">5\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">6\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">7\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Knock 2 → opens (7). ✓","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a[2] → 7 ✓\u003c/div>\u003c/div>"},{"caption":"Knock 3 → security! 🚨","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">a[3] → 💥 out of bounds\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

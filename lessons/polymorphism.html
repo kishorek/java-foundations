@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Polymorphism · Java Foundations</title>
-<meta name="description" content="One remote, many TVs: a common type (Animal) controls different objects (Dog, Cat) — each responds its own way.">
+<meta name="description" content="ONE remote, MANY devices: a single Animal-typed remote operates Dogs, Cats, and anything future — each responding in its own voice. Add species without touching the loop.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,69 +32,64 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>One remote, many TVs: a common type (Animal) controls different objects (Dog, Cat) — each responds its own way.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How does one “play” button work for songs, videos, and podcasts?</div>
+  <div class="prose"><p>ONE remote, MANY devices: a single Animal-typed remote operates Dogs, Cats, and anything future — each responding in its own voice. Add species without touching the loop.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How does ONE “play” button correctly play songs, videos, AND podcasts?</div>
   <h2>Objectives</h2><ul><li>Use parent type for children</li><li>Trace which method runs</li><li>Explain why it is useful</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/overriding.html">Method Overriding</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Universal remote: button speak() on slot Animal. Insert Dog cartridge → Woof; Cat → Meow. Remote never changes; cartridges vary.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: remote only has shared buttons. Dog-only trick fetch() needs a Dog remote (cast) — not on Animal.</div></div></section>
+  <div class="prose"><p>The universal remote. Its speak() button fits the Animal socket. Slide in the Dog cartridge → Woof. Slide in Cat → Meow. The remote NEVER changes; cartridges multiply forever.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: the remote offers ONLY shared buttons. Dog-exclusive trick fetch() is not on an Animal remote — call it and the compiler refuses. Shared type = shared vocabulary only.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Animal a = new Dog();</b> Reference = general, object = specific. Call shared methods; JVM picks the real one.</p><p>Enables lists of mixed animals, plug-in behavior, test doubles.</p><p>Needs inheritance/interface + override. Compile checks Animal; run uses Dog.</p></div></section>
+  <div class="prose"><p>Write <b>Animal a = new Dog();</b>: reference GENERAL, object SPECIFIC. Call shared methods; the JVM dispatches to the REAL object’s override every time.</p><p>Payoff 1: MIXED collections — Animal[] holds Dogs AND Cats; one loop speaks the whole zoo. Payoff 2: new species plug in with ZERO loop changes.</p><p>Payoff 3: test doubles and plugins — swap real services for fakes behind the same type. Big frameworks are built on this exact trick.</p><p>The compiler checks the REFERENCE (Animal must HAVE speak); the runtime picks the OBJECT’s version. Two phases, two jobs — understand both and polymorphism clicks forever.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Needs <b>inheritance-or-interface PLUS override</b>. Without an override, the call just runs the parent version — polymorphic in form, plain in effect.</li><li>Downcasting ((Dog) a).fetch() reaches exclusive tricks but RISKS ClassCastException — guard with <b>instanceof</b> first.</li><li><b>instanceof pattern variables</b> (Java 16+): if (a instanceof Dog d) { d.fetch(); } — test AND cast in one breath.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Remote</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Universal remote</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Animal { void speak(){ System.out.println(&quot;...&quot;); } }
-class Dog extends Animal {
-  @Override void speak(){ System.out.println(&quot;Woof!&quot;); }
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="Animal[] zoo = { new Dog(), new Cat() }; // cartridges in
+for (Animal a : zoo) {
+  a.speak(); // same button, two voices
 }
-class Cat extends Animal {
-  @Override void speak(){ System.out.println(&quot;Meow!&quot;); }
+// Later: Parrot with &quot;Squawk!&quot; joins the zoo.
+// The loop above stays UNCHANGED.">Copy</button></div>
+  <pre><code>Animal[] zoo = { new Dog(), new Cat() }; // cartridges in
+for (Animal a : zoo) {
+  a.speak(); // same button, two voices
 }
-Animal[] zoo = { new Dog(), new Cat() };
-for (Animal a : zoo) a.speak();">Copy</button></div>
-  <pre><code>class Animal { void speak(){ System.out.println(&quot;...&quot;); } }
-class Dog extends Animal {
-  @Override void speak(){ System.out.println(&quot;Woof!&quot;); }
-}
-class Cat extends Animal {
-  @Override void speak(){ System.out.println(&quot;Meow!&quot;); }
-}
-Animal[] zoo = { new Dog(), new Cat() };
-for (Animal a : zoo) a.speak();</code></pre><div class="out">▶ Output
-Woof!
-Meow!</div></div>
-  <ul class="linenotes"><li>One array, two species.</li><li>Same call, two sounds.</li><li>New animal? Just add cartridge.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each object’s override runs — one loop, many behaviors.</div></div></section>
+// Later: Parrot with &quot;Squawk!&quot; joins the zoo.
+// The loop above stays UNCHANGED.</code></pre><div class="out">▶ Output
+Woof! then Meow! — one loop, two voices.</div></div>
+  <ul class="linenotes"><li>One array type, two species inside.</li><li>Same call site, two different methods run.</li><li>New animals plug in; the loop never rewrites.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each object’s own override executes — one loop, many behaviors, zero edits for newcomers.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">One call, many sounds.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">One button, many voices.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Woof" size="8" aria-label="value"> <input data-in value=" + Meow" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: a.fetch() on Animal ref</b>Why: Button missing on remote.<br><b>✅ Fix:</b> <code>Add to Animal or cast to Dog.</code></div><div class="callout warn"><b>❌ Mistake 2: “Which runs? Reference type.”</b>Why: Object type wins!<br><b>✅ Fix:</b> <code>new Dog() → Dog.speak.</code></div><div class="callout err"><b>❌ Mistake 3: If-else per type everywhere</b>Why: Defeats the point.<br><b>✅ Fix:</b> <code>Rely on override.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: a.fetch() through an Animal reference.</b>Why: fetch is not ON the Animal remote — compile error, correctly.<br><b>✅ Fix:</b> <code>Declare fetch on Animal, or downcast to Dog (with instanceof).</code></div><div class="callout warn"><b>❌ Mistake 2: “The REFERENCE type decides which method runs.”</b>Why: Backwards! The OBJECT decides at runtime; the reference only gatekeeps compilation.<br><b>✅ Fix:</b> <code>new Dog() gives Dog.speak, whatever the reference claims.</code></div><div class="callout err"><b>❌ Mistake 3: if-Dog else-if-Cat chains everywhere.</b>Why: Manual dispatch defeats the entire mechanism — the loop should stay dumb.<br><b>✅ Fix:</b> <code>Put the differences in OVERRIDES; keep callers uniform.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Add Parrot</b><p>Parrot speaks “Squawk” in zoo — change loop?</p>
+  <div class="practice"><b>Plug in a Parrot</b><p>Add Parrot (&quot;Squawk!&quot;) to the zoo. Must the loop change?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>No!</div><div class="sol callout"><b>Solution</b>Add class; loop unchanged.</div></div><div class="practice"><b>Why useful?</b><p>One sentence: why one array?</p>
+  <div class="hint callout"><b>Hint</b>That is the whole test.</div><div class="sol callout"><b>Solution</b>No changes at all — new cartridge, same remote, same loop.</div></div><div class="practice"><b>Say the benefit</b><p>One sentence: why ONE array of Animals instead of separate Dog[] and Cat[]?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>New types plug in.</div><div class="sol callout"><b>Solution</b>Add species without rewriting loop.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Future species.</div><div class="sol callout"><b>Solution</b>New types join without rewriting a single loop.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>One type, many behaviors.</li><li>Object type picks the method.</li><li>Add types without rewriting loops.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What must exist for polymorphism to work?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Build Shape → Circle/Square with draw().</div>
+  <div class="prose"><ul><li>One type, many behaviors.</li><li>Object picks the method; reference gates the call.</li><li>New types join without loop edits.</li><li>Override plus shared type = the whole mechanism.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What two ingredients MUST exist for polymorphism to work?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Build Shape with Circle/Square draw(), looped together.</div>
   <p><b>Related:</b> <a href="../lessons/overriding.html">Method Overriding</a> · <a href="./abstract-classes.html">Next: Abstract Classes →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -102,8 +97,8 @@ Meow!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'polymorphism',[{"id":"q1","prompt":"Animal a = new Dog(); a.speak()?","options":[{"t":"Dog version","ok":true},{"t":"Animal version"},{"t":"Error"},{"t":"Random"}],"explain":"Object decides."},{"id":"q2","prompt":"Benefit?","options":[{"t":"Same code handles new types","ok":true},{"t":"Faster typing"},{"t":"Fewer classes"},{"t":"No overrides"}],"explain":"Plug-in power."},{"id":"q3","prompt":"Can you call Dog-only fetch via Animal?","options":[{"t":"No — not on the remote","ok":true},{"t":"Yes always"},{"t":"Sometimes"},{"t":"With comments"}],"explain":"Shared buttons only."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Slot type: Animal remote.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🎮 speak()\u003c/div>\u003c/div>"},{"caption":"Insert Dog → Woof.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Dog 🐶 → Woof!\u003c/div>\u003c/div>"},{"caption":"Insert Cat → Meow, same button.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Cat 🐱 → Meow!\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'polymorphism',[{"id":"q1","prompt":"Animal a = new Dog(); a.speak() runs…","options":[{"t":"The Dog version","ok":true},{"t":"The Animal version"},{"t":"Neither — error"},{"t":"A random one"}],"explain":"The object outranks the reference, at runtime."},{"id":"q2","prompt":"The core payoff is…","options":[{"t":"Same code handles future types untouched","ok":true},{"t":"Faster typing"},{"t":"Fewer classes"},{"t":"No overrides needed"}],"explain":"Plug-in power: extend without editing."},{"id":"q3","prompt":"Dog-only fetch() via an Animal variable…","options":[{"t":"Refused — not on the shared remote","ok":true},{"t":"Always allowed"},{"t":"Sometimes allowed"},{"t":"Allowed with comments"}],"explain":"Shared vocabulary only; downcast (carefully) for more."},{"id":"q4","prompt":"The compiler checks the call against…","options":[{"t":"The reference type (Animal)","ok":true},{"t":"The object type (Dog)"},{"t":"Neither — runtime only"},{"t":"The file name"}],"explain":"Compile asks “does Animal HAVE speak?”; run asks “whose speak?”"}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Socket type: Animal remote.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🎮 speak()\u003c/div>\u003c/div>"},{"caption":"Dog cartridge in → Woof.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Dog 🐶 → Woof!\u003c/div>\u003c/div>"},{"caption":"Cat cartridge in → Meow. Same button.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Cat 🐱 → Meow!\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

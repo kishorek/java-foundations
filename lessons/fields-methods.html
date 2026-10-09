@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fields and Methods · Java Foundations</title>
-<meta name="description" content="Fields remember; methods do. Together they make objects that guard their own data and offer useful actions.">
+<meta name="description" content="Fields REMEMBER; methods DO. Together they turn dumb data bags into objects that carry their own memory and offer useful, safe actions.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,18 +32,19 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Fields remember; methods do. Together they make objects that guard their own data and offer useful actions.</p>
-  <div class="callout"><b>🔎 Motivating question</b>What should a vending machine remember vs do?</div>
+  <div class="prose"><p>Fields REMEMBER; methods DO. Together they turn dumb data bags into objects that carry their own memory and offer useful, safe actions.</p>
+  <div class="callout"><b>🔎 Motivating question</b>What should a vending machine remember versus do?</div>
   <h2>Objectives</h2><ul><li>Add fields and methods</li><li>Use dot to access</li><li>Model a Book simply</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/classes-objects.html">Classes and Objects</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Library card: fields = name, id, books held (memory). Methods = borrow(), returnBook() (actions that update memory safely).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cards do not validate themselves. Good methods do — reject borrow when limit reached.</div></div></section>
+  <div class="prose"><p>The library card. Fields = name, id, books currently held (memory). Methods = borrow(), returnBook() (actions that update the memory CORRECTLY). The card remembers so you don’t have to.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cards never check themselves. Good METHODS validate — refusing the 6th book when the limit is 5. Memory without rules is just a spreadsheet.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Fields</b>: variables inside class. Each object gets copies. <b>Methods</b>: functions inside class, can use fields directly.</p><p>Access via <b>dot</b>: b.title, b.borrow(). Inside methods, fields by name.</p><p>Keep fields meaningful; methods verb-named: borrow, returnBook, isAvailable.</p></div></section>
+  <div class="prose"><p><b>Fields</b> are variables declared inside the class: each object gets its OWN copies. <b>Methods</b> are functions inside the class that can read and update those fields directly.</p><p>Reached through the <b>dot</b>: b.title reads, b.borrow() acts. Inside a method, field names work directly — borrow() just says borrowed = true.</p><p>Name fields as nouns (title, balance) and methods as verbs (borrow, returnBook, isAvailable). A method named data() or thing() is a cry for help.</p><p>Keep methods SMALL and single-purpose: borrow() flips a flag; it does not also print receipts, email librarians, and update fines. One job each.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Instance fields exist <b>per object</b>; there is no sharing unless static (later lesson). Ten books = ten separate borrowed flags.</li><li>Methods run against an implicit <b>this object</b> — b.borrow() executes borrow with this = b. The this lesson makes this explicit.</li><li>A method that only reads fields is a <b>query</b> (isAvailable); one that changes them is a <b>command</b>. Mixing both in one method needs a good reason.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Card</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Card memory + actions</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
@@ -52,50 +53,55 @@
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Book {
   String title;
   boolean borrowed;
-  boolean isAvailable() { return !borrowed; }
-  void borrow() { borrowed = true; }
+  boolean isAvailable() { return !borrowed; } // query
+  void borrow() { borrowed = true; }           // command
+  void returnBook() { borrowed = false; }      // command
 }
 Book b = new Book();
 b.title = &quot;Dune&quot;;
+b.isAvailable(); // true: fresh book
 b.borrow();
-System.out.println(b.isAvailable());">Copy</button></div>
+b.isAvailable(); // false now">Copy</button></div>
   <pre><code>class Book {
   String title;
   boolean borrowed;
-  boolean isAvailable() { return !borrowed; }
-  void borrow() { borrowed = true; }
+  boolean isAvailable() { return !borrowed; } // query
+  void borrow() { borrowed = true; }           // command
+  void returnBook() { borrowed = false; }      // command
 }
 Book b = new Book();
 b.title = &quot;Dune&quot;;
+b.isAvailable(); // true: fresh book
 b.borrow();
-System.out.println(b.isAvailable());</code></pre><div class="out">▶ Output
-false</div></div>
-  <ul class="linenotes"><li>isAvailable reads state.</li><li>borrow writes state.</li><li>Dot connects object + member.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Borrowed true → !true = false: not available.</div></div></section>
+b.isAvailable(); // false now</code></pre><div class="out">▶ Output
+true, then false after borrowing.</div></div>
+  <ul class="linenotes"><li>isAvailable reads state without changing it.</li><li>borrow/returnBook write state.</li><li>The dot always says WHICH object acts.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Fresh flag false → !false is true; borrow flips it → !true is false.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Available? try states.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Availability flips with the flag.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="18" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Static-style call on class</b>Why: Need an object for instance members.<br><b>✅ Fix:</b> <code>Book b = new...; b.borrow();</code></div><div class="callout warn"><b>❌ Mistake 2: Public mutable everything</b>Why: Anyone corrupts.<br><b>✅ Fix:</b> <code>Private + methods (next lessons).</code></div><div class="callout err"><b>❌ Mistake 3: Method does 5 jobs</b>Why: Untestable.<br><b>✅ Fix:</b> <code>One job per method.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Calling b.borrow() on a null b.</b>Why: No house, no behavior — NullPointerException.<br><b>✅ Fix:</b> <code>Build the object first, then act on it.</code></div><div class="callout warn"><b>❌ Mistake 2: One method that borrows, prints, fines, and emails.</b>Why: Untestable, unreadable, unfixable in parts.<br><b>✅ Fix:</b> <code>One job per method; compose small ones.</code></div><div class="callout err"><b>❌ Mistake 3: Reading b.borrowed directly from everywhere.</b>Why: Works today, unguardable tomorrow — any line can corrupt state.<br><b>✅ Fix:</b> <code>Private fields + methods (encapsulation, coming).</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Add returnBook</b><p>Write void returnBook() setting false.</p>
+  <div class="practice"><b>Add returnBook test</b><p>After borrow() then returnBook(), what does isAvailable() give? Trace it.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Mirror borrow.</div><div class="sol callout"><b>Solution</b>void returnBook(){ borrowed = false; }</div></div><div class="practice"><b>isAvailable trace</b><p>New book (false) → available?</p>
+  <div class="hint callout"><b>Hint</b>Flip twice.</div><div class="sol callout"><b>Solution</b>true — borrowed goes false→true→false, so available ends true.</div></div><div class="practice"><b>Name the jobs</b><p>Label each as query or command: getTitle, setPages, isAvailable, borrow.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>!false.</div><div class="sol callout"><b>Solution</b>true.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Reads vs changes.</div><div class="sol callout"><b>Solution</b>Queries: getTitle, isAvailable. Commands: setPages, borrow.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Fields = memory per object.</li><li>Methods = actions using memory.</li><li>Verb names for methods.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Name one field and one method for a Student.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Add returnBook + test both.</div>
+  <div class="prose"><ul><li>Fields = per-object memory.</li><li>Methods = actions using that memory.</li><li>Queries read; commands change.</li><li>Verbs for methods, nouns for fields.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Name one field and one method for a Student, and say which is query/command.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Add returnBook to a class and trace both transitions on paper.</div>
   <p><b>Related:</b> <a href="../lessons/classes-objects.html">Classes and Objects</a> · <a href="./constructors.html">Next: Constructors →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -103,8 +109,8 @@ false</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'fields-methods',[{"id":"q1","prompt":"Fields are…","options":[{"t":"Object memory (state)","ok":true},{"t":"Actions"},{"t":"Classes"},{"t":"Files"}],"explain":"Info held."},{"id":"q2","prompt":"b.borrow() is…","options":[{"t":"Calling behavior on b","ok":true},{"t":"Creating a class"},{"t":"Deleting b"},{"t":"A field"}],"explain":"Dot + action."},{"id":"q3","prompt":"Output above?","options":[{"t":"false","ok":true},{"t":"true"},{"t":"Dune"},{"t":"Error"}],"explain":"Borrowed → unavailable."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Card remembers: title, borrowed.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">title\u003c/div>\u003cdiv class=\"vl\">Dune\u003c/div>\u003c/div>\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">borrowed\u003c/div>\u003cdiv class=\"vl\">false\u003c/div>\u003c/div>\u003c/div>"},{"caption":"borrow() acts: flips flag.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">borrowed\u003c/div>\u003cdiv class=\"vl\">true ✨\u003c/div>\u003c/div>\u003c/div>"},{"caption":"isAvailable() reports !borrowed.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">!true → false\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'fields-methods',[{"id":"q1","prompt":"Fields of a class are…","options":[{"t":"Memory kept per object","ok":true},{"t":"Actions"},{"t":"Classes themselves"},{"t":"Files"}],"explain":"Each object carries its own copies."},{"id":"q2","prompt":"b.borrow() means…","options":[{"t":"Run borrow against object b","ok":true},{"t":"Create a new class"},{"t":"Delete b"},{"t":"A field access"}],"explain":"Dot selects the actor; method is the action."},{"id":"q3","prompt":"Fresh book (borrowed=false): isAvailable() gives…","options":[{"t":"true","ok":true},{"t":"false"},{"t":"null"},{"t":"An error"}],"explain":"!false is true — queries report, never change."},{"id":"q4","prompt":"Best method size and shape?","options":[{"t":"Small, one job, verb-named","ok":true},{"t":"Huge, does everything"},{"t":"Named data() or thing()"},{"t":"No parameters ever"}],"explain":"Named ideas compose; blobs rot."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Card remembers: title, borrowed=false.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">borrowed\u003c/div>\u003cdiv class=\"vl\">false\u003c/div>\u003c/div>\u003c/div>"},{"caption":"borrow() acts: flips the flag.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">borrowed\u003c/div>\u003cdiv class=\"vl\">true ✨\u003c/div>\u003c/div>\u003c/div>"},{"caption":"isAvailable() reports !borrowed = false.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">!true → false\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

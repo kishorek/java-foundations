@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Packages and Imports · Java Foundations</title>
-<meta name="description" content="Packages are labeled shelves: com.shop.cart holds Cart classes. Imports borrow from other shelves without name fights.">
+<meta name="description" content="Packages are labeled shelves in a giant warehouse: com.shop.cart holds carts, com.shop.pay holds payments. Imports borrow across shelves — without name wars.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,72 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Packages are labeled shelves: com.shop.cart holds Cart classes. Imports borrow from other shelves without name fights.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do libraries shelve fiction apart from science?</div>
+  <div class="prose"><p>Packages are labeled shelves in a giant warehouse: com.shop.cart holds carts, com.shop.pay holds payments. Imports borrow across shelves — without name wars.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do supermarkets shelve fiction far from electronics?</div>
   <h2>Objectives</h2><ul><li>Organize with packages</li><li>Import classes</li><li>Avoid name clashes</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/composition.html">Composition</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Supermarket aisles: com.shop.cart (carts), com.shop.pay (payments). Two Apples (fruit vs tech)? Aisles disambiguate: fruit.Apple vs tech.Apple.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: aisles do not lock. Packages organize + gate (package-private); jars still need discipline.</div></div></section>
+  <div class="prose"><p>Store aisles. com.shop.cart (carts) vs com.shop.pay (payments). Two products both named Apple (fruit stall vs tech aisle)? Full aisle addresses disambiguate: fruit versus tech.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: aisles organize but don’t LOCK (package-private gates only neighbors; jars still need discipline). And “same shelf” needs the SAME package name — folders must mirror it exactly.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>package com.shop;</b> first line. Folders mirror dots. <b>import java.util.List;</b> borrows.</p><p><b>java.lang</b> auto-imported (String, Math). <b>*</b> imports a shelf (not sub-shelves).</p><p>Clash? Use full name: java.util.Date vs java.sql.Date.</p></div></section>
+  <div class="prose"><p>First line declares: <b>package com.shop;</b> — folders MUST mirror the dots (com/shop/Cart.java) or nothing resolves.</p><p>Borrow with <b>import</b>: import java.util.ArrayList; brings ONE class; star borrows a whole SHELF (shallow — never sub-shelves).</p><p><b>java.lang</b> (String, Math, System) is auto-imported — the air you breathe. Everything else needs its import.</p><p>Name clash? Use the FULL address for one side: java.util.Date vs java.sql.Date in one file — imports can’t save you, full names can.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Package-private (default) members are visible across their package — the reason TESTS often share the code’s package.</li><li><b>Static imports</b> borrow METHODS bare: sqrt(x) instead of Math.sqrt(x). Use sparingly — namespaces exist for a reason.</li><li>JAR files bundle packages for shipping; the module system (Java 9+) gates packages harder. Preview only for now.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Aisles</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Warehouse aisles</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="package com.shop;
-import java.util.ArrayList;
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="package com.shop; // shelf label: FOLDERS must mirror this
+
+import java.util.ArrayList; // borrow the tool
 import java.util.List;
+
 public class Cart {
-  List&lt;String&gt; items = new ArrayList&lt;&gt;();
+  private List&lt;String&gt; items = new ArrayList&lt;&gt;();
+  void add(String s) { items.add(s); }
+  int size() { return items.size(); }
 }">Copy</button></div>
-  <pre><code>package com.shop;
-import java.util.ArrayList;
+  <pre><code>package com.shop; // shelf label: FOLDERS must mirror this
+
+import java.util.ArrayList; // borrow the tool
 import java.util.List;
+
 public class Cart {
-  List&lt;String&gt; items = new ArrayList&lt;&gt;();
+  private List&lt;String&gt; items = new ArrayList&lt;&gt;();
+  void add(String s) { items.add(s); }
+  int size() { return items.size(); }
 }</code></pre><div class="out">▶ Output
-(organizes — compiles)</div></div>
-  <ul class="linenotes"><li>Shelf label first.</li><li>Borrow List tools.</li><li>Diamond <> infers type.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Structure + imports resolve names.</div></div></section>
+Cart lives at com/shop/Cart.java: organized, borrowed, clash-free.</div></div>
+  <ul class="linenotes"><li>Shelf label first — before everything.</li><li>Borrowed tools arrive by import.</li><li>Diamond <> infers the type, once.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Structure plus imports resolve every name to exactly one address.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Aisle + shelf naming.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Aisle plus shelf addressing.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="com.shop" size="8" aria-label="value"> <input data-in value=".Cart" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: No package, 50 files flat</b>Why: Name soup.<br><b>✅ Fix:</b> <code>Group by feature.</code></div><div class="callout warn"><b>❌ Mistake 2: import java.util.*; expecting subpackages</b>Why: * is shallow.<br><b>✅ Fix:</b> <code>Import each shelf.</code></div><div class="callout err"><b>❌ Mistake 3: Two Dates clash</b>Why: Ambiguous.<br><b>✅ Fix:</b> <code>Full name one of them.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: 50 files flat in one folder, no packages.</b>Why: Name soup: every helper collides with every other eventually.<br><b>✅ Fix:</b> <code>Group by FEATURE: cart, pay, catalog.</code></div><div class="callout warn"><b>❌ Mistake 2: import java.util.* then expecting sub-packages too.</b>Why: Star imports are SHALLOW — one shelf, never its sub-shelves.<br><b>✅ Fix:</b> <code>Import each shelf you actually touch.</code></div><div class="callout err"><b>❌ Mistake 3: Two Dates imported, total ambiguity.</b>Why: The compiler cannot pick your favorite.<br><b>✅ Fix:</b> <code>Import one; full-name the other: java.sql.Date.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Shelf it</b><p>Where does com.shop.Cart live?</p>
+  <div class="practice"><b>Shelve it</b><p>Full path of com.shop.Cart under a source root?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Folders mirror.</div><div class="sol callout"><b>Solution</b>com/shop/Cart.java.</div></div><div class="practice"><b>Borrow List</b><p>Import List + ArrayList.</p>
+  <div class="hint callout"><b>Hint</b>Dots become folders.</div><div class="sol callout"><b>Solution</b>com/shop/Cart.java under the source root.</div></div><div class="practice"><b>Borrow precisely</b><p>Write the two imports for List and ArrayList.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>java.util.</div><div class="sol callout"><b>Solution</b>import java.util.List; import java.util.ArrayList;</div></div></section>
+  <div class="hint callout"><b>Hint</b>Both live in java.util.</div><div class="sol callout"><b>Solution</b>import java.util.List; import java.util.ArrayList;</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Packages = shelves; folders mirror.</li><li>import borrows; lang is free.</li><li>Full names break ties.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What does import * miss?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Package your project classes properly.</div>
+  <div class="prose"><ul><li>Packages = shelves; folders mirror dots.</li><li>import borrows; java.lang is free air.</li><li>Full names break ties stars cannot.</li><li>Group by feature, not by layer.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What does import-star MISS, and why does that matter?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Package your project classes by feature this week.</div>
   <p><b>Related:</b> <a href="../lessons/composition.html">Composition</a> · <a href="./review-oop.html">Next: Review: OOP Checkpoint →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +105,8 @@ public class Cart {
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'packages',[{"id":"q1","prompt":"First line for shelf?","options":[{"t":"package com.shop;","ok":true},{"t":"import com.shop;"},{"t":"shelf com.shop;"},{"t":"box com.shop;"}],"explain":"Package declares."},{"id":"q2","prompt":"Auto-imported?","options":[{"t":"java.lang","ok":true},{"t":"java.util"},{"t":"All packages"},{"t":"None"}],"explain":"String, Math free."},{"id":"q3","prompt":"Name clash fix?","options":[{"t":"Full name one class","ok":true},{"t":"Delete both"},{"t":"Rename Java"},{"t":"No fix"}],"explain":"Disambiguate."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Aisle com.shop.cart.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🛒 Cart\u003c/div>\u003c/div>"},{"caption":"Aisle com.shop.pay.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">💳 Pay\u003c/div>\u003c/div>"},{"caption":"Borrow: import cart.Cart.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">import → use ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'packages',[{"id":"q1","prompt":"The shelf label line is…","options":[{"t":"package com.shop;","ok":true},{"t":"import com.shop;"},{"t":"shelf com.shop;"},{"t":"box com.shop;"}],"explain":"package DECLARES; import BORROWS."},{"id":"q2","prompt":"Auto-imported for every file?","options":[{"t":"java.lang","ok":true},{"t":"java.util"},{"t":"Every package"},{"t":"None at all"}],"explain":"String, Math, System — the air."},{"id":"q3","prompt":"Clashing class names resolve by…","options":[{"t":"Full-qualifying one of them","ok":true},{"t":"Deleting both"},{"t":"Renaming Java"},{"t":"Hoping"}],"explain":"Full addresses disambiguate when imports cannot."},{"id":"q4","prompt":"import java.util.* covers…","options":[{"t":"That shelf only — never sub-packages","ok":true},{"t":"All of Java"},{"t":"Util plus its children"},{"t":"Nothing"}],"explain":"Stars are shallow by design."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Aisle com.shop.cart: carts live here.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🛒 Cart\u003c/div>\u003c/div>"},{"caption":"Aisle com.shop.pay: payments here.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">💳 Pay\u003c/div>\u003c/div>"},{"caption":"Borrow across aisles via import.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">import to use\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

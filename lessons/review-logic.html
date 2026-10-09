@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Review: Logic Checkpoint · Java Foundations</title>
-<meta name="description" content="Loops, branches, methods, debugging — the engine room. This checkpoint turns shaky traces into confident ones.">
+<meta name="description" content="Loops, branches, methods, debugging — the engine room. This checkpoint converts shaky traces into confident, fast, table-driven tracing.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,18 +32,19 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Loops, branches, methods, debugging — the engine room. This checkpoint turns shaky traces into confident ones.</p>
+  <div class="prose"><p>Loops, branches, methods, debugging — the engine room. This checkpoint converts shaky traces into confident, fast, table-driven tracing.</p>
   <div class="callout"><b>🔎 Motivating question</b>Can you trace a loop faster than it runs?</div>
   <h2>Objectives</h2><ul><li>Recall loops and methods</li><li>Fix weak spots</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/debugging.html">Debugging and Reading Errors</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Match replay: pause at each whistle (condition), note score (variables), predict next play. Replays build instinct.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: replays do not make fitness. Trace, then write fresh loops yourself.</div></div></section>
+  <div class="prose"><p>The match replay. Pause at each whistle (condition), note the score (variables), predict the next play BEFORE resuming. Replays build instinct; instinct builds speed.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: replays don’t build fitness. Trace first, then WRITE fresh loops yourself — watching is not training.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Drill: <b>for</b> counts (i < n), <b>while</b> waits, <b>break/continue</b> shape, <b>methods</b> package, <b>stack traces</b> point.</p><p>Trace template: table of i | condition | action per round.</p><p>Methods: parameters in, return out, scope ends at }.</p></div></section>
+  <div class="prose"><p>Drill the counters: <b>for</b> counts (i < n from 0), <b>while</b> waits (maybe zero), <b>break/continue</b> reshape (exit-all vs skip-one), <b>do-while</b> guarantees one run.</p><p>Drill packaging: parameters IN, return OUT, scope ends at the brace, static calls static (until objects).</p><p>Drill debugging: file-colon-line addresses, first-error-first, one-change-per-test, oracles for logic.</p><p>Trace template on paper: round | variables | decision | action. Four columns, zero confusion, every time.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Off-by-one errors live at BOUNDARIES (< vs <=, 0 vs 1 starts). Test edges: 0, 1, n-1, n — always.</li><li><b>Rubber-ducking</b>: narrating code line-by-line aloud catches a remarkable share of logic bugs before any tool runs.</li><li>Infinite loops announce via fan-plus-freeze; the cure is always “advance the watched value inside the body”.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Replay</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Match replay</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
@@ -51,43 +52,44 @@
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int total = 0;
 for (int i = 1; i &lt;= 4; i++) {
-  if (i == 3) continue;
+  if (i == 3) continue; // round 3 donates nothing
   total += i;
 }
-System.out.println(total); // ?">Copy</button></div>
+System.out.println(total); // 1+2+4 = ?">Copy</button></div>
   <pre><code>int total = 0;
 for (int i = 1; i &lt;= 4; i++) {
-  if (i == 3) continue;
+  if (i == 3) continue; // round 3 donates nothing
   total += i;
 }
-System.out.println(total); // ?</code></pre><div class="out">▶ Output
-7</div></div>
-  <ul class="linenotes"><li>Skip 3.</li><li>Sum 1+2+4.</li><li>Answer 7.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Continue skips adding 3; 1+2+4 = 7.</div></div></section>
+System.out.println(total); // 1+2+4 = ?</code></pre><div class="out">▶ Output
+7 — rounds 1, 2, 4 summed.</div></div>
+  <ul class="linenotes"><li>Skip 3 entirely.</li><li>Sum 1, 2, 4.</li><li>Answer: 7.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>continue abandons round 3’s addition; 1+2+4 = 7.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="loop"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Replay 4 rounds, skip 3.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Replay 4 rounds with a skip at 3.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="4" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: &lt;= vs &lt; miscount</b>Why: Off-by-one returns.<br><b>✅ Fix:</b> <code>&lt; n for n runs from 0.</code></div><div class="callout warn"><b>❌ Mistake 2: Infinite while (no update)</b>Why: Condition frozen.<br><b>✅ Fix:</b> <code>Update inside.</code></div><div class="callout err"><b>❌ Mistake 3: Reading last error first</b>Why: Cascade.<br><b>✅ Fix:</b> <code>First error first.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: &lt;= vs &lt; miscounts, again.</b>Why: Off-by-one resurrects exactly where you stop watching.<br><b>✅ Fix:</b> <code>&lt; n from 0 runs n times. Recite it.</code></div><div class="callout warn"><b>❌ Mistake 2: while with a frozen condition.</b>Why: No advance, no exit — fan concerto.<br><b>✅ Fix:</b> <code>Move the watched value inside, every loop.</code></div><div class="callout err"><b>❌ Mistake 3: Reading the LAST error first.</b>Why: Cascades mislead; ghosts accuse the innocent.<br><b>✅ Fix:</b> <code>First error, fix, rebuild. Liturgy.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Table it</b><p>Table i, action for loop above.</p>
+  <div class="practice"><b>Table it</b><p>Build the 4-column trace table for the loop above.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>4 rows.</div><div class="sol callout"><b>Solution</b>1 add, 2 add, 3 skip, 4 add.</div></div><div class="practice"><b>Method split</b><p>Extract sumSkipping3(n) returning total.</p>
+  <div class="hint callout"><b>Hint</b>Round, i, decision, total.</div><div class="sol callout"><b>Solution</b>r1 i=1 add→1; r2 i=2 add→3; r3 skip; r4 i=4 add→7.</div></div><div class="practice"><b>Extract it</b><p>Extract sumSkipping3(n) returning the total.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Parameters in, return out.</div><div class="sol callout"><b>Solution</b>static int sumSkipping3(int n){...return total;}</div></div></section>
+  <div class="hint callout"><b>Hint</b>Parameters in, return out.</div><div class="sol callout"><b>Solution</b>static int sumSkipping3(int n) { ... return total; }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Trace with tables.</li><li>&lt; n from 0 = n runs.</li><li>First error first.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Trace the loop above without looking.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write one fresh for + one while today.</div>
+  <div class="prose"><ul><li>Trace with the 4-column table.</li><li>&lt; n from 0 = exactly n runs.</li><li>First error first; one change per test.</li><li>Edges first: 0, 1, n-1, n.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Trace the loop above from memory, without looking.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write ONE fresh for plus ONE fresh while today.</div>
   <p><b>Related:</b> <a href="../lessons/debugging.html">Debugging and Reading Errors</a> · <a href="./arrays.html">Next: Arrays →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +97,8 @@ System.out.println(total); // ?</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'review-logic',[{"id":"q1","prompt":"Output above?","options":[{"t":"7","ok":true},{"t":"10"},{"t":"6"},{"t":"4"}],"explain":"1+2+4."},{"id":"q2","prompt":"do-while always…","options":[{"t":"Runs at least once","ok":true},{"t":"May run zero"},{"t":"Runs twice"},{"t":"Never runs"}],"explain":"Post-check."},{"id":"q3","prompt":"Many errors: fix…","options":[{"t":"First","ok":true},{"t":"Last"},{"t":"Random"},{"t":"All at once"}],"explain":"Cascade source."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Round 1-2: add 1, 2.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total\u003c/div>\u003cdiv class=\"vl\">3\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Round 3: skip!","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">i=3 ⏭️\u003c/div>\u003c/div>"},{"caption":"Round 4: add 4 → 7.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total\u003c/div>\u003cdiv class=\"vl\">7 ✓\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'review-logic',[{"id":"q1","prompt":"The loop above outputs…","options":[{"t":"7","ok":true},{"t":"10"},{"t":"6"},{"t":"4"}],"explain":"1+2+4 — round 3 donated nothing."},{"id":"q2","prompt":"do-while always…","options":[{"t":"Runs at least once","ok":true},{"t":"May run zero times"},{"t":"Runs exactly twice"},{"t":"Never runs"}],"explain":"Post-check: body precedes the first question."},{"id":"q3","prompt":"Twenty errors: fix…","options":[{"t":"The first one","ok":true},{"t":"The last one"},{"t":"A random one"},{"t":"All simultaneously"}],"explain":"Cascade source first; echoes vanish."},{"id":"q4","prompt":"Off-by-one hides at…","options":[{"t":"Boundaries: \u003c vs \u003c=, 0 vs 1","ok":true},{"t":"Comments"},{"t":"Imports"},{"t":"File names"}],"explain":"Test edges 0, 1, n-1, n — always."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Rounds 1–2: add 1, then 2.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total\u003c/div>\u003cdiv class=\"vl\">3\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Round 3: skipped entirely.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">i=3 skipped\u003c/div>\u003c/div>"},{"caption":"Round 4: add 4, finish at 7.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">total\u003c/div>\u003cdiv class=\"vl\">7\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Constructors · Java Foundations</title>
-<meta name="description" content="Constructors are birth rituals: name + starting values in one call. No half-built objects.">
+<meta name="description" content="Constructors are birth rituals: name plus starting values, delivered in ONE call. No half-built objects limping around with null titles.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,64 +32,78 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Constructors are birth rituals: name + starting values in one call. No half-built objects.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do phones force setup (language, PIN) on first boot?</div>
+  <div class="prose"><p>Constructors are birth rituals: name plus starting values, delivered in ONE call. No half-built objects limping around with null titles.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do new phones force setup — language, PIN, account — on first boot?</div>
   <h2>Objectives</h2><ul><li>Write a constructor</li><li>Explain new + ()</li><li>Overload constructors</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/fields-methods.html">Fields and Methods</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Birth certificate office: give name + birth data once, receive a valid citizen. new Book("Dune") = certificate with title stamped at birth.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: certificates rarely change. Objects change after — constructor sets the start, not the forever.</div></div></section>
+  <div class="prose"><p>The birth-certificate office. Hand over name + birth data ONCE, receive a valid citizen. new Book("Dune") stamps the title at birth; the object starts life VALID.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: certificates rarely change, but objects do — the constructor sets the START, not the destiny. Later edits go through methods, not rebirth.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Same name as class, no return type</b>: Book(String t) { title = t; }. Called by <b>new</b>.</p><p><b>Overload</b>: several constructors (no-arg, full). Chain with <b>this(...)</b>.</p><p>No constructor written? Java gives a free no-arg one. Add one → free one gone.</p></div></section>
+  <div class="prose"><p>A constructor has the <b>class’s exact name and NO return type</b> — not even void. Book(String t) { title = t; } runs automatically when new fires.</p><p><b>Overloading</b>: several constructors with different parameter lists (no-arg, title-only, full). The call’s arguments pick which runs.</p><p>Chain them with <b>this(...)</b> as the FIRST line: Book() { this("Untitled"); } reuses the bigger sibling instead of duplicating.</p><p>Write ANY constructor and Java’s free default vanishes — new Book() then fails unless YOU also write the no-arg version. The #1 constructor surprise.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Constructors are NOT methods: no return type at all (void Book() is a method named Book — legal, useless, confusing).</li><li><b>this(...)</b> must be line one — delegation leads, work follows. super(...) (inheritance) follows the same rule.</li><li>Fields not set by the constructor keep defaults (null, 0, false) — valid but possibly meaningless; prefer setting everything meaningful at birth.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Birth office</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Birth-certificate office</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Book {
-  String title; boolean borrowed;
-  Book(String t) { title = t; }
-  Book(String t, boolean b) { title = t; borrowed = b; }
+  String title;
+  boolean borrowed;
+  Book() { this(&quot;Untitled&quot;); }            // chains below
+  Book(String t) { title = t; }           // main birth
+  Book(String t, boolean b) {             // full birth
+    title = t;
+    borrowed = b;
+  }
 }
-Book b = new Book(&quot;Dune&quot;);
-System.out.println(b.title);">Copy</button></div>
+new Book();               // &quot;Untitled&quot;, free
+new Book(&quot;Dune&quot;);        // Dune, free
+new Book(&quot;1984&quot;, true);  // 1984, borrowed">Copy</button></div>
   <pre><code>class Book {
-  String title; boolean borrowed;
-  Book(String t) { title = t; }
-  Book(String t, boolean b) { title = t; borrowed = b; }
+  String title;
+  boolean borrowed;
+  Book() { this(&quot;Untitled&quot;); }            // chains below
+  Book(String t) { title = t; }           // main birth
+  Book(String t, boolean b) {             // full birth
+    title = t;
+    borrowed = b;
+  }
 }
-Book b = new Book(&quot;Dune&quot;);
-System.out.println(b.title);</code></pre><div class="out">▶ Output
-Dune</div></div>
-  <ul class="linenotes"><li>Two birth options.</li><li>new picks by arguments.</li><li>Object starts valid.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Matched single-arg constructor; title stamped.</div></div></section>
+new Book();               // &quot;Untitled&quot;, free
+new Book(&quot;Dune&quot;);        // Dune, free
+new Book(&quot;1984&quot;, true);  // 1984, borrowed</code></pre><div class="out">▶ Output
+Three valid books: Untitled, Dune, borrowed 1984.</div></div>
+  <ul class="linenotes"><li>Three birth options, one family.</li><li>this(...) delegates instead of duplicating.</li><li>Every object starts valid — no null titles.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each new picks the matching constructor by argument count; chaining keeps one source of truth.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Birth stamp: title.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Birth stamps the title at once.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Dune" size="8" aria-label="value"> <input data-in value=" (new)" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: void Book(...)</b>Why: That is a method, not constructor!<br><b>✅ Fix:</b> <code>No return type at all.</code></div><div class="callout warn"><b>❌ Mistake 2: Book b; (no new)</b>Why: Declared, not born.<br><b>✅ Fix:</b> <code>b = new Book(&quot;X&quot;);</code></div><div class="callout err"><b>❌ Mistake 3: Adding constructor breaks new Book()</b>Why: Free one vanished.<br><b>✅ Fix:</b> <code>Keep an explicit no-arg too.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: void Book(String t) { ... }</b>Why: That declares a METHOD named Book — constructors never have return types, not even void.<br><b>✅ Fix:</b> <code>Drop the void entirely.</code></div><div class="callout warn"><b>❌ Mistake 2: Book b; then using b.</b>Why: Declared, never born — null slip, crash on touch.<br><b>✅ Fix:</b> <code>b = new Book(&quot;X&quot;); births it.</code></div><div class="callout err"><b>❌ Mistake 3: Adding Book(String t) then calling new Book().</b>Why: Your constructor EVICTED the free default.<br><b>✅ Fix:</b> <code>Also write an explicit no-arg Book() version.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Write no-arg</b><p>Book() setting title &quot;Untitled&quot;.</p>
+  <div class="practice"><b>Write the no-arg</b><p>Write Book() giving title &quot;Untitled&quot; via chaining.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Same name, no return.</div><div class="sol callout"><b>Solution</b>Book(){ title = &quot;Untitled&quot;; }</div></div><div class="practice"><b>Chain</b><p>Make Book() call Book(&quot;Untitled&quot;).</p>
+  <div class="hint callout"><b>Hint</b>this(...) first line.</div><div class="sol callout"><b>Solution</b>Book() { this(&quot;Untitled&quot;); }</div></div><div class="practice"><b>Overload count</b><p>How many constructors above, and which runs for new Book(&quot;Dune&quot;)?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>this(...).</div><div class="sol callout"><b>Solution</b>Book(){ this(&quot;Untitled&quot;); }</div></div></section>
+  <div class="hint callout"><b>Hint</b>Match by arguments.</div><div class="sol callout"><b>Solution</b>Three; the single-String one runs.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Birth ritual with starting data.</li><li>Overload for options; this() chains.</li><li>No return type — ever.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>How is a constructor different from a method?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Give your Pen class a constructor.</div>
+  <div class="prose"><ul><li>Birth ritual: name + starting data, one call.</li><li>Overload for options; this(...) chains first.</li><li>NO return type — ever, not even void.</li><li>Any constructor evicts the free default.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>How can you TELL a constructor apart from a method at a glance?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Give your Pen class a real constructor with chaining.</div>
   <p><b>Related:</b> <a href="../lessons/fields-methods.html">Fields and Methods</a> · <a href="./this-keyword.html">Next: The this Keyword →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -97,8 +111,8 @@ Dune</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'constructors',[{"id":"q1","prompt":"Constructor name…","options":[{"t":"Same as class, no return type","ok":true},{"t":"Anything + void"},{"t":"main always"},{"t":"lowercase"}],"explain":"Birth signature."},{"id":"q2","prompt":"Called by…","options":[{"t":"new","ok":true},{"t":"Dot after"},{"t":"Comments"},{"t":"Import"}],"explain":"new triggers it."},{"id":"q3","prompt":"Add any constructor: free no-arg…","options":[{"t":"Disappears","ok":true},{"t":"Stays"},{"t":"Doubles"},{"t":"Becomes private"}],"explain":"Write your own no-arg if needed."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Form: title = Dune.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Book(\"Dune\")\u003c/div>\u003c/div>"},{"caption":"Officer stamps: constructor runs.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Book(t) → title = t ✓\u003c/div>\u003c/div>"},{"caption":"Citizen issued, valid.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>b1 🏠 Dune\u003c/b>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'constructors',[{"id":"q1","prompt":"A constructor’s name and return type?","options":[{"t":"Class name, NO return type at all","ok":true},{"t":"Anything, plus void"},{"t":"Always main"},{"t":"Lowercase anything"}],"explain":"Birth signature — the missing return type IS the marker."},{"id":"q2","prompt":"Constructors run when…","options":[{"t":"new executes","ok":true},{"t":"The dot is used"},{"t":"Comments are read"},{"t":"Imports load"}],"explain":"new triggers allocation + constructor, together."},{"id":"q3","prompt":"Writing any constructor makes the free no-arg one…","options":[{"t":"Disappear","ok":true},{"t":"Stay forever"},{"t":"Double itself"},{"t":"Turn private"}],"explain":"Evicted — rewrite it yourself if still needed."},{"id":"q4","prompt":"this(...) inside a constructor must be…","options":[{"t":"The very first line","ok":true},{"t":"The last line"},{"t":"Anywhere"},{"t":"Outside the class"}],"explain":"Delegation leads, work follows."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Form arrives: new Book(\"Dune\").","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Book(\"Dune\")\u003c/div>\u003c/div>"},{"caption":"Officer stamps: constructor runs.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Book(t) → title set ✓\u003c/div>\u003c/div>"},{"caption":"Valid citizen issued instantly.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>b1 🏠 Dune\u003c/b>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

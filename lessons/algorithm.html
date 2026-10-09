@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>What Is an Algorithm? · Java Foundations</title>
-<meta name="description" content="An algorithm is just a recipe that is clear enough for a machine: finite steps, clear order, and a definite end.">
+<meta name="description" content="An algorithm is a recipe strict enough for a machine: finite steps, a clear order, and a definite end. Every program you will ever write is one or more algorithms.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>An algorithm is just a recipe that is clear enough for a machine: finite steps, clear order, and a definite end.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How would you teach a friend who has never been to your street to reach your door by phone?</div>
+  <div class="prose"><p>An algorithm is a recipe strict enough for a machine: finite steps, a clear order, and a definite end. Every program you will ever write is one or more algorithms.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How would you teach a friend who has never been to your street to reach your door, using only a phone call?</div>
   <h2>Objectives</h2><ul><li>Define algorithm</li><li>Write steps for a daily task</li><li>Spot vague vs precise steps</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/prog-what.html">What Is Programming?</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Morning routine: alarm → brush → dress → eat. Same order daily, ends when you leave. A loop-free algorithm feels like this.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: “get dressed nicely” is an opinion, not a step. Algorithms need testable steps like “put on blue shirt”.</div></div></section>
+  <div class="prose"><p>Morning routine: alarm → brush → dress → eat. Same order daily, ends when you leave. A loop-free algorithm feels exactly like this — steps you could chant.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: “get dressed nicely” works for humans and fails for machines. “Nicely” is an opinion, not a step. Algorithms need testable steps like “put on the blue shirt”.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>An <b>algorithm</b> has: input, clear steps in order, and an end. “Sort these 5 cards” with steps qualifies; “be creative” does not.</p><p>Good steps are <b>unambiguous</b> (one meaning), <b>ordered</b> (do step 2 after 1), and <b>finite</b> (they stop).</p><p>Programmers compare algorithms by correctness first, then speed: does it always give the right answer, and roughly how many steps?</p></div></section>
+  <div class="prose"><p>An <b>algorithm</b> takes input, follows clear steps in order, and ends with output. “Sort these 5 cards” with written steps qualifies; “be creative” does not.</p><p>Good steps are <b>unambiguous</b> (exactly one meaning), <b>ordered</b> (step 2 needs only steps before it), and <b>finite</b> (they always stop). Miss any one and it is not an algorithm.</p><p>Programmers judge algorithms by correctness first, then by step count: does it always give the right answer, and roughly how many steps does it take as input grows? That “how many steps” idea is called <b>complexity</b>, and you will feel it with loops and searching later.</p><p>Algorithms live above any language. The max-of-two idea below works identically in Java, Python, or pseudocode — only the spelling changes.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>An algorithm must terminate for <b>every</b> allowed input, not just the examples you tried. “Keep guessing” is not an algorithm.</li><li>Steps must be <b>effective</b>: simple enough that the follower can actually do them. “Teleport the cheese” is unambiguous but not effective.</li><li>Writing the steps in plain words before coding is called <b>pseudocode</b> — the professional habit this lesson is really teaching.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Vague vs exact</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,29 +50,36 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="// Algorithm: max of two numbers
-// Input: a, b. Output: the larger.
-int a = 7, b = 4;
-int max;
-if (a &gt; b) {
-  max = a;
-} else {
-  max = b;
-}
-System.out.println(max); // 7">Copy</button></div>
-  <pre><code>// Algorithm: max of two numbers
-// Input: a, b. Output: the larger.
-int a = 7, b = 4;
-int max;
-if (a &gt; b) {
-  max = a;
-} else {
-  max = b;
-}
-System.out.println(max); // 7</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int a = 7;   // input
+    int b = 4;   // input
+    int max;     // will hold the answer
+    if (a &gt; b) {
+      max = a;
+    } else {
+      max = b;
+    }
+    System.out.println(max); // output: 7
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int a = 7;   // input
+    int b = 4;   // input
+    int max;     // will hold the answer
+    if (a &gt; b) {
+      max = a;
+    } else {
+      max = b;
+    }
+    System.out.println(max); // output: 7
+  }
+}</code></pre><div class="out">▶ Output
 7</div></div>
-  <ul class="linenotes"><li>Steps run in order: store, compare, pick, print.</li><li>The if is a decision point — still exact.</li><li>It always ends after printing.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Compare 7 &gt; 4 is true, so max = 7. Any two numbers end at print — finite and exact.</div></div></section>
+  <ul class="linenotes"><li>Steps run in order: store, compare, pick, print.</li><li>The if is a decision point — still an exact step.</li><li>It always ends after printing: finite.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Compare 7 &gt; 4: true, so max = 7. The else branch is skipped. Any two numbers reach the print — finite and exact.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -80,22 +88,22 @@ System.out.println(max); // 7</code></pre><div class="out">▶ Output
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: “Step 3: do the needful.”</b>Why: Vague verbs cannot execute.<br><b>✅ Fix:</b> <code>Replace with measurable action: “add 1 spoon sugar, stir 10 times.”</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting the stop condition.</b>Why: “Keep stirring” forever is not an algorithm.<br><b>✅ Fix:</b> <code>Add an end: “stir 10 times, then stop.”</code></div><div class="callout err"><b>❌ Mistake 3: Steps in wrong order.</b>Why: “Bake, then mix” fails.<br><b>✅ Fix:</b> <code>Number steps; check each needs only earlier results.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: “Step 3: do the needful.”</b>Why: Vague verbs cannot execute on any machine.<br><b>✅ Fix:</b> <code>Replace with a measurable action: “add 1 spoon of sugar, stir 10 times.”</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting the stop condition (“keep stirring”).</b>Why: An endless procedure is not an algorithm and bakes a real program into a frozen one.<br><b>✅ Fix:</b> <code>Add an end: “stir 10 times, then stop.”</code></div><div class="callout err"><b>❌ Mistake 3: Steps in the wrong order (“bake, then mix”).</b>Why: Later steps need results that do not exist yet.<br><b>✅ Fix:</b> <code>Number the steps; check each one needs only earlier results.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Spot the vague step</b><p>Which is NOT a good algorithm step? A) “add 200g flour” B) “bake 20 min at 180°C” C) “make it tasty”.</p>
+  <div class="practice"><b>Spot the vague step</b><p>Which is NOT a good algorithm step? A) “add 200 g flour” B) “bake 20 min at 180 °C” C) “make it tasty”. Rewrite the bad one.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Can a robot test it?</div><div class="sol callout"><b>Solution</b>C — “tasty” cannot be tested. Rewrite: “add 1 tsp salt”.</div></div><div class="practice"><b>Write min-of-three</b><p>Write 6 or fewer steps to find the smallest of x, y, z.</p>
+  <div class="hint callout"><b>Hint</b>Can a robot test whether it did it right?</div><div class="sol callout"><b>Solution</b>C is not testable. Rewrite: “add 1 tsp salt”.</div></div><div class="practice"><b>Write min-of-three</b><p>Write at most 6 steps to find the smallest of x, y, z.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Compare two, keep winner, compare with third.</div><div class="sol callout"><b>Solution</b>1 set m=x. 2 if y&lt;m set m=y. 3 if z&lt;m set m=z. 4 output m.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Compare two, keep the winner, compare with the third.</div><div class="sol callout"><b>Solution</b>1 set m = x. 2 if y &lt; m set m = y. 3 if z &lt; m set m = z. 4 output m.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Algorithm = exact steps + order + end.</li><li>Each step must be testable by a literal follower.</li><li>Order matters; check what each step needs.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What three things make steps “algorithm-quality”?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write sandwich-making steps (max 8) a robot could follow.</div>
+  <div class="prose"><ul><li>Algorithm = exact steps + order + guaranteed end.</li><li>Each step must be testable by a literal follower.</li><li>Order matters; each step uses only earlier results.</li><li>Pseudocode first, code second — always.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What three properties make steps “algorithm-quality”?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Write sandwich-making steps (max 8) a robot could follow, then test them on a human robot.</div>
   <p><b>Related:</b> <a href="../lessons/prog-what.html">What Is Programming?</a> · <a href="./source-code.html">Next: What Is Source Code? →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -103,8 +111,8 @@ System.out.println(max); // 7</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'algorithm',[{"id":"q1","prompt":"What must an algorithm have?","options":[{"t":"Clear ordered steps and an end","ok":true},{"t":"At least 100 steps"},{"t":"A computer to run on"},{"t":"Fancy words"}],"explain":"Finite, ordered, unambiguous steps."},{"id":"q2","prompt":"“Keep guessing until it feels right” fails because…","options":[{"t":"It has no definite end","ok":true},{"t":"It is too short"},{"t":"Guessing is illegal"},{"t":"It uses numbers"}],"explain":"No testable stop = not an algorithm."},{"id":"q3","prompt":"Code above with a=2, b=9 prints?","options":[{"t":"9","ok":true},{"t":"2"},{"t":"0"},{"t":"It never ends"}],"explain":"9 > 2, so else branch picks b."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Vague step: robot freezes.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Step\u003c/b>\u003cbr>“make it nice”\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Robot\u003c/b>\u003cbr>⁉️ which action?\u003c/div>\u003c/div>"},{"caption":"Exact steps: robot flows.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>1\u003c/b> add 200g flour\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>2\u003c/b> bake 20 min\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>3\u003c/b> stop\u003c/div>\u003c/div>"},{"caption":"Same idea in code: compare, pick, print, stop.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">max\u003c/div>\u003cdiv class=\"vl\">7\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'algorithm',[{"id":"q1","prompt":"What must an algorithm have?","options":[{"t":"Clear ordered steps and a guaranteed end","ok":true},{"t":"At least 100 steps"},{"t":"A computer to run on"},{"t":"Fancy words"}],"explain":"Finite, ordered, unambiguous steps — the three non-negotiables."},{"id":"q2","prompt":"“Keep guessing until it feels right” fails because…","options":[{"t":"It has no definite end","ok":true},{"t":"It is too short"},{"t":"Guessing is illegal"},{"t":"It uses numbers"}],"explain":"No testable stop means it is a habit, not an algorithm."},{"id":"q3","prompt":"The code above with a = 2, b = 9 prints…","options":[{"t":"9","ok":true},{"t":"2"},{"t":"0"},{"t":"It never ends"}],"explain":"9 > 2 is false… wait: a=2, b=9, so (2 > 9) is false → else branch → max = b = 9."},{"id":"q4","prompt":"Why write pseudocode before real code?","options":[{"t":"To fix the logic while it is still cheap to change","ok":true},{"t":"Compilers require it"},{"t":"It runs faster"},{"t":"It replaces testing"}],"explain":"Logic errors found in plain words cost seconds; found in code cost much more."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Vague step: the robot freezes.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Step\u003c/b>\u003cbr>“make it nice”\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Robot\u003c/b>\u003cbr>⁉️ which action?\u003c/div>\u003c/div>"},{"caption":"Exact steps: the robot flows.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>1\u003c/b> add 200 g flour\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>2\u003c/b> bake 20 min\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>3\u003c/b> stop\u003c/div>\u003c/div>"},{"caption":"Same idea in code: compare, pick, print, stop.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">max\u003c/div>\u003cdiv class=\"vl\">7\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The this Keyword · Java Foundations</title>
-<meta name="description" content="this means “this object here”. It untangles “which title?” when parameters shadow fields.">
+<meta name="description" content="this means “THIS object right here”. It untangles “which title?!” when a parameter shadows a field — and it lets constructors call their siblings.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,18 +32,19 @@
     <span class="chip">⏱ 10 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>this means “this object here”. It untangles “which title?” when parameters shadow fields.</p>
-  <div class="callout"><b>🔎 Motivating question</b>In “my bag is in my room”, who is “my”?</div>
+  <div class="prose"><p>this means “THIS object right here”. It untangles “which title?!” when a parameter shadows a field — and it lets constructors call their siblings.</p>
+  <div class="callout"><b>🔎 Motivating question</b>In “my bag is inside my room”, who exactly is “my”?</div>
   <h2>Objectives</h2><ul><li>Use this.field</li><li>Explain why shadowing needs this</li><li>Chain with this(...)</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/constructors.html">Constructors</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Name tag “I”. In a crowd of Titles, this.title = MY title. Also this(...) calls my other constructor (sibling birth).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: “I” outside a person is nonsense. this outside an object method/constructor is an error.</div></div></section>
+  <div class="prose"><p>The “I” name tag in a crowd of Titles. With two titles in scope (field vs parameter), this.title points at MY OWN field. And this(...) phones my sibling constructor.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: “I” spoken with nobody home is nonsense. this inside static code (no object exists there) is a compile error — this needs a somebody.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>this.title = title</b>: field = parameter. Fixes shadowing.</p><p><b>this(...)</b> first line calls another constructor. <b>this.method()</b> explicit self-call (rare).</p><p>Use when names collide; otherwise optional.</p></div></section>
+  <div class="prose"><p><b>this.title = title</b> assigns the PARAMETER into the FIELD. Without this, title = title self-assigns the parameter and the field stays null — the silent classic.</p><p><b>this(...)</b> calls another constructor of the SAME class, and must be the first line. Sibling delegation, not duplication.</p><p>Plain <b>this.method()</b> (explicit self-call) is legal but rarely needed — plain method() already means this.method().</p><p>Use this exactly where names collide; elsewhere it is noise. Clean code uses it surgically, not decoratively.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Shadowing = an inner declaration HIDES an outer one. Parameters shadow fields constantly — this is the disambiguator.</li><li><b>this</b> is a hidden extra: every instance method secretly receives its object. static methods get none — hence no this there.</li><li>Fluent APIs return <b>this</b> to chain: sb.append(a).append(b) works because each append hands back the same builder.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Name tag</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: The “I” tag</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
@@ -51,47 +52,54 @@
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="class Book {
   String title;
-  Book(String title) { this.title = title; }
-  void rename(String title) { this.title = title; }
+  Book(String title) {
+    this.title = title; // FIELD = parameter
+  }
+  void rename(String title) {
+    this.title = title; // same trick in methods
+  }
 }
 Book b = new Book(&quot;Dune&quot;);
-b.rename(&quot;Dune 2&quot;);
-System.out.println(b.title);">Copy</button></div>
+b.rename(&quot;Dune 2&quot;); // b.title is now &quot;Dune 2&quot;">Copy</button></div>
   <pre><code>class Book {
   String title;
-  Book(String title) { this.title = title; }
-  void rename(String title) { this.title = title; }
+  Book(String title) {
+    this.title = title; // FIELD = parameter
+  }
+  void rename(String title) {
+    this.title = title; // same trick in methods
+  }
 }
 Book b = new Book(&quot;Dune&quot;);
-b.rename(&quot;Dune 2&quot;);
-System.out.println(b.title);</code></pre><div class="out">▶ Output
-Dune 2</div></div>
-  <ul class="linenotes"><li>this.title = field.</li><li>title alone = parameter.</li><li>Rename updates the field.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Parameter assigned into the object’s field via this.</div></div></section>
+b.rename(&quot;Dune 2&quot;); // b.title is now &quot;Dune 2&quot;</code></pre><div class="out">▶ Output
+b.title ends as &quot;Dune 2&quot;.</div></div>
+  <ul class="linenotes"><li>this.title = the object’s field, always.</li><li>Bare title = the nearest parameter.</li><li>Rename truly updates the field.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each assignment routes the parameter value into the object’s own field via this.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Whose title? this one.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Whose title? THIS one.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Dune" size="8" aria-label="value"> <input data-in value=" 2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: title = title; (no this)</b>Why: Self-assigns parameter — field stays null!<br><b>✅ Fix:</b> <code>this.title = title;</code></div><div class="callout warn"><b>❌ Mistake 2: this in static main</b>Why: No “this object” there.<br><b>✅ Fix:</b> <code>Create an object first.</code></div><div class="callout err"><b>❌ Mistake 3: this(...) not first line</b>Why: Must lead.<br><b>✅ Fix:</b> <code>Put this(...) line 1.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: title = title; with no this.</b>Why: Parameter self-assigns; the field keeps its null — compiles, silently wrong.<br><b>✅ Fix:</b> <code>this.title = title; — always, when shadowed.</code></div><div class="callout warn"><b>❌ Mistake 2: Using this inside static main.</b>Why: No “this object” exists in static land.<br><b>✅ Fix:</b> <code>Build an object first, then its methods use this.</code></div><div class="callout err"><b>❌ Mistake 3: this(&quot;X&quot;); placed on line three.</b>Why: Constructor delegation MUST lead.<br><b>✅ Fix:</b> <code>First line, no exceptions.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Fix shadow</b><p>Fix: Book(String title){ title = title; }</p>
+  <div class="practice"><b>Fix the shadow</b><p>Fix: Book(String title) { title = title; }</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>this.</div><div class="sol callout"><b>Solution</b>this.title = title;</div></div><div class="practice"><b>Chain sib</b><p>Book(){ this(&quot;X&quot;); } — what happens?</p>
+  <div class="hint callout"><b>Hint</b>Three extra characters plus dot.</div><div class="sol callout"><b>Solution</b>Book(String title) { this.title = title; }</div></div><div class="practice"><b>Chain check</b><p>Book() { this(&quot;X&quot;); } — what runs, in what order?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Calls sibling.</div><div class="sol callout"><b>Solution</b>Delegates to 1-arg version.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Sibling first.</div><div class="sol callout"><b>Solution</b>The 1-arg constructor runs fully, then control returns to finish Book().</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>this = this object.</li><li>Fixes shadowed names.</li><li>this(...) chains constructors first.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When do you need this?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Use this in your Pen constructor.</div>
+  <div class="prose"><ul><li>this = this object, for fields and siblings.</li><li>Fixes shadowed names precisely.</li><li>this(...) chains constructors, first line.</li><li>Surgical use, not decoration.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Name the two jobs of this, with one example each.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Use this in your Pen constructor AND rename method.</div>
   <p><b>Related:</b> <a href="../lessons/constructors.html">Constructors</a> · <a href="./encapsulation.html">Next: Encapsulation →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +107,8 @@ Dune 2</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'this-keyword',[{"id":"q1","prompt":"this.title means…","options":[{"t":"This object’s field","ok":true},{"t":"The parameter"},{"t":"A static"},{"t":"A class"}],"explain":"Self reference."},{"id":"q2","prompt":"title = title without this…","options":[{"t":"Parameter self-assign; field unchanged","ok":true},{"t":"Works fine"},{"t":"Error always"},{"t":"Deletes object"}],"explain":"Shadow trap."},{"id":"q3","prompt":"this(...) must be…","options":[{"t":"First line","ok":true},{"t":"Last line"},{"t":"Anywhere"},{"t":"Outside"}],"explain":"Delegation leads."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Two titles: field vs parameter.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">field: ?\u003c/div>\u003cdiv class=\"box\">param: \"Dune\"\u003c/div>\u003c/div>"},{"caption":"this.title picks mine.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">this.title = \"Dune\" ✓\u003c/div>\u003c/div>"},{"caption":"Field stamped, crowd clears.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">this.title\u003c/div>\u003cdiv class=\"vl\">Dune\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'this-keyword',[{"id":"q1","prompt":"this.title refers to…","options":[{"t":"This object’s field","ok":true},{"t":"The parameter"},{"t":"A static variable"},{"t":"The class itself"}],"explain":"Self-reference, always the field when shadowed."},{"id":"q2","prompt":"title = title (no this) does…","options":[{"t":"Parameter self-assigns; field stays null","ok":true},{"t":"Works perfectly"},{"t":"Always errors"},{"t":"Deletes the object"}],"explain":"The shadow trap — compiles, silently wrong."},{"id":"q3","prompt":"this(...) position rule?","options":[{"t":"First line of the constructor","ok":true},{"t":"Last line"},{"t":"Anywhere"},{"t":"Outside the class"}],"explain":"Delegation leads, work follows."},{"id":"q4","prompt":"Why is this banned in static methods?","options":[{"t":"No object exists there to point at","ok":true},{"t":"Statics are faster"},{"t":"It is allowed, actually"},{"t":"Statics hate keywords"}],"explain":"this needs a somebody; static has nobody."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Crowd: field title vs parameter title.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">field: ?\u003c/div>\u003cdiv class=\"box\">param: \"Dune\"\u003c/div>\u003c/div>"},{"caption":"this.title picks MY field.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">this.title = \"Dune\" ✓\u003c/div>\u003c/div>"},{"caption":"Field stamped; crowd disperses.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">this.title\u003c/div>\u003cdiv class=\"vl\">Dune\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

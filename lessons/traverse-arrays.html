@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Traversing and Updating Arrays · Java Foundations</title>
-<meta name="description" content="Visiting every slot in order — to print, sum, or upgrade — is traversing. Loops are the tour bus.">
+<meta name="description" content="Visiting every slot in order — to print, sum, or upgrade — is called traversing. Loops are the tour bus, and Java runs two models: the counting bus (needs the seat NUMBER) and the sightseeing bus (just greets each passenger).">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,63 +32,81 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Visiting every slot in order — to print, sum, or upgrade — is traversing. Loops are the tour bus.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you water 20 plants without missing one?</div>
+  <div class="prose"><p>Visiting every slot in order — to print, sum, or upgrade — is called traversing. Loops are the tour bus, and Java runs two models: the counting bus (needs the seat NUMBER) and the sightseeing bus (just greets each passenger).</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you water 20 plants in a row without missing one or drowning one twice?</div>
   <h2>Objectives</h2><ul><li>Loop with for and for-each</li><li>Update elements in place</li><li>Sum and transform arrays</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/indexing-bounds.html">Array Indexing and Bounds</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Tour bus with numbered seats: classic for counts the seats (needs index), for-each just greets each passenger (no index). To change seats, need the classic bus.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: for-each gives a photo copy of primitives — editing the copy does not change the tray.</div></div></section>
+  <div class="prose"><p>The tour bus with numbered seats. The classic for counts seats (needs the INDEX to repaint them); for-each just greets each passenger (no index, no repainting). To CHANGE seats, you need the counting bus — photos can’t move furniture.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: for-each hands you a PHOTO of each primitive, not the seat. Writing on the photo (v += 5) changes nothing in the tray — the classic “why didn’t my array change?!” mystery.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>for (i...)</b> when you need index or must write: a[i] = ....</p><p><b>for (int v : a)</b> to read simply. <b>v</b> is a copy for primitives.</p><p>Accumulate: sum, count, transform with the right bus.</p></div></section>
+  <div class="prose"><p><b>Classic for</b> when you need the index or must WRITE: a[i] = ..., a[i] *= 2. The index is the address; without it you cannot deliver changes.</p><p><b>for (int v : a)</b> (enhanced for-each) when you only READ: sum += v, print(v). Simpler, bounds-safe by construction, preferred for reading.</p><p>v is a COPY for primitives (editing it is scribbling on a photo) — but for OBJECTS it copies the slip, so v.setX() WOULD reach the shared house. Same syntax, different physics!</p><p>Accumulator pattern: initialize BEFORE the loop (sum = 0), update INSIDE, use AFTER. Forgetting the init is the #1 traversal bug.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>for-each desugars to an <b>index loop</b> (arrays) or an <b>Iterator</b> (collections) — same work, less typing, zero off-by-one surface.</li><li>You CANNOT get the current index from for-each; you CANNOT remove collection elements in one (use removeIf/iterator — Stage 6).</li><li><b>a[i] += 5</b> reads, adds, and writes back in one line — the standard in-place upgrade idiom.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Tour bus</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Two tour buses</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int[] m = {80, 90, 70};
-int sum = 0;
-for (int v : m) sum += v;
-System.out.println(sum); // 240
-for (int i = 0; i &lt; m.length; i++) m[i] += 5;
-System.out.println(m[0]); // 85">Copy</button></div>
-  <pre><code>int[] m = {80, 90, 70};
-int sum = 0;
-for (int v : m) sum += v;
-System.out.println(sum); // 240
-for (int i = 0; i &lt; m.length; i++) m[i] += 5;
-System.out.println(m[0]); // 85</code></pre><div class="out">▶ Output
-240
-85</div></div>
-  <ul class="linenotes"><li>for-each reads all.</li><li>Classic loop writes all (+5).</li><li>Sum 240, first now 85.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Read tour sums; write tour upgrades each slot.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int[] m = {80, 90, 70};
+    int sum = 0;
+    for (int v : m) {
+      sum += v; // sightseeing: read-only tour
+    }
+    System.out.println(&quot;sum = &quot; + sum);
+    for (int i = 0; i &lt; m.length; i++) {
+      m[i] += 5; // counting bus: repaint every seat
+    }
+    System.out.println(&quot;first now = &quot; + m[0]);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int[] m = {80, 90, 70};
+    int sum = 0;
+    for (int v : m) {
+      sum += v; // sightseeing: read-only tour
+    }
+    System.out.println(&quot;sum = &quot; + sum);
+    for (int i = 0; i &lt; m.length; i++) {
+      m[i] += 5; // counting bus: repaint every seat
+    }
+    System.out.println(&quot;first now = &quot; + m[0]);
+  }
+}</code></pre><div class="out">▶ Output
+sum = 240
+first now = 85</div></div>
+  <ul class="linenotes"><li>for-each reads all three into sum = 240.</li><li>The index loop writes +5 into every slot.</li><li>First slot: 80 → 85.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The read tour sums without touching; the write tour upgrades each slot in place.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="loop"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Tour 3 seats.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Tour 3 seats and watch the sum grow.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="3" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: for (v : m) v += 5; (int[])</b>Why: Edits the copy!<br><b>✅ Fix:</b> <code>Use index loop to write.</code></div><div class="callout warn"><b>❌ Mistake 2: &lt;= length in tour</b>Why: Ghost seat crash.<br><b>✅ Fix:</b> <code>&lt; length.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting sum = 0 init</b>Why: Garbage start.<br><b>✅ Fix:</b> <code>Initialize accumulators.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: for (int v : m) v += 5; on an int array.</b>Why: v is a PHOTO — the tray never changes, the loop “works” and achieves zero.<br><b>✅ Fix:</b> <code>Write tours need addresses: for (i...) m[i] += 5;.</code></div><div class="callout warn"><b>❌ Mistake 2: for (i = 0; i &lt;= m.length; i++) on tour.</b>Why: The ghost-seat finale crashes the whole trip.<br><b>✅ Fix:</b> <code>Strict &lt;: i &lt; m.length.</code></div><div class="callout err"><b>❌ Mistake 3: int sum; then sum += v (no init).</b>Why: Locals have no defaults — “variable might not have been initialized”.<br><b>✅ Fix:</b> <code>int sum = 0; BEFORE the loop.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Average</b><p>Average of {80,90,70}.</p>
+  <div class="practice"><b>Average it</b><p>Compute the average of {80, 90, 70} as a double.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>sum / length as double.</div><div class="sol callout"><b>Solution</b>240 / 3.0 = 80.0</div></div><div class="practice"><b>Double it</b><p>Double each slot with index loop.</p>
+  <div class="hint callout"><b>Hint</b>Sum, then divide by length as double.</div><div class="sol callout"><b>Solution</b>240 / 3.0 = 80.0 — the 3.0 forces double math.</div></div><div class="practice"><b>Double every slot</b><p>Double each element IN the array with an index loop.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>a[i] *= 2.</div><div class="sol callout"><b>Solution</b>for(i...) a[i] *= 2;</div></div></section>
+  <div class="hint callout"><b>Hint</b>m[i] *= 2.</div><div class="sol callout"><b>Solution</b>for (int i = 0; i &lt; m.length; i++) m[i] *= 2;</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Read: for-each. Write: index loop.</li><li>Init accumulators.</li><li>&lt; length always.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When must you use the index loop?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Sum and average your 5 ages array.</div>
+  <div class="prose"><ul><li>Read with for-each; write with index loops.</li><li>Initialize accumulators BEFORE the loop.</li><li>Strict &lt; length on every tour.</li><li>Photos vs slips: know which v is.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When MUST you use the index loop? Give two reasons.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Sum and average your 5-ages array both ways (for + for-each).</div>
   <p><b>Related:</b> <a href="../lessons/indexing-bounds.html">Array Indexing and Bounds</a> · <a href="./arrays-2d.html">Next: Two-Dimensional Arrays →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -96,8 +114,8 @@ System.out.println(m[0]); // 85</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'traverse-arrays',[{"id":"q1","prompt":"Need to WRITE slots: use…","options":[{"t":"Classic index loop","ok":true},{"t":"for-each on primitives"},{"t":"No loop"},{"t":"switch"}],"explain":"Need the address."},{"id":"q2","prompt":"for-each v on int[] is…","options":[{"t":"A copy (edits lost)","ok":true},{"t":"The real slot"},{"t":"The index"},{"t":"Length"}],"explain":"Copy semantics."},{"id":"q3","prompt":"Sum above?","options":[{"t":"240","ok":true},{"t":"170"},{"t":"245"},{"t":"0"}],"explain":"80+90+70."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Stop 0: greet 80.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">80 ✓\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">90\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">70\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Stop 1: greet 90, sum 170.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">90 ✓\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Stop 2: greet 70, sum 240.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">sum\u003c/div>\u003cdiv class=\"vl\">240\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'traverse-arrays',[{"id":"q1","prompt":"To WRITE array slots you need…","options":[{"t":"The classic index loop","ok":true},{"t":"for-each on primitives"},{"t":"No loop at all"},{"t":"A switch"}],"explain":"Writing needs the address; photos can’t be delivered to."},{"id":"q2","prompt":"for-each variable v over int[] is…","options":[{"t":"A copy — edits to it are lost","ok":true},{"t":"The real slot itself"},{"t":"The index number"},{"t":"The array length"}],"explain":"Photo semantics for primitives."},{"id":"q3","prompt":"The program’s sum is…","options":[{"t":"240","ok":true},{"t":"170"},{"t":"245"},{"t":"0"}],"explain":"80 + 90 + 70, toured and tallied."},{"id":"q4","prompt":"for (int v : objects) { v.setX(1); } — affects the array’s objects?","options":[{"t":"Yes — v copies the slip, reaching the shared house","ok":true},{"t":"No — always a photo"},{"t":"It crashes"},{"t":"It deletes them"}],"explain":"Object for-each copies REFERENCES. Methods called on them reach home."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Stop 0: greet 80, sum 80.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">80 ✓\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">90\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">70\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Stop 1: greet 90, sum 170.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">90 ✓\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Stop 2: greet 70, sum 240. Tour complete.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">sum\u003c/div>\u003cdiv class=\"vl\">240\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

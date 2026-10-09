@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Generics and Type Safety · Java Foundations</title>
-<meta name="description" content="Generics are luggage tags: List&lt;String&gt; only carries Strings. Wrong item? Rejected at packing (compile), not at the airport (runtime).">
+<meta name="description" content="Generics are luggage tags: List of String carries Strings ONLY. Wrong item? Rejected at PACKING (compile time) — never discovered mid-trip at the airport (runtime crash).">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 14 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Generics are luggage tags: List<String> only carries Strings. Wrong item? Rejected at packing (compile), not at the airport (runtime).</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why label suitcases “books only”?</div>
+  <div class="prose"><p>Generics are luggage tags: List of String carries Strings ONLY. Wrong item? Rejected at PACKING (compile time) — never discovered mid-trip at the airport (runtime crash).</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why label suitcases “books only” instead of sorting at arrival?</div>
   <h2>Objectives</h2><ul><li>Read List&lt;String&gt;</li><li>Explain type safety</li><li>Use diamond &lt;&gt;</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/arraylist-hashmap.html">ArrayList and HashMap</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Labeled bins: <String> bin refuses socks at drop-off. Raw bin (no tag) accepts anything — you discover socks at unpacking (ClassCastException).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: tags wash off at runtime (erasure) — JVM sees plain bins. Tags are compile-time guardians only.</div></div></section>
+  <div class="prose"><p>Labeled bins. A String bin refuses socks AT DROP-OFF with a loud beep. An untagged (raw) bin swallows everything — and you discover the socks at UNPACKING via ClassCastException, far from the crime scene.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: the tags WASH OFF after packing (type erasure — the JVM sees plain bins). Tags are compile-time guardians ONLY; runtime knows nothing. Also: primitives can’t ride (no List of int).</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>List<String></b>: declare + <b>new ArrayList<>()</b> diamond. Compiler blocks wrong adds.</p><p>No primitives in <>: use <b>Integer, Double, Boolean</b> (autoboxed).</p><p>Methods too: <b>static <T> T first(List<T> l)</b>. Bounded: <b><T extends Animal></b>.</p></div></section>
+  <div class="prose"><p>Write <b>List of String</b> (List<String> names = new ArrayList<>();). The compiler blocks wrong adds; get() needs NO cast — the tag proves the content.</p><p>No primitives inside angle brackets: use <b>Integer, Double, Boolean</b> wrappers (autoboxed automatically). List of int is rejected outright.</p><p>Raw types (bare List) are legacy danger: anything enters, casts lurk at every exit, crashes wait. Tag every collection, every time.</p><p>Methods can be generic too (a first(T) helper), and bounds restrict tags (T extends Animal). Full power arrives with experience; safety starts today.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Type erasure</b>: generic info exists at compile time only. At runtime, List of String and List of Integer are the same raw List.</li><li>The <b>diamond operator</b> (<>) infers the right side from the left: new ArrayList<>() copies the tag — never repeat it.</li><li>Autoboxing converts int to Integer going IN and back OUT — convenient, but null Integer unboxes to NPE. Watch it.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Luggage tags</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,43 +50,46 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="import java.util.*;
-List&lt;String&gt; names = new ArrayList&lt;&gt;();
-names.add(&quot;Ada&quot;);
-// names.add(5); // COMPILE ERROR (good!)
-System.out.println(names.get(0).length());">Copy</button></div>
-  <pre><code>import java.util.*;
-List&lt;String&gt; names = new ArrayList&lt;&gt;();
-names.add(&quot;Ada&quot;);
-// names.add(5); // COMPILE ERROR (good!)
-System.out.println(names.get(0).length());</code></pre><div class="out">▶ Output
-3</div></div>
-  <ul class="linenotes"><li>Tag says Strings.</li><li>Wrong add blocked early.</li><li>No cast needed on get.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Type-safe: length() known to exist.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="import java.util.ArrayList;
+import java.util.List;
+List&lt;String&gt; names = new ArrayList&lt;&gt;(); // tagged bin
+names.add(&quot;Ada&quot;);                       // accepted
+// names.add(5); // COMPILE ERROR - the guard beeps
+names.get(0).length(); // 3: no cast needed">Copy</button></div>
+  <pre><code>import java.util.ArrayList;
+import java.util.List;
+List&lt;String&gt; names = new ArrayList&lt;&gt;(); // tagged bin
+names.add(&quot;Ada&quot;);                       // accepted
+// names.add(5); // COMPILE ERROR - the guard beeps
+names.get(0).length(); // 3: no cast needed</code></pre><div class="out">▶ Output
+length 3: type-safe, cast-free.</div></div>
+  <ul class="linenotes"><li>Tag says Strings from birth.</li><li>Wrong add blocked early, loudly.</li><li>No cast needed on the way out.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>The tag proves content type, so length() is known safe.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Tagged bin accepts text.</span>
-  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Ada" size="8" aria-label="value"> <input data-in value=" (String ✓)" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
+  <span style="font-size:.9rem;color:var(--ink-2)">Tagged bin accepts text only.</span>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Ada" size="8" aria-label="value"> <input data-in value=" (String)" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Raw List l = new ArrayList();</b>Why: No tag — surprises later.<br><b>✅ Fix:</b> <code>List&lt;String&gt; l = ...</code></div><div class="callout warn"><b>❌ Mistake 2: List&lt;int&gt;</b>Why: Primitives banned in &lt;&gt;.<br><b>✅ Fix:</b> <code>List&lt;Integer&gt;.</code></div><div class="callout err"><b>❌ Mistake 3: Casting from raw: (String) l.get(0)</b>Why: Manual + risky.<br><b>✅ Fix:</b> <code>Tag it; casts vanish.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Raw List l = new ArrayList(); with no tag.</b>Why: No guard at packing — surprises detonate at unpacking.<br><b>✅ Fix:</b> <code>List of String l = ... — tag every collection.</code></div><div class="callout warn"><b>❌ Mistake 2: List of int (primitive inside).</b>Why: Primitives are banned from angle brackets.<br><b>✅ Fix:</b> <code>List of Integer — wrappers ride, primitives walk.</code></div><div class="callout err"><b>❌ Mistake 3: Casting out of a raw list: (String) l.get(0).</b>Why: Manual, risky, and the crash waits at runtime.<br><b>✅ Fix:</b> <code>Tag it; casts vanish and safety moves to compile time.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Tag it</b><p>Fix raw scores list to ints.</p>
+  <div class="practice"><b>Tag it</b><p>Fix this raw scores list to hold ints safely.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>List&lt;Integer&gt;.</div><div class="sol callout"><b>Solution</b>List&lt;Integer&gt; s = new ArrayList&lt;&gt;();</div></div><div class="practice"><b>Read error</b><p>add(5) to List&lt;String&gt;: when caught?</p>
+  <div class="hint callout"><b>Hint</b>Wrapper type.</div><div class="sol callout"><b>Solution</b>List of Integer s = new ArrayList&lt;&gt;(); (angle brackets hold Integer).</div></div><div class="practice"><b>Read the error</b><p>add(5) into List of String: WHEN is it caught?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Packing time.</div><div class="sol callout"><b>Solution</b>Compile time — best kind.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Packing time or unpacking time?</div><div class="sol callout"><b>Solution</b>Compile time — the best possible kind of caught.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Tags = compile-time safety.</li><li>Diamond &lt;&gt; infers; wrappers for primitives.</li><li>Raw = legacy risk.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Why do generics beat casting?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Tag all raw lists in old code.</div>
+  <div class="prose"><ul><li>Tags = compile-time packing safety.</li><li>Diamond infers; wrappers carry primitives.</li><li>Raw = legacy risk, always tag.</li><li>Erasure: runtime sees plain bins.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Why do generics beat casting, in one sentence?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Tag every raw list hiding in your old code.</div>
   <p><b>Related:</b> <a href="../lessons/arraylist-hashmap.html">ArrayList and HashMap</a> · <a href="./enums.html">Next: Enums →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -93,8 +97,8 @@ System.out.println(names.get(0).length());</code></pre><div class="out">▶ Outp
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'generics',[{"id":"q1","prompt":"Generics catch errors…","options":[{"t":"At compile time","ok":true},{"t":"At runtime only"},{"t":"Never"},{"t":"In comments"}],"explain":"Packing check."},{"id":"q2","prompt":"In \u003c> use…","options":[{"t":"Integer (wrapper)","ok":true},{"t":"int"},{"t":"double"},{"t":"char (raw)"}],"explain":"Objects only."},{"id":"q3","prompt":"Raw List risk?","options":[{"t":"Wrong-type crash later","ok":true},{"t":"Faster always"},{"t":"No risk"},{"t":"Shorter code wins"}],"explain":"Sock at unpacking."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Bin tagged \u003cString>.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">📦 &lt;String&gt;\u003c/div>\u003c/div>"},{"caption":"\"Ada\" accepted; 5 refused ✋.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Ada\" ✓\u003c/div>\u003cdiv class=\"box\">5 ❌ compile\u003c/div>\u003c/div>"},{"caption":"Unpack: no rummage/cast.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">get(0).length() ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'generics',[{"id":"q1","prompt":"Generics catch type errors…","options":[{"t":"At compile time","ok":true},{"t":"At runtime only"},{"t":"Never"},{"t":"In comments"}],"explain":"Packing check beats airport discovery."},{"id":"q2","prompt":"Inside angle brackets, use…","options":[{"t":"Integer (wrapper objects)","ok":true},{"t":"int"},{"t":"double"},{"t":"char (raw)"}],"explain":"Objects only — primitives walk."},{"id":"q3","prompt":"Raw List risk?","options":[{"t":"Wrong-type crash later, far from cause","ok":true},{"t":"Always faster"},{"t":"No risk at all"},{"t":"Shorter code wins"}],"explain":"Sock discovered at unpacking."},{"id":"q4","prompt":"The diamond \u003c> does…","options":[{"t":"Infers the right side from the left","ok":true},{"t":"Creates diamonds"},{"t":"Erases types"},{"t":"Nothing"}],"explain":"Write the tag once (left); \u003c> copies it."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Bin tagged for Strings.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">bin: String only\u003c/div>\u003c/div>"},{"caption":"\"Ada\" in; 5 refused loudly.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Ada\" ok\u003c/div>\u003cdiv class=\"box\">5 refused\u003c/div>\u003c/div>"},{"caption":"Unpack: no rummage, no cast.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">get(0).length() done\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

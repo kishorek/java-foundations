@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nested Conditions · Java Foundations</title>
-<meta name="description" content="Real choices stack: inside “it rains” sits “have umbrella?”. Nest carefully — or flatten with &amp;&amp;.">
+<meta name="description" content="Real decisions stack: inside “is it the weekend?” sits “is it sunny?”. Nesting handles layered reality — but each level multiplies the paths you must test, so flatten whenever you can.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,66 +32,82 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Real choices stack: inside “it rains” sits “have umbrella?”. Nest carefully — or flatten with &&.</p>
+  <div class="prose"><p>Real decisions stack: inside “is it the weekend?” sits “is it sunny?”. Nesting handles layered reality — but each level multiplies the paths you must test, so flatten whenever you can.</p>
   <div class="callout"><b>🔎 Motivating question</b>When is a box inside a box clearer than two boxes side by side?</div>
   <h2>Objectives</h2><ul><li>Nest ifs safely</li><li>Flatten with &amp;&amp;</li><li>Trace nested paths</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/if-else.html">if, else if, and else</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Russian dolls: outer “weekend?” contains inner “sunny?”. Two levels fine; five dolls confuse — flatten into one checklist.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: dolls always fit. Nested ifs hide paths exponentially — 3 levels = 8 paths to test.</div></div></section>
+  <div class="prose"><p>Russian dolls. The outer doll asks “weekend?”; only if YES do you open it and find “sunny?” inside. Two levels read fine; five dolls deep and nobody remembers which doll they are in.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: dolls always fit together perfectly. Nested ifs hide paths EXPONENTIALLY — 3 levels ≈ 8 paths to test, and untested paths are where bugs breed.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Nesting</b> = if inside if. Inner runs only if outer true.</p><p>Flatten when possible: <b>if (a && b)</b> beats two levels. <b>Guard clauses</b> return early.</p><p>Trace with a table: list outer/inner combos.</p></div></section>
+  <div class="prose"><p><b>Nesting</b> = an if inside an if. The inner question is asked ONLY when the outer answer is true; otherwise the whole inner world never happens.</p><p>Flatten when the inner needs nothing else: <b>if (a && b)</b> replaces two levels with one, halving the paths. Professionals flatten aggressively.</p><p>The <b>dangling else</b> rule: an else pairs with the NEAREST open if. Without braces, “which if does this else belong to?” becomes a riddle — always brace nested code.</p><p>Trace nested code with a path table: list every outer/inner true-false combo and the line each combo reaches. If you cannot enumerate the paths, the nesting is too deep.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Cyclomatic <b>complexity</b> roughly counts paths through code; each if/loop/case adds one. Pros keep methods near 10 — deep nesting blows past it fast.</li><li><b>Guard clauses</b> (early return on bad input) flatten nesting without &&: reject first, then the main logic sits at depth one.</li><li>Flattening with && is valid only when the inner block has NO else of its own — an inner else needs real nesting.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Dolls</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Russian dolls</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="boolean weekend = true;
-boolean sunny = false;
-if (weekend) {
-  if (sunny) System.out.println(&quot;Picnic&quot;);
-  else System.out.println(&quot;Museum&quot;);
-} else {
-  System.out.println(&quot;Work&quot;);
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    boolean weekend = true;
+    boolean sunny = false;
+    if (weekend) {
+      if (sunny) {
+        System.out.println(&quot;Picnic&quot;);
+      } else {
+        System.out.println(&quot;Museum&quot;);
+      }
+    } else {
+      System.out.println(&quot;Work&quot;);
+    }
+  }
 }">Copy</button></div>
-  <pre><code>boolean weekend = true;
-boolean sunny = false;
-if (weekend) {
-  if (sunny) System.out.println(&quot;Picnic&quot;);
-  else System.out.println(&quot;Museum&quot;);
-} else {
-  System.out.println(&quot;Work&quot;);
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    boolean weekend = true;
+    boolean sunny = false;
+    if (weekend) {
+      if (sunny) {
+        System.out.println(&quot;Picnic&quot;);
+      } else {
+        System.out.println(&quot;Museum&quot;);
+      }
+    } else {
+      System.out.println(&quot;Work&quot;);
+    }
+  }
 }</code></pre><div class="out">▶ Output
 Museum</div></div>
-  <ul class="linenotes"><li>Outer true → enter.</li><li>Inner false → Museum.</li><li>Else pairs with nearest if — use braces.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Weekend true, sunny false → inner else.</div></div></section>
+  <ul class="linenotes"><li>Outer true → step inside.</li><li>Inner false → its else prints Museum.</li><li>Braces make every pairing unambiguous.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Weekend true opens the outer doll; sunny false selects the inner else. “Work” needed outer false.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Weekend logic: try values.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Layered logic: weekend decides, then weather.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="18" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Dangling else confusion</b>Why: else binds nearest if.<br><b>✅ Fix:</b> <code>Always brace nested ifs.</code></div><div class="callout warn"><b>❌ Mistake 2: 5-deep nesting</b>Why: Untestable paths.<br><b>✅ Fix:</b> <code>Flatten with &amp;&amp; or early return.</code></div><div class="callout err"><b>❌ Mistake 3: Checking inner before outer set</b>Why: Null/empty outer crashes.<br><b>✅ Fix:</b> <code>Outer validates first.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Dangling else, braceless: if (a) if (b) X; else Y;</b>Why: The else secretly belongs to the INNER if — readers (and you, later) will misread it.<br><b>✅ Fix:</b> <code>Brace every nested if, no exceptions.</code></div><div class="callout warn"><b>❌ Mistake 2: Five levels of nesting “to be safe”.</b>Why: 32 paths, most untested — a bug farm with extra steps.<br><b>✅ Fix:</b> <code>Flatten with &amp;&amp;, or guard-clause the failures out early.</code></div><div class="callout err"><b>❌ Mistake 3: Checking inner details before validating the outer.</b>Why: Null or empty outer data detonates before the inner question matters.<br><b>✅ Fix:</b> <code>Outer validates first: null-checks live OUTSIDE.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Flatten it</b><p>Flatten: if (a) { if (b) { go(); } }</p>
+  <div class="practice"><b>Flatten it</b><p>Flatten this into one condition: if (a) { if (b) { go(); } }</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>One &amp;&amp;.</div><div class="sol callout"><b>Solution</b>if (a &amp;&amp; b) { go(); }</div></div><div class="practice"><b>Count paths</b><p>2 nested ifs = how many paths?</p>
+  <div class="hint callout"><b>Hint</b>One &amp;&amp;, one level.</div><div class="sol callout"><b>Solution</b>if (a &amp;&amp; b) { go(); }</div></div><div class="practice"><b>Count the paths</b><p>An if containing an if-else: how many distinct paths? Name them.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>2 × 2.</div><div class="sol callout"><b>Solution</b>4: TT, TF, FT, FF (outer false skips inner).</div></div></section>
+  <div class="hint callout"><b>Hint</b>Outer true/false × inner…</div><div class="sol callout"><b>Solution</b>Three: outer-false; outer-true + inner-true; outer-true + inner-false. (Inner never runs when outer is false.)</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Nesting = choice inside choice.</li><li>Flatten with &amp;&amp; when you can.</li><li>Brace everything.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When is nesting justified vs &amp;&amp;?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Rewrite one nested if with &amp;&amp;.</div>
+  <div class="prose"><ul><li>Nesting = a choice inside a choice.</li><li>Flatten with &amp;&amp; whenever the inner has no else.</li><li>Braces always — dangling else is a trap.</li><li>Count paths; too many means restructure.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When is nesting the honest tool versus &amp;&amp; ?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Find one nested if in your code and flatten it with &amp;&amp;.</div>
   <p><b>Related:</b> <a href="../lessons/if-else.html">if, else if, and else</a> · <a href="./switch.html">Next: switch Statements and Expressions →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +115,8 @@ Museum</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'nested-cond',[{"id":"q1","prompt":"weekend=F prints?","options":[{"t":"Work","ok":true},{"t":"Picnic"},{"t":"Museum"},{"t":"Nothing"}],"explain":"Outer false → outer else."},{"id":"q2","prompt":"Best fix for deep nesting?","options":[{"t":"Flatten with && / early return","ok":true},{"t":"More nesting"},{"t":"Delete else"},{"t":"Add semicolons"}],"explain":"Fewer paths, clearer."},{"id":"q3","prompt":"else pairs with…","options":[{"t":"Nearest if","ok":true},{"t":"First if"},{"t":"Random if"},{"t":"No if"}],"explain":"Brace to be explicit."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Outer doll: weekend? yes.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>weekend ✓\u003c/b> open\u003c/div>\u003c/div>"},{"caption":"Inner doll: sunny? no.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>sunny ❌\u003c/b> → museum\u003c/div>\u003c/div>"},{"caption":"Flattened: weekend && sunny?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">weekend && sunny\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'nested-cond',[{"id":"q1","prompt":"weekend = false prints…","options":[{"t":"Work","ok":true},{"t":"Picnic"},{"t":"Museum"},{"t":"Nothing"}],"explain":"Outer false → outer else, inner world never exists."},{"id":"q2","prompt":"The best cure for 5-deep nesting is…","options":[{"t":"Flatten with && or early guard returns","ok":true},{"t":"Even more nesting"},{"t":"Deleting all elses"},{"t":"Adding semicolons"}],"explain":"Fewer paths means fewer hiding spots for bugs."},{"id":"q3","prompt":"A bare else pairs with…","options":[{"t":"The nearest open if","ok":true},{"t":"The first if in the method"},{"t":"A random if"},{"t":"No if at all"}],"explain":"Nearest-if binding — brace to make it visible."},{"id":"q4","prompt":"When can you NOT flatten nested ifs with &&?","options":[{"t":"When the inner if has its own else branch","ok":true},{"t":"When both conditions are true"},{"t":"When braces are present"},{"t":"Never — always flatten"}],"explain":"An inner else needs genuine nesting to hang onto."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Outer doll: weekend? YES — open it.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>weekend ✓\u003c/b> open\u003c/div>\u003c/div>"},{"caption":"Inner doll: sunny? No → museum.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>sunny ❌\u003c/b> → museum\u003c/div>\u003c/div>"},{"caption":"Flattened form: weekend && sunny?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">weekend && sunny\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

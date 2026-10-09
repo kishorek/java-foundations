@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>StringBuilder · Java Foundations</title>
-<meta name="description" content="StringBuilder is the whiteboard for text: scribble, append, fix — then photograph (toString) when done.">
+<meta name="description" content="StringBuilder is the whiteboard for text: scribble, append, erase in place — then photograph it (toString) when the final text is ready.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,59 +32,75 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>StringBuilder is the whiteboard for text: scribble, append, fix — then photograph (toString) when done.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you collect 1,000 signatures without 1,000 papers?</div>
+  <div class="prose"><p>StringBuilder is the whiteboard for text: scribble, append, erase in place — then photograph it (toString) when the final text is ready.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you collect 1,000 signatures without shuffling 1,000 papers?</div>
   <h2>Objectives</h2><ul><li>Build text in a loop</li><li>Use append and toString</li><li>Choose StringBuilder vs +</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/string-immut.html">String Immutability</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Whiteboard list: append one more line each time, erase a typo in place. Photograph at end for the printed book (String).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: whiteboards are not for sharing across strangers (not thread-safe) — fine for our single-thread apps; also not == String.</div></div></section>
+  <div class="prose"><p>The whiteboard list. Append one more line per visitor, erase typos in place, photograph the board at closing time for the printed record (String). One board, zero photocopies.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: whiteboards are NOT for strangers to share across threads (not synchronized — fine for our single-thread apps) and a Builder is NOT a String: handing sb where text is wanted fails to compile.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>new StringBuilder()</b>, <b>append(x)</b> chains, <b>toString()</b> finishes. <b>length()</b>, <b>reverse()</b>, <b>delete()</b> help.</p><p>Mutable: same object grows. Perfect in loops.</p><p>Convert: String done = sb.toString(); Compare via toString().equals().</p></div></section>
+  <div class="prose"><p>Cycle: <b>new StringBuilder()</b> → chain <b>.append(x)</b> (any type!) → finish with <b>.toString()</b>. The SAME object grows throughout.</p><p>More tools: <b>length()</b>, <b>charAt/setCharAt</b>, <b>delete(a,b)</b>, <b>insert(at, x)</b>, <b>reverse()</b> — all editing the one board in place.</p><p>Rule: loop-built or heavily-edited text → Builder. One-off joins of a FEW pieces → plain + is fine and reads better.</p><p>Convert explicitly: String done = sb.toString();. Comparing needs the photo too: sb.toString().equals("...") — Builder’s own equals is identity.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>append returns THIS</b> (the same builder), enabling chains: sb.append(a).append(b). No new objects per link.</li><li>Builders pre-size a <b>capacity buffer</b> (default 16 + growth) so appends rarely reallocate — the engineering behind the speed.</li><li>Need thread-safe sharing? <b>StringBuffer</b> is the synchronized twin — slower, rarely needed. Default to Builder.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Whiteboard</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Whiteboard workflow</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="StringBuilder sb = new StringBuilder();
-for (int i = 1; i &lt;= 3; i++) sb.append(i).append(&quot; &quot;);
-System.out.println(sb.toString()); // &quot;1 2 3 &quot;
-System.out.println(sb.reverse().toString());">Copy</button></div>
-  <pre><code>StringBuilder sb = new StringBuilder();
-for (int i = 1; i &lt;= 3; i++) sb.append(i).append(&quot; &quot;);
-System.out.println(sb.toString()); // &quot;1 2 3 &quot;
-System.out.println(sb.reverse().toString());</code></pre><div class="out">▶ Output
-1 2 3 
- 3 2 1</div></div>
-  <ul class="linenotes"><li>One object, 3 appends.</li><li>toString snapshots.</li><li>reverse edits in place!</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Appends mutate the same builder; reverse flips it.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 1; i &lt;= 3; i++) {
+      sb.append(i).append(&quot; &quot;);
+    }
+    System.out.println(&quot;built = &quot; + sb.toString());
+    sb.reverse(); // edits the SAME board, in place!
+    System.out.println(&quot;flipped = &quot; + sb.toString());
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 1; i &lt;= 3; i++) {
+      sb.append(i).append(&quot; &quot;);
+    }
+    System.out.println(&quot;built = &quot; + sb.toString());
+    sb.reverse(); // edits the SAME board, in place!
+    System.out.println(&quot;flipped = &quot; + sb.toString());
+  }
+}</code></pre><div class="out">▶ Output
+built = 1 2 3 
+flipped =  3 2 1</div></div>
+  <ul class="linenotes"><li>One object absorbs all three appends.</li><li>toString photographs the board.</li><li>reverse flips the board itself — no copy.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Appends mutate the single builder; reverse flips it in place; each photo shows the current board.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Append pieces to the board.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Append pieces onto the board.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="1 2 " size="8" aria-label="value"> <input data-in value="3" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: String s = sb; (type mismatch)</b>Why: Builder ≠ String.<br><b>✅ Fix:</b> <code>String s = sb.toString();</code></div><div class="callout warn"><b>❌ Mistake 2: + in big loop still</b>Why: Copies each round.<br><b>✅ Fix:</b> <code>Append to one builder.</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting toString for equals</b>Why: Builder equals is identity.<br><b>✅ Fix:</b> <code>sb.toString().equals(&quot;...&quot;)</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: String s = sb; — type mismatch.</b>Why: A Builder is NOT a String, however similar they feel.<br><b>✅ Fix:</b> <code>Photograph it: String s = sb.toString();</code></div><div class="callout warn"><b>❌ Mistake 2: + chains inside a big loop “because shorter”.</b>Why: Shorter to type, quadratic to run — copies every round.<br><b>✅ Fix:</b> <code>One builder outside, appends inside.</code></div><div class="callout err"><b>❌ Mistake 3: sb.equals(&quot;...&quot;) to compare content.</b>Why: Builder never overrode equals — identity again.<br><b>✅ Fix:</b> <code>Compare the photo: sb.toString().equals(&quot;...&quot;).</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>CSV line</b><p>Build &quot;a,b,c,&quot; from 1..3 with builder.</p>
+  <div class="practice"><b>CSV line</b><p>Build the string &quot;1,2,3,&quot; from numbers 1–3 with a builder.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>append(i).append(&quot;,&quot;).</div><div class="sol callout"><b>Solution</b>Loop appends → toString.</div></div><div class="practice"><b>Fix loop</b><p>Rewrite loop s += w with builder.</p>
+  <div class="hint callout"><b>Hint</b>append(i).append(&quot;,&quot;) per round.</div><div class="sol callout"><b>Solution</b>StringBuilder sb = new StringBuilder(); for (...) sb.append(i).append(&quot;,&quot;); String s = sb.toString();</div></div><div class="practice"><b>Fix the loop</b><p>Rewrite this with a builder: String s = &quot;&quot;; for (...) s += word;</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>One sb outside.</div><div class="sol callout"><b>Solution</b>StringBuilder sb = new...; loop sb.append(w);</div></div></section>
+  <div class="hint callout"><b>Hint</b>One sb outside the loop.</div><div class="sol callout"><b>Solution</b>StringBuilder sb = new StringBuilder(); for (...) sb.append(word); String s = sb.toString();</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Builder = mutable text board.</li><li>append chains; toString finishes.</li><li>Default for loop-built text.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When must you pick Builder over +?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Rewrite one loop-concat with Builder.</div>
+  <div class="prose"><ul><li>Builder = the mutable text whiteboard.</li><li>append chains; toString photographs.</li><li>Default for loop-built or edited text.</li><li>Small fixed joins: plain + reads better.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>When MUST you pick Builder over + ? When is + fine?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Rewrite one loop-concat in your old code with a Builder.</div>
   <p><b>Related:</b> <a href="../lessons/string-immut.html">String Immutability</a> · <a href="./algorithms-basic.html">Next: Basic Algorithms: Search, Count, Min/Max →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -92,8 +108,8 @@ System.out.println(sb.reverse().toString());</code></pre><div class="out">▶ Ou
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'stringbuilder',[{"id":"q1","prompt":"Finish builder to String via…","options":[{"t":"toString()","ok":true},{"t":"equals()"},{"t":"append()"},{"t":"new String"}],"explain":"Snapshot photo."},{"id":"q2","prompt":"append in loop edits…","options":[{"t":"Same object (mutable)","ok":true},{"t":"A copy each time"},{"t":"Nothing"},{"t":"The console"}],"explain":"Whiteboard grows."},{"id":"q3","prompt":"Builder vs String + in loops?","options":[{"t":"Builder faster, less garbage","ok":true},{"t":"+ faster"},{"t":"Same"},{"t":"Neither works"}],"explain":"One board vs copies."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Empty board.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">board: \"\"\u003c/div>\u003c/div>"},{"caption":"Append 1, 2, 3 in place.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">board: \"1 2 3 \" ✏️\u003c/div>\u003c/div>"},{"caption":"Photograph → String.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">toString → \"1 2 3 \" 📸\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'stringbuilder',[{"id":"q1","prompt":"A builder becomes a String via…","options":[{"t":"toString()","ok":true},{"t":"equals()"},{"t":"append()"},{"t":"A cast"}],"explain":"The snapshot photo of the board."},{"id":"q2","prompt":"Appends across loop rounds edit…","options":[{"t":"The same object (mutable)","ok":true},{"t":"A fresh copy each time"},{"t":"Nothing at all"},{"t":"The console directly"}],"explain":"One whiteboard, growing in place."},{"id":"q3","prompt":"Builder vs + inside big loops?","options":[{"t":"Builder: linear, far less garbage","ok":true},{"t":"+ is faster there"},{"t":"Identical cost"},{"t":"Neither works"}],"explain":"One board versus O(n²) photocopies."},{"id":"q4","prompt":"append(x) returns…","options":[{"t":"The same builder (chainable)","ok":true},{"t":"A new builder"},{"t":"A String"},{"t":"Nothing (void)"}],"explain":"THIS comes back — chains cost nothing."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Empty board, marker ready.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">board: \"\"\u003c/div>\u003c/div>"},{"caption":"Append 1, 2, 3 — same board.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">board: \"1 2 3 \" ✏️\u003c/div>\u003c/div>"},{"caption":"Photograph it → String. 📸","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">toString → \"1 2 3 \" 📸\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

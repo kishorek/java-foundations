@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Project Structure, Maven &amp; Dependencies · Java Foundations</title>
-<meta name="description" content="Maven is your project manager: standard shelves, one recipe card (pom.xml), fetches ingredients (JUnit) automatically.">
+<meta name="description" content="Maven is your project manager: standard shelves, one recipe card (pom.xml), automatic ingredient fetching (JUnit arrives alone). New teammates find everything instantly.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Maven is your project manager: standard shelves, one recipe card (pom.xml), fetches ingredients (JUnit) automatically.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do all supermarkets shelve milk similarly?</div>
+  <div class="prose"><p>Maven is your project manager: standard shelves, one recipe card (pom.xml), automatic ingredient fetching (JUnit arrives alone). New teammates find everything instantly.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do all supermarkets shelve milk in similar places?</div>
   <h2>Objectives</h2><ul><li>Lay out src/main/java</li><li>Read pom.xml</li><li>Add a dependency</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/unit-testing.html">Basic Unit Testing</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Standard store: src/main/java (fresh food), src/test/java (taste spoons), pom.xml (shopping list). mvn test = “taste everything”. New clerk finds milk instantly.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: managers need the list. Delete pom.xml → no ingredients, no build. Commit it!</div></div></section>
+  <div class="prose"><p>The standard store. src/main/java (fresh food), src/test/java (taste spoons), pom.xml (the shopping list). mvn test means “taste EVERYTHING”. Any clerk finds milk on day one.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: managers NEED their list. Delete pom.xml and there are no ingredients, no build, no tests — an empty store. Commit it, guard it, review it.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Layout: <b>src/main/java/com/shop/App.java</b>, tests mirror, <b>pom.xml</b> names deps.</p><p><b><dependency> junit-jupiter</dependency></b> fetches tests. <b>mvn test / package</b> builds.</p><p>GroupId = your aisle (com.shop), artifact = product (tasks).</p></div></section>
+  <div class="prose"><p>Layout: <b>src/main/java/com/shop/App.java</b> (product), mirrored tests in <b>src/test/java</b>, recipe card <b>pom.xml</b> at the root.</p><p>Dependencies arrive by declaration: a junit-jupiter block fetches tests automatically. <b>mvn test</b> compiles and tastes; <b>mvn package</b> builds the shippable jar.</p><p>Coordinates: <b>groupId</b> (your aisle, com.shop) + <b>artifactId</b> (product, tasks) + <b>version</b>. Pin <b>maven.compiler.release 17</b> so builds behave identically everywhere.</p><p>Scopes matter: <b>test</b>-scoped deps (JUnit) ship in NO jar — spoons stay in the kitchen, never in customer boxes.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Maven Central hosts nearly every Java library: declare, download, done. Versions pin reproducibility — ranges invite mystery breakage.</li><li>The <b>wrapper</b> (mvnw) pins the Maven ITSELF per project — teammates skip “works on my Maven” entirely.</li><li>Gradle is the alternative (faster, scripted builds); Maven wins beginners with convention-over-configuration. Either beats bare javac past one file.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Store map</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,12 +50,14 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="&lt;!-- pom.xml (essentials) --&gt;
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">pom.xml</span><span>XML</span><button data-copy="&lt;!-- pom.xml essentials --&gt;
 &lt;project&gt;
   &lt;groupId&gt;com.shop&lt;/groupId&gt;
   &lt;artifactId&gt;tasks&lt;/artifactId&gt;
   &lt;version&gt;1.0&lt;/version&gt;
-  &lt;properties&gt;&lt;maven.compiler.release&gt;17&lt;/maven.compiler.release&gt;&lt;/properties&gt;
+  &lt;properties&gt;
+    &lt;maven.compiler.release&gt;17&lt;/maven.compiler.release&gt;
+  &lt;/properties&gt;
   &lt;dependencies&gt;
     &lt;dependency&gt;
       &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;
@@ -64,12 +67,14 @@
     &lt;/dependency&gt;
   &lt;/dependencies&gt;
 &lt;/project&gt;">Copy</button></div>
-  <pre><code>&lt;!-- pom.xml (essentials) --&gt;
+  <pre><code>&lt;!-- pom.xml essentials --&gt;
 &lt;project&gt;
   &lt;groupId&gt;com.shop&lt;/groupId&gt;
   &lt;artifactId&gt;tasks&lt;/artifactId&gt;
   &lt;version&gt;1.0&lt;/version&gt;
-  &lt;properties&gt;&lt;maven.compiler.release&gt;17&lt;/maven.compiler.release&gt;&lt;/properties&gt;
+  &lt;properties&gt;
+    &lt;maven.compiler.release&gt;17&lt;/maven.compiler.release&gt;
+  &lt;/properties&gt;
   &lt;dependencies&gt;
     &lt;dependency&gt;
       &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;
@@ -79,33 +84,34 @@
     &lt;/dependency&gt;
   &lt;/dependencies&gt;
 &lt;/project&gt;</code></pre><div class="out">▶ Output
-mvn test → green</div></div>
-  <ul class="linenotes"><li>Java 17 pinned.</li><li>JUnit fetched.</li><li>Scope test = spoons only.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Standard layout + declared deps = reproducible build.</div></div></section>
+mvn test runs green, reproducibly.</div></div>
+  <ul class="linenotes"><li>Java 17 pinned for identical builds.</li><li>JUnit fetched by declaration.</li><li>test scope: spoons never ship.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Standard shelves plus declared ingredients equal builds that work on every machine.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Aisle + product naming.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Aisle plus product naming.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="com.shop" size="8" aria-label="value"> <input data-in value=":tasks" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Code in random folders</b>Why: Nobody finds milk.<br><b>✅ Fix:</b> <code>Follow src/main/java.</code></div><div class="callout warn"><b>❌ Mistake 2: JUnit jar emailed</b>Why: Version chaos.<br><b>✅ Fix:</b> <code>Declare in pom; Maven fetches.</code></div><div class="callout err"><b>❌ Mistake 3: Java 8 default + var errors</b>Why: Old release.<br><b>✅ Fix:</b> <code>maven.compiler.release 17.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Code scattered in random folders.</b>Why: Nobody — including future you — finds the milk.<br><b>✅ Fix:</b> <code>Follow src/main/java mirroring packages.</code></div><div class="callout warn"><b>❌ Mistake 2: JUnit jar emailed around.</b>Why: Version chaos across machines.<br><b>✅ Fix:</b> <code>Declare it in pom; Maven fetches identically.</code></div><div class="callout err"><b>❌ Mistake 3: Default Java level with modern syntax errors.</b>Why: Old release gatekeeps new features.<br><b>✅ Fix:</b> <code>maven.compiler.release set to 17.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Shelve it</b><p>Where does com.shop.App go?</p>
+  <div class="practice"><b>Shelve it</b><p>Where does com.shop.App live?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Mirror dots.</div><div class="sol callout"><b>Solution</b>src/main/java/com/shop/App.java.</div></div><div class="practice"><b>Add dep</b><p>Add JUnit scope test.</p>
+  <div class="hint callout"><b>Hint</b>Mirror the dots.</div><div class="sol callout"><b>Solution</b>src/main/java/com/shop/App.java.</div></div><div class="practice"><b>Add the dependency</b><p>Add JUnit, test-scoped, to a pom.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Copy block.</div><div class="sol callout"><b>Solution</b>Dependency above with &lt;scope&gt;test&lt;/scope&gt;.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Copy the block shape.</div><div class="sol callout"><b>Solution</b>dependency block with groupId, artifactId, version, scope test.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Standard shelves find fast.</li><li>pom declares + fetches.</li><li>Pin Java 17.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What two shelves mirror each other?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Lay out one Maven skeleton locally.</div>
+  <div class="prose"><ul><li>Standard shelves: find everything fast.</li><li>pom declares and fetches.</li><li>Pin Java 17 in properties.</li><li>Test scope keeps jars clean.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Which two shelves mirror each other, and what lives on each?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Lay out one real Maven skeleton locally this week.</div>
   <p><b>Related:</b> <a href="../lessons/unit-testing.html">Basic Unit Testing</a> · <a href="./conventions.html">Next: Coding Conventions &amp; Maintainable Code →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -113,8 +119,8 @@ mvn test → green</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'maven-structure',[{"id":"q1","prompt":"Main code lives…","options":[{"t":"src/main/java","ok":true},{"t":"Anywhere"},{"t":"pom.xml"},{"t":"Desktop"}],"explain":"Standard shelf."},{"id":"q2","prompt":"pom.xml is…","options":[{"t":"Shopping list (deps + build)","ok":true},{"t":"Java code"},{"t":"Test report"},{"t":"Image"}],"explain":"Recipe card."},{"id":"q3","prompt":"Get JUnit via…","options":[{"t":"Declare dependency, run Maven","ok":true},{"t":"Email jar"},{"t":"Copy random jar"},{"t":"No setup"}],"explain":"Managed ingredients."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Fresh food: src/main/java.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🥬 main code\u003c/div>\u003c/div>"},{"caption":"Spoons: src/test/java.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">🥄 tests\u003c/div>\u003c/div>"},{"caption":"List: pom.xml fetches.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">📋 pom → JUnit ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'maven-structure',[{"id":"q1","prompt":"Main product code lives in…","options":[{"t":"src/main/java","ok":true},{"t":"Anywhere convenient"},{"t":"pom.xml"},{"t":"The Desktop"}],"explain":"The standard fresh-food shelf."},{"id":"q2","prompt":"pom.xml is…","options":[{"t":"Shopping list: deps plus build recipe","ok":true},{"t":"Java source code"},{"t":"A test report"},{"t":"An image"}],"explain":"Declares ingredients; drives the build."},{"id":"q3","prompt":"JUnit arrives via…","options":[{"t":"Declaring the dependency, running Maven","ok":true},{"t":"Emailing jars"},{"t":"Random jar copies"},{"t":"No setup ever"}],"explain":"Managed ingredients beat hand-carried jars."},{"id":"q4","prompt":"test scope means…","options":[{"t":"Available for tests, shipped in no jar","ok":true},{"t":"Skipped entirely"},{"t":"Shipped to customers"},{"t":"Runs at runtime"}],"explain":"Spoons stay in the kitchen."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Fresh food: src/main/java.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">main code\u003c/div>\u003c/div>"},{"caption":"Spoons: src/test/java mirror.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">tests\u003c/div>\u003c/div>"},{"caption":"List pom.xml fetches all.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">pom fetches JUnit\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>File Reading and Writing · Java Foundations</title>
-<meta name="description" content="Files remember after power-off. Read configs, save progress — always with auto-closing try-with-resources.">
+<meta name="description" content="Files remember after power-off: configs, scores, saved work. Read and write them with modern NIO — always with auto-closing, always expecting absence.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 18 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Files remember after power-off. Read configs, save progress — always with auto-closing try-with-resources.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How do you borrow library books without losing them?</div>
+  <div class="prose"><p>Files remember after power-off: configs, scores, saved work. Read and write them with modern NIO — always with auto-closing, always expecting absence.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How do you borrow library books without ever losing one?</div>
   <h2>Objectives</h2><ul><li>Read text with Files</li><li>Write with try-with-resources</li><li>Handle missing files</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/enums.html">Enums</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Library desk: open register (Path), read/write lines, auto-return (try-with-resources closes even on fire). Never leave the register open.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: registers live at addresses (paths) that differ per computer — use relative paths + handle missing files.</div></div></section>
+  <div class="prose"><p>The library desk. Open the register (a Path), read or write lines, AUTO-RETURN it (try-with-resources closes even mid-fire). Never walk off with the register open.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: registers live at ADDRESSES (paths) that differ per computer — absolute paths die on friends’ machines. Relative paths plus missing-file handling travel well.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Files.readString(Path.of("a.txt"))</b>, <b>Files.writeString(...)</b>, <b>readAllLines</b>. <b>Path.of</b> addresses.</p><p><b>try (var in = Files.newBufferedReader(p)) { }</b> auto-closes. Catch <b>IOException/NoSuchFileException</b>.</p><p>Text = UTF-8 default; CSV = split(",") per line (simple cases).</p></div></section>
+  <div class="prose"><p>Modern NIO: <b>Files.readString(Path.of("a.txt"))</b>, <b>Files.writeString(...)</b>, <b>readAllLines</b>. <b>Path.of</b> builds the address; text defaults to UTF-8.</p><p><b>try (var reader = Files.newBufferedReader(p)) { }</b> auto-closes — even on exceptions. This is try-WITH-resources: the parentheses do the janitor work.</p><p>Missing files throw <b>NoSuchFileException</b> (an IOException): catch it and start fresh with defaults. Absence is weather, not bug.</p><p>CSV-style lines split with line.split(",") for simple cases; real CSV (quoted commas) deserves a library. Know the boundary.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>Files.writeString</b> creates, truncates, and closes by itself — one line, no leaks. Appends need StandardOpenOption.APPEND explicitly.</li><li><b>Relative paths</b> resolve against the working directory (where java runs) — NOT the source folder. Print user.dir when lost.</li><li><b>UTF-8</b> is the default charset for read/writeString — accented names and emoji survive the round trip.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Library desk</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -54,7 +55,7 @@ import java.io.IOException;
 try {
   Files.writeString(Path.of(&quot;hi.txt&quot;), &quot;Hello file!&quot;);
   String back = Files.readString(Path.of(&quot;hi.txt&quot;));
-  System.out.println(back);
+  System.out.println(back); // &quot;Hello file!&quot;
 } catch (IOException e) {
   System.out.println(&quot;File trouble: &quot; + e.getMessage());
 }">Copy</button></div>
@@ -63,37 +64,38 @@ import java.io.IOException;
 try {
   Files.writeString(Path.of(&quot;hi.txt&quot;), &quot;Hello file!&quot;);
   String back = Files.readString(Path.of(&quot;hi.txt&quot;));
-  System.out.println(back);
+  System.out.println(back); // &quot;Hello file!&quot;
 } catch (IOException e) {
   System.out.println(&quot;File trouble: &quot; + e.getMessage());
 }</code></pre><div class="out">▶ Output
-Hello file!</div></div>
-  <ul class="linenotes"><li>Write then read.</li><li>Auto-handled? writeString closes itself.</li><li>Missing file → catch, not crash.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Round-trip through disk with fallback message.</div></div></section>
+Hello file! round-trips through disk.</div></div>
+  <ul class="linenotes"><li>Write, then read back the same file.</li><li>Single-purpose calls close themselves.</li><li>Missing file lands in catch, not in a crash.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Write lands on disk; read fetches it; trouble diverts to the friendly catch.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Write then read back.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Write it, read it back.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Hello " size="8" aria-label="value"> <input data-in value="file!" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Scanner(new File) never closed</b>Why: Leaks handle.<br><b>✅ Fix:</b> <code>try (var s = ...) { }</code></div><div class="callout warn"><b>❌ Mistake 2: Absolute C:\ path shared</b>Why: Breaks on friends’ machines.<br><b>✅ Fix:</b> <code>Relative data/hi.txt.</code></div><div class="callout err"><b>❌ Mistake 3: Ignoring IOException</b>Why: Checked — must handle!<br><b>✅ Fix:</b> <code>try-catch or throws.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: Scanner on a File, never closed.</b>Why: Leaked handle — works until the OS says no more.<br><b>✅ Fix:</b> <code>try-with-resources: try (var s = ...) { ... }</code></div><div class="callout warn"><b>❌ Mistake 2: Absolute paths shared with friends.</b>Why: Another computer lacks your folders — instant absence.<br><b>✅ Fix:</b> <code>Relative data/hi.txt plus missing-file handling.</code></div><div class="callout err"><b>❌ Mistake 3: Ignoring the checked IOException.</b>Why: Checked means the COMPILER demands a plan.<br><b>✅ Fix:</b> <code>try-catch it, or declare throws honestly.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Save score</b><p>Write &quot;Ada,95&quot; to score.txt.</p>
+  <div class="practice"><b>Save a score</b><p>Write &quot;Ada,95&quot; into score.txt.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>writeString.</div><div class="sol callout"><b>Solution</b>Files.writeString(Path.of(&quot;score.txt&quot;), &quot;Ada,95&quot;);</div></div><div class="practice"><b>Load safely</b><p>Read missing file with fallback.</p>
+  <div class="hint callout"><b>Hint</b>One writeString call.</div><div class="sol callout"><b>Solution</b>Files.writeString(Path.of(&quot;score.txt&quot;), &quot;Ada,95&quot;);</div></div><div class="practice"><b>Load safely</b><p>Read a possibly-missing file with a graceful fallback.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Catch NoSuchFile.</div><div class="sol callout"><b>Solution</b>try read; catch → default.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Catch NoSuchFile specifically.</div><div class="sol callout"><b>Solution</b>try read; catch (NoSuchFileException e) { use defaults; }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>NIO Files for text made easy.</li><li>Auto-close everything.</li><li>Handle missing files kindly.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What closes in try-with-resources?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Save + reload one setting in a file.</div>
+  <div class="prose"><ul><li>NIO Files calls make text easy.</li><li>Auto-close everything via resources.</li><li>Missing files get kindness, not crashes.</li><li>Relative paths travel; absolute ones die.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What exactly closes in try-with-resources, and when?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Save plus reload ONE setting in a file this week.</div>
   <p><b>Related:</b> <a href="../lessons/enums.html">Enums</a> · <a href="./unit-testing.html">Next: Basic Unit Testing →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -101,8 +103,8 @@ Hello file!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'files',[{"id":"q1","prompt":"Auto-close via…","options":[{"t":"try-with-resources","ok":true},{"t":"Comments"},{"t":"finally never"},{"t":"System.exit"}],"explain":"Closes even on throw."},{"id":"q2","prompt":"Missing file throws…","options":[{"t":"NoSuchFileException (an IOException)","ok":true},{"t":"NullPointer"},{"t":"Nothing"},{"t":"Success"}],"explain":"Handle it."},{"id":"q3","prompt":"Paths should be…","options":[{"t":"Relative + handled","ok":true},{"t":"Absolute C:\\ always"},{"t":"Hardcoded secrets"},{"t":"Random"}],"explain":"Portable."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Open register (Path).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">📖 hi.txt\u003c/div>\u003c/div>"},{"caption":"Write + read lines.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">write → read ✓\u003c/div>\u003c/div>"},{"caption":"Auto-return even on fire.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">try(...) → closed 🧹\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'files',[{"id":"q1","prompt":"Auto-close files via…","options":[{"t":"try-with-resources","ok":true},{"t":"Comments"},{"t":"Never closing"},{"t":"System.exit"}],"explain":"Parentheses janitors close on every path."},{"id":"q2","prompt":"A missing file raises…","options":[{"t":"NoSuchFileException (an IOException)","ok":true},{"t":"NullPointer"},{"t":"Nothing at all"},{"t":"Success"}],"explain":"Handle absence; it is weather."},{"id":"q3","prompt":"File paths should be…","options":[{"t":"Relative, with absence handled","ok":true},{"t":"Absolute, always"},{"t":"Hardcoded secrets"},{"t":"Random"}],"explain":"Portable plus graceful."},{"id":"q4","prompt":"writeString without APPEND…","options":[{"t":"Creates or truncates the file","ok":true},{"t":"Always appends"},{"t":"Never creates"},{"t":"Deletes folders"}],"explain":"Fresh content replaces; APPEND adds."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Open the register (a Path).","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">hi.txt register\u003c/div>\u003c/div>"},{"caption":"Write lines, read lines.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">write, then read\u003c/div>\u003c/div>"},{"caption":"Auto-return, even mid-fire.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">auto-closed\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

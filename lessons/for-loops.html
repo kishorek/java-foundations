@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>for Loops · Java Foundations</title>
-<meta name="description" content="for repeats with a counter: start, keep-going check, step. Perfect when you know how many times.">
+<meta name="description" content="for repeats WITH a counter: a start, a keep-going check, and a step. Perfect when you know (or can compute) how many rounds you need.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>for repeats with a counter: start, keep-going check, step. Perfect when you know how many times.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How would you instruct “clap 5 times” without writing “clap” 5 times?</div>
+  <div class="prose"><p>for repeats WITH a counter: a start, a keep-going check, and a step. Perfect when you know (or can compute) how many rounds you need.</p>
+  <div class="callout"><b>🔎 Motivating question</b>How would you instruct “clap 5 times” without writing the word “clap” five times?</div>
   <h2>Objectives</h2><ul><li>Write a counted for loop</li><li>Trace init, check, update</li><li>Avoid off-by-one</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/switch.html">switch Statements and Expressions</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Washing machine: set 5 cycles (init i=0), check “done?” (i<5), run + tick (i++). Same three parts every load.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: machines stop alone. Code with i-- instead of i++ may never stop — always verify the check moves toward false.</div></div></section>
+  <div class="prose"><p>The washing machine: dial in 5 cycles (start i at 0), check “finished?” before each (i < 5), run the drum and tick the dial (i++). Same three parts, every load, every loop.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: machines stop by themselves. Code with i-- instead of i++ (or a check that never flips) spins FOREVER — always confirm the check marches toward false.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>for (int i = 0; i < 5; i++)</b>: init once, check each round, update after.</p><p>Index starts 0; <b>i < n</b> runs n times (0..n-1). <b><=</b> runs n+1 — classic off-by-one.</p><p>Body in braces; use i inside: print(i).</p></div></section>
+  <div class="prose"><p>Anatomy: <b>for (int i = 0; i < 5; i++)</b> — init runs ONCE, the check runs BEFORE every round, the update runs AFTER every round.</p><p>Count from 0 with <b>i < n</b>: it runs exactly n times (0..n−1). The <b><=</b> variant runs n+1 times — the legendary <b>off-by-one</b> error lives here.</p><p>The counter is usable inside: print(i), a[i], total += i. Declared inside the for, it DIES at the closing brace — its scope is the loop.</p><p>Trace template: a 3-column table of round | i | action. Five minutes of table beats an hour of staring.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Execution order per round: <b>check → body → update → check…</b> The update runs even on the final pass (then the check fails and exits).</li><li><b>for (int i = 1; i <= 3; i++)</b> and <b>for (int i = 0; i < 3; i++)</b> both run 3 times — pick the indexing your problem actually needs.</li><li>An empty check <b>for (;;)</b> loops forever BY DESIGN (break to escape). An empty update just means the body must advance things itself.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Washing cycles</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,44 +50,53 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="for (int i = 1; i &lt;= 3; i++) {
-  System.out.println(&quot;Cycle &quot; + i);
-}
-System.out.println(&quot;Done&quot;);">Copy</button></div>
-  <pre><code>for (int i = 1; i &lt;= 3; i++) {
-  System.out.println(&quot;Cycle &quot; + i);
-}
-System.out.println(&quot;Done&quot;);</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    for (int i = 1; i &lt;= 3; i++) {
+      System.out.println(&quot;Cycle &quot; + i);
+    }
+    System.out.println(&quot;Done&quot;);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    for (int i = 1; i &lt;= 3; i++) {
+      System.out.println(&quot;Cycle &quot; + i);
+    }
+    System.out.println(&quot;Done&quot;);
+  }
+}</code></pre><div class="out">▶ Output
 Cycle 1
 Cycle 2
 Cycle 3
 Done</div></div>
-  <ul class="linenotes"><li>i=1, check ≤3, run, i++.</li><li>Runs for 1,2,3 then stops.</li><li>Done prints once after.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Three passes, then i=4 fails check, exit to Done.</div></div></section>
+  <ul class="linenotes"><li>i = 1, check ≤ 3, run body, step.</li><li>Rounds for 1, 2, 3 — then i = 4 fails the check.</li><li>“Done” prints once, after the loop exits.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Three passes, then i = 4 fails ≤ 3, control drops out of the loop to “Done”.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="loop"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Set cycles; watch iterations.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Set the cycle count; watch iterations happen.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="3" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: for (i = 0; i &lt;= 5; i++) expecting 5 runs</b>Why: Runs 6 (0..5).<br><b>✅ Fix:</b> <code>Use i &lt; 5 for 5 runs.</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting i++</b>Why: Check never changes → infinite.<br><b>✅ Fix:</b> <code>Always update toward exit.</code></div><div class="callout err"><b>❌ Mistake 3: Using i after loop declared inside</b>Why: Scope ends at }.<br><b>✅ Fix:</b> <code>Declare before if needed outside.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: for (i = 0; i &lt;= 5; i++) while expecting 5 runs.</b>Why: It runs SIX times (0..5). Inclusive bounds add one.<br><b>✅ Fix:</b> <code>Use i &lt; 5 for exactly 5 runs from zero.</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting i++ (or stepping the wrong way).</b>Why: The check never changes → infinite loop, fan screaming.<br><b>✅ Fix:</b> <code>Every loop must advance something the check watches.</code></div><div class="callout err"><b>❌ Mistake 3: Using i AFTER the loop it was declared in.</b>Why: Its scope ended at the loop’s closing brace.<br><b>✅ Fix:</b> <code>Declare the counter before the loop if later code needs it.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Count it</b><p>How many prints? for (i=0;i&lt;4;i++) print.</p>
+  <div class="practice"><b>Count it</b><p>How many prints? for (int i = 0; i &lt; 4; i++) print(i);</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>0,1,2,3.</div><div class="sol callout"><b>Solution</b>4 prints.</div></div><div class="practice"><b>Sum 1..10</b><p>Sum with a for loop.</p>
+  <div class="hint callout"><b>Hint</b>List them: 0, 1, 2, 3…</div><div class="sol callout"><b>Solution</b>4 prints: 0, 1, 2, 3.</div></div><div class="practice"><b>Sum 1 to 10</b><p>Compute 1+2+…+10 with a for loop and print it.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>total += i.</div><div class="sol callout"><b>Solution</b>int t=0; for(i=1;i&lt;=10;i++) t+=i; // 55</div></div></section>
+  <div class="hint callout"><b>Hint</b>total += i inside.</div><div class="sol callout"><b>Solution</b>int t = 0; for (int i = 1; i &lt;= 10; i++) t += i; // 55.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>for = init; check; update.</li><li>i &lt; n runs n times.</li><li>Update must approach exit.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What are the three for-parts?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Print your name 5 times with a for.</div>
+  <div class="prose"><ul><li>for = init once; check each round; update each round.</li><li>i &lt; n from 0 runs exactly n times.</li><li>The update must march the check toward false.</li><li>Loop counters die at the closing brace.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Recite the three for-parts and when each executes.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Print your name 5 times with a for loop, numbering each line.</div>
   <p><b>Related:</b> <a href="../lessons/switch.html">switch Statements and Expressions</a> · <a href="./while-loops.html">Next: while and do-while Loops →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -94,8 +104,8 @@ Done</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'for-loops',[{"id":"q1","prompt":"for(i=0;i\u003c5;i++) runs…","options":[{"t":"5 times (0-4)","ok":true},{"t":"6 times"},{"t":"4 times"},{"t":"Forever"}],"explain":"\u003c n gives n runs."},{"id":"q2","prompt":"Where does update happen?","options":[{"t":"After each body run","ok":true},{"t":"Before first check only"},{"t":"Never"},{"t":"At compile"}],"explain":"Body → update → check."},{"id":"q3","prompt":"i \u003c= n from 0 runs?","options":[{"t":"n+1 times","ok":true},{"t":"n times"},{"t":"Once"},{"t":"Zero"}],"explain":"Inclusive adds one."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Init: i = 1.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">i\u003c/div>\u003cdiv class=\"vl\">1\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Check 1≤3 ✓ → wash, i=2.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">i\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"},{"caption":"3 runs, then 4≤3 ❌ → Done.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Cycle 1,2,3\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">Done\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'for-loops',[{"id":"q1","prompt":"for (i = 0; i \u003c 5; i++) runs…","options":[{"t":"5 times (0–4)","ok":true},{"t":"6 times"},{"t":"4 times"},{"t":"Forever"}],"explain":"\u003c n from 0 gives exactly n rounds."},{"id":"q2","prompt":"The update step runs…","options":[{"t":"After each body execution","ok":true},{"t":"Only before the first check"},{"t":"Never"},{"t":"At compile time"}],"explain":"Body → update → check is the heartbeat."},{"id":"q3","prompt":"i \u003c= n starting from 0 runs…","options":[{"t":"n + 1 times","ok":true},{"t":"n times"},{"t":"Exactly once"},{"t":"Zero times"}],"explain":"Inclusive upper bounds add one — the off-by-one trap."},{"id":"q4","prompt":"for (;;) with no break does what?","options":[{"t":"Loops forever by design","ok":true},{"t":"Runs exactly once"},{"t":"Skips the body"},{"t":"Fails to compile"}],"explain":"Empty check = always true. Only break escapes."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Dial in: i = 1.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">i\u003c/div>\u003cdiv class=\"vl\">1\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Check 1 ≤ 3 ✓ → wash, tick to 2.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">i\u003c/div>\u003cdiv class=\"vl\">2\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Three washes, then 4 ≤ 3 fails → Done.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Cycle 1,2,3\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">Done\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

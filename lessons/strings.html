@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Strings · Java Foundations</title>
-<meta name="description" content="Text rules every app — names, messages, files. In Java, text is a String object with superpowers, joined by +.">
+<meta name="description" content="Text rules every application — names, messages, files, network. In Java, text is a String OBJECT with superpowers, and + sews pieces into new strings.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,16 +32,17 @@
     <span class="chip">⏱ 15 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Text rules every app — names, messages, files. In Java, text is a String object with superpowers, joined by +.</p>
+  <div class="prose"><p>Text rules every application — names, messages, files, network. In Java, text is a String OBJECT with superpowers, and + sews pieces into new strings.</p>
   <div class="callout"><b>🔎 Motivating question</b>How do you sew two ribbons into one longer ribbon?</div>
   <h2>Objectives</h2><ul><li>Create and join strings</li><li>Explain + with strings</li><li>Use length() basically</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/operators.html">Operators</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Bead strings. Each String is beads on a thread; + knots two threads together into a new longer one (originals unchanged — immutability preview!).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real knots hold originals. + makes a brand-new string; old pieces remain. Also == compares knots, not beads — use equals.</div></div></section>
+  <div class="prose"><p>Bead strings. Each String is beads knotted on a thread; + knots two threads into a LONGER NEW thread. The originals hang untouched on the wall (immutability preview!).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: real knots join the originals permanently. Java’s + builds a brand-new string and leaves both inputs unchanged — plus == compares the KNOTS (identity), not the beads. Content needs .equals().</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Create: <b>String name = "Ada";</b> Join: <b>"Hi " + name</b>. Numbers join too: "Age: " + 18.</p><p>Key tools (preview): <b>length()</b>, <b>equals()</b>, <b>+</b>. Full tour in Stage 4.</p><p>Empty vs blank: <b>""</b> length 0; <b>" "</b> has a space. Watch out!</p></div></section>
+  <div class="prose"><p>Create with doubles: <b>String name = "Ada";</b> Join with +: <b>"Hi " + name</b>. Numbers join too: "Age: " + 18 glues into text.</p><p>Evaluation runs LEFT to right: "Age: " + 18 + 2 becomes "Age: 182" (text from the first glue), while "Age: " + (18 + 2) computes the brackets first → "Age: 20".</p><p>First tools: <b>length()</b> counts every character including spaces; <b>equals()</b> compares CONTENT (== compares identity!); <b>+</b> builds. The full toolkit — charAt, substring, split — arrives in Stage 4.</p><p>Empty vs blank vs missing: <b>""</b> is a real string of length 0; <b>" "</b> holds one space; <b>null</b> is no string at all (and .length() on it crashes). Three different things!</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Strings are <b>immutable</b>: no method ever edits one in place; “edits” return fresh strings. Loop-building with + is slow — StringBuilder exists for that.</li><li>Identical literals may share one pooled object (<b>string pool</b>), which is exactly why == sometimes “works” and fools beginners. Always use equals().</li><li><b>"a" + 1 + 2</b> → "a12" but <b>1 + 2 + "a"</b> → "3a": math happens until the FIRST string appears.</li></ul></div></div></section>
 
   <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Knot ribbons</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
@@ -49,20 +50,32 @@
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="String name = &quot;Ada&quot;;
-int age = 18;
-String msg = &quot;Hi &quot; + name + &quot;, age &quot; + age;
-System.out.println(msg);
-System.out.println(&quot;len=&quot; + msg.length());">Copy</button></div>
-  <pre><code>String name = &quot;Ada&quot;;
-int age = 18;
-String msg = &quot;Hi &quot; + name + &quot;, age &quot; + age;
-System.out.println(msg);
-System.out.println(&quot;len=&quot; + msg.length());</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    String name = &quot;Ada&quot;;
+    int age = 18;
+    String msg = &quot;Hi &quot; + name + &quot;, age &quot; + age;
+    System.out.println(msg);
+    System.out.println(&quot;length = &quot; + msg.length());
+    System.out.println(msg.equals(&quot;Hi Ada, age 18&quot;));
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    String name = &quot;Ada&quot;;
+    int age = 18;
+    String msg = &quot;Hi &quot; + name + &quot;, age &quot; + age;
+    System.out.println(msg);
+    System.out.println(&quot;length = &quot; + msg.length());
+    System.out.println(msg.equals(&quot;Hi Ada, age 18&quot;));
+  }
+}</code></pre><div class="out">▶ Output
 Hi Ada, age 18
-len=14</div></div>
-  <ul class="linenotes"><li>+ with a string makes everything text.</li><li>msg is a new string; parts unchanged.</li><li>length() counts every character.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Pieces knot into one new string. Length counts letters, spaces, comma, digits.</div></div></section>
+length = 14
+true</div></div>
+  <ul class="linenotes"><li>+ with a String turns everything into text, left to right.</li><li>msg is a brand-new string; the pieces are untouched.</li><li>length() counts letters, spaces, comma, digits: 14.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Pieces knot into one new string of length 14; the equals comparison against identical content is true.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -71,22 +84,24 @@ len=14</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: if (name == &quot;Ada&quot;)</b>Why: == compares houses, not beads.<br><b>✅ Fix:</b> <code>if (name.equals(&quot;Ada&quot;)).</code></div><div class="callout warn"><b>❌ Mistake 2: &quot;Age: &quot; + 18 + 2 expecting 20.</b>Why: Left-to-right: &quot;Age: 18&quot; + 2 = &quot;Age: 182&quot;.<br><b>✅ Fix:</b> <code>&quot;Age: &quot; + (18 + 2).</code></div><div class="callout err"><b>❌ Mistake 3: Forgetting space: &quot;Hi&quot;+name.</b>Why: Knots have no auto-space.<br><b>✅ Fix:</b> <code>&quot;Hi &quot; + name.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: if (name == &quot;Ada&quot;) to compare words.</b>Why: == compares identity (same house?) — two equal-content strings are usually different objects.<br><b>✅ Fix:</b> <code>Compare content: if (name.equals(&quot;Ada&quot;)).</code></div><div class="callout warn"><b>❌ Mistake 2: &quot;Age: &quot; + 18 + 2 expecting 20.</b>Why: Left-to-right gluing: (&quot;Age: &quot; + 18) is already text, so + 2 glues more text → &quot;Age: 182&quot;.<br><b>✅ Fix:</b> <code>Compute first: &quot;Age: &quot; + (18 + 2).</code></div><div class="callout err"><b>❌ Mistake 3: &quot;Hi&quot;+name with no space, printing “HiAda”.</b>Why: The plus is glue, not a typesetter — it adds exactly what you give it.<br><b>✅ Fix:</b> <code>&quot;Hi &quot; + name — supply the space yourself.</code></div><div class="callout err"><b>❌ Mistake 4: Calling methods on a null String.</b>Why: null is no string at all — .length() on it detonates.<br><b>✅ Fix:</b> <code>Guard: if (s != null) ... or default to &quot;&quot;.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Fix equality</b><p>Fix: if (city == &quot;Pune&quot;) ...</p>
+  <div class="practice"><b>Fix the equality</b><p>Fix this: if (city == &quot;Pune&quot;) { ... }</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>equals for text.</div><div class="sol callout"><b>Solution</b>if (city.equals(&quot;Pune&quot;)) ...</div></div><div class="practice"><b>Build a badge</b><p>Make &quot;Ada (18)&quot; from name + age with brackets + space.</p>
+  <div class="hint callout"><b>Hint</b>Content needs equals.</div><div class="sol callout"><b>Solution</b>if (city.equals(&quot;Pune&quot;)) { ... }</div></div><div class="practice"><b>Build a badge</b><p>From name and age, build exactly &quot;Ada (18)&quot; with brackets and a space.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>&quot;(&quot; + age + &quot;)&quot;</div><div class="sol callout"><b>Solution</b>String badge = name + &quot; (&quot; + age + &quot;)&quot;;</div></div></section>
+  <div class="hint callout"><b>Hint</b>&quot;(&quot; + age + &quot;)&quot; glues the tail.</div><div class="sol callout"><b>Solution</b>String badge = name + &quot; (&quot; + age + &quot;)&quot;;</div></div><div class="practice"><b>Count it</b><p>What is &quot;Hi&quot;.length() + &quot;!&quot; length math? Careful: + with strings.</p>
+  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
+  <div class="hint callout"><b>Hint</b>&quot;Hi&quot;.length() is int 2 first.</div><div class="sol callout"><b>Solution</b>2 + &quot;!&quot; → &quot;2!&quot; — int first, then glue. Prints 2!.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>String = text object; + knots new ones.</li><li>Compare text with equals, not ==.</li><li>length() counts all characters.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Why does &quot;a&quot; + 1 + 2 differ from &quot;a&quot; + (1+2)?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Print a greeting badge with your name and city.</div>
+  <div class="prose"><ul><li>String = text object; + knots a NEW string.</li><li>Content compares with equals — never ==.</li><li>length() counts every single character.</li><li>Empty, blank, and null are three different things.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Why does &quot;a&quot; + 1 + 2 differ from 1 + 2 + &quot;a&quot;?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Print a greeting badge with your name and city, then print its length.</div>
   <p><b>Related:</b> <a href="../lessons/operators.html">Operators</a> · <a href="./scanner.html">Next: User Input with Scanner →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -94,8 +109,8 @@ len=14</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'strings',[{"id":"q1","prompt":"\"Hi \" + \"Ada\" gives?","options":[{"t":"Hi Ada","ok":true},{"t":"HiAda+?"},{"t":"Error"},{"t":"Hi, Ada, Hi"}],"explain":"+ knots strings."},{"id":"q2","prompt":"Compare string contents with…","options":[{"t":".equals()","ok":true},{"t":"=="},{"t":"="},{"t":"!="}],"explain":"equals checks beads; == checks knots."},{"id":"q3","prompt":"\"Age: \" + 18 + 2 = ?","options":[{"t":"Age: 182","ok":true},{"t":"Age: 20"},{"t":"38"},{"t":"Error"}],"explain":"Left-to-right string math."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Two ribbons: \"Hi \" and \"Ada\".","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Hi \"\u003c/div>\u003cdiv class=\"box\">\"Ada\"\u003c/div>\u003c/div>"},{"caption":"+ knots a NEW ribbon.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Hi \"\u003c/div>\u003cspan class=\"arr\">+\u003c/span>\u003cdiv class=\"box\">\"Ada\"\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>\"Hi Ada\"\u003c/b> ✨\u003c/div>\u003c/div>"},{"caption":"Originals unchanged.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Hi \" still\u003c/div>\u003cdiv class=\"box\">\"Ada\" still\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'strings',[{"id":"q1","prompt":"\"Hi \" + \"Ada\" produces…","options":[{"t":"Hi Ada","ok":true},{"t":"HiAda+?"},{"t":"A compiler error"},{"t":"Hi, Ada, Hi"}],"explain":"Plus knots strings into one new string."},{"id":"q2","prompt":"String contents are compared with…","options":[{"t":".equals()","ok":true},{"t":"=="},{"t":"="},{"t":"!="}],"explain":"equals checks the beads; == checks whether it is the same knot."},{"id":"q3","prompt":"\"Age: \" + 18 + 2 gives…","options":[{"t":"Age: 182","ok":true},{"t":"Age: 20"},{"t":"38"},{"t":"A compiler error"}],"explain":"Left-to-right: text appears at the first glue and never leaves."},{"id":"q4","prompt":"Which statement is TRUE?","options":[{"t":"\"\" has length 0 but is a real object","ok":true},{"t":"null has length 0"},{"t":"\" \" has length 0"},{"t":"== compares string contents"}],"explain":"Empty ≠ blank ≠ missing. Only \"\" is length-zero."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Two ribbons: \"Hi \" and \"Ada\".","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Hi \"\u003c/div>\u003cdiv class=\"box\">\"Ada\"\u003c/div>\u003c/div>"},{"caption":"+ knots a BRAND-NEW ribbon.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Hi \"\u003c/div>\u003cspan class=\"arr\">+\u003c/span>\u003cdiv class=\"box\">\"Ada\"\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>\"Hi Ada\"\u003c/b> ✨\u003c/div>\u003c/div>"},{"caption":"Both originals hang unchanged.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"Hi \" still\u003c/div>\u003cdiv class=\"box\">\"Ada\" still\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

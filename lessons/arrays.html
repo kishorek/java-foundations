@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Arrays · Java Foundations</title>
-<meta name="description" content="An egg tray holds exactly 12 eggs — same size, numbered slots. Arrays hold many values of one type in numbered boxes.">
+<meta name="description" content="An egg tray holds exactly 12 eggs — identical slots, numbered positions, zero growth. Arrays are Java’s egg trays: many values, ONE type, numbered from ZERO, fixed at birth.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,62 +32,75 @@
     <span class="chip">⏱ 16 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>An egg tray holds exactly 12 eggs — same size, numbered slots. Arrays hold many values of one type in numbered boxes.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why not carry 30 eggs in your hands?</div>
+  <div class="prose"><p>An egg tray holds exactly 12 eggs — identical slots, numbered positions, zero growth. Arrays are Java’s egg trays: many values, ONE type, numbered from ZERO, fixed at birth.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why not carry 30 eggs home in your bare hands?</div>
   <h2>Objectives</h2><ul><li>Create an array</li><li>Explain fixed length</li><li>Read elements by index</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/debugging.html">Debugging and Reading Errors</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Egg tray: fixed 12 slots, slot 0 first. Tray cannot grow — need more? Buy a bigger tray (new array) or switch to a expandable basket (ArrayList later).</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: eggs differ. Array slots share one type — no mixing ints and strings.</div></div></section>
+  <div class="prose"><p>The egg tray. Twelve fixed slots, slot 0 first. Need thirteen eggs? Buy a bigger tray (new array) or switch to an expandable basket (ArrayList, Stage 6) — the tray itself NEVER stretches.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: eggs vary; array slots CANNOT. One tray, one type — ints and Strings never share. And trays don’t wash themselves: unused slots hold defaults (0, false, null), not “empty”.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>int[] a = new int[3];</b> or <b>int[] a = {10, 20, 30};</b> Length fixed: <b>a.length</b>.</p><p>Slots numbered <b>0..length-1</b>. Default fills 0 / false / null.</p><p>Arrays are objects — reference points to the tray.</p></div></section>
+  <div class="prose"><p>Create sized: <b>int[] a = new int[3];</b> (three zeros) or pre-filled: <b>int[] a = {10, 20, 30};</b> Either way the <b>length is FIXED forever</b>: a.length.</p><p>Slots are numbered <b>0 to length−1</b>. Read with a[i], write with a[i] = v. The box brackets mean “slot number”.</p><p>Arrays are OBJECTS: the variable holds a reference to the tray (heap!), not the eggs. Copying the variable shares the tray — the references lesson strikes again.</p><p>Declaration trivia that matters: <b>int[] a</b> (preferred) vs int a[] (legal relic) — same thing. And a.length has NO brackets: it is a field, not a method.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li><b>new int[3]</b> zero-fills: {0,0,0}. Object arrays null-fill: new String[3] is {null,null,null} — touching [0].length() crashes.</li><li><b>Arrays are covariant but checked</b>: String[] IS an Object[], yet storing an Integer throws ArrayStoreException at runtime. (Generics later fix this properly.)</li><li><b>int[] a = null;</b> is a slip to nowhere — a[0] on it is NullPointerException, not “empty array”.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Egg tray</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Egg tray mechanics</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="int[] eggs = {10, 20, 30};
-System.out.println(eggs.length); // 3
-System.out.println(eggs[0]);     // 10
-eggs[1] = 99;
-System.out.println(eggs[1]);     // 99">Copy</button></div>
-  <pre><code>int[] eggs = {10, 20, 30};
-System.out.println(eggs.length); // 3
-System.out.println(eggs[0]);     // 10
-eggs[1] = 99;
-System.out.println(eggs[1]);     // 99</code></pre><div class="out">▶ Output
-3
-10
-99</div></div>
-  <ul class="linenotes"><li>Length 3, fixed.</li><li>Read slot 0.</li><li>Overwrite slot 1.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Tray of 3; slots read/written by number; length never changes.</div></div></section>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    int[] eggs = {10, 20, 30};
+    System.out.println(&quot;slots = &quot; + eggs.length);
+    System.out.println(&quot;first = &quot; + eggs[0]);
+    eggs[1] = 99; // swap slot 1
+    System.out.println(&quot;swapped = &quot; + eggs[1]);
+    System.out.println(&quot;last = &quot; + eggs[eggs.length - 1]);
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    int[] eggs = {10, 20, 30};
+    System.out.println(&quot;slots = &quot; + eggs.length);
+    System.out.println(&quot;first = &quot; + eggs[0]);
+    eggs[1] = 99; // swap slot 1
+    System.out.println(&quot;swapped = &quot; + eggs[1]);
+    System.out.println(&quot;last = &quot; + eggs[eggs.length - 1]);
+  }
+}</code></pre><div class="out">▶ Output
+slots = 3
+first = 10
+swapped = 99
+last = 30</div></div>
+  <ul class="linenotes"><li>length is 3 — born that way, stays that way.</li><li>Slot 0 reads 10; slot 1 gets overwritten with 99.</li><li>Last slot is ALWAYS index length − 1.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>A fixed tray of 3: slots read and written by number; the length never moves.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="array"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Open slots 0-2; try 5.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Open slots 0–2; knock on 5 and watch.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="0" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: int[] a = new int[-2];</b>Why: Negative tray impossible.<br><b>✅ Fix:</b> <code>Positive size.</code></div><div class="callout warn"><b>❌ Mistake 2: Expecting growth with a[3] = x</b>Why: Fixed! Slot 3 missing on length-3.<br><b>✅ Fix:</b> <code>New bigger array or ArrayList.</code></div><div class="callout err"><b>❌ Mistake 3: int[] a; print(a[0])</b>Why: No tray built (null).<br><b>✅ Fix:</b> <code>a = new int[3]; first.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: int[] a = new int[-2];</b>Why: A negative tray is nonsense — NegativeArraySizeException at runtime.<br><b>✅ Fix:</b> <code>Sizes are zero or positive. Always.</code></div><div class="callout warn"><b>❌ Mistake 2: Expecting the tray to grow: a[3] = 7 on length 3.</b>Why: Fixed means fixed — slot 3 does not exist and never will.<br><b>✅ Fix:</b> <code>Build a bigger array (copy over) or use ArrayList.</code></div><div class="callout err"><b>❌ Mistake 3: int[] a; then a[0] immediately.</b>Why: Declared but never built — a is null, and null has no slots.<br><b>✅ Fix:</b> <code>a = new int[3]; FIRST, then touch slots.</code></div><div class="callout err"><b>❌ Mistake 4: int a[] = new int[3]; confusion about style.</b>Why: Legal but backwards-looking; modern code writes the brackets with the TYPE.<br><b>✅ Fix:</b> <code>int[] a — brackets on the type, always.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Last slot</b><p>Length 5: index of last?</p>
+  <div class="practice"><b>Last slot math</b><p>An array has length 5. What is its last valid index?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>length-1.</div><div class="sol callout"><b>Solution</b>4.</div></div><div class="practice"><b>Defaults</b><p>new int[3] holds?</p>
+  <div class="hint callout"><b>Hint</b>Zero-based: subtract one.</div><div class="sol callout"><b>Solution</b>4. First 0, last length − 1.</div></div><div class="practice"><b>Defaults drill</b><p>new int[3] and new String[2] — exact contents?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Zeros.</div><div class="sol callout"><b>Solution</b>[0, 0, 0].</div></div></section>
+  <div class="hint callout"><b>Hint</b>Numbers zero-fill; objects null-fill.</div><div class="sol callout"><b>Solution</b>[0, 0, 0] and [null, null].</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>One type, numbered from 0.</li><li>Length fixed at birth.</li><li>length counts slots.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>How do you get the last index?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Store 5 friend ages; print first and last.</div>
+  <div class="prose"><ul><li>One type, numbered from 0, fixed at birth.</li><li>length counts slots; last index is length − 1.</li><li>Arrays are heap objects; variables are slips.</li><li>new zero/null-fills every slot.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>How do you compute the last index, and why is length bracket-free?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Store 5 friends’ ages in an array; print first and last with labels.</div>
   <p><b>Related:</b> <a href="../lessons/debugging.html">Debugging and Reading Errors</a> · <a href="./indexing-bounds.html">Next: Array Indexing and Bounds →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -95,8 +108,8 @@ System.out.println(eggs[1]);     // 99</code></pre><div class="out">▶ Output
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'arrays',[{"id":"q1","prompt":"int[3] valid indexes?","options":[{"t":"0,1,2","ok":true},{"t":"1,2,3"},{"t":"0-3"},{"t":"Any"}],"explain":"0-based to length-1."},{"id":"q2","prompt":"Arrays can…","options":[{"t":"Hold one type, fixed length","ok":true},{"t":"Mix types, grow freely"},{"t":"Hold nothing"},{"t":"Change type"}],"explain":"One type, fixed slots."},{"id":"q3","prompt":"eggs.length gives?","options":[{"t":"3","ok":true},{"t":"2"},{"t":"30"},{"t":"Index"}],"explain":"Slot count."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"New tray of 3: [?, ?, ?].","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">?\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">?\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">?\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Fill: 10, 20, 30.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">10\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">20\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">30\u003c/div>\u003c/div>\u003c/div>"},{"caption":"eggs[1] = 99 swaps slot 1.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">10\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">99 ✨\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">30\u003c/div>\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'arrays',[{"id":"q1","prompt":"int[3] has valid indexes…","options":[{"t":"0, 1, 2","ok":true},{"t":"1, 2, 3"},{"t":"0, 1, 2, 3"},{"t":"Any integer"}],"explain":"Zero-based up to length − 1."},{"id":"q2","prompt":"Java arrays are…","options":[{"t":"One type, fixed length","ok":true},{"t":"Mixed types, free growth"},{"t":"Always empty"},{"t":"Type-changing"}],"explain":"One type per tray, slots fixed at birth."},{"id":"q3","prompt":"new String[2] contains…","options":[{"t":"null, null","ok":true},{"t":"\"\", \"\""},{"t":"Nothing — it is null itself"},{"t":"0, 0"}],"explain":"Object slots null-fill. Touching them blindly crashes."},{"id":"q4","prompt":"eggs.length uses no brackets because…","options":[{"t":"It is a field, not a method call","ok":true},{"t":"Arrays are special-cased magic"},{"t":"It is a method anyway"},{"t":"Brackets are optional"}],"explain":"length is data ON the array; length() (Strings) is work DONE."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Fresh tray of 3: zeros inside.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">0\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Fill: 10, 20, 30.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">10\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">20\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">30\u003c/div>\u003c/div>\u003c/div>"},{"caption":"eggs[1] = 99 swaps slot 1 only.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">0\u003c/div>\u003cdiv class=\"val\">10\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">1\u003c/div>\u003cdiv class=\"val\">99 ✨\u003c/div>\u003c/div>\u003cdiv class=\"memcell\">\u003cdiv class=\"idx\">2\u003c/div>\u003cdiv class=\"val\">30\u003c/div>\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

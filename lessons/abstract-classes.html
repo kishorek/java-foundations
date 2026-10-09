@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Abstract Classes · Java Foundations</title>
-<meta name="description" content="Half-drawn blueprint: defines some rooms, leaves others as “finish later”. Children must complete them.">
+<meta name="description" content="Half-drawn blueprints: some rooms fully built, others marked “FINISH LATER”. Children MUST complete the blanks — the parent enforces its own unfinished business.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,42 +32,50 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Half-drawn blueprint: defines some rooms, leaves others as “finish later”. Children must complete them.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do exam papers leave blanks instead of full answers?</div>
+  <div class="prose"><p>Half-drawn blueprints: some rooms fully built, others marked “FINISH LATER”. Children MUST complete the blanks — the parent enforces its own unfinished business.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do exam papers print blanks instead of full answers?</div>
   <h2>Objectives</h2><ul><li>Write abstract methods</li><li>Extend and finish them</li><li>Choose abstract vs normal</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/polymorphism.html">Polymorphism</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Cake mix box: ready flour+sugar (concrete bake()), blank “add flavor” (abstract flavor()). You cannot serve the mix — bake a VanillaCake child first.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: mixes expire. Abstracts persist — but you still cannot new them, ever.</div></div></section>
+  <div class="prose"><p>The cake-mix box. Flour plus sugar pre-mixed with full bake() instructions (concrete); one blank “ADD FLAVOR” (abstract flavor()). You cannot serve the dry mix — first bake a VanillaCake child that fills the blank.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cake mix expires on shelves. Abstract classes persist as design — yet you can NEVER new them, ever. The blank is permanent at the parent level.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>abstract class + abstract void flavor();</b> No body. Child must implement (or stay abstract).</p><p>Cannot <b>new</b> abstract. Concrete methods shared; abstract force the varies-part.</p><p>Vs interface (next): abstract can hold state + constructors + shared code.</p></div></section>
+  <div class="prose"><p>Declare <b>abstract class Cake</b> with <b>abstract void flavor();</b> (no body, semicolon instead). Concrete bake() ships ready; flavor() is a debt every child pays.</p><p>Children implement ALL abstract methods — or stay abstract themselves, passing the debt down. The compiler enforces completion.</p><p>You can NEVER <b>new</b> an abstract class. Half-built things must not exist, so the language bans it.</p><p>Versus interfaces (next): abstract classes may hold STATE, constructors, and shared concrete code — a family with furniture, not just a contract.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>An abstract class may hold ZERO abstract methods (still un-newable) — pure “do not instantiate this family root”.</li><li>Abstract-class constructors RUN via children’s super(...) — they initialize the SHARED state, even though new Cake() is banned.</li><li>abstract plus static, or abstract plus private, is illegal — unfinished AND un-overridable is nonsense.</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Cake mix</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Cake-mix box</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
   <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="abstract class Cake {
-  void bake(){ System.out.println(&quot;Baking...&quot;); }
-  abstract void flavor();
+  void bake() { System.out.println(&quot;Baking...&quot;); } // ready
+  abstract void flavor();                          // YOUR job
 }
 class Vanilla extends Cake {
-  @Override void flavor(){ System.out.println(&quot;Vanilla!&quot;); }
+  @Override
+  void flavor() { System.out.println(&quot;Vanilla!&quot;); } // debt paid
 }
-new Vanilla().flavor();">Copy</button></div>
+Cake c = new Vanilla(); // abstract ref, concrete object
+c.bake();
+c.flavor();">Copy</button></div>
   <pre><code>abstract class Cake {
-  void bake(){ System.out.println(&quot;Baking...&quot;); }
-  abstract void flavor();
+  void bake() { System.out.println(&quot;Baking...&quot;); } // ready
+  abstract void flavor();                          // YOUR job
 }
 class Vanilla extends Cake {
-  @Override void flavor(){ System.out.println(&quot;Vanilla!&quot;); }
+  @Override
+  void flavor() { System.out.println(&quot;Vanilla!&quot;); } // debt paid
 }
-new Vanilla().flavor();</code></pre><div class="out">▶ Output
-Vanilla!</div></div>
-  <ul class="linenotes"><li>bake shared.</li><li>flavor forced.</li><li>Vanilla completes it.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Child fills the blank; shared bake inherited.</div></div></section>
+Cake c = new Vanilla(); // abstract ref, concrete object
+c.bake();
+c.flavor();</code></pre><div class="out">▶ Output
+Baking... then Vanilla!.</div></div>
+  <ul class="linenotes"><li>bake() inherited ready-made.</li><li>flavor() forced onto the child.</li><li>Vanilla completes the blueprint.</li></ul>
+  <div class="prose"><div class="callout"><b>🔍 Illustrated fragment</b>Key lines showing the idea — a simplified simulation for learning, not a whole runnable file. Full programs appear in early lessons; here the concept is the star.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Shared machinery runs from the parent; the forced blank runs from the child.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
@@ -76,22 +84,22 @@ Vanilla!</div></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: new Cake()</b>Why: Half-built — forbidden.<br><b>✅ Fix:</b> <code>new Vanilla().</code></div><div class="callout warn"><b>❌ Mistake 2: Child skips flavor</b>Why: Stays abstract too.<br><b>✅ Fix:</b> <code>Implement or declare abstract.</code></div><div class="callout err"><b>❌ Mistake 3: Abstract for everything</b>Why: Overkill.<br><b>✅ Fix:</b> <code>Abstract only the varies-part.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: new Cake() directly.</b>Why: Half-built by definition — the compiler forbids it.<br><b>✅ Fix:</b> <code>new Vanilla(); — always the FINISHED child.</code></div><div class="callout warn"><b>❌ Mistake 2: Child “forgetting” flavor().</b>Why: Then the child is abstract too — and equally un-newable.<br><b>✅ Fix:</b> <code>Implement every abstract, or declare the child abstract deliberately.</code></div><div class="callout err"><b>❌ Mistake 3: Abstract methods WITH bodies.</b>Why: Contradiction: “unfinished, here is the finish.” Rejected.<br><b>✅ Fix:</b> <code>Semicolon, no braces: abstract void flavor();</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Make Shape</b><p>abstract draw() + concrete info().</p>
+  <div class="practice"><b>Design a Shape</b><p>Abstract Shape with concrete info() and abstract draw().</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>One each.</div><div class="sol callout"><b>Solution</b>abstract class Shape{ void info(){} abstract void draw(); }</div></div><div class="practice"><b>Finish Circle</b><p>Circle extends Shape, draw prints O.</p>
+  <div class="hint callout"><b>Hint</b>One ready, one blank.</div><div class="sol callout"><b>Solution</b>abstract class Shape { void info() { ... } abstract void draw(); }</div></div><div class="practice"><b>Finish a Circle</b><p>Concrete Circle extends Shape, drawing “O”.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>@Override.</div><div class="sol callout"><b>Solution</b>class Circle extends Shape{ @Override void draw(){...} }</div></div></section>
+  <div class="hint callout"><b>Hint</b>Override the blank.</div><div class="sol callout"><b>Solution</b>class Circle extends Shape { @Override void draw() { System.out.println(&quot;O&quot;); } }</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Half blueprint; children finish.</li><li>Never new abstract.</li><li>Shared code + forced blanks.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Abstract class vs interface in one line?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Design an abstract Vehicle with one abstract method.</div>
+  <div class="prose"><ul><li>Half blueprint; children finish the blanks.</li><li>Never new the abstract.</li><li>Shared code plus forced blanks.</li><li>Debt unpaid = child stays abstract.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Abstract class versus interface — one decisive line?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Design an abstract Vehicle with one abstract and one concrete method.</div>
   <p><b>Related:</b> <a href="../lessons/polymorphism.html">Polymorphism</a> · <a href="./interfaces.html">Next: Interfaces →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -99,8 +107,8 @@ Vanilla!</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'abstract-classes',[{"id":"q1","prompt":"Can you new an abstract class?","options":[{"t":"No","ok":true},{"t":"Yes"},{"t":"Sometimes"},{"t":"With comments"}],"explain":"Incomplete by design."},{"id":"q2","prompt":"Child ignoring abstract method…","options":[{"t":"Must also be abstract","ok":true},{"t":"Fine, concrete"},{"t":"Deletes parent"},{"t":"Becomes static"}],"explain":"Blank passes down."},{"id":"q3","prompt":"Abstracts can hold…","options":[{"t":"State + concrete methods","ok":true},{"t":"Nothing"},{"t":"Only comments"},{"t":"Only statics"}],"explain":"Half-built, not empty."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Box: bake ready, flavor blank.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">bake() ✓\u003c/div>\u003cdiv class=\"box\">flavor() ___\u003c/div>\u003c/div>"},{"caption":"new Cake() blocked 🚫.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Cake() ❌\u003c/div>\u003c/div>"},{"caption":"Vanilla fills blank, serves.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Vanilla → flavor ✓\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'abstract-classes',[{"id":"q1","prompt":"new on an abstract class…","options":[{"t":"Forbidden, always","ok":true},{"t":"Allowed"},{"t":"Sometimes allowed"},{"t":"Allowed with comments"}],"explain":"Incomplete by design — no instances of maybe."},{"id":"q2","prompt":"A child ignoring an abstract method…","options":[{"t":"Must itself be declared abstract","ok":true},{"t":"Is fine and concrete"},{"t":"Deletes the parent"},{"t":"Becomes static"}],"explain":"Unpaid debt passes down the family."},{"id":"q3","prompt":"Abstract classes may contain…","options":[{"t":"State, constructors, concrete plus abstract methods","ok":true},{"t":"Nothing at all"},{"t":"Only comments"},{"t":"Only statics"}],"explain":"Half-built is not empty — furniture included."},{"id":"q4","prompt":"Abstract-class constructors…","options":[{"t":"Exist and run via children’s super()","ok":true},{"t":"Do not exist"},{"t":"Run on new Cake()"},{"t":"Are banned"}],"explain":"Shared state still needs initializing — children trigger it."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Box: bake ready, flavor blank.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">bake() ✓\u003c/div>\u003cdiv class=\"box\">flavor() ___\u003c/div>\u003c/div>"},{"caption":"new Cake() BLOCKED.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">new Cake() ❌\u003c/div>\u003c/div>"},{"caption":"Vanilla fills the blank and serves.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Vanilla → flavor ✓\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">

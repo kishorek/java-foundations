@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>String Immutability · Java Foundations</title>
-<meta name="description" content="Strings cannot change after birth. Every “edit” secretly builds a new string — safe to share, but costly in loops.">
+<meta name="description" content="Strings CANNOT change after birth. Every “edit” secretly constructs a brand-new string — wonderfully safe to share, quietly expensive in loops.">
 <link rel="stylesheet" href="../assets/css/main.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,61 +32,71 @@
     <span class="chip">⏱ 12 min</span>
     <a class="chip" href="../glossary.html">📖 Glossary</a>
   </div></div>
-  <div class="prose"><p>Strings cannot change after birth. Every “edit” secretly builds a new string — safe to share, but costly in loops.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why are printed books trustworthy but whiteboards not?</div>
+  <div class="prose"><p>Strings CANNOT change after birth. Every “edit” secretly constructs a brand-new string — wonderfully safe to share, quietly expensive in loops.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why are printed books trustworthy evidence but whiteboards are not?</div>
   <h2>Objectives</h2><ul><li>Explain immutability</li><li>Predict s.toUpperCase() effect</li><li>Reassign results correctly</li></ul>
   <p><b>Needs first:</b> <a href="../lessons/string-methods.html">Useful String Methods</a></p></div>
 
   <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Printed book vs whiteboard. s.toUpperCase() photocopies the book in caps; original book unchanged. Whiteboard (StringBuilder) edits in place.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: photocopying 10,000 pages (loop +) wastes paper/time — use the whiteboard then.</div></div></section>
+  <div class="prose"><p>Printed book versus whiteboard. s.toUpperCase() PHOTOCOPIES the book in caps; the original book sits unchanged. The whiteboard (StringBuilder, next lesson) edits in place.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: photocopying 10,000 pages to change one word each is madness — yet loop-concatenating with + does exactly that. Bulk edits belong on the whiteboard.</div></div></section>
 
   <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Immutable</b> = no in-place edits. s.toUpperCase() returns new; s same unless reassigned.</p><p>Why: safe sharing, thread-safe, string pool savings.</p><p>Loop building? Use <b>StringBuilder</b> (next). Reassign: s = s.trim();</p></div></section>
+  <div class="prose"><p><b>Immutable</b> = zero in-place edits, ever. s.toUpperCase() RETURNS the new string; s itself is untouched unless you REASSIGN: s = s.toUpperCase();</p><p>Why design it so? Safe SHARING (no borrower can vandalize your text), thread safety, and the string POOL (identical literals share one object).</p><p>The #1 symptom: calling a method and IGNORING its return. s.trim(); alone is a no-op with extra steps — always catch the result.</p><p>Loop rule: building text piece-by-piece with + creates a photocopy per round (O(n²) time). Hundreds of rounds demand StringBuilder.</p>
+  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>The <b>string pool</b> reuses literals: "hi" == "hi" is often true (same pooled object) — which is precisely why == FOOLS beginners. equals() always.</li><li>Because Strings are immutable, they are <b>thread-safe by construction</b> and perfect HashMap keys.</li><li>Concatenation in a loop is <b>O(n²)</b>: each + copies everything so far. 10,000 rounds ≈ 50M char-copies. Builder stays O(n).</li></ul></div></div></section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Photocopy</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Photocopy semantics</h2><p class="sub">Step at your pace. Text explains every move.</p>
   <div class="stage" data-stepper><div class="viz" data-body></div>
   <div class="step-caption" data-cap role="status"></div>
   <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
 
   <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="String s = &quot;java&quot;;
-s.toUpperCase();
-System.out.println(s); // still java!
-s = s.toUpperCase();
-System.out.println(s); // JAVA">Copy</button></div>
-  <pre><code>String s = &quot;java&quot;;
-s.toUpperCase();
-System.out.println(s); // still java!
-s = s.toUpperCase();
-System.out.println(s); // JAVA</code></pre><div class="out">▶ Output
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
+  public static void main(String[] args) {
+    String s = &quot;java&quot;;
+    s.toUpperCase(); // photocopy made... and dropped on the floor
+    System.out.println(s); // still &quot;java&quot;!
+    s = s.toUpperCase(); // NOW catch the copy
+    System.out.println(s); // &quot;JAVA&quot;
+  }
+}">Copy</button></div>
+  <pre><code>public class Main {
+  public static void main(String[] args) {
+    String s = &quot;java&quot;;
+    s.toUpperCase(); // photocopy made... and dropped on the floor
+    System.out.println(s); // still &quot;java&quot;!
+    s = s.toUpperCase(); // NOW catch the copy
+    System.out.println(s); // &quot;JAVA&quot;
+  }
+}</code></pre><div class="out">▶ Output
 java
 JAVA</div></div>
-  <ul class="linenotes"><li>Line 2 result ignored — lost!</li><li>Original untouched.</li><li>Reassign keeps the new one.</li></ul>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>No mutation; only reassignment changes what s points to.</div></div></section>
+  <ul class="linenotes"><li>Line 4’s result is discarded — the classic bug, live.</li><li>The original never moved.</li><li>Reassignment points s at the new string.</li></ul>
+  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>No mutation exists; only reassignment changes which string s points at.</div></div></section>
 
   <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
   <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Ignored result vs saved.</span>
+  <span style="font-size:.9rem;color:var(--ink-2)">Ignored result versus saved result.</span>
   <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="java" size="8" aria-label="value"> <input data-in value="!" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
   <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
 
   <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: s.toUpperCase(); expecting change</b>Why: Result discarded.<br><b>✅ Fix:</b> <code>s = s.toUpperCase();</code></div><div class="callout warn"><b>❌ Mistake 2: Loop s += piece 10k times</b>Why: 10k photocopies — slow.<br><b>✅ Fix:</b> <code>StringBuilder for loops.</code></div><div class="callout err"><b>❌ Mistake 3: == after toUpperCase</b>Why: New house anyway.<br><b>✅ Fix:</b> <code>equals + reassign.</code></div></section>
+  <div class="callout "><b>❌ Mistake 1: s.toUpperCase(); then wondering why s is unchanged.</b>Why: The fresh string was built and instantly dropped.<br><b>✅ Fix:</b> <code>Catch it: s = s.toUpperCase();</code></div><div class="callout warn"><b>❌ Mistake 2: Looping s += piece 10,000 times.</b>Why: Ten thousand photocopies of ever-longer books — quadratic sludge.<br><b>✅ Fix:</b> <code>One StringBuilder for loop-built text.</code></div><div class="callout err"><b>❌ Mistake 3: Trusting == after transformations.</b>Why: Every “edit” builds a NEW house — identity is meaningless here.<br><b>✅ Fix:</b> <code>equals() for content, forever.</code></div></section>
 
   <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Fix it</b><p>Fix: s.trim(); print(s) still spaced.</p>
+  <div class="practice"><b>Fix the freeze</b><p>Fix: s.trim(); System.out.println(s); still prints spaces.</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Reassign.</div><div class="sol callout"><b>Solution</b>s = s.trim();</div></div><div class="practice"><b>Pool guess</b><p>&quot;a&quot;+&quot;b&quot; in loop vs builder — which faster?</p>
+  <div class="hint callout"><b>Hint</b>Reassign the catch.</div><div class="sol callout"><b>Solution</b>s = s.trim(); — then print.</div></div><div class="practice"><b>Cost it</b><p>&quot;a&quot;+&quot;b&quot; per loop round × 10k vs one builder — which wins and roughly why?</p>
   <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Builder.</div><div class="sol callout"><b>Solution</b>StringBuilder; + copies each round.</div></div></section>
+  <div class="hint callout"><b>Hint</b>Copies per round.</div><div class="sol callout"><b>Solution</b>Builder: one board, O(n). Plus-chain: O(n²) photocopies.</div></div></section>
 
   <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
   <div data-quiz></div></section>
 
   <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Strings never mutate.</li><li>Use the returned new string.</li><li>Loops → StringBuilder.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What happens to the original in s + &quot;!&quot;?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Find one ignored string result in old code; fix.</div>
+  <div class="prose"><ul><li>Strings never mutate — methods return new ones.</li><li>Always catch the returned string.</li><li>Loop-built text belongs to StringBuilder.</li><li>Pooling explains == illusions; use equals.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>What physically happens to the original string in s + &quot;!&quot;?</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Find one ignored string-result in your old code and fix it with reassignment.</div>
   <p><b>Related:</b> <a href="../lessons/string-methods.html">Useful String Methods</a> · <a href="./stringbuilder.html">Next: StringBuilder →</a></p>
   <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
 
@@ -94,8 +104,8 @@ JAVA</div></div>
 <script type="module">
 import {renderQuiz} from '../assets/js/quiz.js';
 import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'string-immut',[{"id":"q1","prompt":"s.toUpperCase() without assign…","options":[{"t":"Original unchanged","ok":true},{"t":"s becomes upper"},{"t":"Error"},{"t":"Deletes s"}],"explain":"New string discarded."},{"id":"q2","prompt":"Why immutable?","options":[{"t":"Safe sharing + pooling","ok":true},{"t":"To annoy"},{"t":"Saves typing"},{"t":"No reason"}],"explain":"Share without fear."},{"id":"q3","prompt":"Loop-build 10k pieces: use…","options":[{"t":"StringBuilder","ok":true},{"t":"+ on String"},{"t":"char =="},{"t":"System.exit"}],"explain":"One whiteboard, not copies."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Book \"java\" printed.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>\"java\"\u003c/b> 📕\u003c/div>\u003c/div>"},{"caption":"toUpperCase photocopies.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"java\"\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>\"JAVA\"\u003c/b> 📄 new\u003c/div>\u003c/div>"},{"caption":"s still points to old unless reassigned.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">s → \"java\" (old)\u003c/div>\u003c/div>"}]);
+renderQuiz(document.querySelector('[data-quiz]'),'string-immut',[{"id":"q1","prompt":"s.toUpperCase() without assignment leaves s…","options":[{"t":"Unchanged","ok":true},{"t":"Uppercase"},{"t":"Deleted"},{"t":"Null"}],"explain":"The new string was built and dropped."},{"id":"q2","prompt":"Strings are immutable mainly for…","options":[{"t":"Safe sharing, pooling, thread-safety","ok":true},{"t":"Annoying beginners"},{"t":"Saving keystrokes"},{"t":"No reason at all"}],"explain":"Share without fear — nobody can vandalize your text."},{"id":"q3","prompt":"Building 10k pieces in a loop needs…","options":[{"t":"StringBuilder","ok":true},{"t":"+ on String"},{"t":"char =="},{"t":"System.exit"}],"explain":"One whiteboard beats ten thousand photocopies."},{"id":"q4","prompt":"\"hi\" == \"hi\" is often true because…","options":[{"t":"Literals share one pooled object","ok":true},{"t":"== compares content"},{"t":"All strings are identical"},{"t":"Luck"}],"explain":"The pool reuses literals — which is exactly why == fools people."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"Book \"java\" printed and shelved.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>\"java\"\u003c/b> 📕\u003c/div>\u003c/div>"},{"caption":"toUpperCase photocopies it.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\"java\"\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>\"JAVA\"\u003c/b> 📄 new\u003c/div>\u003c/div>"},{"caption":"s still points at the OLD book.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">s → \"java\" (old)\u003c/div>\u003c/div>"}]);
 wireSimulators(document);
 </script></main></div>
 <footer class="site"><div class="in">
