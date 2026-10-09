@@ -1,0 +1,110 @@
+<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your First Java Program · Java Foundations</title>
+<meta name="description" content="Every Java program wears the same uniform: a class shell and a main door. Learn it once, recognize it forever.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body data-lesson="first-program">
+<header class="topbar"><div class="topbar-in">
+  <a class="skip" href="#main">Skip to content</a>
+  <a class="brand" href="../index.html"><span class="brand-mark">J{ }</span><span>Java Foundations<small>From zero to real apps</small></span></a>
+  <button class="iconbtn menubtn" data-menu aria-label="Open navigation">☰ Menu</button>
+  <nav class="nav" aria-label="Main">
+    <a href="../graph.html" class="hide-m" >Map</a>
+    <a href="../projects.html" class="hide-m" >Projects</a>
+    <a href="../playground.html" class="hide-m" >Playground</a>
+    <a href="../glossary.html" class="hide-m" >Glossary</a>
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle light and dark theme">◐ Theme</button>
+    <span class="progress-pill" data-ring title="Your overall progress"></span>
+  </nav></div></header>
+<div class="shell"><aside class="sidenav" aria-label="Course navigation"><h3>Start here</h3>
+  <a href="../index.html">🏠 Course home</a>
+  <a href="../graph.html">🗺️ Course map</a>
+  <a href="../progress.html">📊 My progress + review</a>
+  <a href="../search.html">🔎 Search</a><h3>Stage 1 · Programming Fundamentals</h3><a href="../lessons/prog-what.html" data-nav="prog-what" class=""><span class="dot"></span><span>What is programming?</span></a><a href="../lessons/algorithm.html" data-nav="algorithm" class=""><span class="dot"></span><span>Algorithms</span></a><a href="../lessons/source-code.html" data-nav="source-code" class=""><span class="dot"></span><span>Source code</span></a><a href="../lessons/execute.html" data-nav="execute" class=""><span class="dot"></span><span>How computers run code</span></a><a href="../lessons/java-intro.html" data-nav="java-intro" class=""><span class="dot"></span><span>What is Java?</span></a><a href="../lessons/jdk-jre-jvm.html" data-nav="jdk-jre-jvm" class=""><span class="dot"></span><span>JDK, JRE, JVM</span></a><a href="../lessons/setup.html" data-nav="setup" class=""><span class="dot"></span><span>Setup &amp; run</span></a><h3>Stage 2 · Syntax &amp; Building Blocks</h3><a href="../lessons/first-program.html" data-nav="first-program" class="current"><span class="dot"></span><span>First program</span></a><a href="../lessons/printing.html" data-nav="printing" class=""><span class="dot"></span><span>Printing</span></a><a href="../lessons/comments.html" data-nav="comments" class=""><span class="dot"></span><span>Comments</span></a><a href="../lessons/variables.html" data-nav="variables" class=""><span class="dot"></span><span>Variables</span></a><a href="../lessons/primitives.html" data-nav="primitives" class=""><span class="dot"></span><span>Primitive types</span></a><a href="../lessons/references.html" data-nav="references" class=""><span class="dot"></span><span>References</span></a><a href="../lessons/literals.html" data-nav="literals" class=""><span class="dot"></span><span>Literals &amp; constants</span></a><a href="../lessons/casting.html" data-nav="casting" class=""><span class="dot"></span><span>Casting</span></a><a href="../lessons/operators.html" data-nav="operators" class=""><span class="dot"></span><span>Operators</span></a><a href="../lessons/strings.html" data-nav="strings" class=""><span class="dot"></span><span>Strings</span></a><a href="../lessons/scanner.html" data-nav="scanner" class=""><span class="dot"></span><span>Scanner input</span></a><a href="../lessons/review-basics.html" data-nav="review-basics" class=""><span class="dot"></span><span>Basics review</span></a><h3>Stage 3 · Decisions &amp; Logic</h3><a href="../lessons/boolean-expr.html" data-nav="boolean-expr" class=""><span class="dot"></span><span>Boolean expressions</span></a><a href="../lessons/if-else.html" data-nav="if-else" class=""><span class="dot"></span><span>if / else</span></a><a href="../lessons/nested-cond.html" data-nav="nested-cond" class=""><span class="dot"></span><span>Nested conditions</span></a><a href="../lessons/switch.html" data-nav="switch" class=""><span class="dot"></span><span>switch</span></a><a href="../lessons/for-loops.html" data-nav="for-loops" class=""><span class="dot"></span><span>for loops</span></a><a href="../lessons/while-loops.html" data-nav="while-loops" class=""><span class="dot"></span><span>while loops</span></a><a href="../lessons/break-continue.html" data-nav="break-continue" class=""><span class="dot"></span><span>break &amp; continue</span></a><a href="../lessons/nested-loops.html" data-nav="nested-loops" class=""><span class="dot"></span><span>Nested loops</span></a><a href="../lessons/methods.html" data-nav="methods" class=""><span class="dot"></span><span>Methods</span></a><a href="../lessons/params-return.html" data-nav="params-return" class=""><span class="dot"></span><span>Params &amp; returns</span></a><a href="../lessons/scope.html" data-nav="scope" class=""><span class="dot"></span><span>Scope</span></a><a href="../lessons/debugging.html" data-nav="debugging" class=""><span class="dot"></span><span>Debugging</span></a><a href="../lessons/review-logic.html" data-nav="review-logic" class=""><span class="dot"></span><span>Logic review</span></a><h3>Stage 4 · Arrays, Strings &amp; Algorithms</h3><a href="../lessons/arrays.html" data-nav="arrays" class=""><span class="dot"></span><span>Arrays</span></a><a href="../lessons/indexing-bounds.html" data-nav="indexing-bounds" class=""><span class="dot"></span><span>Indexing &amp; bounds</span></a><a href="../lessons/traverse-arrays.html" data-nav="traverse-arrays" class=""><span class="dot"></span><span>Traversing arrays</span></a><a href="../lessons/arrays-2d.html" data-nav="arrays-2d" class=""><span class="dot"></span><span>2D arrays</span></a><a href="../lessons/string-methods.html" data-nav="string-methods" class=""><span class="dot"></span><span>String methods</span></a><a href="../lessons/string-immut.html" data-nav="string-immut" class=""><span class="dot"></span><span>Immutability</span></a><a href="../lessons/stringbuilder.html" data-nav="stringbuilder" class=""><span class="dot"></span><span>StringBuilder</span></a><a href="../lessons/algorithms-basic.html" data-nav="algorithms-basic" class=""><span class="dot"></span><span>Basic algorithms</span></a><h3>Stage 5 · Object-Oriented Programming</h3><a href="../lessons/classes-objects.html" data-nav="classes-objects" class=""><span class="dot"></span><span>Classes &amp; objects</span></a><a href="../lessons/fields-methods.html" data-nav="fields-methods" class=""><span class="dot"></span><span>Fields &amp; methods</span></a><a href="../lessons/constructors.html" data-nav="constructors" class=""><span class="dot"></span><span>Constructors</span></a><a href="../lessons/this-keyword.html" data-nav="this-keyword" class=""><span class="dot"></span><span>this</span></a><a href="../lessons/encapsulation.html" data-nav="encapsulation" class=""><span class="dot"></span><span>Encapsulation</span></a><a href="../lessons/access-mods.html" data-nav="access-mods" class=""><span class="dot"></span><span>Access modifiers</span></a><a href="../lessons/static-members.html" data-nav="static-members" class=""><span class="dot"></span><span>static</span></a><a href="../lessons/inheritance.html" data-nav="inheritance" class=""><span class="dot"></span><span>Inheritance</span></a><a href="../lessons/overriding.html" data-nav="overriding" class=""><span class="dot"></span><span>Overriding</span></a><a href="../lessons/polymorphism.html" data-nav="polymorphism" class=""><span class="dot"></span><span>Polymorphism</span></a><a href="../lessons/abstract-classes.html" data-nav="abstract-classes" class=""><span class="dot"></span><span>Abstract classes</span></a><a href="../lessons/interfaces.html" data-nav="interfaces" class=""><span class="dot"></span><span>Interfaces</span></a><a href="../lessons/composition.html" data-nav="composition" class=""><span class="dot"></span><span>Composition</span></a><a href="../lessons/packages.html" data-nav="packages" class=""><span class="dot"></span><span>Packages</span></a><a href="../lessons/review-oop.html" data-nav="review-oop" class=""><span class="dot"></span><span>OOP review</span></a><h3>Stage 6 · Practical Java</h3><a href="../lessons/exceptions.html" data-nav="exceptions" class=""><span class="dot"></span><span>Exceptions</span></a><a href="../lessons/common-exceptions.html" data-nav="common-exceptions" class=""><span class="dot"></span><span>Defensive code</span></a><a href="../lessons/collections.html" data-nav="collections" class=""><span class="dot"></span><span>Collections</span></a><a href="../lessons/arraylist-hashmap.html" data-nav="arraylist-hashmap" class=""><span class="dot"></span><span>ArrayList &amp; HashMap</span></a><a href="../lessons/generics.html" data-nav="generics" class=""><span class="dot"></span><span>Generics</span></a><a href="../lessons/enums.html" data-nav="enums" class=""><span class="dot"></span><span>Enums</span></a><a href="../lessons/files.html" data-nav="files" class=""><span class="dot"></span><span>Files</span></a><a href="../lessons/unit-testing.html" data-nav="unit-testing" class=""><span class="dot"></span><span>Unit testing</span></a><a href="../lessons/maven-structure.html" data-nav="maven-structure" class=""><span class="dot"></span><span>Maven &amp; structure</span></a><a href="../lessons/conventions.html" data-nav="conventions" class=""><span class="dot"></span><span>Conventions</span></a><h3>Projects</h3><a href="../projects/proj-calculator.html" class=""><span class="dot"></span><span>Project 1: Simple Calculator</span></a><a href="../projects/proj-grades.html" class=""><span class="dot"></span><span>Project 2: Student Grade Calculator</span></a><a href="../projects/proj-library.html" class=""><span class="dot"></span><span>Project 3: Library Management System</span></a><a href="../projects/proj-employees.html" class=""><span class="dot"></span><span>Project 4: Employee Management App</span></a><a href="../projects/capstone-tasks.html" class=""><span class="dot"></span><span>Final Capstone: Command-Line Task Manager</span></a><h3>Reference</h3><a href="../glossary.html">📖 Glossary</a><a href="../playground.html">🧪 Playground</a><a href="../help.html">♿ Help + accessibility</a></aside><main class="main" id="main">
+  <p class="crumbs"><a href="../index.html">Home</a> › <a href="../stages/stage-2.html">Stage 2</a> › Concept</p>
+  <div class="lesson-head"><h1>Your First Java Program</h1>
+  <div class="lesson-meta">
+    <span class="chip stage" style="--sc:#2B6CB0">Stage 2</span>
+    <span class="chip type">Concept</span>
+    <span class="chip">⏱ 15 min</span>
+    <a class="chip" href="../glossary.html">📖 Glossary</a>
+  </div></div>
+  <div class="prose"><p>Every Java program wears the same uniform: a class shell and a main door. Learn it once, recognize it forever.</p>
+  <div class="callout"><b>🔎 Motivating question</b>Why do all letters start with “Dear…” and end with a signature?</div>
+  <h2>Objectives</h2><ul><li>Explain class + main</li><li>Write Hello World</li><li>Run it and read output</li></ul>
+  <p><b>Needs first:</b> <a href="../lessons/setup.html">Setting Up Java and Running a Program</a></p></div>
+
+  <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
+  <div class="prose"><p>Envelope + letter. Class = envelope with your name (Hello). main = “start reading here” arrow. JVM always opens the envelope at main.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: you can read a letter anywhere. JVM must start at exactly main(String[] args) — no substitutes.</div></div></section>
+
+  <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
+  <div class="prose"><p><b>public class Hello</b> names the blueprint. File must be Hello.java.</p><p><b>public static void main(String[] args)</b> is the start door. Memorize its shape; meaning comes later.</p><p>Statements end with <b>;</b> Braces <b>{ }</b> group code. println prints + new line.</p></div></section>
+
+  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Entering main</h2><p class="sub">Step at your pace. Text explains every move.</p>
+  <div class="stage" data-stepper><div class="viz" data-body></div>
+  <div class="step-caption" data-cap role="status"></div>
+  <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
+
+  <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
+  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Hello {
+  public static void main(String[] args) {
+    System.out.println(&quot;Hello, Java!&quot;);
+    System.out.println(&quot;I am learning.&quot;);
+  }
+}">Copy</button></div>
+  <pre><code>public class Hello {
+  public static void main(String[] args) {
+    System.out.println(&quot;Hello, Java!&quot;);
+    System.out.println(&quot;I am learning.&quot;);
+  }
+}</code></pre><div class="out">▶ Output
+Hello, Java!
+I am learning.</div></div>
+  <ul class="linenotes"><li>Line 1: envelope named Hello.</li><li>Line 2: start-here door.</li><li>Lines 3-4: two instructions, each ends with ;</li></ul>
+  <div class="prose"><div class="callout"><b>💡 Why this output?</b>JVM enters main, runs line 3 (print), then line 4, then exits. Order is top-down.</div></div></section>
+
+  <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
+  <div class="stage" data-sim="concat"><b>Try it (visual simulation — not a real compiler)</b><br>
+  <span style="font-size:.9rem;color:var(--ink-2)">Predict output: join two lines.</span>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="Hello, " size="8" aria-label="value"> <input data-in value="Java!" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
+  <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
+
+  <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
+  <div class="callout "><b>❌ Mistake 1: main spelled Main or missing String[] args.</b>Why: JVM looks for the exact signature.<br><b>✅ Fix:</b> <code>Copy exactly: public static void main(String[] args).</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting the semicolon.</b>Why: Java cannot tell where instruction ends.<br><b>✅ Fix:</b> <code>End every statement with ;</code></div><div class="callout err"><b>❌ Mistake 3: File Hello.java but class hello.</b>Why: Case mismatch breaks build.<br><b>✅ Fix:</b> <code>Match exactly: Hello / Hello.java.</code></div></section>
+
+  <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
+  <div class="practice"><b>Label the uniform</b><p>In the code, mark: envelope, door, instruction.</p>
+  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
+  <div class="hint callout"><b>Hint</b>class / main / println.</div><div class="sol callout"><b>Solution</b>Envelope: public class Hello. Door: main line. Instructions: println lines.</div></div><div class="practice"><b>Add a third line</b><p>Print your name as a third line. Where does it go?</p>
+  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
+  <div class="hint callout"><b>Hint</b>Inside main, before closing }.</div><div class="sol callout"><b>Solution</b>Add System.out.println(&quot;Ada&quot;); after line 4.</div></div></section>
+
+  <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
+  <div data-quiz></div></section>
+
+  <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
+  <div class="prose"><ul><li>Class = envelope; main = start door.</li><li>Statements end with ; braces group.</li><li>JVM runs main top-down.</li></ul>
+  <div class="callout"><b>🧠 Recall challenge</b>Write the main line from memory.</div>
+  <div class="callout warn"><b>✏️ Do on your own</b>Type Hello by hand (do not copy) and run it.</div>
+  <p><b>Related:</b> <a href="../lessons/setup.html">Setting Up Java and Running a Program</a> · <a href="./printing.html">Next: Printing Output →</a></p>
+  <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
+
+  <nav class="prevnext" aria-label="Previous and next"><a class="pn" href="./setup.html"><span>← Previous</span><b>Setting Up Java and Running a Program</b></a><a class="pn next" href="./printing.html"><span>Next →</span><b>Printing Output</b></a></nav>
+<script type="module">
+import {renderQuiz} from '../assets/js/quiz.js';
+import {stepper,wireSimulators} from '../assets/js/anim.js';
+renderQuiz(document.querySelector('[data-quiz]'),'first-program',[{"id":"q1","prompt":"Where does the JVM start?","options":[{"t":"main(String[] args)","ok":true},{"t":"Any line it likes"},{"t":"The last line"},{"t":"Comments"}],"explain":"Fixed entry point."},{"id":"q2","prompt":"What ends a Java statement?","options":[{"t":"Semicolon ;","ok":true},{"t":"Period ."},{"t":"New paragraph"},{"t":"Emoji"}],"explain":"; terminates statements."},{"id":"q3","prompt":"Class Hello must be in…","options":[{"t":"Hello.java","ok":true},{"t":"hello.java"},{"t":"Hello.txt"},{"t":"Anything"}],"explain":"Exact match, case-sensitive."}]);
+stepper(document.querySelector('[data-stepper]'),[{"caption":"JVM finds the envelope Hello.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Hello.class\u003c/b>\u003cbr>envelope\u003c/div>\u003c/div>"},{"caption":"Opens the door: main.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>main\u003c/b>\u003cbr>start here →\u003c/div>\u003c/div>"},{"caption":"Runs each println top-down.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">Hello, Java!\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">I am learning.\u003c/div>\u003c/div>"}]);
+wireSimulators(document);
+</script></main></div>
+<footer class="site"><div class="in">
+  <div style="flex:2;min-width:16rem"><b>Java Foundations</b> · Java 17 (LTS) · static site, no account, progress stays in your browser.<br><span>Built for absolute beginners. 95% friendly teaching, 5% gentle jokes.</span></div>
+  <div><a href="../help.html">Help</a> · <a href="../glossary.html">Glossary</a> · <a href="../search.html">Search</a> · <a href="../progress.html">Export progress</a></div>
+  </div></footer>
+<script type="module">
+import {initTheme,initChrome} from '../assets/js/app.js';
+initTheme();initChrome(["prog-what","algorithm","source-code","execute","java-intro","jdk-jre-jvm","setup","first-program","printing","comments","variables","primitives","references","literals","casting","operators","strings","scanner","review-basics","boolean-expr","if-else","nested-cond","switch","for-loops","while-loops","break-continue","nested-loops","methods","params-return","scope","debugging","review-logic","arrays","indexing-bounds","traverse-arrays","arrays-2d","string-methods","string-immut","stringbuilder","algorithms-basic","classes-objects","fields-methods","constructors","this-keyword","encapsulation","access-mods","static-members","inheritance","overriding","polymorphism","abstract-classes","interfaces","composition","packages","review-oop","exceptions","common-exceptions","collections","arraylist-hashmap","generics","enums","files","unit-testing","maven-structure","conventions","proj-calculator","proj-grades","proj-library","proj-employees","capstone-tasks"]);
+</script></body></html>
