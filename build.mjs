@@ -4,6 +4,28 @@ import { LESSONS_B } from './src/data/lessons-b.js';
 import { LESSONS_C } from './src/data/lessons-c.js';
 import { LESSONS_E } from './src/data/lessons-e.js';
 import { LESSONS_D } from './src/data/lessons-d.js';
+import { renderTopic } from './src/js/topic-render.mjs';
+import { LAYOUTS_A } from './src/data/topic-layouts-a.js';
+import { LAYOUTS_B } from './src/data/topic-layouts-b.js';
+import { LAYOUTS_C } from './src/data/topic-layouts-c.js';
+import { LAYOUTS_D } from './src/data/topic-layouts-d.js';
+import { LAYOUTS_E } from './src/data/topic-layouts-e.js';
+const LAYOUTS = { ...LAYOUTS_A, ...LAYOUTS_B, ...LAYOUTS_C, ...LAYOUTS_D, ...LAYOUTS_E };
+function autoLayout(n, L) {
+  return { tip: 'Understand the idea, play, and let examples carry you.', steps: [
+    { nav: 'The idea', h2: (n.objectives || [n.title])[0], sub: L.intro || '', blocks: [
+      ...(L.analogy ? [{ t: 'analogy', emoji: '💡', html: '<strong>Picture this.</strong> ' + L.analogy }] : []),
+      ...(L.analogyFail ? [{ t: 'callout', kind: 'mistake', html: '<strong>Where it breaks:</strong> ' + L.analogyFail }] : []) ] },
+    { nav: 'Go deeper', h2: 'The concept, plainly', blocks: [
+      { t: 'text', html: (L.explain || []).join('<br><br>') },
+      ...((L.tech || []).map(x => ({ t: 'callout', html: '<strong>Tech fact:</strong> ' + x }))) ] },
+    { nav: 'Code lab', h2: 'Read, then run', blocks: [
+      { t: 'code', label: 'Java example', fromLesson: true, gloss: L.why ? ('<strong>Why this output?</strong> ' + esc(L.why)) : '' },
+      ...((L.mistakes || []).slice(0, 3).map(m => ({ t: 'callout', kind: 'mistake', html: '<strong>Wrong:</strong> ' + esc(m.bad) + '<br><strong>Why:</strong> ' + esc(m.why) + '<br><strong>Fix:</strong> <code>' + esc(m.fix) + '</code>' }))) ] },
+    { nav: 'Quiz + pocket guide', h2: 'Check + keep', blocks: [
+      { t: 'quiz', celTitle: 'Step conquered!', celText: 'Onward to the next topic.' },
+      { t: 'reference', title: 'Your pocket reference', pills: (L.takeaways || []).slice(0, 5).map(x => ({ code: '✓', label: x })) } ] } ] };
+}
 import { GLOSSARY } from './src/data/glossary.js';
 import { mkdirSync, writeFileSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -17,6 +39,7 @@ const nodeById = Object.fromEntries(NODES.map(n => [n.id, n]));
 const stageByN = Object.fromEntries(STAGES.map(s => [s.n, s]));
 const order = [...NODES].sort((a, b) => a.stage - b.stage || NODES.indexOf(a) - NODES.indexOf(b));
 const lessonIds = order.map(n => n.id);
+const topicOrder = order.filter(n => n.type !== 'project');
 
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const escAttr = s => esc(s).replace(/'/g, '&#39;');
@@ -326,15 +349,42 @@ function stagePage(s) {
   ${ns.map((n, i) => `<div class="result"><a href="../lessons/${n.id}.html">${String(i + 1).padStart(2, '0')} · ${esc(n.title)}</a><div style="font-size:.85rem;color:var(--ink-2)">${esc(TYPE_LABEL[n.type])} · ${n.durationMinutes} min · ${(n.objectives || []).slice(0, 2).join(' · ')}</div></div>`).join('')}`;
 }
 
+function topicShell({ prefix, title, desc, body }) {
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)} · Java Foundations</title>
+<meta name="description" content="${esc(desc || '')}">
+<link rel="stylesheet" href="${prefix}assets/css/topic.css"></head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="${prefix}index.html">☕ Java<span>Foundations</span></a>
+<div class="top-links"><a href="${prefix}graph.html">Course map</a><a href="${prefix}progress.html">My progress</a><a href="${prefix}playground.html">Playground</a></div>
+<div class="progress-wrap"><span class="tiny muted">65 topics · learn by doing</span></div></header>
+<div class="layout" style="grid-template-columns:minmax(0,1fr);max-width:1000px"><main id="main">${body}<div class="footer">Made for curious beginners · <a href="${prefix}graph.html">Map</a> · <a href="${prefix}glossary.html">Glossary</a> · <a href="${prefix}help.html">Help</a></div></main></div>
+</body></html>`;
+}
+function homeTopicBody() {
+  const firstOf = s => topicOrder.find(n => n.stage === s);
+  return `<section class="hero"><div class="eyebrow">Java 17 · Absolute beginners</div>
+  <h1>Learn Java by<br>doing, not reading.</h1>
+  <p>65 playful interactive topics: analogies, widgets you can touch, code labs, quizzes with celebrations, and 5 real projects. No account, no setup.</p>
+  <div class="hero-chips"><span class="chip">🧪 Interactive widgets</span><span class="chip">⏱ Bite-size steps</span><span class="chip">🎉 Quizzes + celebrations</span></div></section>
+  <div class="section-head"><div class="kicker">Your learning path</div><h2>Six stages, one adventure</h2><p>Start at the top. Each topic opens its own little world.</p></div>
+  ${STAGES.filter(s => s.n <= 6).map(s => { const f = firstOf(s.n); const count = topicOrder.filter(n => n.stage === s.n).length;
+    return `<div class="card"><h3>Stage ${s.n} · ${esc(s.title)}</h3><p class="muted">${esc(s.desc)}</p><p class="muted">${count} topics · starts with “${esc(f.short || f.title)}”</p><a class="btn" style="text-decoration:none" href="lessons/${f.id}.html">Start stage ${s.n} →</a> <a class="btn secondary" style="text-decoration:none" href="stages/stage-${s.n}.html">All ${count} topics</a></div>`; }).join('')}
+  <div class="section-head"><div class="kicker">Build real things</div><h2>5 projects + capstone</h2></div>
+  ${PROJECTS.map(p => `<div class="card"><h3>${esc(p.title)}</h3><p class="muted">Needs: ${esc(p.needs)} · ${esc(p.time)}</p><a class="btn secondary" style="text-decoration:none" href="projects/${p.id}.html">Open project →</a></div>`).join('')}`;
+}
+
 /* ---------- build ---------- */
 rmSync(dist, { recursive: true, force: true });
 for (const d of ['', 'lessons', 'projects', 'stages', 'assets/css', 'assets/js']) mkdirSync(join(dist, d), { recursive: true });
 cpSync(join(root, 'src/css/main.css'), join(dist, 'assets/css/main.css'));
-for (const f of ['app.js', 'progress.js', 'quiz.js', 'anim.js', 'graph.js']) cpSync(join(root, 'src/js', f), join(dist, 'assets/js', f));
+cpSync(join(root, 'src/css/topic.css'), join(dist, 'assets/css/topic.css'));
+for (const f of ['app.js', 'progress.js', 'quiz.js', 'anim.js', 'graph.js', 'topic.js']) cpSync(join(root, 'src/js', f), join(dist, 'assets/js', f));
 writeFileSync(join(dist, 'assets/data.json'), JSON.stringify({ nodes: NODES, edges: edges(), stages: STAGES, version: JAVA_VERSION }));
 
 const write = (rel, html) => { writeFileSync(join(dist, rel), html); console.log('wrote', rel); };
-write('index.html', pageShell({ prefix: '', title: 'Learn Java from zero', current: 'home', body: homeBody() }));
+write('index.html', topicShell({ prefix: '', title: 'Learn Java from zero', desc: 'Playful interactive Java course: 65 topics, widgets, labs, quizzes.', body: homeTopicBody() }));
 write('graph.html', pageShell({ prefix: '', title: 'Course map', current: 'graph', body: graphBody() }));
 write('progress.html', pageShell({ prefix: '', title: 'My progress', current: 'progress', body: progressBody() }));
 write('glossary.html', pageShell({ prefix: '', title: 'Glossary', current: 'gloss', body: glossaryBody() }));
@@ -344,12 +394,15 @@ write('help.html', pageShell({ prefix: '', title: 'Help', current: 'help', body:
 write('projects.html', pageShell({ prefix: '', title: 'Projects', current: 'projects', body: projectsBody() }));
 for (const s of STAGES) write(`stages/stage-${s.n}.html`, pageShell({ prefix: '../', title: `Stage ${s.n}: ${s.title}`, current: 'home', body: stagePage(s) }));
 let missing = [];
-for (const n of order) {
-  if (n.type === 'project') continue; // projects get project pages below
+for (const n of topicOrder) {
   const L = LESSONS[n.id];
   if (!L) { missing.push(n.id); continue; }
-  write(`lessons/${n.id}.html`, pageShell({ prefix: '../', title: n.title, desc: L.intro, current: 'lesson', lessonId: n.id, body: lessonBody(n, L) }));
+  const layout = LAYOUTS[n.id] || autoLayout(n, L);
+  const idx = topicOrder.findIndex(x => x.id === n.id);
+  const prev = topicOrder[idx - 1] || null, next = topicOrder[idx + 1] || null;
+  write(`lessons/${n.id}.html`, renderTopic(n, L, layout, { prefix: '../', prev, next }));
 }
+if (Object.keys(LAYOUTS).length) console.log(`topic layouts: ${Object.keys(LAYOUTS).length} bespoke`);
 for (const p of PROJECTS) write(`projects/${p.id}.html`, pageShell({ prefix: '../', title: p.title, current: 'projects', lessonId: p.id, body: projectDetail(p) }));
 write('error.html', pageShell({ prefix: '', title: 'Not found', current: '', body: `<h1>Hmm, that page wandered off (404)</h1><p><a href="index.html">Back to course home →</a> · <a href="search.html">Search lessons</a></p>` }));
 writeFileSync(join(dist, 'sitemap.txt'), ['index.html', 'graph.html', 'progress.html', 'glossary.html', 'search.html', 'playground.html', 'help.html', 'projects.html', ...order.filter(n => n.type !== 'project').map(n => `lessons/${n.id}.html`), ...PROJECTS.map(p => `projects/${p.id}.html`)].join('\n'));

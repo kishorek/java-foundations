@@ -1,129 +1,61 @@
-<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nested Conditions · Java Foundations</title>
 <meta name="description" content="Real decisions stack: inside “is it the weekend?” sits “is it sunny?”. Nesting handles layered reality — but each level multiplies the paths you must test, so flatten whenever you can.">
-<link rel="stylesheet" href="../assets/css/main.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body data-lesson="nested-cond">
-<header class="topbar"><div class="topbar-in">
-  <a class="skip" href="#main">Skip to content</a>
-  <a class="brand" href="../index.html"><span class="brand-mark">J{ }</span><span>Java Foundations<small>From zero to real apps</small></span></a>
-  <button class="iconbtn menubtn" data-menu aria-label="Open navigation">☰ Menu</button>
-  <nav class="nav" aria-label="Main">
-    <a href="../graph.html" class="hide-m" >Map</a>
-    <a href="../projects.html" class="hide-m" >Projects</a>
-    <a href="../playground.html" class="hide-m" >Playground</a>
-    <a href="../glossary.html" class="hide-m" >Glossary</a>
-    <button class="iconbtn" data-theme-toggle aria-label="Toggle light and dark theme">◐ Theme</button>
-    <span class="progress-pill" data-ring title="Your overall progress"></span>
-  </nav></div></header>
-<div class="shell"><aside class="sidenav" aria-label="Course navigation"><h3>Start here</h3>
-  <a href="../index.html">🏠 Course home</a>
-  <a href="../graph.html">🗺️ Course map</a>
-  <a href="../progress.html">📊 My progress + review</a>
-  <a href="../search.html">🔎 Search</a><h3>Stage 1 · Programming Fundamentals</h3><a href="../lessons/prog-what.html" data-nav="prog-what" class=""><span class="dot"></span><span>What is programming?</span></a><a href="../lessons/algorithm.html" data-nav="algorithm" class=""><span class="dot"></span><span>Algorithms</span></a><a href="../lessons/source-code.html" data-nav="source-code" class=""><span class="dot"></span><span>Source code</span></a><a href="../lessons/execute.html" data-nav="execute" class=""><span class="dot"></span><span>How computers run code</span></a><a href="../lessons/java-intro.html" data-nav="java-intro" class=""><span class="dot"></span><span>What is Java?</span></a><a href="../lessons/jdk-jre-jvm.html" data-nav="jdk-jre-jvm" class=""><span class="dot"></span><span>JDK, JRE, JVM</span></a><a href="../lessons/setup.html" data-nav="setup" class=""><span class="dot"></span><span>Setup &amp; run</span></a><h3>Stage 2 · Syntax &amp; Building Blocks</h3><a href="../lessons/first-program.html" data-nav="first-program" class=""><span class="dot"></span><span>First program</span></a><a href="../lessons/printing.html" data-nav="printing" class=""><span class="dot"></span><span>Printing</span></a><a href="../lessons/comments.html" data-nav="comments" class=""><span class="dot"></span><span>Comments</span></a><a href="../lessons/variables.html" data-nav="variables" class=""><span class="dot"></span><span>Variables</span></a><a href="../lessons/primitives.html" data-nav="primitives" class=""><span class="dot"></span><span>Primitive types</span></a><a href="../lessons/references.html" data-nav="references" class=""><span class="dot"></span><span>References</span></a><a href="../lessons/literals.html" data-nav="literals" class=""><span class="dot"></span><span>Literals &amp; constants</span></a><a href="../lessons/casting.html" data-nav="casting" class=""><span class="dot"></span><span>Casting</span></a><a href="../lessons/operators.html" data-nav="operators" class=""><span class="dot"></span><span>Operators</span></a><a href="../lessons/strings.html" data-nav="strings" class=""><span class="dot"></span><span>Strings</span></a><a href="../lessons/scanner.html" data-nav="scanner" class=""><span class="dot"></span><span>Scanner input</span></a><a href="../lessons/review-basics.html" data-nav="review-basics" class=""><span class="dot"></span><span>Basics review</span></a><h3>Stage 3 · Decisions &amp; Logic</h3><a href="../lessons/boolean-expr.html" data-nav="boolean-expr" class=""><span class="dot"></span><span>Boolean expressions</span></a><a href="../lessons/if-else.html" data-nav="if-else" class=""><span class="dot"></span><span>if / else</span></a><a href="../lessons/nested-cond.html" data-nav="nested-cond" class="current"><span class="dot"></span><span>Nested conditions</span></a><a href="../lessons/switch.html" data-nav="switch" class=""><span class="dot"></span><span>switch</span></a><a href="../lessons/for-loops.html" data-nav="for-loops" class=""><span class="dot"></span><span>for loops</span></a><a href="../lessons/while-loops.html" data-nav="while-loops" class=""><span class="dot"></span><span>while loops</span></a><a href="../lessons/break-continue.html" data-nav="break-continue" class=""><span class="dot"></span><span>break &amp; continue</span></a><a href="../lessons/nested-loops.html" data-nav="nested-loops" class=""><span class="dot"></span><span>Nested loops</span></a><a href="../lessons/methods.html" data-nav="methods" class=""><span class="dot"></span><span>Methods</span></a><a href="../lessons/params-return.html" data-nav="params-return" class=""><span class="dot"></span><span>Params &amp; returns</span></a><a href="../lessons/scope.html" data-nav="scope" class=""><span class="dot"></span><span>Scope</span></a><a href="../lessons/debugging.html" data-nav="debugging" class=""><span class="dot"></span><span>Debugging</span></a><a href="../lessons/review-logic.html" data-nav="review-logic" class=""><span class="dot"></span><span>Logic review</span></a><h3>Stage 4 · Arrays, Strings &amp; Algorithms</h3><a href="../lessons/arrays.html" data-nav="arrays" class=""><span class="dot"></span><span>Arrays</span></a><a href="../lessons/indexing-bounds.html" data-nav="indexing-bounds" class=""><span class="dot"></span><span>Indexing &amp; bounds</span></a><a href="../lessons/traverse-arrays.html" data-nav="traverse-arrays" class=""><span class="dot"></span><span>Traversing arrays</span></a><a href="../lessons/arrays-2d.html" data-nav="arrays-2d" class=""><span class="dot"></span><span>2D arrays</span></a><a href="../lessons/string-methods.html" data-nav="string-methods" class=""><span class="dot"></span><span>String methods</span></a><a href="../lessons/string-immut.html" data-nav="string-immut" class=""><span class="dot"></span><span>Immutability</span></a><a href="../lessons/stringbuilder.html" data-nav="stringbuilder" class=""><span class="dot"></span><span>StringBuilder</span></a><a href="../lessons/algorithms-basic.html" data-nav="algorithms-basic" class=""><span class="dot"></span><span>Basic algorithms</span></a><h3>Stage 5 · Object-Oriented Programming</h3><a href="../lessons/classes-objects.html" data-nav="classes-objects" class=""><span class="dot"></span><span>Classes &amp; objects</span></a><a href="../lessons/fields-methods.html" data-nav="fields-methods" class=""><span class="dot"></span><span>Fields &amp; methods</span></a><a href="../lessons/constructors.html" data-nav="constructors" class=""><span class="dot"></span><span>Constructors</span></a><a href="../lessons/this-keyword.html" data-nav="this-keyword" class=""><span class="dot"></span><span>this</span></a><a href="../lessons/encapsulation.html" data-nav="encapsulation" class=""><span class="dot"></span><span>Encapsulation</span></a><a href="../lessons/access-mods.html" data-nav="access-mods" class=""><span class="dot"></span><span>Access modifiers</span></a><a href="../lessons/static-members.html" data-nav="static-members" class=""><span class="dot"></span><span>static</span></a><a href="../lessons/inheritance.html" data-nav="inheritance" class=""><span class="dot"></span><span>Inheritance</span></a><a href="../lessons/overriding.html" data-nav="overriding" class=""><span class="dot"></span><span>Overriding</span></a><a href="../lessons/polymorphism.html" data-nav="polymorphism" class=""><span class="dot"></span><span>Polymorphism</span></a><a href="../lessons/abstract-classes.html" data-nav="abstract-classes" class=""><span class="dot"></span><span>Abstract classes</span></a><a href="../lessons/interfaces.html" data-nav="interfaces" class=""><span class="dot"></span><span>Interfaces</span></a><a href="../lessons/composition.html" data-nav="composition" class=""><span class="dot"></span><span>Composition</span></a><a href="../lessons/packages.html" data-nav="packages" class=""><span class="dot"></span><span>Packages</span></a><a href="../lessons/review-oop.html" data-nav="review-oop" class=""><span class="dot"></span><span>OOP review</span></a><h3>Stage 6 · Practical Java</h3><a href="../lessons/exceptions.html" data-nav="exceptions" class=""><span class="dot"></span><span>Exceptions</span></a><a href="../lessons/common-exceptions.html" data-nav="common-exceptions" class=""><span class="dot"></span><span>Defensive code</span></a><a href="../lessons/collections.html" data-nav="collections" class=""><span class="dot"></span><span>Collections</span></a><a href="../lessons/arraylist-hashmap.html" data-nav="arraylist-hashmap" class=""><span class="dot"></span><span>ArrayList &amp; HashMap</span></a><a href="../lessons/generics.html" data-nav="generics" class=""><span class="dot"></span><span>Generics</span></a><a href="../lessons/enums.html" data-nav="enums" class=""><span class="dot"></span><span>Enums</span></a><a href="../lessons/files.html" data-nav="files" class=""><span class="dot"></span><span>Files</span></a><a href="../lessons/unit-testing.html" data-nav="unit-testing" class=""><span class="dot"></span><span>Unit testing</span></a><a href="../lessons/maven-structure.html" data-nav="maven-structure" class=""><span class="dot"></span><span>Maven &amp; structure</span></a><a href="../lessons/conventions.html" data-nav="conventions" class=""><span class="dot"></span><span>Conventions</span></a><h3>Projects</h3><a href="../projects/proj-calculator.html" class=""><span class="dot"></span><span>Project 1: Simple Calculator</span></a><a href="../projects/proj-grades.html" class=""><span class="dot"></span><span>Project 2: Student Grade Calculator</span></a><a href="../projects/proj-library.html" class=""><span class="dot"></span><span>Project 3: Library Management System</span></a><a href="../projects/proj-employees.html" class=""><span class="dot"></span><span>Project 4: Employee Management App</span></a><a href="../projects/capstone-tasks.html" class=""><span class="dot"></span><span>Final Capstone: Command-Line Task Manager</span></a><h3>Reference</h3><a href="../glossary.html">📖 Glossary</a><a href="../playground.html">🧪 Playground</a><a href="../help.html">♿ Help + accessibility</a></aside><main class="main" id="main">
-  <p class="crumbs"><a href="../index.html">Home</a> › <a href="../stages/stage-3.html">Stage 3</a> › Concept</p>
-  <div class="lesson-head"><h1>Nested Conditions</h1>
-  <div class="lesson-meta">
-    <span class="chip stage" style="--sc:#6C4FA1">Stage 3</span>
-    <span class="chip type">Concept</span>
-    <span class="chip">⏱ 12 min</span>
-    <a class="chip" href="../glossary.html">📖 Glossary</a>
-  </div></div>
-  <div class="prose"><p>Real decisions stack: inside “is it the weekend?” sits “is it sunny?”. Nesting handles layered reality — but each level multiplies the paths you must test, so flatten whenever you can.</p>
-  <div class="callout"><b>🔎 Motivating question</b>When is a box inside a box clearer than two boxes side by side?</div>
-  <h2>Objectives</h2><ul><li>Nest ifs safely</li><li>Flatten with &amp;&amp;</li><li>Trace nested paths</li></ul>
-  <p><b>Needs first:</b> <a href="../lessons/if-else.html">if, else if, and else</a></p></div>
+<link rel="stylesheet" href="../assets/css/topic.css">
+</head><body data-topic="nested-cond">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="../index.html">☕ Java<span>Foundations</span></a>
+<div class="top-links"><a href="../graph.html">Map</a><a href="../progress.html">Progress</a></div>
+<div class="progress-wrap"><span id="progressText" class="tiny muted">Step 1 of 3</span><div class="progress"><div id="progressBar"></div></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="This topic's steps"><div class="side-title">This topic · 3 steps</div>
+<button class="navitem active" data-go="0"><span class="num">1</span> Russian dolls</button><button class="navitem" data-go="1"><span class="num">2</span> Dangling else</button><button class="navitem" data-go="2"><span class="num">3</span> Quiz + pocket guide</button>
+<div class="side-note">💡 <strong>Beginner tip</strong><br>Count paths. Too many? Flatten with &&.</div>
+<div class="side-note">📚 <strong>Needs first</strong><br>See the course map for print-friendly prerequisites.</div></aside>
+<main id="main"><section class="hero"><div class="eyebrow">Stage 3 · Java foundations</div><h1>Nested Conditions</h1><p>Choices inside choices — and the flattening that tames them.</p><div class="hero-chips"><span class="chip">⏱ 12 min</span><span class="chip">🧠 No experience needed</span><span class="chip">🧪 Interactive</span></div></section>
 
-  <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Russian dolls. The outer doll asks “weekend?”; only if YES do you open it and find “sunny?” inside. Two levels read fine; five dolls deep and nobody remembers which doll they are in.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: dolls always fit together perfectly. Nested ifs hide paths EXPONENTIALLY — 3 levels ≈ 8 paths to test, and untested paths are where bugs breed.</div></div></section>
-
-  <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p><b>Nesting</b> = an if inside an if. The inner question is asked ONLY when the outer answer is true; otherwise the whole inner world never happens.</p><p>Flatten when the inner needs nothing else: <b>if (a && b)</b> replaces two levels with one, halving the paths. Professionals flatten aggressively.</p><p>The <b>dangling else</b> rule: an else pairs with the NEAREST open if. Without braces, “which if does this else belong to?” becomes a riddle — always brace nested code.</p><p>Trace nested code with a path table: list every outer/inner true-false combo and the line each combo reaches. If you cannot enumerate the paths, the nesting is too deep.</p>
-  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Cyclomatic <b>complexity</b> roughly counts paths through code; each if/loop/case adds one. Pros keep methods near 10 — deep nesting blows past it fast.</li><li><b>Guard clauses</b> (early return on bad input) flatten nesting without &&: reject first, then the main logic sits at depth one.</li><li>Flattening with && is valid only when the inner block has NO else of its own — an inner else needs real nesting.</li></ul></div></div></section>
-
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Russian dolls</h2><p class="sub">Step at your pace. Text explains every move.</p>
-  <div class="stage" data-stepper><div class="viz" data-body></div>
-  <div class="step-caption" data-cap role="status"></div>
-  <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
-
-  <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
-  public static void main(String[] args) {
-    boolean weekend = true;
-    boolean sunny = false;
-    if (weekend) {
-      if (sunny) {
-        System.out.println(&quot;Picnic&quot;);
-      } else {
-        System.out.println(&quot;Museum&quot;);
+    <section class="lesson active" id="step0" aria-label="Russian dolls">
+      <div class="section-head"><div class="kicker">Step 1</div><h2>Weekend? Open. Sunny?</h2><p>Inner asks only if outer says yes.</p></div>
+      <div class="analogy"><div class="emoji">🪆</div><p><strong>Russian dolls.</strong> Outer asks “weekend?” — only YES opens it to find “sunny?” inside. Two levels fine; five deep and nobody knows which doll they’re in. Paths multiply: 3 levels ≈ 8 paths.</p></div>
+<div class="card" data-lab><div class="code-label"><span>Program</span><span>Read each line in order</span></div>
+      <pre class="code"><span class="kw">public</span> <span class="kw">class</span> Main {
+  <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> main(<span class="type">String</span>[] args) {
+    <span class="type">boolean</span> weekend = <span class="kw">true</span>;
+    <span class="type">boolean</span> sunny = <span class="kw">false</span>;
+    <span class="kw">if</span> (weekend) {
+      <span class="kw">if</span> (sunny) {
+        System.out.println(<span class="str">"Picnic"</span>);
+      } <span class="kw">else</span> {
+        System.out.println(<span class="str">"Museum"</span>);
       }
-    } else {
-      System.out.println(&quot;Work&quot;);
+    } <span class="kw">else</span> {
+      System.out.println(<span class="str">"Work"</span>);
     }
   }
-}">Copy</button></div>
-  <pre><code>public class Main {
-  public static void main(String[] args) {
-    boolean weekend = true;
-    boolean sunny = false;
-    if (weekend) {
-      if (sunny) {
-        System.out.println(&quot;Picnic&quot;);
-      } else {
-        System.out.println(&quot;Museum&quot;);
-      }
-    } else {
-      System.out.println(&quot;Work&quot;);
-    }
-  }
-}</code></pre><div class="out">▶ Output
-Museum</div></div>
-  <ul class="linenotes"><li>Outer true → step inside.</li><li>Inner false → its else prints Museum.</li><li>Braces make every pairing unambiguous.</li></ul>
-  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Weekend true opens the outer doll; sunny false selects the inner else. “Work” needed outer false.</div></div></section>
+}</pre><p>Weekend true opens; sunny false picks inner else.</p>
+      <button class="btn" data-lab-go>▶ Run the program</button>
+      <div class="lab-result" data-lab-res style="display:none;margin-top:18px"><div class="visual"><div class="slot"><div class="slot-title">weekend?</div><div class="slot-value">true → open</div><small>Outer</small></div><div class="slot"><div class="slot-title">sunny?</div><div class="slot-value">false</div><small>Inner</small></div><div class="slot"><div class="slot-title">Prints</div><div class="slot-value" style="color:var(--green)">Museum</div><small>Inner else</small></div></div>
+      <div class="feedback show good">Flatten when possible: if (weekend && sunny) halves the paths.</div></div></div>
+      <div class="lesson-nav"><span></span><button class="btn" data-next>Next: Dangling else →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
-  <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Layered logic: weekend decides, then weather.</span>
-  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="18" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
-  <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
+    <section class="lesson" id="step1" aria-label="Dangling else">
+      <div class="section-head"><div class="kicker">Step 2</div><h2>Which if owns this else?</h2><p>Nearest wins — brace to show it.</p></div>
+      <div class="card" data-mistake data-m-name="nest" data-m-good="a" data-m-ok="Nearest-if binding. Braces make it visible — brace nested code always." data-m-no="An else reaches for the closest open if."><h3>Spot the mistake</h3><p>if (a) if (b) X; else Y; — whose else?</p>
+      
+      <div class="options"><label class="option"><input type="radio" name="nest" value="a"> The INNER if (nearest).</label><label class="option"><input type="radio" name="nest" value="b"> The OUTER if.</label><label class="option"><input type="radio" name="nest" value="c"> Both at once.</label></div>
+      <button class="btn" data-m-go style="margin-top:12px">Check answer</button><div class="feedback" data-m-fb role="status"></div></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Quiz + pocket guide →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: Dangling else, braceless: if (a) if (b) X; else Y;</b>Why: The else secretly belongs to the INNER if — readers (and you, later) will misread it.<br><b>✅ Fix:</b> <code>Brace every nested if, no exceptions.</code></div><div class="callout warn"><b>❌ Mistake 2: Five levels of nesting “to be safe”.</b>Why: 32 paths, most untested — a bug farm with extra steps.<br><b>✅ Fix:</b> <code>Flatten with &amp;&amp;, or guard-clause the failures out early.</code></div><div class="callout err"><b>❌ Mistake 3: Checking inner details before validating the outer.</b>Why: Null or empty outer data detonates before the inner question matters.<br><b>✅ Fix:</b> <code>Outer validates first: null-checks live OUTSIDE.</code></div></section>
-
-  <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Flatten it</b><p>Flatten this into one condition: if (a) { if (b) { go(); } }</p>
-  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>One &amp;&amp;, one level.</div><div class="sol callout"><b>Solution</b>if (a &amp;&amp; b) { go(); }</div></div><div class="practice"><b>Count the paths</b><p>An if containing an if-else: how many distinct paths? Name them.</p>
-  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Outer true/false × inner…</div><div class="sol callout"><b>Solution</b>Three: outer-false; outer-true + inner-true; outer-true + inner-false. (Inner never runs when outer is false.)</div></div></section>
-
-  <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
-  <div data-quiz></div></section>
-
-  <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Nesting = a choice inside a choice.</li><li>Flatten with &amp;&amp; whenever the inner has no else.</li><li>Braces always — dangling else is a trap.</li><li>Count paths; too many means restructure.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>When is nesting the honest tool versus &amp;&amp; ?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Find one nested if in your code and flatten it with &amp;&amp;.</div>
-  <p><b>Related:</b> <a href="../lessons/if-else.html">if, else if, and else</a> · <a href="./switch.html">Next: switch Statements and Expressions →</a></p>
-  <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
-
-  <nav class="prevnext" aria-label="Previous and next"><a class="pn" href="./if-else.html"><span>← Previous</span><b>if, else if, and else</b></a><a class="pn next" href="./switch.html"><span>Next →</span><b>switch Statements and Expressions</b></a></nav>
-<script type="module">
-import {renderQuiz} from '../assets/js/quiz.js';
-import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'nested-cond',[{"id":"q1","prompt":"weekend = false prints…","options":[{"t":"Work","ok":true},{"t":"Picnic"},{"t":"Museum"},{"t":"Nothing"}],"explain":"Outer false → outer else, inner world never exists."},{"id":"q2","prompt":"The best cure for 5-deep nesting is…","options":[{"t":"Flatten with && or early guard returns","ok":true},{"t":"Even more nesting"},{"t":"Deleting all elses"},{"t":"Adding semicolons"}],"explain":"Fewer paths means fewer hiding spots for bugs."},{"id":"q3","prompt":"A bare else pairs with…","options":[{"t":"The nearest open if","ok":true},{"t":"The first if in the method"},{"t":"A random if"},{"t":"No if at all"}],"explain":"Nearest-if binding — brace to make it visible."},{"id":"q4","prompt":"When can you NOT flatten nested ifs with &&?","options":[{"t":"When the inner if has its own else branch","ok":true},{"t":"When both conditions are true"},{"t":"When braces are present"},{"t":"Never — always flatten"}],"explain":"An inner else needs genuine nesting to hang onto."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Outer doll: weekend? YES — open it.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>weekend ✓\u003c/b> open\u003c/div>\u003c/div>"},{"caption":"Inner doll: sunny? No → museum.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>sunny ❌\u003c/b> → museum\u003c/div>\u003c/div>"},{"caption":"Flattened form: weekend && sunny?","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">weekend && sunny\u003c/div>\u003c/div>"}]);
-wireSimulators(document);
-</script></main></div>
-<footer class="site"><div class="in">
-  <div style="flex:2;min-width:16rem"><b>Java Foundations</b> · Java 17 (LTS) · static site, no account, progress stays in your browser.<br><span>Built for absolute beginners. 95% friendly teaching, 5% gentle jokes.</span></div>
-  <div><a href="../help.html">Help</a> · <a href="../glossary.html">Glossary</a> · <a href="../search.html">Search</a> · <a href="../progress.html">Export progress</a></div>
-  </div></footer>
-<script type="module">
-import {initTheme,initChrome} from '../assets/js/app.js';
-initTheme();initChrome(["prog-what","algorithm","source-code","execute","java-intro","jdk-jre-jvm","setup","first-program","printing","comments","variables","primitives","references","literals","casting","operators","strings","scanner","review-basics","boolean-expr","if-else","nested-cond","switch","for-loops","while-loops","break-continue","nested-loops","methods","params-return","scope","debugging","review-logic","arrays","indexing-bounds","traverse-arrays","arrays-2d","string-methods","string-immut","stringbuilder","algorithms-basic","classes-objects","fields-methods","constructors","this-keyword","encapsulation","access-mods","static-members","inheritance","overriding","polymorphism","abstract-classes","interfaces","composition","packages","review-oop","exceptions","common-exceptions","collections","arraylist-hashmap","generics","enums","files","unit-testing","maven-structure","conventions","proj-calculator","proj-grades","proj-library","proj-employees","capstone-tasks"]);
-</script></body></html>
+    <section class="lesson" id="step2" aria-label="Quiz + pocket guide">
+      <div class="section-head"><div class="kicker">Step 3</div><h2>Check + keep</h2><p>Nesting vs flattening.</p></div>
+      <div class="card" data-quiz><div class="quiz-q" style="display:none"></div><div class="quiz-q" data-qname="q1" data-answer="a"><p>1. weekend = false prints…</p><div class="options"><label class="option"><input type="radio" name="tq0" value="a"> Work</label><label class="option"><input type="radio" name="tq0" value="b"> Picnic</label><label class="option"><input type="radio" name="tq0" value="c"> Museum</label><label class="option"><input type="radio" name="tq0" value="d"> Nothing</label></div><div class="quiz-explain" data-text="Outer false → outer else, inner world never exists."></div></div><div class="quiz-q" data-qname="q2" data-answer="a"><p>2. The best cure for 5-deep nesting is…</p><div class="options"><label class="option"><input type="radio" name="tq1" value="a"> Flatten with &amp;&amp; or early guard returns</label><label class="option"><input type="radio" name="tq1" value="b"> Even more nesting</label><label class="option"><input type="radio" name="tq1" value="c"> Deleting all elses</label><label class="option"><input type="radio" name="tq1" value="d"> Adding semicolons</label></div><div class="quiz-explain" data-text="Fewer paths means fewer hiding spots for bugs."></div></div><div class="quiz-q" data-qname="q3" data-answer="a"><p>3. A bare else pairs with…</p><div class="options"><label class="option"><input type="radio" name="tq2" value="a"> The nearest open if</label><label class="option"><input type="radio" name="tq2" value="b"> The first if in the method</label><label class="option"><input type="radio" name="tq2" value="c"> A random if</label><label class="option"><input type="radio" name="tq2" value="d"> No if at all</label></div><div class="quiz-explain" data-text="Nearest-if binding — brace to make it visible."></div></div><div class="quiz-q" data-qname="q4" data-answer="a"><p>4. When can you NOT flatten nested ifs with &amp;&amp;?</p><div class="options"><label class="option"><input type="radio" name="tq3" value="a"> When the inner if has its own else branch</label><label class="option"><input type="radio" name="tq3" value="b"> When both conditions are true</label><label class="option"><input type="radio" name="tq3" value="c"> When braces are present</label><label class="option"><input type="radio" name="tq3" value="d"> Never — always flatten</label></div><div class="quiz-explain" data-text="An inner else needs genuine nesting to hang onto."></div></div>
+      <button class="btn green" data-q-go>Check my score</button><div class="feedback" data-q-fb role="status"></div>
+      <div class="celebrate" data-q-cel><div class="big">🎉</div><h3>Nester unlocked!</h3><p>Nest with braces; flatten with &amp;&amp; when inner has no else.</p></div></div>
+<div class="card"><h3>Your pocket reference</h3><div class="pill-row"><span class="pill"><code>if in if</code> → layered</span><span class="pill"><code>a &amp;&amp; b</code> → flattened</span><span class="pill"><code>else→nearest</code> → dangle rule</span></div><p class="muted tiny" style="margin-bottom:0">Next: switch sorters.</p></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><a class="btn" href="./switch.html" style="text-decoration:none">Next topic: switch →</a></div>
+    </section>
+<div class="footer">Made for curious beginners. <a href="./if-else.html">← if / else</a> · <a href="../graph.html">Course map</a> · <a href="../glossary.html">Glossary</a></div></main></div>
+<script src="../assets/js/topic.js"></script>
+</body></html>
