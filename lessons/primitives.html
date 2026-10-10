@@ -1,127 +1,55 @@
-<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Primitive Data Types · Java Foundations</title>
 <meta name="description" content="Java ships exactly 8 built-in value types — no more, no less. Pick the smallest box that safely fits your data; in practice that means int, double, boolean, and char carry 95% of beginner code.">
-<link rel="stylesheet" href="../assets/css/main.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body data-lesson="primitives">
-<header class="topbar"><div class="topbar-in">
-  <a class="skip" href="#main">Skip to content</a>
-  <a class="brand" href="../index.html"><span class="brand-mark">J{ }</span><span>Java Foundations<small>From zero to real apps</small></span></a>
-  <button class="iconbtn menubtn" data-menu aria-label="Open navigation">☰ Menu</button>
-  <nav class="nav" aria-label="Main">
-    <a href="../graph.html" class="hide-m" >Map</a>
-    <a href="../projects.html" class="hide-m" >Projects</a>
-    <a href="../playground.html" class="hide-m" >Playground</a>
-    <a href="../glossary.html" class="hide-m" >Glossary</a>
-    <button class="iconbtn" data-theme-toggle aria-label="Toggle light and dark theme">◐ Theme</button>
-    <span class="progress-pill" data-ring title="Your overall progress"></span>
-  </nav></div></header>
-<div class="shell"><aside class="sidenav" aria-label="Course navigation"><h3>Start here</h3>
-  <a href="../index.html">🏠 Course home</a>
-  <a href="../graph.html">🗺️ Course map</a>
-  <a href="../progress.html">📊 My progress + review</a>
-  <a href="../search.html">🔎 Search</a><h3>Stage 1 · Programming Fundamentals</h3><a href="../lessons/prog-what.html" data-nav="prog-what" class=""><span class="dot"></span><span>What is programming?</span></a><a href="../lessons/algorithm.html" data-nav="algorithm" class=""><span class="dot"></span><span>Algorithms</span></a><a href="../lessons/source-code.html" data-nav="source-code" class=""><span class="dot"></span><span>Source code</span></a><a href="../lessons/execute.html" data-nav="execute" class=""><span class="dot"></span><span>How computers run code</span></a><a href="../lessons/java-intro.html" data-nav="java-intro" class=""><span class="dot"></span><span>What is Java?</span></a><a href="../lessons/jdk-jre-jvm.html" data-nav="jdk-jre-jvm" class=""><span class="dot"></span><span>JDK, JRE, JVM</span></a><a href="../lessons/setup.html" data-nav="setup" class=""><span class="dot"></span><span>Setup &amp; run</span></a><h3>Stage 2 · Syntax &amp; Building Blocks</h3><a href="../lessons/first-program.html" data-nav="first-program" class=""><span class="dot"></span><span>First program</span></a><a href="../lessons/printing.html" data-nav="printing" class=""><span class="dot"></span><span>Printing</span></a><a href="../lessons/comments.html" data-nav="comments" class=""><span class="dot"></span><span>Comments</span></a><a href="../lessons/variables.html" data-nav="variables" class=""><span class="dot"></span><span>Variables</span></a><a href="../lessons/primitives.html" data-nav="primitives" class="current"><span class="dot"></span><span>Primitive types</span></a><a href="../lessons/references.html" data-nav="references" class=""><span class="dot"></span><span>References</span></a><a href="../lessons/literals.html" data-nav="literals" class=""><span class="dot"></span><span>Literals &amp; constants</span></a><a href="../lessons/casting.html" data-nav="casting" class=""><span class="dot"></span><span>Casting</span></a><a href="../lessons/operators.html" data-nav="operators" class=""><span class="dot"></span><span>Operators</span></a><a href="../lessons/strings.html" data-nav="strings" class=""><span class="dot"></span><span>Strings</span></a><a href="../lessons/scanner.html" data-nav="scanner" class=""><span class="dot"></span><span>Scanner input</span></a><a href="../lessons/review-basics.html" data-nav="review-basics" class=""><span class="dot"></span><span>Basics review</span></a><h3>Stage 3 · Decisions &amp; Logic</h3><a href="../lessons/boolean-expr.html" data-nav="boolean-expr" class=""><span class="dot"></span><span>Boolean expressions</span></a><a href="../lessons/if-else.html" data-nav="if-else" class=""><span class="dot"></span><span>if / else</span></a><a href="../lessons/nested-cond.html" data-nav="nested-cond" class=""><span class="dot"></span><span>Nested conditions</span></a><a href="../lessons/switch.html" data-nav="switch" class=""><span class="dot"></span><span>switch</span></a><a href="../lessons/for-loops.html" data-nav="for-loops" class=""><span class="dot"></span><span>for loops</span></a><a href="../lessons/while-loops.html" data-nav="while-loops" class=""><span class="dot"></span><span>while loops</span></a><a href="../lessons/break-continue.html" data-nav="break-continue" class=""><span class="dot"></span><span>break &amp; continue</span></a><a href="../lessons/nested-loops.html" data-nav="nested-loops" class=""><span class="dot"></span><span>Nested loops</span></a><a href="../lessons/methods.html" data-nav="methods" class=""><span class="dot"></span><span>Methods</span></a><a href="../lessons/params-return.html" data-nav="params-return" class=""><span class="dot"></span><span>Params &amp; returns</span></a><a href="../lessons/scope.html" data-nav="scope" class=""><span class="dot"></span><span>Scope</span></a><a href="../lessons/debugging.html" data-nav="debugging" class=""><span class="dot"></span><span>Debugging</span></a><a href="../lessons/review-logic.html" data-nav="review-logic" class=""><span class="dot"></span><span>Logic review</span></a><h3>Stage 4 · Arrays, Strings &amp; Algorithms</h3><a href="../lessons/arrays.html" data-nav="arrays" class=""><span class="dot"></span><span>Arrays</span></a><a href="../lessons/indexing-bounds.html" data-nav="indexing-bounds" class=""><span class="dot"></span><span>Indexing &amp; bounds</span></a><a href="../lessons/traverse-arrays.html" data-nav="traverse-arrays" class=""><span class="dot"></span><span>Traversing arrays</span></a><a href="../lessons/arrays-2d.html" data-nav="arrays-2d" class=""><span class="dot"></span><span>2D arrays</span></a><a href="../lessons/string-methods.html" data-nav="string-methods" class=""><span class="dot"></span><span>String methods</span></a><a href="../lessons/string-immut.html" data-nav="string-immut" class=""><span class="dot"></span><span>Immutability</span></a><a href="../lessons/stringbuilder.html" data-nav="stringbuilder" class=""><span class="dot"></span><span>StringBuilder</span></a><a href="../lessons/algorithms-basic.html" data-nav="algorithms-basic" class=""><span class="dot"></span><span>Basic algorithms</span></a><h3>Stage 5 · Object-Oriented Programming</h3><a href="../lessons/classes-objects.html" data-nav="classes-objects" class=""><span class="dot"></span><span>Classes &amp; objects</span></a><a href="../lessons/fields-methods.html" data-nav="fields-methods" class=""><span class="dot"></span><span>Fields &amp; methods</span></a><a href="../lessons/constructors.html" data-nav="constructors" class=""><span class="dot"></span><span>Constructors</span></a><a href="../lessons/this-keyword.html" data-nav="this-keyword" class=""><span class="dot"></span><span>this</span></a><a href="../lessons/encapsulation.html" data-nav="encapsulation" class=""><span class="dot"></span><span>Encapsulation</span></a><a href="../lessons/access-mods.html" data-nav="access-mods" class=""><span class="dot"></span><span>Access modifiers</span></a><a href="../lessons/static-members.html" data-nav="static-members" class=""><span class="dot"></span><span>static</span></a><a href="../lessons/inheritance.html" data-nav="inheritance" class=""><span class="dot"></span><span>Inheritance</span></a><a href="../lessons/overriding.html" data-nav="overriding" class=""><span class="dot"></span><span>Overriding</span></a><a href="../lessons/polymorphism.html" data-nav="polymorphism" class=""><span class="dot"></span><span>Polymorphism</span></a><a href="../lessons/abstract-classes.html" data-nav="abstract-classes" class=""><span class="dot"></span><span>Abstract classes</span></a><a href="../lessons/interfaces.html" data-nav="interfaces" class=""><span class="dot"></span><span>Interfaces</span></a><a href="../lessons/composition.html" data-nav="composition" class=""><span class="dot"></span><span>Composition</span></a><a href="../lessons/packages.html" data-nav="packages" class=""><span class="dot"></span><span>Packages</span></a><a href="../lessons/review-oop.html" data-nav="review-oop" class=""><span class="dot"></span><span>OOP review</span></a><h3>Stage 6 · Practical Java</h3><a href="../lessons/exceptions.html" data-nav="exceptions" class=""><span class="dot"></span><span>Exceptions</span></a><a href="../lessons/common-exceptions.html" data-nav="common-exceptions" class=""><span class="dot"></span><span>Defensive code</span></a><a href="../lessons/collections.html" data-nav="collections" class=""><span class="dot"></span><span>Collections</span></a><a href="../lessons/arraylist-hashmap.html" data-nav="arraylist-hashmap" class=""><span class="dot"></span><span>ArrayList &amp; HashMap</span></a><a href="../lessons/generics.html" data-nav="generics" class=""><span class="dot"></span><span>Generics</span></a><a href="../lessons/enums.html" data-nav="enums" class=""><span class="dot"></span><span>Enums</span></a><a href="../lessons/files.html" data-nav="files" class=""><span class="dot"></span><span>Files</span></a><a href="../lessons/unit-testing.html" data-nav="unit-testing" class=""><span class="dot"></span><span>Unit testing</span></a><a href="../lessons/maven-structure.html" data-nav="maven-structure" class=""><span class="dot"></span><span>Maven &amp; structure</span></a><a href="../lessons/conventions.html" data-nav="conventions" class=""><span class="dot"></span><span>Conventions</span></a><h3>Projects</h3><a href="../projects/proj-calculator.html" class=""><span class="dot"></span><span>Project 1: Simple Calculator</span></a><a href="../projects/proj-grades.html" class=""><span class="dot"></span><span>Project 2: Student Grade Calculator</span></a><a href="../projects/proj-library.html" class=""><span class="dot"></span><span>Project 3: Library Management System</span></a><a href="../projects/proj-employees.html" class=""><span class="dot"></span><span>Project 4: Employee Management App</span></a><a href="../projects/capstone-tasks.html" class=""><span class="dot"></span><span>Final Capstone: Command-Line Task Manager</span></a><h3>Reference</h3><a href="../glossary.html">📖 Glossary</a><a href="../playground.html">🧪 Playground</a><a href="../help.html">♿ Help + accessibility</a></aside><main class="main" id="main">
-  <p class="crumbs"><a href="../index.html">Home</a> › <a href="../stages/stage-2.html">Stage 2</a> › Concept</p>
-  <div class="lesson-head"><h1>Primitive Data Types</h1>
-  <div class="lesson-meta">
-    <span class="chip stage" style="--sc:#2B6CB0">Stage 2</span>
-    <span class="chip type">Concept</span>
-    <span class="chip">⏱ 20 min</span>
-    <a class="chip" href="../glossary.html">📖 Glossary</a>
-  </div></div>
-  <div class="prose"><p>Java ships exactly 8 built-in value types — no more, no less. Pick the smallest box that safely fits your data; in practice that means int, double, boolean, and char carry 95% of beginner code.</p>
-  <div class="callout"><b>🔎 Motivating question</b>Why do shops sell milk in 250 ml, 500 ml, and 1 L instead of one giant tanker per customer?</div>
-  <h2>Objectives</h2><ul><li>Name the 8 primitives</li><li>Pick int vs double vs boolean</li><li>Explain ranges simply</li></ul>
-  <p><b>Needs first:</b> <a href="../lessons/variables.html">Variables: Your Program's Storage Boxes</a></p></div>
+<link rel="stylesheet" href="../assets/css/topic.css">
+</head><body data-topic="primitives">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="../index.html">☕ Java<span>Foundations</span></a>
+<div class="top-links"><a href="../graph.html">Map</a><a href="../progress.html">Progress</a></div>
+<div class="progress-wrap"><span id="progressText" class="tiny muted">Step 1 of 4</span><div class="progress"><div id="progressBar"></div></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="This topic's steps"><div class="side-title">This topic · 4 steps</div>
+<button class="navitem active" data-go="0"><span class="num">1</span> Measuring cups</button><button class="navitem" data-go="1"><span class="num">2</span> Choose the box</button><button class="navitem" data-go="2"><span class="num">3</span> Suffix lab</button><button class="navitem" data-go="3"><span class="num">4</span> Quiz + pocket guide</button>
+<div class="side-note">💡 <strong>Beginner tip</strong><br>Size the box BEFORE the math. Overflow never warns.</div>
+<div class="side-note">📚 <strong>Needs first</strong><br>See the course map for print-friendly prerequisites.</div></aside>
+<main id="main"><section class="hero"><div class="eyebrow">Stage 2 · Java foundations</div><h1>Primitive Data Types</h1><p>Eight built-in boxes, exact ranges, and why tiny boxes wrap silently.</p><div class="hero-chips"><span class="chip">⏱ 20 min</span><span class="chip">🧠 No experience needed</span><span class="chip">🧪 Interactive</span></div></section>
 
-  <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Measuring cups. byte is the espresso shot, int the everyday mug, long the bucket; float and double are graduated cylinders of different precision; char is a single letter tile; boolean is a light switch.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: cups spill visibly and loudly. Numeric overflow wraps SILENTLY — byte 127 + 1 becomes -128 with no warning. Undersized boxes corrupt data instead of complaining.</div></div></section>
+    <section class="lesson active" id="step0" aria-label="Measuring cups">
+      <div class="section-head"><div class="kicker">Step 1</div><h2>Espresso to bucket</h2><p>Pick the smallest box that safely fits.</p></div>
+      <div class="analogy"><div class="emoji">🥛</div><p><strong>Measuring cups.</strong> byte = espresso shot, int = everyday mug, long = bucket, float/double = graduated cylinders, char = letter tile, boolean = light switch. Overflow? Cups spill LOUDLY. Numbers wrap SILENTLY (127 + 1 → −128).</p></div>
+<div class="type-grid"><div class="type-card"><div class="big">🫘</div><h4><code>byte</code></h4><p>Tiny whole numbers −128 to 127. Storage, not math.</p><span class="tag">Example: 100</span></div><div class="type-card"><div class="big">📏</div><h4><code>short</code></h4><p>Small whole numbers ±32k. Bigger than byte.</p><span class="tag">Example: 25000</span></div><div class="type-card"><div class="big">🔢</div><h4><code>int</code></h4><p>Whole numbers ±2.1 billion. The default choice.</p><span class="tag">Example: 18</span></div><div class="type-card"><div class="big">🏦</div><h4><code>long</code></h4><p>Huge whole numbers. Big literals need L.</p><span class="tag">Example: 8000000000L</span></div><div class="type-card"><div class="big">🪙</div><h4><code>float</code></h4><p>~7 trustworthy digits. Decimals need f.</p><span class="tag">Example: 36.6f</span></div><div class="type-card"><div class="big">💧</div><h4><code>double</code></h4><p>~15 digits. Default for 3.5. Money + science.</p><span class="tag">Example: 19.99</span></div><div class="type-card"><div class="big">🔠</div><h4><code>char</code></h4><p>One UTF-16 unit in single quotes. Secretly a number.</p><span class="tag">Example: 'A' (=65)</span></div><div class="type-card"><div class="big">✅</div><h4><code>boolean</code></h4><p>Exactly true or false. No 0/1 tricks.</p><span class="tag">Example: true</span></div></div>
+      <div class="lesson-nav"><span></span><button class="btn" data-next>Next: Choose the box →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>Integers: <b>byte</b> (±128), <b>short</b> (±32 thousand), <b>int</b> (±2.1 billion, the default), <b>long</b> (about ±9.2 × 10¹⁸, needs an L suffix). Bigger box, bigger range, more memory.</p><p>Decimals: <b>float</b> (~7 trustworthy digits, needs an f suffix) vs <b>double</b> (~15–16 digits, the default for 3.5). Money and science want double; float is for special cases like graphics.</p><p><b>char</b> holds one UTF-16 code unit in single quotes — (int) ’A’ is 65 underneath. <b>boolean</b> is exactly true or false, nothing else, no 0/1 tricks like C.</p><p>Naked numbers have default types: 5 is int, 3.5 is double, true is boolean. Suffixes override: 5L is long, 3.5f is float, ’a’ is char.</p>
-  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>Exact ranges: byte −128..127, short −32,768..32,767, int −2,147,483,648..2,147,483,647, long ≈ ±9.2×10¹⁸, char 0..65,535.</li><li><b>long big = 8000000000;</b> FAILS — the literal is int-sized first, so it overflows before assignment. Always write 8000000000L.</li><li><b>float t = 36.6;</b> FAILS — 36.6 is double and Java never silently squeezes it. Write 36.6f or use double.</li><li>A char is secretly a number: ’A’+1 is ’B’, and (int)’A’ is 65. Emoji mostly need TWO chars (surrogate pairs) — char is a UTF-16 unit, not “one symbol”.</li></ul></div></div></section>
+    <section class="lesson" id="step1" aria-label="Choose the box">
+      <div class="section-head"><div class="kicker">Step 2</div><h2>Match data to type</h2><p>Five residents, five boxes.</p></div>
+      <div class="card"><h3>Pick the smallest safe box</h3><p class="muted">Age, population, pi, grade letter, light switch.</p>
+      <div data-matcher data-map="{&quot;age&quot;:&quot;int&quot;,&quot;pop&quot;:&quot;long&quot;,&quot;pi&quot;:&quot;double&quot;,&quot;grade&quot;:&quot;char&quot;,&quot;light&quot;:&quot;boolean&quot;}">
+      <div class="controls"><select data-m-val aria-label="Choose a value"><option value="age">A person’s age: 34</option><option value="pop">Planet population</option><option value="pi">Pi: 3.14159</option><option value="grade">Grade letter: A</option><option value="light">Light on/off</option></select><button class="btn" data-m-go>Check my choice</button></div>
+      <div class="controls"><select data-m-type aria-label="Choose a type"><option value="">Choose a type…</option><option>int</option><option>long</option><option>double</option><option>char</option><option>boolean</option></select></div>
+      <div class="feedback" data-m-fb role="status"></div></div></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Suffix lab →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Sizing boxes</h2><p class="sub">Step at your pace. Text explains every move.</p>
-  <div class="stage" data-stepper><div class="viz" data-body></div>
-  <div class="step-caption" data-cap role="status"></div>
-  <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
+    <section class="lesson" id="step2" aria-label="Suffix lab">
+      <div class="section-head"><div class="kicker">Step 3</div><h2>L, f, and quotes</h2><p>Build literals that compile.</p></div>
+      <div class="card"><h3>Literal builder</h3><p class="muted">Try huge numbers, decimals, letters — validation enforces ranges + suffixes.</p>
+      <div data-builder><div class="controls"><select data-b-type aria-label="Type"><option value="int">int</option><option value="long">long (+L auto? no — see tip)</option><option value="float">float</option><option value="double">double</option><option value="char">char</option></select></div>
+      <div class="controls"><input data-b-name value="x" aria-label="Variable name"><input data-b-val value="5" aria-label="Value"></div>
+      <div class="code-label"><span>Your Java statement</span><button class="copy" data-b-copy>Copy code</button></div>
+      <pre class="code" data-b-code></pre><div class="feedback show" data-b-fb style="background:var(--blue2);color:#2e46ad"></div></div></div>
+<div class="callout mistake"><strong>Classic fails:</strong> <code>long x = 8000000000;</code> (literal overflows as int first!) and <code>float t = 36.6;</code> (born double). Suffix the LITERAL: <code>8000000000L</code>, <code>36.6f</code>.</div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Quiz + pocket guide →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
-  public static void main(String[] args) {
-    int people = 30;
-    long worldPop = 8000000000L;
-    double price = 19.99;
-    float temp = 36.6f;
-    char grade = &#39;A&#39;;
-    boolean passed = true;
-    System.out.println(people);
-    System.out.println(worldPop);
-    System.out.println(price + &quot; &quot; + temp + &quot; &quot; + grade + &quot; &quot; + passed);
-  }
-}">Copy</button></div>
-  <pre><code>public class Main {
-  public static void main(String[] args) {
-    int people = 30;
-    long worldPop = 8000000000L;
-    double price = 19.99;
-    float temp = 36.6f;
-    char grade = 'A';
-    boolean passed = true;
-    System.out.println(people);
-    System.out.println(worldPop);
-    System.out.println(price + &quot; &quot; + temp + &quot; &quot; + grade + &quot; &quot; + passed);
-  }
-}</code></pre><div class="out">▶ Output
-30
-8000000000
-19.99 36.6 A true</div></div>
-  <ul class="linenotes"><li>The L marks a long literal; the f marks a float literal.</li><li>Bare 3.5-style decimals are always double.</li><li>char uses single quotes; boolean prints as true/false.</li></ul>
-  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Each literal fits its declared type exactly; the last line joins everything into text for display.</div></div></section>
-
-  <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
-  <div class="stage" data-sim="arith"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Integers vs decimals: try 5 / 2 as pure int math.</span>
-  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="5" size="8" aria-label="value"> <select data-in aria-label="operator"><option>/</option></select> <input data-in value="2" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
-  <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
-
-  <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: long x = 8000000000; with no L.</b>Why: The bare literal is int — it overflows BEFORE the assignment happens.<br><b>✅ Fix:</b> <code>long x = 8000000000L; — suffix the literal itself.</code></div><div class="callout warn"><b>❌ Mistake 2: float t = 36.6; with no f.</b>Why: 36.6 is born double; Java will not squeeze it silently.<br><b>✅ Fix:</b> <code>float t = 36.6f; — or simply use double.</code></div><div class="callout err"><b>❌ Mistake 3: char c = &quot;a&quot;; with double quotes.</b>Why: Double quotes build a String object, never a char.<br><b>✅ Fix:</b> <code>char c = ’a’; — singles for tiles, doubles for strings.</code></div><div class="callout err"><b>❌ Mistake 4: byte b = 100; b = b + 1; expecting 101 in a byte.</b>Why: byte math promotes to int — and 127 + 1 wraps to -128 anyway.<br><b>✅ Fix:</b> <code>Use int for math; treat byte/short as storage types.</code></div></section>
-
-  <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Pick types</b><p>Choose the best type for each: a person’s age, planet population, pi, a grade letter, a light on/off.</p>
-  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>int, long, double, char, boolean.</div><div class="sol callout"><b>Solution</b>int age; long population; double pi; char grade; boolean on.</div></div><div class="practice"><b>Char arithmetic</b><p>What does System.out.println((int) ’A’); print? Guess, then run it.</p>
-  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Every char hides a number underneath.</div><div class="sol callout"><b>Solution</b>65 — the UTF-16 code unit for capital A.</div></div></section>
-
-  <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
-  <div data-quiz></div></section>
-
-  <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>8 primitives; bare integers default to int, decimals to double.</li><li>L marks long, f marks float, single quotes mark char.</li><li>Overflow wraps silently — size the box before the math.</li><li>char is a UTF-16 number; boolean is strictly true/false.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>Name all 8 primitives plus each one’s rough range, without peeking.</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Declare one variable of each of int, double, char, boolean and print them with labels.</div>
-  <p><b>Related:</b> <a href="../lessons/variables.html">Variables: Your Program's Storage Boxes</a> · <a href="./references.html">Next: Reference Types and Object References →</a></p>
-  <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
-
-  <nav class="prevnext" aria-label="Previous and next"><a class="pn" href="./variables.html"><span>← Previous</span><b>Variables: Your Program's Storage Boxes</b></a><a class="pn next" href="./references.html"><span>Next →</span><b>Reference Types and Object References</b></a></nav>
-<script type="module">
-import {renderQuiz} from '../assets/js/quiz.js';
-import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'primitives',[{"id":"q1","prompt":"The default type of 3.5 is…","options":[{"t":"double","ok":true},{"t":"float"},{"t":"int"},{"t":"long"}],"explain":"Bare decimals are born double; float needs the f suffix."},{"id":"q2","prompt":"Which declaration NEEDS a suffix to compile?","options":[{"t":"long big = 8000000000L","ok":true},{"t":"int n = 5"},{"t":"boolean b = true"},{"t":"char c = ’x’"}],"explain":"Huge longs overflow int range without L; the rest are already exact."},{"id":"q3","prompt":"byte b = 127; then b + 1 behaves as…","options":[{"t":"-128 (overflow wraps silently)","ok":true},{"t":"128, safely"},{"t":"A compiler error"},{"t":"Exactly 0"}],"explain":"Tiny types wrap around — size the box before the math."},{"id":"q4","prompt":"(int) ’A’ gives 65 because…","options":[{"t":"char stores a UTF-16 number underneath","ok":true},{"t":"A is the 65th letter typed"},{"t":"Casting adds 64"},{"t":"65 is random"}],"explain":"Chars ARE numbers wearing letter costumes."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"byte: the espresso shot (−128..127).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">byte\u003c/div>\u003cdiv class=\"vl\">127\u003c/div>\u003c/div>\u003c/div>"},{"caption":"int: the everyday mug (±2.1 billion).","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">int\u003c/div>\u003cdiv class=\"vl\">2,147,483,647\u003c/div>\u003c/div>\u003c/div>"},{"caption":"Overflow: one sip too many wraps to −128.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">byte+1\u003c/div>\u003cdiv class=\"vl\">-128 ⚠️\u003c/div>\u003c/div>\u003c/div>"}]);
-wireSimulators(document);
-</script></main></div>
-<footer class="site"><div class="in">
-  <div style="flex:2;min-width:16rem"><b>Java Foundations</b> · Java 17 (LTS) · static site, no account, progress stays in your browser.<br><span>Built for absolute beginners. 95% friendly teaching, 5% gentle jokes.</span></div>
-  <div><a href="../help.html">Help</a> · <a href="../glossary.html">Glossary</a> · <a href="../search.html">Search</a> · <a href="../progress.html">Export progress</a></div>
-  </div></footer>
-<script type="module">
-import {initTheme,initChrome} from '../assets/js/app.js';
-initTheme();initChrome(["prog-what","algorithm","source-code","execute","java-intro","jdk-jre-jvm","setup","first-program","printing","comments","variables","primitives","references","literals","casting","operators","strings","scanner","review-basics","boolean-expr","if-else","nested-cond","switch","for-loops","while-loops","break-continue","nested-loops","methods","params-return","scope","debugging","review-logic","arrays","indexing-bounds","traverse-arrays","arrays-2d","string-methods","string-immut","stringbuilder","algorithms-basic","classes-objects","fields-methods","constructors","this-keyword","encapsulation","access-mods","static-members","inheritance","overriding","polymorphism","abstract-classes","interfaces","composition","packages","review-oop","exceptions","common-exceptions","collections","arraylist-hashmap","generics","enums","files","unit-testing","maven-structure","conventions","proj-calculator","proj-grades","proj-library","proj-employees","capstone-tasks"]);
-</script></body></html>
+    <section class="lesson" id="step3" aria-label="Quiz + pocket guide">
+      <div class="section-head"><div class="kicker">Step 4</div><h2>Check + keep</h2><p>Defaults, suffixes, wraps.</p></div>
+      <div class="card" data-quiz><div class="quiz-q" style="display:none"></div><div class="quiz-q" data-qname="q1" data-answer="a"><p>1. The default type of 3.5 is…</p><div class="options"><label class="option"><input type="radio" name="tq0" value="a"> double</label><label class="option"><input type="radio" name="tq0" value="b"> float</label><label class="option"><input type="radio" name="tq0" value="c"> int</label><label class="option"><input type="radio" name="tq0" value="d"> long</label></div><div class="quiz-explain" data-text="Bare decimals are born double; float needs the f suffix."></div></div><div class="quiz-q" data-qname="q2" data-answer="a"><p>2. Which declaration NEEDS a suffix to compile?</p><div class="options"><label class="option"><input type="radio" name="tq1" value="a"> long big = 8000000000L</label><label class="option"><input type="radio" name="tq1" value="b"> int n = 5</label><label class="option"><input type="radio" name="tq1" value="c"> boolean b = true</label><label class="option"><input type="radio" name="tq1" value="d"> char c = ’x’</label></div><div class="quiz-explain" data-text="Huge longs overflow int range without L; the rest are already exact."></div></div><div class="quiz-q" data-qname="q3" data-answer="a"><p>3. byte b = 127; then b + 1 behaves as…</p><div class="options"><label class="option"><input type="radio" name="tq2" value="a"> -128 (overflow wraps silently)</label><label class="option"><input type="radio" name="tq2" value="b"> 128, safely</label><label class="option"><input type="radio" name="tq2" value="c"> A compiler error</label><label class="option"><input type="radio" name="tq2" value="d"> Exactly 0</label></div><div class="quiz-explain" data-text="Tiny types wrap around — size the box before the math."></div></div><div class="quiz-q" data-qname="q4" data-answer="a"><p>4. (int) ’A’ gives 65 because…</p><div class="options"><label class="option"><input type="radio" name="tq3" value="a"> char stores a UTF-16 number underneath</label><label class="option"><input type="radio" name="tq3" value="b"> A is the 65th letter typed</label><label class="option"><input type="radio" name="tq3" value="c"> Casting adds 64</label><label class="option"><input type="radio" name="tq3" value="d"> 65 is random</label></div><div class="quiz-explain" data-text="Chars ARE numbers wearing letter costumes."></div></div>
+      <button class="btn green" data-q-go>Check my score</button><div class="feedback" data-q-fb role="status"></div>
+      <div class="celebrate" data-q-cel><div class="big">🎉</div><h3>Measurer unlocked!</h3><p>8 primitives; int/double defaults; L, f, single quotes.</p></div></div>
+<div class="card"><h3>Your pocket reference</h3><div class="pill-row"><span class="pill"><code>int</code> → default whole</span><span class="pill"><code>double</code> → default decimal</span><span class="pill"><code>L / f</code> → suffixes</span><span class="pill"><code>'A'=65</code> → char = number</span></div><p class="muted tiny" style="margin-bottom:0">Next: references — slips, not houses.</p></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><a class="btn" href="./references.html" style="text-decoration:none">Next topic: References →</a></div>
+    </section>
+<div class="footer">Made for curious beginners. <a href="./variables.html">← Variables</a> · <a href="../graph.html">Course map</a> · <a href="../glossary.html">Glossary</a></div></main></div>
+<script src="../assets/js/topic.js"></script>
+</body></html>

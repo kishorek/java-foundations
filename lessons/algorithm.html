@@ -1,125 +1,67 @@
-<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>What Is an Algorithm? · Java Foundations</title>
 <meta name="description" content="An algorithm is a recipe strict enough for a machine: finite steps, a clear order, and a definite end. Every program you will ever write is one or more algorithms.">
-<link rel="stylesheet" href="../assets/css/main.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body data-lesson="algorithm">
-<header class="topbar"><div class="topbar-in">
-  <a class="skip" href="#main">Skip to content</a>
-  <a class="brand" href="../index.html"><span class="brand-mark">J{ }</span><span>Java Foundations<small>From zero to real apps</small></span></a>
-  <button class="iconbtn menubtn" data-menu aria-label="Open navigation">☰ Menu</button>
-  <nav class="nav" aria-label="Main">
-    <a href="../graph.html" class="hide-m" >Map</a>
-    <a href="../projects.html" class="hide-m" >Projects</a>
-    <a href="../playground.html" class="hide-m" >Playground</a>
-    <a href="../glossary.html" class="hide-m" >Glossary</a>
-    <button class="iconbtn" data-theme-toggle aria-label="Toggle light and dark theme">◐ Theme</button>
-    <span class="progress-pill" data-ring title="Your overall progress"></span>
-  </nav></div></header>
-<div class="shell"><aside class="sidenav" aria-label="Course navigation"><h3>Start here</h3>
-  <a href="../index.html">🏠 Course home</a>
-  <a href="../graph.html">🗺️ Course map</a>
-  <a href="../progress.html">📊 My progress + review</a>
-  <a href="../search.html">🔎 Search</a><h3>Stage 1 · Programming Fundamentals</h3><a href="../lessons/prog-what.html" data-nav="prog-what" class=""><span class="dot"></span><span>What is programming?</span></a><a href="../lessons/algorithm.html" data-nav="algorithm" class="current"><span class="dot"></span><span>Algorithms</span></a><a href="../lessons/source-code.html" data-nav="source-code" class=""><span class="dot"></span><span>Source code</span></a><a href="../lessons/execute.html" data-nav="execute" class=""><span class="dot"></span><span>How computers run code</span></a><a href="../lessons/java-intro.html" data-nav="java-intro" class=""><span class="dot"></span><span>What is Java?</span></a><a href="../lessons/jdk-jre-jvm.html" data-nav="jdk-jre-jvm" class=""><span class="dot"></span><span>JDK, JRE, JVM</span></a><a href="../lessons/setup.html" data-nav="setup" class=""><span class="dot"></span><span>Setup &amp; run</span></a><h3>Stage 2 · Syntax &amp; Building Blocks</h3><a href="../lessons/first-program.html" data-nav="first-program" class=""><span class="dot"></span><span>First program</span></a><a href="../lessons/printing.html" data-nav="printing" class=""><span class="dot"></span><span>Printing</span></a><a href="../lessons/comments.html" data-nav="comments" class=""><span class="dot"></span><span>Comments</span></a><a href="../lessons/variables.html" data-nav="variables" class=""><span class="dot"></span><span>Variables</span></a><a href="../lessons/primitives.html" data-nav="primitives" class=""><span class="dot"></span><span>Primitive types</span></a><a href="../lessons/references.html" data-nav="references" class=""><span class="dot"></span><span>References</span></a><a href="../lessons/literals.html" data-nav="literals" class=""><span class="dot"></span><span>Literals &amp; constants</span></a><a href="../lessons/casting.html" data-nav="casting" class=""><span class="dot"></span><span>Casting</span></a><a href="../lessons/operators.html" data-nav="operators" class=""><span class="dot"></span><span>Operators</span></a><a href="../lessons/strings.html" data-nav="strings" class=""><span class="dot"></span><span>Strings</span></a><a href="../lessons/scanner.html" data-nav="scanner" class=""><span class="dot"></span><span>Scanner input</span></a><a href="../lessons/review-basics.html" data-nav="review-basics" class=""><span class="dot"></span><span>Basics review</span></a><h3>Stage 3 · Decisions &amp; Logic</h3><a href="../lessons/boolean-expr.html" data-nav="boolean-expr" class=""><span class="dot"></span><span>Boolean expressions</span></a><a href="../lessons/if-else.html" data-nav="if-else" class=""><span class="dot"></span><span>if / else</span></a><a href="../lessons/nested-cond.html" data-nav="nested-cond" class=""><span class="dot"></span><span>Nested conditions</span></a><a href="../lessons/switch.html" data-nav="switch" class=""><span class="dot"></span><span>switch</span></a><a href="../lessons/for-loops.html" data-nav="for-loops" class=""><span class="dot"></span><span>for loops</span></a><a href="../lessons/while-loops.html" data-nav="while-loops" class=""><span class="dot"></span><span>while loops</span></a><a href="../lessons/break-continue.html" data-nav="break-continue" class=""><span class="dot"></span><span>break &amp; continue</span></a><a href="../lessons/nested-loops.html" data-nav="nested-loops" class=""><span class="dot"></span><span>Nested loops</span></a><a href="../lessons/methods.html" data-nav="methods" class=""><span class="dot"></span><span>Methods</span></a><a href="../lessons/params-return.html" data-nav="params-return" class=""><span class="dot"></span><span>Params &amp; returns</span></a><a href="../lessons/scope.html" data-nav="scope" class=""><span class="dot"></span><span>Scope</span></a><a href="../lessons/debugging.html" data-nav="debugging" class=""><span class="dot"></span><span>Debugging</span></a><a href="../lessons/review-logic.html" data-nav="review-logic" class=""><span class="dot"></span><span>Logic review</span></a><h3>Stage 4 · Arrays, Strings &amp; Algorithms</h3><a href="../lessons/arrays.html" data-nav="arrays" class=""><span class="dot"></span><span>Arrays</span></a><a href="../lessons/indexing-bounds.html" data-nav="indexing-bounds" class=""><span class="dot"></span><span>Indexing &amp; bounds</span></a><a href="../lessons/traverse-arrays.html" data-nav="traverse-arrays" class=""><span class="dot"></span><span>Traversing arrays</span></a><a href="../lessons/arrays-2d.html" data-nav="arrays-2d" class=""><span class="dot"></span><span>2D arrays</span></a><a href="../lessons/string-methods.html" data-nav="string-methods" class=""><span class="dot"></span><span>String methods</span></a><a href="../lessons/string-immut.html" data-nav="string-immut" class=""><span class="dot"></span><span>Immutability</span></a><a href="../lessons/stringbuilder.html" data-nav="stringbuilder" class=""><span class="dot"></span><span>StringBuilder</span></a><a href="../lessons/algorithms-basic.html" data-nav="algorithms-basic" class=""><span class="dot"></span><span>Basic algorithms</span></a><h3>Stage 5 · Object-Oriented Programming</h3><a href="../lessons/classes-objects.html" data-nav="classes-objects" class=""><span class="dot"></span><span>Classes &amp; objects</span></a><a href="../lessons/fields-methods.html" data-nav="fields-methods" class=""><span class="dot"></span><span>Fields &amp; methods</span></a><a href="../lessons/constructors.html" data-nav="constructors" class=""><span class="dot"></span><span>Constructors</span></a><a href="../lessons/this-keyword.html" data-nav="this-keyword" class=""><span class="dot"></span><span>this</span></a><a href="../lessons/encapsulation.html" data-nav="encapsulation" class=""><span class="dot"></span><span>Encapsulation</span></a><a href="../lessons/access-mods.html" data-nav="access-mods" class=""><span class="dot"></span><span>Access modifiers</span></a><a href="../lessons/static-members.html" data-nav="static-members" class=""><span class="dot"></span><span>static</span></a><a href="../lessons/inheritance.html" data-nav="inheritance" class=""><span class="dot"></span><span>Inheritance</span></a><a href="../lessons/overriding.html" data-nav="overriding" class=""><span class="dot"></span><span>Overriding</span></a><a href="../lessons/polymorphism.html" data-nav="polymorphism" class=""><span class="dot"></span><span>Polymorphism</span></a><a href="../lessons/abstract-classes.html" data-nav="abstract-classes" class=""><span class="dot"></span><span>Abstract classes</span></a><a href="../lessons/interfaces.html" data-nav="interfaces" class=""><span class="dot"></span><span>Interfaces</span></a><a href="../lessons/composition.html" data-nav="composition" class=""><span class="dot"></span><span>Composition</span></a><a href="../lessons/packages.html" data-nav="packages" class=""><span class="dot"></span><span>Packages</span></a><a href="../lessons/review-oop.html" data-nav="review-oop" class=""><span class="dot"></span><span>OOP review</span></a><h3>Stage 6 · Practical Java</h3><a href="../lessons/exceptions.html" data-nav="exceptions" class=""><span class="dot"></span><span>Exceptions</span></a><a href="../lessons/common-exceptions.html" data-nav="common-exceptions" class=""><span class="dot"></span><span>Defensive code</span></a><a href="../lessons/collections.html" data-nav="collections" class=""><span class="dot"></span><span>Collections</span></a><a href="../lessons/arraylist-hashmap.html" data-nav="arraylist-hashmap" class=""><span class="dot"></span><span>ArrayList &amp; HashMap</span></a><a href="../lessons/generics.html" data-nav="generics" class=""><span class="dot"></span><span>Generics</span></a><a href="../lessons/enums.html" data-nav="enums" class=""><span class="dot"></span><span>Enums</span></a><a href="../lessons/files.html" data-nav="files" class=""><span class="dot"></span><span>Files</span></a><a href="../lessons/unit-testing.html" data-nav="unit-testing" class=""><span class="dot"></span><span>Unit testing</span></a><a href="../lessons/maven-structure.html" data-nav="maven-structure" class=""><span class="dot"></span><span>Maven &amp; structure</span></a><a href="../lessons/conventions.html" data-nav="conventions" class=""><span class="dot"></span><span>Conventions</span></a><h3>Projects</h3><a href="../projects/proj-calculator.html" class=""><span class="dot"></span><span>Project 1: Simple Calculator</span></a><a href="../projects/proj-grades.html" class=""><span class="dot"></span><span>Project 2: Student Grade Calculator</span></a><a href="../projects/proj-library.html" class=""><span class="dot"></span><span>Project 3: Library Management System</span></a><a href="../projects/proj-employees.html" class=""><span class="dot"></span><span>Project 4: Employee Management App</span></a><a href="../projects/capstone-tasks.html" class=""><span class="dot"></span><span>Final Capstone: Command-Line Task Manager</span></a><h3>Reference</h3><a href="../glossary.html">📖 Glossary</a><a href="../playground.html">🧪 Playground</a><a href="../help.html">♿ Help + accessibility</a></aside><main class="main" id="main">
-  <p class="crumbs"><a href="../index.html">Home</a> › <a href="../stages/stage-1.html">Stage 1</a> › Concept</p>
-  <div class="lesson-head"><h1>What Is an Algorithm?</h1>
-  <div class="lesson-meta">
-    <span class="chip stage" style="--sc:#0E7C6B">Stage 1</span>
-    <span class="chip type">Concept</span>
-    <span class="chip">⏱ 12 min</span>
-    <a class="chip" href="../glossary.html">📖 Glossary</a>
-  </div></div>
-  <div class="prose"><p>An algorithm is a recipe strict enough for a machine: finite steps, a clear order, and a definite end. Every program you will ever write is one or more algorithms.</p>
-  <div class="callout"><b>🔎 Motivating question</b>How would you teach a friend who has never been to your street to reach your door, using only a phone call?</div>
-  <h2>Objectives</h2><ul><li>Define algorithm</li><li>Write steps for a daily task</li><li>Spot vague vs precise steps</li></ul>
-  <p><b>Needs first:</b> <a href="../lessons/prog-what.html">What Is Programming?</a></p></div>
+<link rel="stylesheet" href="../assets/css/topic.css">
+</head><body data-topic="algorithm">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="../index.html">☕ Java<span>Foundations</span></a>
+<div class="top-links"><a href="../graph.html">Map</a><a href="../progress.html">Progress</a></div>
+<div class="progress-wrap"><span id="progressText" class="tiny muted">Step 1 of 4</span><div class="progress"><div id="progressBar"></div></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="This topic's steps"><div class="side-title">This topic · 4 steps</div>
+<button class="navitem active" data-go="0"><span class="num">1</span> Strict recipes</button><button class="navitem" data-go="1"><span class="num">2</span> Max of two</button><button class="navitem" data-go="2"><span class="num">3</span> Vague or exact?</button><button class="navitem" data-go="3"><span class="num">4</span> Quiz + pocket guide</button>
+<div class="side-note">💡 <strong>Beginner tip</strong><br>Number your steps and check each needs only earlier results.</div>
+<div class="side-note">📚 <strong>Needs first</strong><br>See the course map for print-friendly prerequisites.</div></aside>
+<main id="main"><section class="hero"><div class="eyebrow">Stage 1 · Java foundations</div><h1>Algorithms: Recipes for Machines</h1><p>Finite steps, clear order, definite end — plus the max-of-two algorithm.</p><div class="hero-chips"><span class="chip">⏱ 12 min</span><span class="chip">🧠 No experience needed</span><span class="chip">🧪 Interactive</span></div></section>
 
-  <section class="lesson-sec" aria-label="Analogy"><h2><span class="n">1</span> Start with an analogy</h2><p class="sub">Real life first, code second.</p>
-  <div class="prose"><p>Morning routine: alarm → brush → dress → eat. Same order daily, ends when you leave. A loop-free algorithm feels exactly like this — steps you could chant.</p><div class="callout warn"><b>⚠️ Where the analogy breaks</b>Where it breaks: “get dressed nicely” works for humans and fails for machines. “Nicely” is an opinion, not a step. Algorithms need testable steps like “put on the blue shirt”.</div></div></section>
+    <section class="lesson active" id="step0" aria-label="Strict recipes">
+      <div class="section-head"><div class="kicker">Step 1</div><h2>Clear steps plus a guaranteed end</h2><p>Unambiguous, ordered, finite — miss one and it is not an algorithm.</p></div>
+      <div class="analogy"><div class="emoji">🌅</div><p><strong>Think of a morning routine.</strong> Alarm → brush → dress → eat. Same order daily, ends when you leave. Now remove anything opinion-based (“dress nicely”) — that is an algorithm.</p></div>
+<div class="callout"><strong>Pseudocode first:</strong> write the steps in plain words BEFORE coding. Logic errors found in words cost seconds; in code they cost much more.</div>
+      <div class="lesson-nav"><span></span><button class="btn" data-next>Next: Max of two →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Concept"><h2><span class="n">2</span> The concept, plainly</h2><p class="sub">One idea at a time, words before jargon.</p>
-  <div class="prose"><p>An <b>algorithm</b> takes input, follows clear steps in order, and ends with output. “Sort these 5 cards” with written steps qualifies; “be creative” does not.</p><p>Good steps are <b>unambiguous</b> (exactly one meaning), <b>ordered</b> (step 2 needs only steps before it), and <b>finite</b> (they always stop). Miss any one and it is not an algorithm.</p><p>Programmers judge algorithms by correctness first, then by step count: does it always give the right answer, and roughly how many steps does it take as input grows? That “how many steps” idea is called <b>complexity</b>, and you will feel it with loops and searching later.</p><p>Algorithms live above any language. The max-of-two idea below works identically in Java, Python, or pseudocode — only the spelling changes.</p>
-  <div class="callout"><b>⚙️ Tech details — precise facts</b><ul style="margin:.4rem 0 0;padding-left:1.2rem"><li>An algorithm must terminate for <b>every</b> allowed input, not just the examples you tried. “Keep guessing” is not an algorithm.</li><li>Steps must be <b>effective</b>: simple enough that the follower can actually do them. “Teleport the cheese” is unambiguous but not effective.</li><li>Writing the steps in plain words before coding is called <b>pseudocode</b> — the professional habit this lesson is really teaching.</li></ul></div></div></section>
-
-  <section class="lesson-sec" aria-label="Animation"><h2><span class="n">3</span> Watch it move: Vague vs exact</h2><p class="sub">Step at your pace. Text explains every move.</p>
-  <div class="stage" data-stepper><div class="viz" data-body></div>
-  <div class="step-caption" data-cap role="status"></div>
-  <div class="stage-controls"><button class="primary" data-play>Play</button><button data-prev>← Back</button><button data-next>Next →</button><button data-restart>Restart</button></div></div></section>
-
-  <section class="lesson-sec" aria-label="Code demo"><h2><span class="n">4</span> Live code demo</h2><p class="sub">Small, correct Java 17 (LTS) code. Read, trace, copy.</p>
-  <div class="codeblock"><div class="codeblock-head"><span class="fn">Main.java</span><span>Java 17</span><button data-copy="public class Main {
-  public static void main(String[] args) {
-    int a = 7;   // input
-    int b = 4;   // input
-    int max;     // will hold the answer
-    if (a &gt; b) {
+    <section class="lesson" id="step1" aria-label="Max of two">
+      <div class="section-head"><div class="kicker">Step 2</div><h2>Watch a real algorithm decide</h2><p>Compare, pick, print — always ending.</p></div>
+      <div class="card" data-lab><div class="code-label"><span>Program</span><span>Read each line in order</span></div>
+      <pre class="code"><span class="kw">public</span> <span class="kw">class</span> Main {
+  <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> main(<span class="type">String</span>[] args) {
+    <span class="type">int</span> a = <span class="num">7</span>;   <span class="com">// input</span>
+    <span class="type">int</span> b = <span class="num">4</span>;   <span class="com">// input</span>
+    <span class="type">int</span> max;     <span class="com">// will hold the answer</span>
+    <span class="kw">if</span> (a &gt; b) {
       max = a;
-    } else {
+    } <span class="kw">else</span> {
       max = b;
     }
-    System.out.println(max); // output: 7
+    System.out.println(max); <span class="com">// output: 7</span>
   }
-}">Copy</button></div>
-  <pre><code>public class Main {
-  public static void main(String[] args) {
-    int a = 7;   // input
-    int b = 4;   // input
-    int max;     // will hold the answer
-    if (a &gt; b) {
-      max = a;
-    } else {
-      max = b;
-    }
-    System.out.println(max); // output: 7
-  }
-}</code></pre><div class="out">▶ Output
-7</div></div>
-  <ul class="linenotes"><li>Steps run in order: store, compare, pick, print.</li><li>The if is a decision point — still an exact step.</li><li>It always ends after printing: finite.</li></ul>
-  <div class="prose"><div class="callout"><b>▶️ Run it yourself</b>Save exactly as <code>Main.java</code>, then <code>javac Main.java</code> and <code>java Main</code>. Every full program in this course works this way.</div>
-  <div class="prose"><div class="callout"><b>💡 Why this output?</b>Compare 7 &gt; 4: true, so max = 7. The else branch is skipped. Any two numbers reach the print — finite and exact.</div></div></section>
+}</pre><p>Steps run in order: store, compare, pick, print. One branch runs, the other sleeps.</p>
+      <button class="btn" data-lab-go>▶ Run the program</button>
+      <div class="lab-result" data-lab-res style="display:none;margin-top:18px"><div class="visual"><div class="slot"><div class="slot-title">Compare · 7 &gt; 4</div><div class="slot-value">true</div><small>Decision</small></div><div class="slot"><div class="slot-title">Pick</div><div class="slot-value">max = 7</div><small>True branch</small></div><div class="slot"><div class="slot-title">Output</div><div class="slot-value" style="color:var(--green)">7</div><small>Always ends</small></div></div>
+      <div class="feedback show good">Any two numbers reach the print. Finite, exact, done.</div></div></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Vague or exact? →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Experiment"><h2><span class="n">5</span> Interactive experiment</h2><p class="sub">Change values, watch consequences. Simulation — honest, not a real compiler.</p>
-  <div class="stage" data-sim="cond"><b>Try it (visual simulation — not a real compiler)</b><br>
-  <span style="font-size:.9rem;color:var(--ink-2)">Try values: the algorithm picks a branch and always finishes.</span>
-  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;align-items:center"><input data-in value="7" size="8" aria-label="value"><button data-go class="btn btn-dark btn-small">Run simulation</button></div>
-  <div class="out" data-out style="border-radius:10px;margin-top:.6rem">…</div></div></section>
+    <section class="lesson" id="step2" aria-label="Vague or exact?">
+      <div class="section-head"><div class="kicker">Step 3</div><h2>Spot the broken step</h2><p>One of these is not an algorithm step.</p></div>
+      <div class="card" data-mistake data-m-name="alg" data-m-good="a" data-m-ok="Exactly — “tasty” is an opinion. Rewrite: “add 1 tsp salt”." data-m-no="Look again: which step can a literal robot TEST? Only one fails that."><h3>Spot the mistake</h3><p>Which step RUINS an algorithm?</p>
+      <pre class="code">1. add 200g flour
+2. bake <span class="num">20</span> min at 180C
+3. make it tasty</pre>
+      <div class="options"><label class="option"><input type="radio" name="alg" value="a"> Step 3 — “tasty” cannot be tested.</label><label class="option"><input type="radio" name="alg" value="b"> Step 1 — grams confuse robots.</label><label class="option"><input type="radio" name="alg" value="c"> All steps are perfect.</label></div>
+      <button class="btn" data-m-go style="margin-top:12px">Check answer</button><div class="feedback" data-m-fb role="status"></div></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Quiz + pocket guide →</button></div>
+    </section>
 
-  <section class="lesson-sec" aria-label="Mistakes"><h2><span class="n">6</span> Common mistakes (at least 3)</h2><p class="sub">Wrong, why, fixed — learn from realistic slips.</p>
-  <div class="callout "><b>❌ Mistake 1: “Step 3: do the needful.”</b>Why: Vague verbs cannot execute on any machine.<br><b>✅ Fix:</b> <code>Replace with a measurable action: “add 1 spoon of sugar, stir 10 times.”</code></div><div class="callout warn"><b>❌ Mistake 2: Forgetting the stop condition (“keep stirring”).</b>Why: An endless procedure is not an algorithm and bakes a real program into a frozen one.<br><b>✅ Fix:</b> <code>Add an end: “stir 10 times, then stop.”</code></div><div class="callout err"><b>❌ Mistake 3: Steps in the wrong order (“bake, then mix”).</b>Why: Later steps need results that do not exist yet.<br><b>✅ Fix:</b> <code>Number the steps; check each one needs only earlier results.</code></div></section>
-
-  <section class="lesson-sec" aria-label="Practice"><h2><span class="n">7</span> Guided practice</h2><p class="sub">Hints first, solutions only after a real try.</p>
-  <div class="practice"><b>Spot the vague step</b><p>Which is NOT a good algorithm step? A) “add 200 g flour” B) “bake 20 min at 180 °C” C) “make it tasty”. Rewrite the bad one.</p>
-  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Can a robot test whether it did it right?</div><div class="sol callout"><b>Solution</b>C is not testable. Rewrite: “add 1 tsp salt”.</div></div><div class="practice"><b>Write min-of-three</b><p>Write at most 6 steps to find the smallest of x, y, z.</p>
-  <button class="btn btn-ghost btn-small" data-hint-btn>Show hint</button> <button class="btn btn-ghost btn-small" data-sol-btn>Show solution</button>
-  <div class="hint callout"><b>Hint</b>Compare two, keep the winner, compare with the third.</div><div class="sol callout"><b>Solution</b>1 set m = x. 2 if y &lt; m set m = y. 3 if z &lt; m set m = z. 4 output m.</div></div></section>
-
-  <section class="lesson-sec" aria-label="Quiz"><h2><span class="n">8</span> Lesson quiz</h2><p class="sub">3+ questions. Attempts saved locally; review queue learns your weak spots.</p>
-  <div data-quiz></div></section>
-
-  <section class="lesson-sec" aria-label="Summary"><h2><span class="n">9</span> Takeaways + next step</h2>
-  <div class="prose"><ul><li>Algorithm = exact steps + order + guaranteed end.</li><li>Each step must be testable by a literal follower.</li><li>Order matters; each step uses only earlier results.</li><li>Pseudocode first, code second — always.</li></ul>
-  <div class="callout"><b>🧠 Recall challenge</b>What three properties make steps “algorithm-quality”?</div>
-  <div class="callout warn"><b>✏️ Do on your own</b>Write sandwich-making steps (max 8) a robot could follow, then test them on a human robot.</div>
-  <p><b>Related:</b> <a href="../lessons/prog-what.html">What Is Programming?</a> · <a href="./source-code.html">Next: What Is Source Code? →</a></p>
-  <button class="btn btn-primary" data-complete>Mark lesson complete</button></div></section>
-
-  <nav class="prevnext" aria-label="Previous and next"><a class="pn" href="./prog-what.html"><span>← Previous</span><b>What Is Programming?</b></a><a class="pn next" href="./source-code.html"><span>Next →</span><b>What Is Source Code?</b></a></nav>
-<script type="module">
-import {renderQuiz} from '../assets/js/quiz.js';
-import {stepper,wireSimulators} from '../assets/js/anim.js';
-renderQuiz(document.querySelector('[data-quiz]'),'algorithm',[{"id":"q1","prompt":"What must an algorithm have?","options":[{"t":"Clear ordered steps and a guaranteed end","ok":true},{"t":"At least 100 steps"},{"t":"A computer to run on"},{"t":"Fancy words"}],"explain":"Finite, ordered, unambiguous steps — the three non-negotiables."},{"id":"q2","prompt":"“Keep guessing until it feels right” fails because…","options":[{"t":"It has no definite end","ok":true},{"t":"It is too short"},{"t":"Guessing is illegal"},{"t":"It uses numbers"}],"explain":"No testable stop means it is a habit, not an algorithm."},{"id":"q3","prompt":"The code above with a = 2, b = 9 prints…","options":[{"t":"9","ok":true},{"t":"2"},{"t":"0"},{"t":"It never ends"}],"explain":"9 > 2 is false… wait: a=2, b=9, so (2 > 9) is false → else branch → max = b = 9."},{"id":"q4","prompt":"Why write pseudocode before real code?","options":[{"t":"To fix the logic while it is still cheap to change","ok":true},{"t":"Compilers require it"},{"t":"It runs faster"},{"t":"It replaces testing"}],"explain":"Logic errors found in plain words cost seconds; found in code cost much more."}]);
-stepper(document.querySelector('[data-stepper]'),[{"caption":"Vague step: the robot freezes.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>Step\u003c/b>\u003cbr>“make it nice”\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>Robot\u003c/b>\u003cbr>⁉️ which action?\u003c/div>\u003c/div>"},{"caption":"Exact steps: the robot flows.","html":"\u003cdiv class=\"pipe\">\u003cdiv class=\"box\">\u003cb>1\u003c/b> add 200 g flour\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>2\u003c/b> bake 20 min\u003c/div>\u003cspan class=\"arr\">→\u003c/span>\u003cdiv class=\"box\">\u003cb>3\u003c/b> stop\u003c/div>\u003c/div>"},{"caption":"Same idea in code: compare, pick, print, stop.","html":"\u003cdiv class=\"viz\">\u003cdiv class=\"varbox\">\u003cdiv class=\"nm\">max\u003c/div>\u003cdiv class=\"vl\">7\u003c/div>\u003c/div>\u003c/div>"}]);
-wireSimulators(document);
-</script></main></div>
-<footer class="site"><div class="in">
-  <div style="flex:2;min-width:16rem"><b>Java Foundations</b> · Java 17 (LTS) · static site, no account, progress stays in your browser.<br><span>Built for absolute beginners. 95% friendly teaching, 5% gentle jokes.</span></div>
-  <div><a href="../help.html">Help</a> · <a href="../glossary.html">Glossary</a> · <a href="../search.html">Search</a> · <a href="../progress.html">Export progress</a></div>
-  </div></footer>
-<script type="module">
-import {initTheme,initChrome} from '../assets/js/app.js';
-initTheme();initChrome(["prog-what","algorithm","source-code","execute","java-intro","jdk-jre-jvm","setup","first-program","printing","comments","variables","primitives","references","literals","casting","operators","strings","scanner","review-basics","boolean-expr","if-else","nested-cond","switch","for-loops","while-loops","break-continue","nested-loops","methods","params-return","scope","debugging","review-logic","arrays","indexing-bounds","traverse-arrays","arrays-2d","string-methods","string-immut","stringbuilder","algorithms-basic","classes-objects","fields-methods","constructors","this-keyword","encapsulation","access-mods","static-members","inheritance","overriding","polymorphism","abstract-classes","interfaces","composition","packages","review-oop","exceptions","common-exceptions","collections","arraylist-hashmap","generics","enums","files","unit-testing","maven-structure","conventions","proj-calculator","proj-grades","proj-library","proj-employees","capstone-tasks"]);
-</script></body></html>
+    <section class="lesson" id="step3" aria-label="Quiz + pocket guide">
+      <div class="section-head"><div class="kicker">Step 4</div><h2>Check + keep</h2><p>Lock in the three properties.</p></div>
+      <div class="card" data-quiz><div class="quiz-q" style="display:none"></div><div class="quiz-q" data-qname="q1" data-answer="a"><p>1. What must an algorithm have?</p><div class="options"><label class="option"><input type="radio" name="tq0" value="a"> Clear ordered steps and a guaranteed end</label><label class="option"><input type="radio" name="tq0" value="b"> At least 100 steps</label><label class="option"><input type="radio" name="tq0" value="c"> A computer to run on</label><label class="option"><input type="radio" name="tq0" value="d"> Fancy words</label></div><div class="quiz-explain" data-text="Finite, ordered, unambiguous steps — the three non-negotiables."></div></div><div class="quiz-q" data-qname="q2" data-answer="a"><p>2. “Keep guessing until it feels right” fails because…</p><div class="options"><label class="option"><input type="radio" name="tq1" value="a"> It has no definite end</label><label class="option"><input type="radio" name="tq1" value="b"> It is too short</label><label class="option"><input type="radio" name="tq1" value="c"> Guessing is illegal</label><label class="option"><input type="radio" name="tq1" value="d"> It uses numbers</label></div><div class="quiz-explain" data-text="No testable stop means it is a habit, not an algorithm."></div></div><div class="quiz-q" data-qname="q3" data-answer="a"><p>3. The code above with a = 2, b = 9 prints…</p><div class="options"><label class="option"><input type="radio" name="tq2" value="a"> 9</label><label class="option"><input type="radio" name="tq2" value="b"> 2</label><label class="option"><input type="radio" name="tq2" value="c"> 0</label><label class="option"><input type="radio" name="tq2" value="d"> It never ends</label></div><div class="quiz-explain" data-text="9 &gt; 2 is false… wait: a=2, b=9, so (2 &gt; 9) is false → else branch → max = b = 9."></div></div><div class="quiz-q" data-qname="q4" data-answer="a"><p>4. Why write pseudocode before real code?</p><div class="options"><label class="option"><input type="radio" name="tq3" value="a"> To fix the logic while it is still cheap to change</label><label class="option"><input type="radio" name="tq3" value="b"> Compilers require it</label><label class="option"><input type="radio" name="tq3" value="c"> It runs faster</label><label class="option"><input type="radio" name="tq3" value="d"> It replaces testing</label></div><div class="quiz-explain" data-text="Logic errors found in plain words cost seconds; found in code cost much more."></div></div>
+      <button class="btn green" data-q-go>Check my score</button><div class="feedback" data-q-fb role="status"></div>
+      <div class="celebrate" data-q-cel><div class="big">🎉</div><h3>Recipe-master unlocked!</h3><p>Unambiguous + ordered + finite. You think in algorithms now.</p></div></div>
+<div class="card"><h3>Your pocket reference</h3><div class="pill-row"><span class="pill"><code>unambiguous</code> → one meaning</span><span class="pill"><code>ordered</code> → step order matters</span><span class="pill"><code>finite</code> → always ends</span><span class="pill"><code>pseudocode</code> → words before code</span></div><p class="muted tiny" style="margin-bottom:0">Next: source code — the text humans write.</p></div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><a class="btn" href="./source-code.html" style="text-decoration:none">Next topic: Source code →</a></div>
+    </section>
+<div class="footer">Made for curious beginners. <a href="./prog-what.html">← What is programming?</a> · <a href="../graph.html">Course map</a> · <a href="../glossary.html">Glossary</a></div></main></div>
+<script src="../assets/js/topic.js"></script>
+</body></html>
