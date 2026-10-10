@@ -1,0 +1,51 @@
+java_contains_pattern_matching_regex.html
+  s_d20663734038b1::t_cb555cc4737d90 1-112
+java_arrays_storage_traversal_search.html
+  s_d20663734038b1::t_cb555cc4737d90 1-159
+java_string_manipulation_split_replace.html
+  s_d20663734038b1::t_cb555cc4737d90 1-97
+java_foundations_interactive_tutorial.html
+  s_d20663734038b1::t_cb555cc4737d90 1-134
+java_exception_handling_file_processing_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-307
+java_input_output_interactive_tutorial.html
+  s_d20663734038b1::t_cb555cc4737d90 1-160
+java_methods_interactive_tutorial.html
+  s_d20663734038b1::t_cb555cc4737d90 1-159
+java_sets_maps_unique_values_keys_lookup.html
+  s_d20663734038b1::t_cb555cc4737d90 1-241
+java_sorting_techniques_practice_problems.html
+  s_d20663734038b1::t_cb555cc4737d90 1-162
+index.html
+  s_d20663734038b1::t_cb555cc4737d90 1-146
+java_variables_data_types_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-184
+java_operators_expressions_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-120
+java_inheritance_polymorphism_abstraction_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-247
+java_conditional_statements_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-146
+java_loops_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-122
+java_collections_framework_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-213
+java_classes_objects_encapsulation_interactive.html
+  s_d20663734038b1::t_cb555cc4737d90 1-255
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4c98894b21ab9fb46fd9a1749b8c2b6190b5734f",
+  "prompts": {},
+  "sessions": {
+    "s_d20663734038b1": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_edb809114ffe20aFxdl9AYCRIj",
+        "model": "muse-spark-1.3-contributor"
+      },
+      "human_author": "Kishore Kumar Uthirapathy <libcomet@gmail.com>"
+    }
+  }
+}
