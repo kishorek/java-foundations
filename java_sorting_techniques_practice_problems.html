@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Sorting Techniques & Practice Problems</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#182338;--muted:#607089;--line:#dce4ef;--blue:#2457d6;--bluebg:#eaf0ff;--green:#13795b;--greenbg:#e6f7ef;--orange:#a95609;--orangebg:#fff2df;--purple:#6941c6;--purplebg:#f1eaff;--shadow:0 10px 30px #1e355510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{background:linear-gradient(120deg,#172554,#2457d6);color:#fff;padding:28px 20px 25px}header .wrap,main{max-width:1120px;margin:auto}.eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;opacity:.82;font-weight:800}h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:8px 0 12px}header p{max-width:800px;color:#e1eaff;margin:0}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #ffffff55;border-radius:99px;padding:5px 10px;font-size:.82rem}
+main{padding:22px 16px 60px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:20px}.sidebar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.sidebar{padding:16px;height:max-content;position:sticky;top:12px}.side-title{font-size:.78rem;color:var(--muted);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px}.navbtn{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:10px 11px;border-radius:10px;cursor:pointer;font:inherit;display:flex;gap:9px;align-items:center;margin:3px 0}.navbtn.active{background:var(--bluebg);color:var(--blue);font-weight:750}.num{font-size:.75rem;background:#eef2f7;border-radius:7px;padding:2px 7px;color:#52627b}.navbtn.active .num{background:#d6e2ff;color:var(--blue)}.progress{height:7px;background:#e8edf5;border-radius:9px;overflow:hidden;margin:13px 0 7px}.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .25s}.small{font-size:.86rem;color:var(--muted)}.content{min-width:0}.panel{padding:clamp(18px,3vw,30px);display:none}.panel.active{display:block;animation:fade .18s ease}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}h2{font-size:1.65rem;margin:0 0 7px;line-height:1.2}h3{font-size:1.12rem;margin:22px 0 8px}p{margin:8px 0 14px}.lead{font-size:1.05rem;color:#3d4d65}.callout{border-left:4px solid var(--blue);background:var(--bluebg);padding:13px 15px;border-radius:0 12px 12px 0;margin:16px 0}.success{border-color:var(--green);background:var(--greenbg)}.warn{border-color:#d97706;background:var(--orangebg)}.purple{border-color:var(--purple);background:var(--purplebg)}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:15px 0}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fcfdff}.mini strong{display:block;margin-bottom:5px}.code{background:#111827;color:#e5edf9;border-radius:13px;padding:16px;overflow:auto;font:.9rem/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:13px 0}.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--blue);color:#fff;font:inherit;font-weight:700;cursor:pointer}.btn.secondary{background:#e9eef8;color:#273a58}.btn:focus,.navbtn:focus,input:focus,select:focus{outline:3px solid #93b4ff;outline-offset:2px}label{font-weight:650;font-size:.92rem;display:block;margin-bottom:5px}input,select{font:inherit;padding:10px 11px;border:1px solid #bdc9db;border-radius:9px;background:#fff;color:var(--ink);width:100%;max-width:320px}.result{background:#0d1728;color:#c7f9d4;border-radius:12px;padding:13px 15px;min-height:48px;font:.9rem/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.listrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.item{border:1px solid #cbd7ea;background:#f9fbff;border-radius:10px;padding:9px 12px;min-width:55px;text-align:center;font:700 .95rem ui-monospace,monospace}.item .idx{display:block;font:.72rem system-ui,sans-serif;color:#607089;border-bottom:1px solid #e0e7f1;margin:-2px -3px 5px;padding-bottom:4px}.item.highlight{border:2px solid #2457d6;background:#eaf0ff}.item.sorted{border:2px solid #13795b;background:#e6f7ef}.table{width:100%;border-collapse:collapse;margin:12px 0}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}.table th{background:#f5f7fb}.quizq{border:1px solid var(--line);border-radius:13px;padding:16px;margin:14px 0}.option{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:9px;cursor:pointer}.option:hover{background:#f3f6fb}.option input{width:auto;margin-top:6px}.feedback{margin-top:10px;font-weight:700}.hidden{display:none!important}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:15px;border-top:1px solid var(--line)}.footer-nav button:disabled{opacity:.4;cursor:not-allowed}.tag{display:inline-block;border-radius:6px;background:#eef2f7;color:#34445c;padding:2px 7px;font-size:.8rem;font-weight:700}
+@media(max-width:780px){main{grid-template-columns:1fr}.sidebar{position:static}.navlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.navbtn{font-size:.9rem}.grid2{grid-template-columns:1fr}.panel{padding:19px}}
+</style></head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Java from zero • Arrays & Lists</div><h1>Sorting Techniques &amp; Practice Problems</h1><p>Learn how to arrange data in order, understand two classic sorting algorithms visually, and practise with Java's built-in sorting methods.</p><div class="chips"><span class="chip">Bubble sort</span><span class="chip">Selection sort</span><span class="chip">Arrays.sort() and Collections.sort()</span><span class="chip">8 practice problems</span></div></div></header>
+<main>
+<aside class="sidebar"><p class="side-title">Lesson map</p><div class="navlist">
+<button class="navbtn active" data-page="0"><span class="num">01</span> Why sorting?</button>
+<button class="navbtn" data-page="1"><span class="num">02</span> Bubble sort</button>
+<button class="navbtn" data-page="2"><span class="num">03</span> Selection sort</button>
+<button class="navbtn" data-page="3"><span class="num">04</span> Built-in Java sorting</button>
+<button class="navbtn" data-page="4"><span class="num">05</span> Compare algorithms</button>
+<button class="navbtn" data-page="5"><span class="num">06</span> Practice problems</button>
+<button class="navbtn" data-page="6"><span class="num">07</span> Quiz</button>
+</div><div class="progress"><span id="progressbar"></span></div><div class="small" id="progresslabel">Lesson 1 of 7</div></aside>
+<section class="content">
+<article class="panel active">
+<h2>1. Why do we sort?</h2><p class="lead">Sorting means arranging values into a chosen order, such as smallest to largest or A to Z.</p>
+<div class="callout"><strong>Analogy: line up a class by height.</strong><br>You compare people, decide who should come first, and keep arranging the line until it is in order. A sorting algorithm follows a precise set of steps to do something similar with data.</div>
+<div class="grid2"><div class="mini"><strong>Before sorting</strong><div class="listrow"><span class="item">7</span><span class="item">2</span><span class="item">9</span><span class="item">1</span><span class="item">5</span></div><span class="tag">Mixed order</span></div><div class="mini"><strong>After ascending sort</strong><div class="listrow"><span class="item sorted">1</span><span class="item sorted">2</span><span class="item sorted">5</span><span class="item sorted">7</span><span class="item sorted">9</span></div><span class="tag">Smallest to largest</span></div></div>
+<p><strong>Descending order</strong> is the reverse: <code>9, 7, 5, 2, 1</code>.</p><h3>Where sorting helps</h3><p>Ranking marks, showing products by price, arranging names alphabetically, preparing data for reports, and making some search tasks easier.</p>
+<div class="callout success"><strong>Learning goal:</strong> First understand the logic behind bubble sort and selection sort. Then learn the standard Java methods you would normally use in real applications.</div>
+</article>
+<article class="panel">
+<h2>2. Bubble sort</h2><p class="lead">Bubble sort compares neighbouring values. If they are in the wrong order, it swaps them. After each pass, the largest unsorted value moves to the end.</p>
+<div class="callout"><strong>Analogy: big bubbles moving to the surface.</strong><br>Large values gradually move toward the right as adjacent pairs are compared.</div>
+<div class="code">for (int i = 0; i &lt; numbers.length - 1; i++) {
+    for (int j = 0; j &lt; numbers.length - 1 - i; j++) {
+        if (numbers[j] &gt; numbers[j + 1]) {
+            int temp = numbers[j];
+            numbers[j] = numbers[j + 1];
+            numbers[j + 1] = temp;
+        }
+    }
+}</div>
+<h3>Understand the swap</h3><p>The temporary variable acts like a spare cup. It safely holds one value while the other value is moved.</p>
+<div class="code">int temp = a;
+a = b;
+b = temp;</div>
+<h3>Interactive bubble sort</h3><p>Enter comma-separated numbers, then move through the comparisons one at a time.</p>
+<div class="controls"><div><label for="bubbleInput">Numbers</label><input id="bubbleInput" value="7, 2, 9, 1, 5"></div><button class="btn" id="bubbleReset">Start / Reset</button></div>
+<div class="listrow" id="bubbleArray"></div><div class="controls"><button class="btn" id="bubbleNext">Next comparison</button><button class="btn secondary" id="bubbleRun">Run to finish</button></div><div class="result" id="bubbleResult">Ready to begin.</div>
+<div class="callout warn"><strong>Why the inner loop gets shorter:</strong> after each pass, the largest remaining value is already at the right end. There is no need to compare that settled value again.</div>
+</article>
+<article class="panel">
+<h2>3. Selection sort</h2><p class="lead">Selection sort finds the smallest value in the unsorted part, then swaps it into the next correct position.</p>
+<div class="callout"><strong>Analogy: choose the shortest person first.</strong><br>Find the shortest person in the whole line and put them first. Then find the shortest among the remaining people and put them second.</div>
+<div class="code">for (int i = 0; i &lt; numbers.length - 1; i++) {
+    int minIndex = i;
+
+    for (int j = i + 1; j &lt; numbers.length; j++) {
+        if (numbers[j] &lt; numbers[minIndex]) {
+            minIndex = j;
+        }
+    }
+
+    int temp = numbers[i];
+    numbers[i] = numbers[minIndex];
+    numbers[minIndex] = temp;
+}</div>
+<p><code>minIndex</code> stores the index of the smallest value found so far. Once the scan finishes, that value is swapped into position <code>i</code>.</p>
+<h3>Interactive selection sort</h3><div class="controls"><div><label for="selectionInput">Numbers</label><input id="selectionInput" value="7, 2, 9, 1, 5"></div><button class="btn" id="selectionReset">Start / Reset</button></div><div class="listrow" id="selectionArray"></div><div class="controls"><button class="btn" id="selectionNext">Next step</button><button class="btn secondary" id="selectionRun">Run to finish</button></div><div class="result" id="selectionResult">Ready to begin.</div>
+<div class="callout success"><strong>Notice the difference:</strong> bubble sort swaps adjacent values many times. Selection sort scans for the minimum and usually makes at most one swap per pass.</div>
+</article>
+<article class="panel">
+<h2>4. Built-in Java sorting</h2><p class="lead">In everyday Java programs, prefer the standard library instead of writing a basic sorting algorithm yourself.</p>
+<h3>Sort an array</h3><div class="code">import java.util.Arrays;
+
+int[] marks = {72, 45, 90, 61};
+Arrays.sort(marks);
+
+System.out.println(Arrays.toString(marks));
+// [45, 61, 72, 90]</div>
+<h3>Sort a list</h3><div class="code">import java.util.ArrayList;
+import java.util.Collections;
+
+ArrayList&lt;Integer&gt; prices = new ArrayList<>();
+prices.add(500);
+prices.add(120);
+prices.add(300);
+
+Collections.sort(prices);
+System.out.println(prices);
+// [120, 300, 500]</div>
+<h3>Sort a list in descending order</h3><div class="code">Collections.sort(prices, Collections.reverseOrder());
+// [500, 300, 120]</div>
+<div class="callout warn"><strong>Remember:</strong> <code>Arrays.sort(array)</code> changes the order in the original array. Sorting a list also changes the order of that list.</div>
+<h3>Try built-in sorting</h3><div class="controls"><div><label for="builtInput">Numbers</label><input id="builtInput" value="18, 4, 25, 9, 4"></div><div><label for="builtOrder">Order</label><select id="builtOrder"><option value="asc">Ascending</option><option value="desc">Descending</option></select></div><button class="btn" id="builtSort">Sort values</button></div><div class="result" id="builtResult">Your sorted result will appear here.</div>
+<p class="small">The interactive controls simulate the results in your browser. They do not compile or execute the Java code.</p>
+</article>
+<article class="panel">
+<h2>5. Compare the approaches</h2><p class="lead">Algorithms are different ways to solve the same problem. Their performance matters as the amount of data grows.</p>
+<table class="table"><thead><tr><th>Approach</th><th>Core idea</th><th>Typical time</th><th>Use it for</th></tr></thead><tbody>
+<tr><td>Bubble sort</td><td>Compare adjacent pairs and swap</td><td><code>O(n²)</code></td><td>Learning comparisons and swaps</td></tr>
+<tr><td>Selection sort</td><td>Find the minimum in the unsorted section</td><td><code>O(n²)</code></td><td>Learning selection and placement</td></tr>
+<tr><td><code>Arrays.sort()</code></td><td>Standard library method for arrays</td><td>Efficient library implementation</td><td>Sorting arrays in real programs</td></tr>
+<tr><td><code>Collections.sort()</code></td><td>Standard library method for lists</td><td>Efficient library implementation</td><td>Sorting lists in real programs</td></tr></tbody></table>
+<div class="callout"><strong>What does O(n²) mean?</strong><br>It describes how work grows with the number of items. If the list doubles in size, a quadratic algorithm may do roughly four times the work. This is a growth estimate, not an exact operation count.</div>
+<div class="grid2"><div class="mini"><strong>Five items</strong><p>Basic algorithms are small enough to trace by hand.</p></div><div class="mini"><strong>Thousands of items</strong><p>Use built-in sorting unless you have a specific reason to implement an algorithm yourself.</p></div></div>
+<div class="callout purple"><strong>One more Java detail:</strong> for custom objects, you can sort by a field using a <code>Comparator</code>. Example: <code>students.sort(Comparator.comparing(Student::getName));</code> assumes the class has a compatible <code>getName()</code> method.</div>
+</article>
+<article class="panel">
+<h2>6. Practice problems</h2><p class="lead">Try solving each task before revealing the sample solution. Explain your approach in plain language first.</p>
+<div class="mini"><strong>Problem 1 · Sort five numbers</strong><p>Sort <code>{8, 3, 6, 1, 4}</code> in ascending order using <code>Arrays.sort()</code>.</p><button class="btn secondary reveal" data-target="answer1">Show solution</button><div class="hidden" id="answer1"><div class="code">int[] values = {8, 3, 6, 1, 4};
+Arrays.sort(values);
+System.out.println(Arrays.toString(values));
+// [1, 3, 4, 6, 8]</div></div></div>
+<div class="mini"><strong>Problem 2 · Sort marks descending</strong><p>Given an <code>ArrayList&lt;Integer&gt;</code> called <code>marks</code>, display the highest mark first.</p><button class="btn secondary reveal" data-target="answer2">Show solution</button><div class="hidden" id="answer2"><div class="code">marks.sort(Collections.reverseOrder());
+System.out.println(marks);</div><p>Import <code>java.util.Collections</code>.</p></div></div>
+<div class="mini"><strong>Problem 3 · Find the highest and lowest</strong><p>Print the smallest and largest values in an integer array.</p><button class="btn secondary reveal" data-target="answer3">Show solution</button><div class="hidden" id="answer3"><div class="code">int[] values = {12, 5, 29, 8, 17};
+Arrays.sort(values);
+System.out.println("Lowest: " + values[0]);
+System.out.println("Highest: " + values[values.length - 1]);</div><p>A single pass that tracks minimum and maximum is more efficient if sorting is not otherwise needed.</p></div></div>
+<div class="mini"><strong>Problem 4 · Identify duplicates</strong><p>For <code>{4, 2, 4, 1, 2, 4}</code>, identify which values repeat after sorting.</p><button class="btn secondary reveal" data-target="answer4">Show hint</button><div class="hidden" id="answer4"><p>After sorting, equal values sit next to one another. Compare each item with the previous item and identify repeated runs. A <code>HashSet</code> is another useful tool for duplicate detection.</p></div></div>
+<div class="mini"><strong>Problem 5 · Sort names alphabetically</strong><p>Sort <code>{"Ravi", "Anu", "Kumar"}</code>.</p><button class="btn secondary reveal" data-target="answer5">Show solution</button><div class="hidden" id="answer5"><div class="code">String[] names = {"Ravi", "Anu", "Kumar"};
+Arrays.sort(names);
+System.out.println(Arrays.toString(names));
+// [Anu, Kumar, Ravi]</div></div></div>
+<div class="mini"><strong>Problem 6 · Trace bubble sort</strong><p>For <code>{3, 1, 2}</code>, write down each comparison and swap in the first pass.</p><button class="btn secondary reveal" data-target="answer6">Show explanation</button><div class="hidden" id="answer6"><p>Compare 3 and 1, then swap: <code>{1, 3, 2}</code>. Compare 3 and 2, then swap: <code>{1, 2, 3}</code>. The largest value has moved to the end.</p></div></div>
+<div class="mini"><strong>Problem 7 · Choose the right method</strong><p>You have a list of product prices and want cheapest first. Which approach is appropriate?</p><button class="btn secondary reveal" data-target="answer7">Reveal answer</button><div class="hidden" id="answer7"><p>Use <code>prices.sort(null)</code> or <code>Collections.sort(prices)</code> when the values have a natural order. For product objects, sort with a comparator based on the price field.</p></div></div>
+<div class="mini"><strong>Problem 8 · Explain the difference</strong><p>Explain bubble sort versus selection sort in your own words.</p><button class="btn secondary reveal" data-target="answer8">Reveal answer</button><div class="hidden" id="answer8"><p>Bubble sort repeatedly compares neighbouring values and swaps them if needed. Selection sort finds the smallest remaining value and places it at the next position.</p></div></div>
+</article>
+<article class="panel">
+<h2>7. Quick quiz</h2><p class="lead">Choose one answer for each question, then check your score.</p>
+<form id="quizForm">
+<div class="quizq"><strong>1. What does ascending order mean?</strong><label class="option"><input type="radio" name="q1" value="a"> Largest to smallest</label><label class="option"><input type="radio" name="q1" value="b"> Smallest to largest</label><label class="option"><input type="radio" name="q1" value="c"> Random order</label></div>
+<div class="quizq"><strong>2. What does bubble sort compare?</strong><label class="option"><input type="radio" name="q2" value="a"> Only the first and last values</label><label class="option"><input type="radio" name="q2" value="b"> Neighbouring values</label><label class="option"><input type="radio" name="q2" value="c"> Only duplicate values</label></div>
+<div class="quizq"><strong>3. Which method sorts a primitive integer array?</strong><label class="option"><input type="radio" name="q3" value="a"> <code>Arrays.sort(values)</code></label><label class="option"><input type="radio" name="q3" value="b"> <code>Collections.sort(values)</code></label><label class="option"><input type="radio" name="q3" value="c"> <code>values.order()</code></label></div>
+<div class="quizq"><strong>4. Why use a temporary variable during a swap?</strong><label class="option"><input type="radio" name="q4" value="a"> It automatically reverses the array</label><label class="option"><input type="radio" name="q4" value="b"> It preserves a value while the other is overwritten</label><label class="option"><input type="radio" name="q4" value="c"> It increases the array length</label></div>
+<div class="quizq"><strong>5. Which should usually be preferred in real Java applications?</strong><label class="option"><input type="radio" name="q5" value="a"> Always implement bubble sort</label><label class="option"><input type="radio" name="q5" value="b"> Use built-in sorting methods</label><label class="option"><input type="radio" name="q5" value="c"> Avoid sorting</label></div>
+<div class="quizq"><strong>6. What is the typical time complexity of bubble sort?</strong><label class="option"><input type="radio" name="q6" value="a"> <code>O(n²)</code></label><label class="option"><input type="radio" name="q6" value="b"> <code>O(1)</code> for every input</label><label class="option"><input type="radio" name="q6" value="c"> <code>O(log n)</code> in general</label></div>
+<div class="controls"><button class="btn" type="submit">Check my score</button><button class="btn secondary" type="reset">Clear answers</button></div><div class="result" id="quizResult" aria-live="polite">Your score will appear here.</div></form>
+<h3>Key takeaways</h3><ul><li>Bubble sort swaps out-of-order neighbouring values.</li><li>Selection sort finds the smallest value in the unsorted section.</li><li>Use <code>Arrays.sort()</code> for arrays and <code>List.sort()</code> or <code>Collections.sort()</code> for lists.</li><li>Basic sorts are useful for learning; built-in sorting is usually the right practical choice.</li></ul><div class="callout success"><strong>Next topic in the course:</strong> String Manipulation, Split, Replace.</div>
+</article>
+<div class="footer-nav"><button class="btn secondary" id="prevPage">← Previous</button><span class="small" id="navStatus">Section 1 of 7</span><button class="btn" id="nextPage">Next →</button></div>
+</section></main>
+<script>
+const panels=[...document.querySelectorAll('.panel')],navs=[...document.querySelectorAll('.navbtn')];let page=0,visited=new Set([0]);
+function showPage(n){page=Math.max(0,Math.min(panels.length-1,n));panels.forEach((p,i)=>p.classList.toggle('active',i===page));navs.forEach((b,i)=>b.classList.toggle('active',i===page));visited.add(page);document.getElementById('progressbar').style.width=(visited.size/panels.length*100)+'%';document.getElementById('progresslabel').textContent='Completed sections visited: '+visited.size+' of '+panels.length;document.getElementById('navStatus').textContent='Section '+(page+1)+' of '+panels.length;document.getElementById('prevPage').disabled=page===0;document.getElementById('nextPage').disabled=page===panels.length-1;window.scrollTo({top:0,behavior:'smooth'})}
+navs.forEach((b,i)=>b.addEventListener('click',()=>showPage(i)));document.getElementById('prevPage').addEventListener('click',()=>showPage(page-1));document.getElementById('nextPage').addEventListener('click',()=>showPage(page+1));
+function parseNums(id){const raw=document.getElementById(id).value.trim();if(!raw)throw Error('Enter at least one number.');const a=raw.split(',').map(v=>Number(v.trim()));if(a.some(v=>!Number.isFinite(v)))throw Error('Enter numbers separated by commas, such as 7, 2, 9.');return a}
+function renderItems(id,a,active=-1,settled=-1){const el=document.getElementById(id);el.innerHTML='';a.forEach((v,i)=>{const d=document.createElement('div');d.className='item'+(i===active?' highlight':'')+(i<=settled?' sorted':'');d.innerHTML='<span class="idx">index '+i+'</span>'+v;el.appendChild(d)})}
+let b={a:[],i:0,j:0,count:0,done:false};
+function resetBubble(){try{b={a:parseNums('bubbleInput'),i:0,j:0,count:0,done:false};renderItems('bubbleArray',b.a);document.getElementById('bubbleResult').textContent='Ready. Compare the first pair.'}catch(e){document.getElementById('bubbleResult').textContent=e.message}}
+function bubbleStep(){if(!b.a.length)resetBubble();if(b.done)return;const n=b.a.length;if(n<2||b.i>=n-1){b.done=true;renderItems('bubbleArray',b.a,-1,n-1);document.getElementById('bubbleResult').textContent='Sorted! Comparisons made: '+b.count;return}let j=b.j,msg='Compare '+b.a[j]+' and '+b.a[j+1]+'. ';if(b.a[j]>b.a[j+1]){[b.a[j],b.a[j+1]]=[b.a[j+1],b.a[j]];msg+='They are out of order, so swap them.'}else msg+='They are in order, so leave them.';b.count++;renderItems('bubbleArray',b.a,j,b.i-1);b.j++;if(b.j>=n-1-b.i){b.j=0;b.i++}if(b.i>=n-1){b.done=true;renderItems('bubbleArray',b.a,-1,n-1);msg+=' All values are sorted.'}document.getElementById('bubbleResult').textContent=msg+' Comparisons: '+b.count}
+document.getElementById('bubbleReset').addEventListener('click',resetBubble);document.getElementById('bubbleNext').addEventListener('click',bubbleStep);document.getElementById('bubbleRun').addEventListener('click',()=>{let guard=0;while(!b.done&&guard++<1000)bubbleStep()});resetBubble();
+let s={a:[],i:0,j:1,min:0,phase:'scan',done:false};
+function resetSelection(){try{s={a:parseNums('selectionInput'),i:0,j:1,min:0,phase:'scan',done:false};renderItems('selectionArray',s.a,0);document.getElementById('selectionResult').textContent='Ready. Find the smallest value in the unsorted section.'}catch(e){document.getElementById('selectionResult').textContent=e.message}}
+function selectionStep(){if(!s.a.length)resetSelection();if(s.done)return;const n=s.a.length;if(n<2||s.i>=n-1){s.done=true;renderItems('selectionArray',s.a,-1,n-1);document.getElementById('selectionResult').textContent='Sorted! Every value is in its correct position.';return}if(s.j<n){let msg='Compare '+s.a[s.j]+' with current minimum '+s.a[s.min]+'. ';if(s.a[s.j]<s.a[s.min]){s.min=s.j;msg+='New minimum: '+s.a[s.min]+'.'}else msg+='Keep the current minimum.';renderItems('selectionArray',s.a,s.j,s.i-1);s.j++;document.getElementById('selectionResult').textContent=msg;return}let msg='Place minimum '+s.a[s.min]+' at index '+s.i+'. ';if(s.min!==s.i){[s.a[s.i],s.a[s.min]]=[s.a[s.min],s.a[s.i]];msg+='Swap performed.'}else msg+='No swap needed.';renderItems('selectionArray',s.a,s.i,s.i);s.i++;s.min=s.i;s.j=s.i+1;if(s.i>=n-1){s.done=true;renderItems('selectionArray',s.a,-1,n-1);msg+=' Sorted!'}document.getElementById('selectionResult').textContent=msg}
+document.getElementById('selectionReset').addEventListener('click',resetSelection);document.getElementById('selectionNext').addEventListener('click',selectionStep);document.getElementById('selectionRun').addEventListener('click',()=>{let guard=0;while(!s.done&&guard++<1000)selectionStep()});resetSelection();
+document.getElementById('builtSort').addEventListener('click',()=>{try{const a=parseNums('builtInput');a.sort((x,y)=>document.getElementById('builtOrder').value==='desc'?y-x:x-y);document.getElementById('builtResult').textContent='Sorted result: ['+a.join(', ')+']'}catch(e){document.getElementById('builtResult').textContent=e.message}});
+document.querySelectorAll('.reveal').forEach(btn=>btn.addEventListener('click',()=>{const el=document.getElementById(btn.dataset.target);const hidden=el.classList.contains('hidden');el.classList.toggle('hidden',!hidden);btn.textContent=hidden?'Hide answer':'Show solution'}));
+const correct={q1:'b',q2:'b',q3:'a',q4:'b',q5:'b',q6:'a'};document.getElementById('quizForm').addEventListener('submit',e=>{e.preventDefault();let score=0,answered=0;for(const [q,a] of Object.entries(correct)){const v=document.querySelector('input[name="'+q+'"]:checked');if(v){answered++;if(v.value===a)score++}}document.getElementById('quizResult').textContent='Score: '+score+'/'+Object.keys(correct).length+' · Answered: '+answered+'/'+Object.keys(correct).length+(score===6?' · Excellent work!':' · Review the lessons and try again.')});document.getElementById('quizForm').addEventListener('reset',()=>{document.getElementById('quizResult').textContent='Your score will appear here.'});
+</script></body></html>

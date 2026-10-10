@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Arrays | Storage, Traversal and Search</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#182338;--muted:#607089;--line:#dce4ef;--blue:#2457d6;--bluebg:#eaf0ff;--green:#13795b;--greenbg:#e6f7ef;--orange:#a95609;--orangebg:#fff2df;--purple:#6941c6;--purplebg:#f1eaff;--shadow:0 10px 30px #1e355510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{background:linear-gradient(120deg,#172554,#2457d6);color:#fff;padding:28px 20px 25px}header .wrap,main{max-width:1120px;margin:auto}.eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;opacity:.82;font-weight:800}h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:8px 0 12px}header p{max-width:800px;color:#e1eaff;margin:0}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #ffffff55;border-radius:99px;padding:5px 10px;font-size:.82rem}
+main{padding:22px 16px 60px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:20px}.sidebar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.sidebar{padding:16px;height:max-content;position:sticky;top:12px}.side-title{font-size:.78rem;color:var(--muted);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px}.navbtn{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:10px 11px;border-radius:10px;cursor:pointer;font:inherit;display:flex;gap:9px;align-items:center;margin:3px 0}.navbtn.active{background:var(--bluebg);color:var(--blue);font-weight:750}.num{font-size:.75rem;background:#eef2f7;border-radius:7px;padding:2px 7px;color:#52627b}.navbtn.active .num{background:#d6e2ff;color:var(--blue)}.progress{height:7px;background:#e8edf5;border-radius:9px;overflow:hidden;margin:13px 0 7px}.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .25s}.small{font-size:.86rem;color:var(--muted)}.content{min-width:0}.panel{padding:clamp(18px,3vw,30px);display:none}.panel.active{display:block;animation:fade .18s ease}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}h2{font-size:1.65rem;margin:0 0 7px;line-height:1.2}h3{font-size:1.12rem;margin:22px 0 8px}p{margin:8px 0 14px}.lead{font-size:1.05rem;color:#3d4d65}.callout{border-left:4px solid var(--blue);background:var(--bluebg);padding:13px 15px;border-radius:0 12px 12px 0;margin:16px 0}.success{border-color:var(--green);background:var(--greenbg)}.warn{border-color:#d97706;background:var(--orangebg)}.purple{border-color:var(--purple);background:var(--purplebg)}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:15px 0}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fcfdff}.mini strong{display:block;margin-bottom:5px}.code{background:#111827;color:#e5edf9;border-radius:13px;padding:16px;overflow:auto;font:.9rem/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}.kw{color:#c4b5fd}.str{color:#86efac}.numc{color:#fbbf24}.comment{color:#94a3b8}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:13px 0}.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--blue);color:#fff;font:inherit;font-weight:700;cursor:pointer}.btn.secondary{background:#e9eef8;color:#273a58}.btn:focus,.navbtn:focus,input:focus,select:focus{outline:3px solid #93b4ff;outline-offset:2px}label{font-weight:650;font-size:.92rem;display:block;margin-bottom:5px}input,select{font:inherit;padding:10px 11px;border:1px solid #bdc9db;border-radius:9px;background:#fff;color:var(--ink);width:100%;max-width:320px}.result{background:#0d1728;color:#c7f9d4;border-radius:12px;padding:13px 15px;min-height:48px;font:.9rem/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.pillrow{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:99px;padding:6px 10px;background:white;cursor:pointer;font:inherit}.pill.active{background:var(--bluebg);border-color:#b6caff;color:var(--blue);font-weight:700}.step{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;margin:14px 0}.bubble{width:34px;height:34px;display:grid;place-items:center;background:var(--bluebg);color:var(--blue);font-weight:800;border-radius:11px}.quizq{border:1px solid var(--line);border-radius:13px;padding:16px;margin:14px 0}.option{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:9px;cursor:pointer}.option:hover{background:#f3f6fb}.option input{width:auto;margin-top:6px}.feedback{margin-top:10px;font-weight:700}.hidden{display:none!important}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.footer-nav button:disabled{opacity:.4;cursor:not-allowed}.tag{display:inline-block;border-radius:6px;background:#eef2f7;color:#34445c;padding:2px 7px;font-size:.8rem;font-weight:700}.arrayrow{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.cell{border:2px solid #cbd7ea;background:#f9fbff;border-radius:10px;min-width:64px;padding:8px 9px;text-align:center;position:relative}.cell .idx{font-size:.75rem;color:#607089;border-bottom:1px solid #e0e7f1;margin:-2px -2px 6px;padding-bottom:3px}.cell .val{font:700 1.1rem ui-monospace,monospace}.cell.active{border-color:#2457d6;background:#eaf0ff;box-shadow:0 0 0 2px #2457d622}.cell.found{border-color:#13795b;background:#e6f7ef}.cell.checked{border-color:#d97706;background:#fff2df}.table{width:100%;border-collapse:collapse;margin:12px 0}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}.table th{background:#f5f7fb}
+@media(max-width:780px){main{grid-template-columns:1fr}.sidebar{position:static}.navlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.navbtn{font-size:.9rem}.grid2{grid-template-columns:1fr}.panel{padding:19px}.cell{min-width:51px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Java from zero • Interactive lesson</div><h1>Arrays: Storage, Traversal and Search</h1><p>Learn how arrays store multiple values, how indexes work, how to visit every element, and how to search for a value. Explore the examples and practise with small interactive challenges.</p><div class="chips"><span class="chip">One dimensional arrays</span><span class="chip">for and enhanced for</span><span class="chip">Linear search</span></div></div></header>
+<main>
+<aside class="sidebar"><p class="side-title">Lesson map</p><div class="navlist">
+<button class="navbtn active" data-page="0"><span class="num">01</span> What is an array?</button>
+<button class="navbtn" data-page="1"><span class="num">02</span> Create and store values</button>
+<button class="navbtn" data-page="2"><span class="num">03</span> Indexes and length</button>
+<button class="navbtn" data-page="3"><span class="num">04</span> Traversal with loops</button>
+<button class="navbtn" data-page="4"><span class="num">05</span> Search an array</button>
+<button class="navbtn" data-page="5"><span class="num">06</span> Guided practice lab</button>
+<button class="navbtn" data-page="6"><span class="num">07</span> Exercises</button>
+<button class="navbtn" data-page="7"><span class="num">08</span> Quiz</button>
+</div><div class="progress"><span id="progressbar"></span></div><div class="small" id="progresslabel">Lesson 1 of 8</div></aside>
+<section class="content">
+<article class="panel active">
+<h2>1. What is an array?</h2><p class="lead">An array stores multiple values of the same type under one variable name. Each value has a numbered position called an index.</p>
+<div class="callout"><strong>Analogy: a row of numbered lockers</strong><br>Each locker has a number, and each locker holds one item. An array is like a row of lockers: the array name identifies the row, the index identifies a position, and the value is what is stored there.</div>
+<div class="code"><span class="kw">int</span>[] scores = {<span class="numc">82</span>, <span class="numc">95</span>, <span class="numc">71</span>, <span class="numc">88</span>};</div>
+<p>This creates an integer array with four elements. The first element is at index <code>0</code>, not index <code>1</code>.</p>
+<div class="arrayrow" id="introArray"></div>
+<div class="callout success"><strong>Key idea:</strong> array indexes start at zero. For an array with four elements, the valid indexes are 0, 1, 2, and 3.</div>
+<h3>Why use an array?</h3><div class="grid2"><div class="mini"><strong>Without an array</strong><p>You might create separate variables such as <code>score1</code>, <code>score2</code>, <code>score3</code> and so on.</p></div><div class="mini"><strong>With an array</strong><p>One variable stores all scores, and a loop can process them systematically.</p></div></div>
+<h3>Change the selected index</h3><p>Choose an index to inspect the value stored there.</p><div class="controls"><label for="introIndex">Index</label><select id="introIndex"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select><button class="btn" id="inspectIntro">Inspect</button></div><div class="result" id="introResult">Choose an index.</div>
+</article>
+<article class="panel">
+<h2>2. Create an array and store values</h2><p class="lead">Java arrays have a fixed length. You choose the length when creating the array, then read or replace values at its indexes.</p>
+<h3>Three common ways to create arrays</h3>
+<div class="code"><span class="comment">// 1. Declare and create an array with space for 5 integers</span>
+<span class="kw">int</span>[] marks = <span class="kw">new int</span>[<span class="numc">5</span>];
+
+<span class="comment">// 2. Create and initialise in one step</span>
+<span class="kw">int</span>[] ages = {<span class="numc">12</span>, <span class="numc">13</span>, <span class="numc">14</span>};
+
+<span class="comment">// 3. Replace the value at index 1</span>
+ages[<span class="numc">1</span>] = <span class="numc">15</span>;</div>
+<p>When Java creates a new <code>int</code> array, its elements start at <code>0</code>. New <code>boolean</code> elements start at <code>false</code>, and object reference elements such as <code>String</code> start at <code>null</code>.</p>
+<h3>Array storage simulator</h3><p>Choose an index and a new value, then store it in the simulated array.</p><div class="controls"><div><label for="storeIndex">Index</label><select id="storeIndex"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div><div><label for="storeValue">New value</label><input id="storeValue" type="number" value="42" min="-9999" max="9999"></div><button class="btn" id="storeButton">Store value</button><button class="btn secondary" id="resetStore">Reset</button></div><div class="arrayrow" id="storeArray"></div><div class="result" id="storeResult">Array created: new int[5]. Every element starts at 0.</div>
+<div class="callout warn"><strong>Array length is fixed.</strong> You can replace an element, but you cannot make a normal Java array longer after it is created. For a resizable collection, Java has <code>ArrayList</code>, which is a later topic.</div>
+</article>
+<article class="panel">
+<h2>3. Indexes, length and boundaries</h2><p class="lead">An index is the position used to access one element. The <code>length</code> property tells you how many elements the array contains.</p>
+<div class="code"><span class="kw">int</span>[] numbers = {<span class="numc">10</span>, <span class="numc">20</span>, <span class="numc">30</span>};
+
+System.out.println(numbers[<span class="numc">0</span>]);       <span class="comment">// 10</span>
+System.out.println(numbers.length);  <span class="comment">// 3</span>
+System.out.println(numbers[numbers.length - <span class="numc">1</span>]); <span class="comment">// 30</span></div>
+<div class="callout purple"><strong>Important difference:</strong> <code>length</code> is the number of elements. The last index is <code>length - 1</code>.</div>
+<h3>Explore a boundary</h3><div class="arrayrow" id="boundsArray"></div><div class="controls"><label for="boundsIndex">Try index</label><input id="boundsIndex" type="number" value="2" step="1"><button class="btn" id="checkBounds">Access index</button></div><div class="result" id="boundsResult">This array has length 4, so indexes 0 through 3 are valid.</div>
+<h3>What is an ArrayIndexOutOfBoundsException?</h3><p>Trying to access an index that does not exist causes an error. For an array of length 4, index 4 is invalid because the valid indexes are 0 to 3.</p>
+<div class="callout warn"><strong>Common mistake:</strong> writing <code>i &lt;= array.length</code> in a loop. The usual safe condition is <code>i &lt; array.length</code>.</div>
+</article>
+<article class="panel">
+<h2>4. Traversal: visit every element</h2><p class="lead">Traversal means visiting elements one by one. A loop is ideal because it can repeat the same operation for each index.</p>
+<h3>Classic for loop</h3><div class="code"><span class="kw">int</span>[] scores = {<span class="numc">82</span>, <span class="numc">95</span>, <span class="numc">71</span>};
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="numc">0</span>; i &lt; scores.length; i++) {
+    System.out.println(scores[i]);
+}</div>
+<p>Read the loop header as: start <code>i</code> at 0; keep going while <code>i</code> is less than the array length; increase <code>i</code> by one after each pass.</p>
+<h3>Step through the loop</h3><div class="arrayrow" id="traverseArray"></div><div class="controls"><button class="btn" id="traverseStep">Next step</button><button class="btn secondary" id="traverseAll">Run all</button><button class="btn secondary" id="traverseReset">Reset</button></div><div class="result" id="traverseResult">Press Next step to start the traversal.</div>
+<h3>Enhanced for loop</h3><div class="code"><span class="kw">for</span> (<span class="kw">int</span> score : scores) {
+    System.out.println(score);
+}</div><p>The enhanced for loop gives you each value directly. Use it when you need to read each element and do not need its index.</p>
+<div class="grid2"><div class="mini"><strong>Use classic <code>for</code></strong><p>When you need the index, want to update an element, or need to move by a particular step.</p></div><div class="mini"><strong>Use enhanced <code>for</code></strong><p>When you simply want to process every value in order.</p></div></div>
+</article>
+<article class="panel">
+<h2>5. Search an array</h2><p class="lead">Searching means checking whether a value exists and, often, finding its index. Linear search checks elements from left to right until it finds the target or reaches the end.</p>
+<div class="code"><span class="kw">int</span> target = <span class="numc">71</span>;
+<span class="kw">int</span> foundIndex = -<span class="numc">1</span>;
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="numc">0</span>; i &lt; scores.length; i++) {
+    <span class="kw">if</span> (scores[i] == target) {
+        foundIndex = i;
+        <span class="kw">break</span>;
+    }
+}
+
+System.out.println(foundIndex);</div>
+<p>The value <code>-1</code> is used here as a signal meaning “not found”. It is not a valid index in the array.</p>
+<h3>Run a linear search</h3><div class="arrayrow" id="searchArray"></div><div class="grid2"><div><label for="searchTarget">Target value</label><input id="searchTarget" type="number" value="71"></div><div><label for="searchSpeed">Search display</label><select id="searchSpeed"><option value="step">Step through checks</option><option value="all">Show full search result</option></select></div></div><div class="controls"><button class="btn" id="startSearch">Start search</button><button class="btn secondary" id="searchNext">Check next element</button><button class="btn secondary" id="searchReset">Reset search</button></div><div class="result" id="searchResult">Enter a target and start searching.</div>
+<div class="callout success"><strong>Linear search complexity:</strong> in the worst case it checks every element, so the work grows in proportion to the array length. This is commonly described as O(n). It works whether or not the array is sorted.</div>
+</article>
+<article class="panel">
+<h2>6. Guided practice lab</h2><p class="lead">Practise common array tasks. These interactive controls simulate the Java logic so you can compare the output with the code.</p>
+<h3>Task A: find the total and average</h3><p>Array of scores: <code>{80, 90, 70, 100}</code></p><div class="code"><span class="kw">int</span> total = <span class="numc">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> score : scores) {
+    total += score;
+}
+<span class="kw">double</span> average = ( <span class="kw">double</span> ) total / scores.length;</div><button class="btn" id="runStats">Calculate statistics</button><div class="result" id="statsResult">Total and average will appear here.</div>
+<h3>Task B: find the largest value</h3><p>Assume the array is not empty. Start with the first element as the current maximum, then compare the remaining elements.</p><div class="code"><span class="kw">int</span> max = numbers[<span class="numc">0</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="numc">1</span>; i &lt; numbers.length; i++) {
+    <span class="kw">if</span> (numbers[i] &gt; max) {
+        max = numbers[i];
+    }
+}</div><div class="controls"><label for="maxArrayInput">Comma separated integers</label><input id="maxArrayInput" value="12, 5, 34, 8, 21" style="max-width:360px"><button class="btn" id="runMax">Find maximum</button></div><div class="result" id="maxResult">Maximum will appear here.</div>
+<h3>Task C: count matches</h3><p>Count how many times the target appears in an array. Unlike a search that stops at the first match, this task must check every element.</p><div class="controls"><label for="countTarget">Target</label><input id="countTarget" type="number" value="2"><button class="btn" id="runCount">Count occurrences</button></div><p class="small">Array used: <code>{2, 4, 2, 7, 2, 9}</code></p><div class="result" id="countResult">Count will appear here.</div>
+</article>
+<article class="panel">
+<h2>7. Exercises</h2><p class="lead">Try solving each problem yourself first. Reveal the answer to compare your approach.</p><div id="exercises"></div>
+</article>
+<article class="panel">
+<h2>8. Quick quiz</h2><p class="lead">Check the essentials: array storage, indexing, traversal and searching.</p><div id="quiz"></div><button class="btn" id="submitQuiz">Check my answers</button> <button class="btn secondary" id="resetQuiz">Try again</button><div class="callout hidden" id="quizScore"></div>
+<div class="callout success"><strong>Before moving on:</strong> you should be able to create an array, access and update values by index, loop through all elements, and implement a basic linear search.</div>
+</article>
+<div class="footer-nav"><button class="btn secondary" id="prevBtn">← Previous</button><button class="btn" id="nextBtn">Next lesson →</button></div>
+</section></main>
+<script>
+const panels=[...document.querySelectorAll('.panel')],nav=[...document.querySelectorAll('.navbtn')];let page=0;
+function showPage(n){page=Math.max(0,Math.min(panels.length-1,n));panels.forEach((p,i)=>p.classList.toggle('active',i===page));nav.forEach((b,i)=>b.classList.toggle('active',i===page));document.getElementById('progressbar').style.width=((page+1)/panels.length*100)+'%';document.getElementById('progresslabel').textContent=`Lesson ${page+1} of ${panels.length}`;document.getElementById('prevBtn').disabled=page===0;document.getElementById('nextBtn').textContent=page===panels.length-1?'Back to start ↺':'Next lesson →';window.scrollTo({top:0,behavior:'smooth'})}
+nav.forEach(b=>b.addEventListener('click',()=>showPage(+b.dataset.page)));document.getElementById('prevBtn').onclick=()=>showPage(page-1);document.getElementById('nextBtn').onclick=()=>showPage(page===panels.length-1?0:page+1);
+function renderArray(id,arr,active=-1,mode='active'){document.getElementById(id).innerHTML=arr.map((v,i)=>`<div class="cell ${i===active?mode:''}"><div class="idx">index ${i}</div><div class="val">${v}</div></div>`).join('')}
+const intro=[82,95,71,88];renderArray('introArray',intro);document.getElementById('inspectIntro').onclick=()=>{let i=+document.getElementById('introIndex').value;renderArray('introArray',intro,i);document.getElementById('introResult').textContent=`scores[${i}] is ${intro[i]}. The index is ${i}, and the stored value is ${intro[i]}.`};
+let store=[0,0,0,0,0];function renderStore(){renderArray('storeArray',store)}renderStore();document.getElementById('storeButton').onclick=()=>{let i=+document.getElementById('storeIndex').value,v=Number(document.getElementById('storeValue').value);if(!Number.isInteger(v)){document.getElementById('storeResult').textContent='Enter a whole number.';return}store[i]=v;renderStore();renderArray('storeArray',store,i);document.getElementById('storeResult').textContent=`Stored ${v} at index ${i}. Java equivalent: values[${i}] = ${v};`};document.getElementById('resetStore').onclick=()=>{store=[0,0,0,0,0];renderStore();document.getElementById('storeResult').textContent='Array reset. Every int element is 0.'};
+const bounds=[11,22,33,44];renderArray('boundsArray',bounds);document.getElementById('checkBounds').onclick=()=>{let i=Number(document.getElementById('boundsIndex').value),out=document.getElementById('boundsResult');if(!Number.isInteger(i)||i<0||i>=bounds.length){renderArray('boundsArray',bounds,-1);out.textContent=`ArrayIndexOutOfBoundsException would occur: index ${i} is invalid. Valid indexes are 0 to ${bounds.length-1}.`}else{renderArray('boundsArray',bounds,i);out.textContent=`numbers[${i}] returns ${bounds[i]}. Array length is ${bounds.length}.`}};
+const traverse=[10,20,30,40],tState={i:0};renderArray('traverseArray',traverse);function traverseReset(){tState.i=0;renderArray('traverseArray',traverse);document.getElementById('traverseResult').textContent='Press Next step to start the traversal.'}function traverseOne(){if(tState.i>=traverse.length){document.getElementById('traverseResult').textContent='Loop finished. All elements have been visited.';return}let i=tState.i;renderArray('traverseArray',traverse,i);document.getElementById('traverseResult').textContent=`Pass ${i+1}: i = ${i}; print numbers[${i}] = ${traverse[i]}. Then i increases to ${i+1}.`;tState.i++}document.getElementById('traverseStep').onclick=traverseOne;document.getElementById('traverseAll').onclick=()=>{let lines=traverse.map((v,i)=>`i = ${i} → print ${v}`);tState.i=traverse.length;renderArray('traverseArray',traverse);document.getElementById('traverseResult').textContent=lines.join('\n')+'\nLoop finished.'};document.getElementById('traverseReset').onclick=traverseReset;
+const searchArr=[14,71,23,71,8];let searchState={target:71,i:0,found:-1,done:false};function resetSearch(){searchState={target:Number(document.getElementById('searchTarget').value),i:0,found:-1,done:false};renderArray('searchArray',searchArr);document.getElementById('searchResult').textContent='Search reset. Press Start search.'}function searchStep(){if(searchState.done){document.getElementById('searchResult').textContent=searchState.found>=0?`Found ${searchState.target} at index ${searchState.found}.`:`${searchState.target} was not found. foundIndex remains -1.`;return}if(searchState.i>=searchArr.length){searchState.done=true;renderArray('searchArray',searchArr);document.getElementById('searchResult').textContent=`${searchState.target} was not found. foundIndex remains -1.`;return}let i=searchState.i,v=searchArr[i];if(v===searchState.target){searchState.found=i;searchState.done=true;renderArray('searchArray',searchArr,i,'found');document.getElementById('searchResult').textContent=`Check index ${i}: ${v} == ${searchState.target}. Match found at index ${i}. Search stops here.`}else{renderArray('searchArray',searchArr,i,'checked');document.getElementById('searchResult').textContent=`Check index ${i}: ${v} != ${searchState.target}. Move to the next index.`;searchState.i++}}
+document.getElementById('startSearch').onclick=()=>{resetSearch();if(document.getElementById('searchSpeed').value==='all'){while(!searchState.done)searchStep()}else searchStep()};document.getElementById('searchNext').onclick=searchStep;document.getElementById('searchReset').onclick=resetSearch;document.getElementById('searchTarget').addEventListener('change',resetSearch);
+document.getElementById('runStats').onclick=()=>{let a=[80,90,70,100],sum=a.reduce((x,y)=>x+y,0);document.getElementById('statsResult').textContent=`Scores: ${a.join(', ')}\nTotal = ${sum}\nAverage = ${(sum/a.length).toFixed(2)}`};
+document.getElementById('runMax').onclick=()=>{let raw=document.getElementById('maxArrayInput').value.split(',').map(s=>s.trim()),a=raw.map(Number);if(!raw.length||raw.some(s=>s==='' )||a.some(n=>!Number.isFinite(n)||!Number.isInteger(n))){document.getElementById('maxResult').textContent='Enter comma separated whole numbers.';return}if(a.length===0){document.getElementById('maxResult').textContent='Array cannot be empty for this example.';return}let max=a[0],at=0;for(let i=1;i<a.length;i++)if(a[i]>max){max=a[i];at=i}document.getElementById('maxResult').textContent=`Array: ${a.join(', ')}\nMaximum: ${max}\nFirst index containing maximum: ${at}`};
+document.getElementById('runCount').onclick=()=>{let t=Number(document.getElementById('countTarget').value),a=[2,4,2,7,2,9],n=a.filter(v=>v===t).length;document.getElementById('countResult').textContent=`Array: ${a.join(', ')}\nTarget: ${t}\nOccurrences: ${n}`};
+const exerciseData=[
+{q:'Create an int array named ages that stores 12, 13 and 14.',a:'int[] ages = {12, 13, 14};',why:'An array initializer can provide the values directly.'},
+{q:'For int[] values = {5, 9, 2, 7}; print the value 2 using its index.',a:'System.out.println(values[2]);',why:'Indexes start at 0, so 5 is index 0, 9 is index 1, and 2 is index 2.'},
+{q:'Update the last element in int[] values = {5, 9, 2, 7} to 10.',a:'values[values.length - 1] = 10;',why:'The last valid index is length minus one.'},
+{q:'Print every element of int[] values using a classic for loop.',a:'for (int i = 0; i < values.length; i++) {\\n    System.out.println(values[i]);\\n}',why:'Start at index 0 and continue while i is less than length.'},
+{q:'Search int[] values for target and store the index of the first match, or -1 if absent.',a:'int foundIndex = -1;\\nfor (int i = 0; i < values.length; i++) {\\n    if (values[i] == target) {\\n        foundIndex = i;\\n        break;\\n    }\\n}',why:'Start with not found, update the index on a match, and break to stop at the first match.'},
+{q:'Calculate the total of all integers in an array called numbers.',a:'int total = 0;\\nfor (int value : numbers) {\\n    total += value;\\n}',why:'The enhanced for loop visits each value, and += adds it to the running total.'},
+{q:'Why is i < array.length safer than i <= array.length in a traversal loop?',a:'Because the last valid index is array.length - 1. Using <= would eventually try index array.length, which is out of bounds.',why:'The length is a count, not the last index.'},
+{q:'Find the largest number in a non-empty int array called numbers.',a:'int max = numbers[0];\\nfor (int i = 1; i < numbers.length; i++) {\\n    if (numbers[i] > max) max = numbers[i];\\n}',why:'Start with the first element, then compare each remaining value.'}
+];
+const exercises=document.getElementById('exercises');exerciseData.forEach((e,i)=>{let d=document.createElement('div');d.className='quizq';d.innerHTML=`<strong>${i+1}. ${e.q}</strong><div class="controls"><button class="btn secondary" data-reveal="${i}">Reveal answer</button></div><div class="hidden" id="exerciseAnswer${i}"><div class="code"></div><p class="small"></p></div>`;d.querySelector('.code').textContent=e.a.replaceAll('\\n','\n');d.querySelector('.small').textContent=e.why;exercises.appendChild(d)});document.querySelectorAll('[data-reveal]').forEach(b=>b.onclick=()=>{let a=document.getElementById('exerciseAnswer'+b.dataset.reveal);a.classList.toggle('hidden');b.textContent=a.classList.contains('hidden')?'Reveal answer':'Hide answer'});
+const questions=[
+{q:'What is the index of the first element in a Java array?',a:['0','1','-1'],c:0,e:'Java arrays use zero-based indexing.'},
+{q:'If an array has length 5, what is its last valid index?',a:['5','4','6'],c:1,e:'The last index is length - 1.'},
+{q:'How do you get the number of elements in an array named scores?',a:['scores.size()','scores.length','scores.length()'],c:1,e:'For arrays, length is a property, not a method.'},
+{q:'Which loop is convenient when you need each value but not its index?',a:['Enhanced for loop','while(true)','Only a classic for loop'],c:0,e:'The enhanced for loop supplies each element directly.'},
+{q:'What is linear search?',a:['Sorts the array','Checks elements one by one for a target','Reverses an array'],c:1,e:'Linear search checks sequentially until a match or the end.'},
+{q:'What does foundIndex = -1 commonly mean in a search example?',a:['The target is at index -1','The array length is -1','The target has not been found'],c:2,e:'-1 is a sentinel value, not a valid array index.'},
+{q:'What happens when you access array[ array.length ]?',a:['It accesses the last element','It causes an out-of-bounds error','It returns zero always'],c:1,e:'The final valid index is length - 1.'},
+{q:'Which is the correct way to update the first element?',a:['array[1] = 9;','array[0] = 9;','array = 0;'],c:1,e:'The first element is stored at index 0.'}
+];
+const quiz=document.getElementById('quiz');questions.forEach((q,i)=>{let d=document.createElement('div');d.className='quizq';d.innerHTML=`<strong>${i+1}. ${q.q}</strong><div>${q.a.map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"><span>${a}</span></label>`).join('')}</div><div class="feedback hidden" id="qfeedback${i}"></div>`;quiz.appendChild(d)});
+document.getElementById('submitQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let selected=document.querySelector(`input[name="q${i}"]:checked`),f=document.getElementById('qfeedback'+i);f.classList.remove('hidden');if(selected&&+selected.value===q.c){score++;f.textContent='Correct. '+q.e;f.style.color='#13795b'}else{f.textContent='Review: '+q.e;f.style.color='#a95609'}});let box=document.getElementById('quizScore');box.classList.remove('hidden');box.className='callout '+(score>=6?'success':'warn');box.textContent=`Your score: ${score} / ${questions.length}. `+(score===8?'Excellent work.':score>=6?'Good progress. Review the explanations you missed.':'Review the lessons and try again.')};
+document.getElementById('resetQuiz').onclick=()=>{document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);questions.forEach((q,i)=>document.getElementById('qfeedback'+i).classList.add('hidden'));document.getElementById('quizScore').classList.add('hidden')};
+renderArray('introArray',intro);showPage(0);
+</script></body></html>

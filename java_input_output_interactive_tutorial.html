@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Input and Output | Interactive Tutorial</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#182338;--muted:#607089;--line:#dce4ef;--blue:#2457d6;--bluebg:#eaf0ff;--green:#13795b;--greenbg:#e6f7ef;--orange:#a95609;--orangebg:#fff2df;--purple:#6941c6;--purplebg:#f1eaff;--shadow:0 10px 30px #1e355510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{background:linear-gradient(120deg,#172554,#2457d6);color:#fff;padding:28px 20px 25px}header .wrap,main{max-width:1120px;margin:auto}.eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;opacity:.82;font-weight:800}h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:8px 0 12px}header p{max-width:800px;color:#e1eaff;margin:0}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #ffffff55;border-radius:99px;padding:5px 10px;font-size:.82rem}
+main{padding:22px 16px 60px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:20px}.sidebar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.sidebar{padding:16px;height:max-content;position:sticky;top:12px}.side-title{font-size:.78rem;color:var(--muted);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px}.navbtn{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:10px 11px;border-radius:10px;cursor:pointer;font:inherit;display:flex;gap:9px;align-items:center;margin:3px 0}.navbtn.active{background:var(--bluebg);color:var(--blue);font-weight:750}.num{font-size:.75rem;background:#eef2f7;border-radius:7px;padding:2px 7px;color:#52627b}.navbtn.active .num{background:#d6e2ff;color:var(--blue)}.progress{height:7px;background:#e8edf5;border-radius:9px;overflow:hidden;margin:13px 0 7px}.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .25s}.small{font-size:.86rem;color:var(--muted)}.content{min-width:0}.panel{padding:clamp(18px,3vw,30px);display:none}.panel.active{display:block;animation:fade .18s ease}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}h2{font-size:1.65rem;margin:0 0 7px;line-height:1.2}h3{font-size:1.12rem;margin:22px 0 8px}p{margin:8px 0 14px}.lead{font-size:1.05rem;color:#3d4d65}.callout{border-left:4px solid var(--blue);background:var(--bluebg);padding:13px 15px;border-radius:0 12px 12px 0;margin:16px 0}.success{border-color:var(--green);background:var(--greenbg)}.warn{border-color:#d97706;background:var(--orangebg)}.purple{border-color:var(--purple);background:var(--purplebg)}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:15px 0}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fcfdff}.mini strong{display:block;margin-bottom:5px}.code{background:#111827;color:#e5edf9;border-radius:13px;padding:16px;overflow:auto;font:.9rem/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}.kw{color:#c4b5fd}.str{color:#86efac}.numc{color:#fbbf24}.comment{color:#94a3b8}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:13px 0}.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--blue);color:#fff;font:inherit;font-weight:700;cursor:pointer}.btn.secondary{background:#e9eef8;color:#273a58}.btn:focus,.navbtn:focus,input:focus,select:focus{outline:3px solid #93b4ff;outline-offset:2px}label{font-weight:650;font-size:.92rem;display:block;margin-bottom:5px}input,select,textarea{font:inherit;padding:10px 11px;border:1px solid #bdc9db;border-radius:9px;background:#fff;color:var(--ink);width:100%;max-width:320px}.result{background:#0d1728;color:#c7f9d4;border-radius:12px;padding:13px 15px;min-height:48px;font:.9rem/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.pillrow{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:99px;padding:6px 10px;background:white;cursor:pointer;font:inherit}.pill.active{background:var(--bluebg);border-color:#b6caff;color:var(--blue);font-weight:700}.step{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;margin:14px 0}.bubble{width:34px;height:34px;display:grid;place-items:center;background:var(--bluebg);color:var(--blue);font-weight:800;border-radius:11px}.quizq{border:1px solid var(--line);border-radius:13px;padding:16px;margin:14px 0}.option{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:9px;cursor:pointer}.option:hover{background:#f3f6fb}.option input{width:auto;margin-top:6px}.feedback{margin-top:10px;font-weight:700}.hidden{display:none!important}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.footer-nav button:disabled{opacity:.4;cursor:not-allowed}.tag{display:inline-block;border-radius:6px;background:#eef2f7;color:#34445c;padding:2px 7px;font-size:.8rem;font-weight:700}.token{display:inline-block;background:#f1f4fa;border:1px solid #dce4ef;border-radius:7px;padding:3px 7px;font:.88rem ui-monospace,monospace}.table{width:100%;border-collapse:collapse;margin:12px 0}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}.table th{background:#f5f7fb}
+@media(max-width:780px){main{grid-template-columns:1fr}.sidebar{position:static}.navlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.navbtn{font-size:.9rem}.grid2{grid-template-columns:1fr}.panel{padding:19px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Java basics • Practice focused</div><h1>Input / Output Operations</h1><p>Learn how Java displays information, accepts keyboard input, converts text into numbers, and combines input with calculations. Then practise with beginner exercises.</p><div class="chips"><span class="chip">Scanner basics</span><span class="chip">Interactive examples</span><span class="chip">10 practice questions</span></div></div></header>
+<main>
+<aside class="sidebar"><p class="side-title">Lesson map</p><div class="navlist">
+<button class="navbtn active" data-page="0"><span class="num">01</span> Input and output</button>
+<button class="navbtn" data-page="1"><span class="num">02</span> Display output</button>
+<button class="navbtn" data-page="2"><span class="num">03</span> Read keyboard input</button>
+<button class="navbtn" data-page="3"><span class="num">04</span> Read text and numbers</button>
+<button class="navbtn" data-page="4"><span class="num">05</span> Common Scanner issues</button>
+<button class="navbtn" data-page="5"><span class="num">06</span> Guided mini projects</button>
+<button class="navbtn" data-page="6"><span class="num">07</span> Exercises</button>
+<button class="navbtn" data-page="7"><span class="num">08</span> Final quiz</button>
+</div><div class="progress"><span id="progressbar"></span></div><div class="small" id="progresslabel">Lesson 1 of 8</div></aside>
+<section class="content">
+<article class="panel active">
+<h2>1. Input and output: the conversation</h2><p class="lead">Input is information your program receives. Output is information your program gives back.</p>
+<div class="grid2"><div class="mini"><strong>Input</strong><p>A person types a name, age, or price. A file or another system can also provide data.</p><span class="tag">Information goes in</span></div><div class="mini"><strong>Output</strong><p>The program prints a greeting, calculation result, or message.</p><span class="tag">Information comes out</span></div></div>
+<div class="callout"><strong>Analogy: ordering at a restaurant</strong><br>You tell the server your order (input). The kitchen processes it. Your meal and bill are returned (output). A program follows a similar pattern: receive data, process it, then show a result.</div>
+<div class="code"><span class="comment">// Output</span>
+System.out.println(<span class="str">"Welcome!"</span>);
+
+<span class="comment">// Input setup (read details in the next lesson)</span>
+Scanner input = <span class="kw">new</span> Scanner(System.in);
+String name = input.nextLine();</div>
+<p>The first line displays text. The second creates a Scanner that can read keyboard input. The third waits for the user to type a line and press Enter.</p>
+<div class="callout warn"><strong>Important:</strong> browser activities in this tutorial simulate Java behavior. To run the Java examples for real, use a JDK and a Java editor or IDE.</div>
+<h3>Try the input to output flow</h3><div class="grid2"><div><label for="demoName">Your name</label><input id="demoName" value="Kavi" maxlength="40"></div><div><label for="demoAge">Your age</label><input id="demoAge" type="number" min="0" max="120" value="14"></div></div><button class="btn" id="runWelcome">Run greeting simulation</button><div class="result" id="welcomeOut">Output will appear here.</div>
+</article>
+<article class="panel">
+<h2>2. Display output with print and println</h2><p class="lead">Use <code>System.out.println()</code> to display a value and move to a new line. Use <code>System.out.print()</code> to continue on the same line.</p>
+<div class="code">System.out.print(<span class="str">"Name: "</span>);
+System.out.println(<span class="str">"Arun"</span>);
+System.out.println(<span class="str">"Age: "</span> + <span class="numc">15</span>);</div><div class="result">Name: Arun
+Age: 15</div>
+<h3>Output playground</h3><p>Choose a display pattern and run it.</p><div class="pillrow"><button class="pill active" data-output="a">Separate lines</button><button class="pill" data-output="b">Same line</button><button class="pill" data-output="c">Join text and number</button></div><div class="code" id="outputCode">System.out.println("Good");
+System.out.println("morning");</div><button class="btn" id="runOutput">Run output</button><div class="result" id="outputResult">Output will appear here.</div>
+<h3>What can println display?</h3><table class="table"><thead><tr><th>Java value</th><th>Example</th><th>Output</th></tr></thead><tbody><tr><td>Text</td><td><code>"Hello"</code></td><td>Hello</td></tr><tr><td>Whole number</td><td><code>25</code></td><td>25</td></tr><tr><td>Decimal</td><td><code>3.14</code></td><td>3.14</td></tr><tr><td>Boolean</td><td><code>true</code></td><td>true</td></tr></tbody></table>
+<div class="callout success">When you write <code>"Total: " + total</code>, Java joins the text and value to make one message. The plus sign can also perform arithmetic when used with numbers.</div>
+</article>
+<article class="panel">
+<h2>3. Read keyboard input using Scanner</h2><p class="lead"><code>Scanner</code> is a Java class that can read input from a source such as the keyboard. For console input, the common source is <code>System.in</code>.</p>
+<div class="code"><span class="kw">import</span> java.util.Scanner;
+
+<span class="kw">class</span> Main {
+    <span class="kw">public static void</span> main(String[] args) {
+        Scanner input = <span class="kw">new</span> Scanner(System.in);
+
+        System.out.println(<span class="str">"What is your name?"</span>);
+        String name = input.nextLine();
+
+        System.out.println(<span class="str">"Hello, "</span> + name);
+    }
+}</div>
+<div class="step"><div class="bubble">1</div><div><strong><code>import java.util.Scanner;</code></strong><p>Makes the Scanner class available by its short name in this source file.</p></div></div><div class="step"><div class="bubble">2</div><div><strong><code>Scanner input = new Scanner(System.in);</code></strong><p>Creates a Scanner named <code>input</code> that reads from standard input, usually the keyboard.</p></div></div><div class="step"><div class="bubble">3</div><div><strong><code>input.nextLine()</code></strong><p>Reads a full line of text until the user presses Enter.</p></div></div>
+<div class="callout purple"><strong>Analogy:</strong> Scanner is like a person taking down what you say. <code>System.in</code> is the source of the words, and <code>nextLine()</code> collects one whole line.</div>
+<h3>Interactive name reader</h3><label for="scanName">Type a name</label><input id="scanName" value="Meena" maxlength="60"><button class="btn" id="runScanName">Simulate nextLine()</button><div class="result" id="scanNameOut">Waiting for input...</div>
+<div class="callout warn"><strong>Import location:</strong> the import statement belongs above the class declaration, not inside the <code>main</code> method.</div>
+</article>
+<article class="panel">
+<h2>4. Read text, integers and decimals</h2><p class="lead">Scanner has different methods for different types of input. Choose the method that matches the value you expect.</p>
+<table class="table"><thead><tr><th>Scanner method</th><th>Reads</th><th>Example typed</th></tr></thead><tbody><tr><td><code>nextLine()</code></td><td>A full line of text</td><td><code>Chennai city</code></td></tr><tr><td><code>next()</code></td><td>One token, stopping at whitespace</td><td><code>Chennai</code></td></tr><tr><td><code>nextInt()</code></td><td>A whole number</td><td><code>42</code></td></tr><tr><td><code>nextDouble()</code></td><td>A decimal number</td><td><code>3.75</code></td></tr><tr><td><code>nextBoolean()</code></td><td><code>true</code> or <code>false</code></td><td><code>true</code></td></tr></tbody></table>
+<div class="code"><span class="kw">int</span> age = input.nextInt();
+<span class="kw">double</span> price = input.nextDouble();</div>
+<h3>Test input conversion</h3><div class="grid2"><div><label for="inputType">Expected type</label><select id="inputType"><option value="int">int with nextInt()</option><option value="double">double with nextDouble()</option><option value="boolean">boolean with nextBoolean()</option><option value="token">String token with next()</option><option value="line">String line with nextLine()</option></select></div><div><label for="rawInput">What the user types</label><input id="rawInput" value="42" maxlength="120"></div></div><button class="btn" id="testInput">Read simulated input</button><div class="result" id="inputResult">Result will appear here.</div><p class="small" id="inputExplain">Select a method to see how it reads the input.</p>
+<div class="callout warn"><strong>Input must match the expected type.</strong> If <code>nextInt()</code> receives <code>hello</code>, Java throws an <code>InputMismatchException</code> unless your code handles it.</div>
+</article>
+<article class="panel">
+<h2>5. Common Scanner issues</h2><p class="lead">A common beginner surprise happens when <code>nextInt()</code> is followed by <code>nextLine()</code>.</p>
+<div class="code"><span class="kw">int</span> age = input.nextInt();
+input.nextLine(); <span class="comment">// consume the leftover newline</span>
+String fullName = input.nextLine();</div>
+<p><code>nextInt()</code> reads the number but typically leaves the Enter newline waiting in the input. The next <code>nextLine()</code> may consume that leftover newline and return an empty string. The extra call consumes it first.</p>
+<div class="callout"><strong>Analogy: a ticket queue</strong><br><code>nextInt()</code> takes the number ticket but leaves the Enter keypress in the queue. The next line reader sees that leftover Enter. Consume it before reading the full line.</div>
+<h3>Visualise the input buffer</h3><div class="pillrow"><button class="pill active" data-buffer="bad">Without extra nextLine()</button><button class="pill" data-buffer="good">With extra nextLine()</button></div><div class="code" id="bufferCode">int age = input.nextInt();
+String name = input.nextLine();</div><div class="result" id="bufferResult">age receives 14. name may become an empty string.</div>
+<h3>Other common mistakes</h3><div class="grid2"><div class="mini"><strong>Forgetting the import</strong><p>Add <code>import java.util.Scanner;</code> before the class.</p></div><div class="mini"><strong>Using a number method for text</strong><p>Use <code>nextLine()</code> for a full name such as “Anu Devi”.</p></div><div class="mini"><strong>Invalid numeric input</strong><p>Check the user's input or handle exceptions if it may not be a number.</p></div><div class="mini"><strong>Not closing Scanner</strong><p>For a short console program, you may see <code>input.close()</code> at the end. Be careful closing a Scanner around <code>System.in</code> if more code still needs keyboard input.</p></div></div>
+</article>
+<article class="panel">
+<h2>6. Guided mini projects</h2><p class="lead">These examples combine input, output, variables and simple calculations. The controls simulate what a console program would do.</p>
+<h3>Project A: personal greeting</h3><div class="grid2"><div><label for="projectName">Name</label><input id="projectName" value="Arun" maxlength="40"></div><div><label for="projectCity">City</label><input id="projectCity" value="Chennai" maxlength="40"></div></div><button class="btn" id="runProjectA">Run greeting</button><div class="result" id="projectAOut">Output will appear here.</div>
+<div class="code"><span class="kw">String</span> name = input.nextLine();
+<span class="kw">String</span> city = input.nextLine();
+System.out.println(<span class="str">"Hello "</span> + name);
+System.out.println(<span class="str">"You are from "</span> + city);</div>
+<h3>Project B: add two numbers</h3><div class="grid2"><div><label for="addA">First number</label><input id="addA" type="number" value="12"></div><div><label for="addB">Second number</label><input id="addB" type="number" value="8"></div></div><button class="btn" id="runProjectB">Calculate total</button><div class="result" id="projectBOut">Output will appear here.</div>
+<div class="code"><span class="kw">int</span> a = input.nextInt();
+<span class="kw">int</span> b = input.nextInt();
+<span class="kw">int</span> total = a + b;
+System.out.println(<span class="str">"Total: "</span> + total);</div>
+<h3>Project C: simple bill calculator</h3><div class="grid2"><div><label for="billPrice">Price per item</label><input id="billPrice" type="number" min="0" step="0.01" value="49.50"></div><div><label for="billQty">Quantity</label><input id="billQty" type="number" min="0" step="1" value="3"></div></div><button class="btn" id="runProjectC">Calculate bill</button><div class="result" id="projectCOut">Output will appear here.</div>
+<div class="code"><span class="kw">double</span> price = input.nextDouble();
+<span class="kw">int</span> quantity = input.nextInt();
+<span class="kw">double</span> total = price * quantity;
+System.out.println(<span class="str">"Bill: "</span> + total);</div>
+</article>
+<article class="panel">
+<h2>7. Exercises</h2><p class="lead">Try each problem before revealing its answer. Focus on choosing the right input method and output statement.</p>
+<div id="exercises"></div>
+</article>
+<article class="panel">
+<h2>8. Final quiz</h2><p class="lead">Check your understanding of input, output and Scanner.</p><div id="quiz"></div><button class="btn" id="submitQuiz">Check my answers</button> <button class="btn secondary" id="resetQuiz">Try again</button><div class="callout hidden" id="quizScore"></div>
+<div class="callout success"><strong>Learning goal:</strong> you should now be able to display messages, read text and numeric values, combine input with calculations, and recognise common Scanner mistakes.</div>
+</article>
+<div class="footer-nav"><button class="btn secondary" id="prevBtn">← Previous</button><button class="btn" id="nextBtn">Next lesson →</button></div>
+</section></main>
+<script>
+const panels=[...document.querySelectorAll('.panel')],nav=[...document.querySelectorAll('.navbtn')];let page=0;
+function showPage(n){page=Math.max(0,Math.min(panels.length-1,n));panels.forEach((p,i)=>p.classList.toggle('active',i===page));nav.forEach((b,i)=>b.classList.toggle('active',i===page));document.getElementById('progressbar').style.width=((page+1)/panels.length*100)+'%';document.getElementById('progresslabel').textContent=`Lesson ${page+1} of ${panels.length}`;document.getElementById('prevBtn').disabled=page===0;document.getElementById('nextBtn').textContent=page===panels.length-1?'Back to start ↺':'Next lesson →';window.scrollTo({top:0,behavior:'smooth'})}
+nav.forEach(b=>b.addEventListener('click',()=>showPage(+b.dataset.page)));document.getElementById('prevBtn').onclick=()=>showPage(page-1);document.getElementById('nextBtn').onclick=()=>showPage(page===panels.length-1?0:page+1);
+document.getElementById('runWelcome').onclick=()=>{let name=document.getElementById('demoName').value.trim()||'friend',age=document.getElementById('demoAge').value;document.getElementById('welcomeOut').textContent=age!==''?`Welcome, ${name}!\nYou are ${age} years old.`:`Welcome, ${name}!`};
+const outputs={a:{code:'System.out.println("Good");\\nSystem.out.println("morning");',out:'Good\\nmorning'},b:{code:'System.out.print("Good ");\\nSystem.out.print("morning");',out:'Good morning'},c:{code:'System.out.println("Score: " + 95);',out:'Score: 95'}};
+document.querySelectorAll('[data-output]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-output]').forEach(x=>x.classList.toggle('active',x===b));let o=outputs[b.dataset.output];document.getElementById('outputCode').textContent=o.code.replaceAll('\\n','\n');document.getElementById('outputResult').textContent='Press Run output to see the result.'});document.getElementById('runOutput').onclick=()=>document.getElementById('outputResult').textContent=outputs[document.querySelector('[data-output].active').dataset.output].out.replaceAll('\\n','\n');
+document.getElementById('runScanName').onclick=()=>document.getElementById('scanNameOut').textContent=`Scanner reads the full line:\n${document.getElementById('scanName').value}`;
+document.getElementById('testInput').onclick=()=>{let type=document.getElementById('inputType').value,raw=document.getElementById('rawInput').value.trim(),out=document.getElementById('inputResult'),ex=document.getElementById('inputExplain');if(type==='int'){if(/^[+-]?\d+$/.test(raw)&&Number.isSafeInteger(Number(raw))){out.textContent=`nextInt() returns ${Number(raw)}`;ex.textContent='An int reads a whole number without a decimal part.'}else{out.textContent='InputMismatchException (simulated)';ex.textContent='Enter a whole number such as 12 or -4.'}}else if(type==='double'){if(raw!==''&&Number.isFinite(Number(raw))){out.textContent=`nextDouble() returns ${Number(raw)}`;ex.textContent='A double can contain a fractional part.'}else{out.textContent='InputMismatchException (simulated)';ex.textContent='Enter a numeric value such as 3.75.'}}else if(type==='boolean'){if(raw==='true'||raw==='false'){out.textContent=`nextBoolean() returns ${raw}`;ex.textContent='Scanner expects true or false, ignoring case.'}else{out.textContent='InputMismatchException (simulated)';ex.textContent='Enter true or false.'}}else if(type==='token'){out.textContent=`next() returns ${raw.split(/\s+/)[0]||'(empty input)'}`;ex.textContent='next() reads one token and stops at whitespace.'}else{out.textContent=`nextLine() returns ${raw}`;ex.textContent='nextLine() reads the complete line, including spaces, up to Enter.'}};
+document.querySelectorAll('[data-buffer]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-buffer]').forEach(x=>x.classList.toggle('active',x===b));let good=b.dataset.buffer==='good';document.getElementById('bufferCode').textContent=good?'int age = input.nextInt();\ninput.nextLine(); // consume newline\nString name = input.nextLine();':'int age = input.nextInt();\nString name = input.nextLine();';document.getElementById('bufferResult').textContent=good?'age receives 14. The extra nextLine() consumes the leftover Enter. The next nextLine() reads the actual name.':'age receives 14. name may become an empty string because nextLine() consumes the leftover Enter.'});
+document.getElementById('runProjectA').onclick=()=>{let n=document.getElementById('projectName').value.trim()||'friend',c=document.getElementById('projectCity').value.trim()||'your city';document.getElementById('projectAOut').textContent=`Hello ${n}\nYou are from ${c}`};
+function num(id){let s=document.getElementById(id).value;return s===''?NaN:Number(s)}
+document.getElementById('runProjectB').onclick=()=>{let a=num('addA'),b=num('addB');document.getElementById('projectBOut').textContent=Number.isFinite(a)&&Number.isFinite(b)&&Number.isInteger(a)&&Number.isInteger(b)?`Total: ${a+b}`:'Enter whole numbers for both inputs.'};
+document.getElementById('runProjectC').onclick=()=>{let p=num('billPrice'),q=num('billQty');document.getElementById('projectCOut').textContent=Number.isFinite(p)&&Number.isFinite(q)&&p>=0&&q>=0&&Number.isInteger(q)?`Price per item: ${p.toFixed(2)}\nQuantity: ${q}\nBill: ${(p*q).toFixed(2)}`:'Enter a non-negative price and whole-number quantity.'};
+const exerciseData=[
+{q:'Read a person’s full name, including spaces, and store it in a String. Which Scanner method is best?',answer:'String fullName = input.nextLine();',why:'nextLine() reads the full line, including spaces.'},
+{q:'Read a whole number representing a student’s age.',answer:'int age = input.nextInt();',why:'nextInt() reads a whole number into an int.'},
+{q:'Display the text Total: followed by the value in a variable named total.',answer:'System.out.println("Total: " + total);',why:'The plus sign joins the text and the variable value into one output message.'},
+{q:'Read two integers a and b, add them, and print the result.',answer:'int a = input.nextInt();\nint b = input.nextInt();\nSystem.out.println(a + b);',why:'Read each integer, then use + for numeric addition.'},
+{q:'Read a decimal price and print it.',answer:'double price = input.nextDouble();\nSystem.out.println(price);',why:'nextDouble() reads a decimal number into a double.'},
+{q:'Why might nextLine() return an empty string immediately after nextInt()?',answer:'Because nextInt() leaves the newline from Enter in the input. Call input.nextLine() once to consume it, then call nextLine() again to read the actual line.',why:'The numeric Scanner methods do not consume the line separator after the number.'},
+{q:'Ask for a first name and then display Hello followed by that name.',answer:'System.out.println("What is your name?");\nString name = input.nextLine();\nSystem.out.println("Hello " + name);',why:'Print the prompt, read a full line, then join it with the greeting.'},
+{q:'Read two decimal values and print their average.',answer:'double a = input.nextDouble();\ndouble b = input.nextDouble();\nSystem.out.println((a + b) / 2);',why:'Use double for decimal inputs and divide their sum by 2.'},
+{q:'Which statement reads one word from the input rather than a full line?',answer:'String word = input.next();',why:'next() reads one token and stops at whitespace.'},
+{q:'What import is needed to use Scanner by its short name?',answer:'import java.util.Scanner;',why:'Scanner belongs to the java.util package.'}
+];
+const exercises=document.getElementById('exercises');exerciseData.forEach((e,i)=>{let d=document.createElement('div');d.className='quizq';d.innerHTML=`<strong>${i+1}. ${e.q}</strong><div class="controls"><button class="btn secondary" data-reveal="${i}">Reveal answer</button></div><div class="hidden" id="exerciseAnswer${i}"><div class="code"></div><p class="small"></p></div>`;d.querySelector('.code').textContent=e.answer;d.querySelector('.small').textContent=e.why;exercises.appendChild(d)});document.querySelectorAll('[data-reveal]').forEach(b=>b.onclick=()=>{let a=document.getElementById('exerciseAnswer'+b.dataset.reveal);a.classList.toggle('hidden');b.textContent=a.classList.contains('hidden')?'Reveal answer':'Hide answer'});
+const questions=[
+{q:'Which method reads a complete line of text including spaces?',a:['nextInt()','next()','nextLine()'],c:2,e:'nextLine() reads a whole line until Enter.'},
+{q:'Which statement prints a value and moves to a new line?',a:['System.out.print(value);','System.out.println(value);','Scanner.println(value);'],c:1,e:'println prints the value and then ends the line.'},
+{q:'What does new Scanner(System.in) create?',a:['A keyboard input reader','A print command','A numeric variable'],c:0,e:'It creates a Scanner that reads from standard input, usually the keyboard.'},
+{q:'Which method is suitable for reading an integer?',a:['nextLine() only','nextInt()','nextDouble() only'],c:1,e:'nextInt() reads a whole number.'},
+{q:'What is the type of 2.75 in a declaration such as double price = 2.75;?',a:['String','boolean','double'],c:2,e:'double is commonly used for decimal numeric values.'},
+{q:'What does next() do when input is "New Delhi"?',a:['Reads the entire phrase','Reads only the first token, New','Reads only Delhi'],c:1,e:'next() stops at whitespace and reads one token.'},
+{q:'Why might a program call input.nextLine() after input.nextInt()?',a:['To print the number','To consume the leftover newline','To convert the number to text'],c:1,e:'The extra call consumes the line break left after numeric input.'},
+{q:'Which line joins text with the value in score?',a:['System.out.println("Score: " + score);','System.out.println("Score: " score);','System.out.println(score = "Score: ");'],c:0,e:'The + operator joins the text and the value for output.'}
+];
+const quiz=document.getElementById('quiz');questions.forEach((q,i)=>{let d=document.createElement('div');d.className='quizq';d.innerHTML=`<strong>${i+1}. ${q.q}</strong><div>${q.a.map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"><span>${a}</span></label>`).join('')}</div><div class="feedback hidden" id="qfeedback${i}"></div>`;quiz.appendChild(d)});
+document.getElementById('submitQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let selected=document.querySelector(`input[name="q${i}"]:checked`),f=document.getElementById('qfeedback'+i);f.classList.remove('hidden');if(selected&&+selected.value===q.c){score++;f.textContent='Correct. '+q.e;f.style.color='#13795b'}else{f.textContent='Review: '+q.e;f.style.color='#a95609'}});let box=document.getElementById('quizScore');box.classList.remove('hidden');box.className='callout '+(score>=6?'success':'warn');box.textContent=`Your score: ${score} / ${questions.length}. `+(score===8?'Excellent work.':score>=6?'Good progress. Review any missed explanations.':'Review the lessons and try again.')};
+document.getElementById('resetQuiz').onclick=()=>{document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);questions.forEach((q,i)=>document.getElementById('qfeedback'+i).classList.add('hidden'));document.getElementById('quizScore').classList.add('hidden')};
+showPage(0);
+</script></body></html>

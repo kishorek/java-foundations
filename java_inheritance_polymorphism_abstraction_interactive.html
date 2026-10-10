@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Inheritance, Polymorphism & Abstraction | Interactive Beginner Course</title>
+<style>
+:root{--ink:#19243a;--muted:#68758c;--line:#e2e8f2;--bg:#f5f7fc;--blue:#315be8;--pale:#edf2ff;--green:#177a52;--red:#bd3444}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.hero{background:linear-gradient(120deg,#253b91,#4269ee 64%,#8094ff);color:#fff;padding:38px 22px 32px}.hero-inner{max-width:1200px;margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800;opacity:.85}.hero h1{font-size:clamp(2.15rem,4vw,3.25rem);line-height:1.1;margin:12px 0}.hero p{max-width:870px;font-size:1.08rem;color:#eef2ff;margin:12px 0}.pill{display:inline-block;border:1px solid #ffffff65;border-radius:99px;padding:4px 10px;font-size:.8rem;margin-top:8px}
+.layout{max-width:1200px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:258px minmax(0,1fr);gap:22px}.sidebar{position:sticky;top:14px;align-self:start;background:white;border:1px solid var(--line);border-radius:18px;padding:18px}.side-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850;margin-bottom:8px}.nav a{display:block;text-decoration:none;color:#4c5871;padding:8px 10px;border-radius:9px;font-size:.9rem;margin:2px 0}.nav a:hover,.nav a.active{background:var(--pale);color:#2348c6;font-weight:750}.progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin:18px 0 7px}.progress{height:7px;background:#e8edf6;border-radius:99px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--blue),#8da1ff);transition:width .2s}
+main{min-width:0}.lesson{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,31px);margin-bottom:18px;scroll-margin-top:15px;box-shadow:0 6px 22px #1c2e4c08}.lesson h2{font-size:1.55rem;line-height:1.28;margin:0 0 12px}.lesson h3{font-size:1.08rem;line-height:1.4;margin:22px 0 8px}.tag{display:inline-block;background:#edf2ff;color:#294bc3;border-radius:99px;padding:3px 10px;font-size:.76rem;font-weight:850;margin-bottom:10px}.muted{color:var(--muted)}.small{font-size:.88rem}.analogy{background:#fff8e9;border:1px solid #f2dfb5;border-radius:12px;padding:14px 16px;margin:15px 0}.analogy strong{color:#805000}.tip{background:#eefaf4;border:1px solid #cdeedd;border-radius:12px;padding:13px 15px;margin:15px 0}.warning{background:#fff0f1;border:1px solid #f2d0d4;border-radius:12px;padding:13px 15px;margin:15px 0}.note{background:#f1f5ff;border:1px solid #dbe4ff;border-radius:12px;padding:13px 15px;margin:15px 0}
+pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12px;font-size:.9rem;line-height:1.58;margin:12px 0}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code,li code{background:#eef1f7;padding:2px 5px;border-radius:5px;color:#293d76}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:#fff;font:inherit;font-weight:750;cursor:pointer}.btn.secondary{background:#edf1fb;color:#263c7d}.btn:hover{filter:brightness(.96)}input,select{padding:10px 12px;border:1px solid #cfd8e7;border-radius:9px;font:inherit;max-width:100%;background:white;color:var(--ink)}.field{display:flex;flex-direction:column;gap:5px;font-size:.9rem;font-weight:700;min-width:130px}.field input{font-weight:400}.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.demo-box{border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}.demo-box h3{margin-top:0}.output{background:#f3f6fb;border-radius:10px;padding:11px 13px;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}.question{border:1px solid var(--line);padding:14px;border-radius:12px;margin:12px 0}.question p{margin:0 0 9px;font-weight:750}.question label{display:block;padding:5px 0;cursor:pointer}.answer{display:none;margin-top:10px;padding:11px;background:#eefaf4;border-radius:8px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}th{background:#f1f4fb}.steps{counter-reset:step;list-style:none;padding:0}.steps li{counter-increment:step;position:relative;padding:8px 0 8px 42px}.steps li:before{content:counter(step);position:absolute;left:0;top:8px;background:var(--pale);color:#294bc3;font-weight:850;width:29px;height:29px;display:grid;place-items:center;border-radius:50%}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin:18px 0 30px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{display:grid;grid-template-columns:1fr 1fr;gap:2px}.demo-grid{grid-template-columns:1fr}.hero{padding-top:28px}}@media(max-width:480px){.nav{grid-template-columns:1fr}.row>*{flex:1 1 100%}.btn{width:100%}.footer-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner"><div class="eyebrow">Java Foundations • Beginner's Course</div><h1>Inheritance, Polymorphism & Abstraction</h1><p>Learn how Java classes share common features, respond differently to the same command, and hide complicated details behind simple contracts. We'll use animals, remote controls, and everyday services to make the ideas concrete.</p><span class="pill">Beginner friendly · Analogies · Interactive labs · Practice · Quiz</span></div></header>
+<div class="layout">
+<aside class="sidebar"><div class="side-title">Lesson navigation</div><nav class="nav" id="nav">
+<a href="#start">1. Why these ideas?</a><a href="#inheritance">2. Inheritance</a><a href="#override">3. Override vs overload</a><a href="#polymorphism">4. Polymorphism</a><a href="#polyLab">5. Interactive lab</a><a href="#abstract">6. Abstract classes</a><a href="#interfaces">7. Interfaces</a><a href="#compare">8. How they fit</a><a href="#design">9. Design rules</a><a href="#practice">10. Practice</a><a href="#quiz">11. Quiz</a>
+</nav><div class="progress-label"><span>Lesson progress</span><b id="progressText">0%</b></div><div class="progress"><span id="progressBar"></span></div><p class="small muted">Work through the concepts, try the animal lab, and check your understanding.</p></aside>
+<main>
+<section class="lesson" id="start"><span class="tag">THE BIG PICTURE</span><h2>1. Why do we need these three ideas?</h2>
+<p>In the previous lesson, you learned that a class is a blueprint and an object is an instance. Now imagine an app with dogs, cats, birds, and fish. They all have some things in common, but they do not all behave in the same way.</p>
+<div class="analogy"><strong>Analogy: a family of vehicles</strong><br>A car, bus, and motorcycle are all vehicles, so they share ideas like speed or a registration number. But they may start, stop, and carry passengers differently. Java gives us ways to represent what is shared and what is specialised.</div>
+<div class="demo-grid"><div class="demo-box"><h3>Inheritance</h3><p>Reuse and specialise features from a parent class.</p><span class="muted small">“A Dog is an Animal.”</span></div><div class="demo-box"><h3>Polymorphism</h3><p>Use one common type, while each actual object behaves in its own way.</p><span class="muted small">“Make every animal speak.”</span></div><div class="demo-box"><h3>Abstraction</h3><p>Expose the essential operation and hide unnecessary implementation details.</p><span class="muted small">“Press start; don't manage the engine internals.”</span></div><div class="demo-box"><h3>How they relate</h3><p>Inheritance can create a family of related types; overriding enables different behaviours; abstract classes and interfaces define contracts.</p></div></div>
+<div class="tip"><b>Simple memory aid:</b> Inheritance = “is a kind of”; polymorphism = “same request, different response”; abstraction = “show what matters, hide how it works.”</div>
+</section>
+<section class="lesson" id="inheritance"><span class="tag">CONCEPT 1</span><h2>2. Inheritance: build on an existing class</h2>
+<p>Inheritance lets a new class reuse accessible fields and methods from an existing class. The existing class is often called the <b>parent</b> or <b>superclass</b>; the new class is the <b>child</b> or <b>subclass</b>.</p>
+<pre><code>class Animal {
+    void eat() {
+        System.out.println("This animal eats.");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Woof!");
+    }
+}
+
+Dog dog = new Dog();
+dog.eat();  // inherited from Animal
+dog.bark(); // defined in Dog</code></pre>
+<div class="analogy"><strong>Analogy: a starter kit</strong><br>The parent class is a starter kit with useful shared features. The child class gets those accessible features and adds its own. A Dog can eat because it inherits <code>eat()</code>, and bark because Dog defines <code>bark()</code>.</div>
+<h3>Read the keyword <code>extends</code></h3><ul><li><code>class Dog extends Animal</code> declares that Dog is a specialised kind of Animal.</li><li>Dog can use accessible inherited members such as the public or protected methods shown here.</li><li>Dog can add its own methods or override inherited methods.</li></ul>
+<h3>Inheritance is not copying and pasting</h3><p>Inheritance creates a type relationship. You do not manually duplicate the parent's code into the child class. Each Dog object is still one Dog object, with inherited behaviour available through the class relationship.</p>
+<div class="warning"><b>Important:</b> a subclass does not directly access a parent's <code>private</code> fields. The parent can expose suitable methods to work with its private state. Constructors are not inherited either; a subclass constructor calls a superclass constructor.</div>
+<h3>Calling the parent constructor with <code>super</code></h3><pre><code>class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    Dog(String name) {
+        super(name); // initialise the Animal part
+    }
+}</code></pre>
+<p><code>super(name)</code> calls the matching superclass constructor. In Java, a call to <code>super(...)</code> must be the first statement in a constructor when written explicitly.</p>
+</section>
+<section class="lesson" id="override"><span class="tag">CUSTOMISE BEHAVIOUR</span><h2>3. Method overriding vs method overloading</h2>
+<p>A subclass may want to use a method name it inherited, but provide its own behaviour. That is <b>overriding</b>.</p>
+<pre><code>class Animal {
+    void speak() {
+        System.out.println("Some animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void speak() {
+        System.out.println("Woof!");
+    }
+}</code></pre>
+<p>The <code>@Override</code> annotation tells Java that you intend to override an inherited method. The compiler can catch mistakes such as misspelling the method name or using an incompatible signature.</p>
+<div class="analogy"><strong>Analogy: the same question in different households</strong><br>If you ask “What sound do you make?” the dog answers “Woof!” and the cat answers “Meow!” They respond to the same kind of request with their own specialised behaviour.</div>
+<h3>Overloading is different</h3><pre><code>class Printer {
+    void print(String text) { }
+    void print(int number) { }
+    void print(String text, int copies) { }
+}</code></pre>
+<p>Overloading means the same method name has different parameter lists. The compiler chooses which overload fits the arguments. Overriding means a subclass supplies a new implementation of an inherited method.</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>Overloading</th><th>Overriding</th></tr></thead><tbody><tr><td>Where?</td><td>Often in the same class</td><td>Subclass and superclass relationship</td></tr><tr><td>Parameters</td><td>Must differ in number, type, or order</td><td>Must match the inherited method signature</td></tr><tr><td>Purpose</td><td>Similar action for different inputs</td><td>Specialised behaviour for a subtype</td></tr><tr><td>Typical selection</td><td>Compile time</td><td>Runtime for overridden instance methods</td></tr></tbody></table></div>
+<div class="tip"><b>Memory trick:</b> overloading = same name, different inputs. Overriding = same inherited method, new implementation.</div>
+</section>
+<section class="lesson" id="polymorphism"><span class="tag">CONCEPT 2</span><h2>4. Polymorphism: one request, many behaviours</h2>
+<p>The word sounds intimidating, but the idea is simple. A variable declared as a parent type can refer to an object of a child type. When you call an overridden instance method, Java runs the implementation belonging to the actual object.</p>
+<pre><code>Animal first = new Dog();
+Animal second = new Cat();
+
+first.speak();  // Woof!
+second.speak(); // Meow!</code></pre>
+<p>Both variables are declared as <code>Animal</code>. But the objects created are a Dog and a Cat. The actual object determines which overridden <code>speak()</code> method runs.</p>
+<div class="analogy"><strong>Analogy: a universal remote</strong><br>The remote has a common “power” button. Pressing it on a TV turns on the TV; pressing it on a speaker turns on the speaker. You use one kind of command without needing to know every device's internal details.</div>
+<h3>Polymorphism becomes powerful with loops</h3><pre><code>Animal[] animals = {
+    new Dog(),
+    new Cat(),
+    new Bird()
+};
+
+for (Animal animal : animals) {
+    animal.speak();
+}</code></pre>
+<p>The loop does not need a separate <code>if</code> statement for each animal. Each object supplies its own behaviour through the shared method.</p>
+<div class="note"><b>Important distinction:</b> the compiler checks what methods are available through the declared type, <code>Animal</code>. At runtime, Java chooses the overridden implementation for the actual object. A parent-typed variable cannot directly call a child-only method unless you use an appropriate design or cast safely.</div>
+</section>
+<section class="lesson" id="polyLab"><span class="tag">INTERACTIVE LAB</span><h2>5. Animal sound lab</h2>
+<p>Select an animal and ask it to speak. Then use the “make all animals speak” button. This simulates the same common method call producing different behaviour.</p>
+<div class="demo-box"><div class="row"><label class="field" style="flex:1">Choose an animal<select id="animalSelect"><option value="Dog">Dog</option><option value="Cat">Cat</option><option value="Bird">Bird</option><option value="Cow">Cow</option></select></label><button class="btn" id="speakOne">Speak</button><button class="btn secondary" id="speakAll">Make all speak</button></div><div class="output" id="animalOutput" aria-live="polite">Choose an animal and press Speak.</div></div>
+<h3>Equivalent Java design</h3><pre><code>class Animal {
+    void speak() {
+        System.out.println("Generic sound");
+    }
+}
+class Dog extends Animal {
+    @Override void speak() {
+        System.out.println("Woof!");
+    }
+}
+class Cat extends Animal {
+    @Override void speak() {
+        System.out.println("Meow!");
+    }
+}</code></pre>
+<p class="muted small">The playground is a browser simulation of the concept, not a Java compiler.</p>
+</section>
+<section class="lesson" id="abstract"><span class="tag">CONCEPT 3A</span><h2>6. Abstract classes: a useful base that is not complete by itself</h2>
+<p>Sometimes you want to define what all related objects have in common, but the base class cannot sensibly implement every behaviour. Java lets you declare an <code>abstract</code> class.</p>
+<pre><code>abstract class Shape {
+    abstract double area();
+
+    void describe() {
+        System.out.println("I am a shape.");
+    }
+}
+
+class Circle extends Shape {
+    private double radius;
+
+    Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    double area() {
+        return Math.PI * radius * radius;
+    }
+}</code></pre>
+<div class="analogy"><strong>Analogy: a shape worksheet</strong><br>The worksheet says every shape should be able to report its area, but the formula depends on the shape. A circle uses π × radius²; a rectangle uses width × height. The abstract parent sets the expectation, and each concrete child supplies the formula.</div>
+<ul><li>An abstract class cannot be instantiated directly with <code>new Shape()</code>.</li><li>It can contain both abstract methods (no body) and concrete methods (with a body).</li><li>A concrete subclass must implement inherited abstract methods unless that subclass is also abstract.</li><li>An abstract class can have fields and constructors, which run as part of subclass construction.</li></ul>
+<div class="tip"><b>Use an abstract class when:</b> related classes share common state or implemented behaviour, and some behaviour must be supplied by each specific subclass.</div>
+</section>
+<section class="lesson" id="interfaces"><span class="tag">CONCEPT 3B</span><h2>7. Interfaces: agree on a capability</h2>
+<p>An interface describes a contract: a set of operations that a class promises to provide. It is especially useful when different kinds of classes should support the same capability, even if they are not the same kind of thing.</p>
+<pre><code>interface Payable {
+    void pay(double amount);
+}
+
+class CardPayment implements Payable {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid by card: " + amount);
+    }
+}
+
+class WalletPayment implements Payable {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid by wallet: " + amount);
+    }
+}</code></pre>
+<div class="analogy"><strong>Analogy: a charging socket standard</strong><br>A socket defines what connection a compatible device must support. The device internals can be different, but they agree on the interface. Similarly, code can call <code>pay()</code> on any <code>Payable</code> implementation.</div>
+<h3>Use the interface polymorphically</h3><pre><code>Payable payment = new CardPayment();
+payment.pay(250.00);
+
+Payable another = new WalletPayment();
+another.pay(125.00);</code></pre>
+<p>Both objects satisfy the <code>Payable</code> contract. The caller can depend on the interface rather than hard-coding one payment class.</p>
+<h3>Abstract class or interface?</h3><div class="table-wrap"><table><thead><tr><th>Abstract class</th><th>Interface</th></tr></thead><tbody><tr><td>Useful for a related family sharing state and implementation.</td><td>Useful for defining a capability or contract across potentially unrelated classes.</td></tr><tr><td>A class can extend only one class.</td><td>A class can implement multiple interfaces.</td></tr><tr><td>Can have instance fields and constructors.</td><td>Cannot be instantiated; fields declared in interfaces are implicitly public, static, and final. Interfaces can have abstract, default, static, and private methods under Java's rules.</td></tr></tbody></table></div>
+<div class="note">Beginner rule of thumb: choose an abstract class for a shared foundation; choose an interface for a capability that different classes can promise to provide. They can also be used together.</div>
+</section>
+<section class="lesson" id="compare"><span class="tag">PUT THE IDEAS TOGETHER</span><h2>8. One scenario, three ideas</h2>
+<p>Imagine a delivery app with different delivery methods.</p>
+<div class="demo-grid"><div class="demo-box"><h3>Inheritance</h3><p><code>BikeDelivery</code> and <code>VanDelivery</code> extend a shared <code>Delivery</code> class for common data such as a delivery ID.</p></div><div class="demo-box"><h3>Polymorphism</h3><p>Both provide their own <code>estimateTime()</code>. The app calls that method on a <code>Delivery</code> reference.</p></div><div class="demo-box"><h3>Abstraction</h3><p>The app depends on a simple operation like <code>deliver()</code>, without needing to know every internal routing step.</p></div><div class="demo-box"><h3>Interface option</h3><p>An interface such as <code>Trackable</code> could be implemented by a delivery, a parcel locker, or another trackable item.</p></div></div>
+<pre><code>abstract class Delivery {
+    abstract int estimateTime();
+}
+
+class BikeDelivery extends Delivery {
+    @Override int estimateTime() { return 25; }
+}
+
+class VanDelivery extends Delivery {
+    @Override int estimateTime() { return 40; }
+}
+
+Delivery job = new BikeDelivery();
+System.out.println(job.estimateTime()); // 25</code></pre>
+<p>The declared type, <code>Delivery</code>, tells the compiler which operation is available. The actual object, <code>BikeDelivery</code>, determines the overridden implementation at runtime.</p>
+</section>
+<section class="lesson" id="design"><span class="tag">GOOD DESIGN</span><h2>9. Design rules and common mistakes</h2>
+<ul><li><b>Use inheritance for a genuine “is-a” relationship.</b> A Dog is an Animal. A Car is a Vehicle. A Car is not an Engine; it has an Engine, which is a different relationship.</li><li><b>Prefer composition when one thing has another thing.</b> “Car has an Engine” is usually better modelled by a field that refers to an Engine object.</li><li><b>Use <code>@Override</code>.</b> It helps the compiler catch accidental signature mistakes.</li><li><b>Depend on abstractions when useful.</b> Accepting an interface type can make code work with several implementations.</li><li><b>Do not force every difference into inheritance.</b> Deep, complicated class hierarchies are difficult to change. Use the simplest design that expresses the domain.</li></ul>
+<div class="analogy"><strong>Analogy: is-a vs has-a</strong><br>A Labrador <b>is an</b> Animal, so inheritance may fit. A Car <b>has an</b> Engine, so composition fits. If you say “Car extends Engine,” the model is probably wrong: a car is not a kind of engine.</div>
+<div class="warning"><b>Frequent beginner mistakes:</b> trying to instantiate an abstract class; forgetting to implement an abstract method; assuming private parent fields are directly accessible; confusing overloading with overriding; or assuming the variable's declared type always determines which overridden method runs.</div>
+</section>
+<section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>10. Practice problems</h2><p>Try each question before revealing the explanation.</p>
+<div class="question"><p>1. In <code>class Dog extends Animal</code>, which is the parent class?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>Animal</code> is the parent/superclass; <code>Dog</code> is the child/subclass.</div></div>
+<div class="question"><p>2. Is “a Bicycle is a Vehicle” a plausible inheritance relationship?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Yes. A bicycle is a kind of vehicle, so <code>Bicycle extends Vehicle</code> may be sensible if the shared model fits.</div></div>
+<div class="question"><p>3. What is the difference between overloading and overriding?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Overloading uses the same method name with different parameter lists. Overriding replaces inherited instance-method behaviour in a subclass using a matching signature.</div></div>
+<div class="question"><p>4. What prints if <code>Animal a = new Dog();</code> and Dog overrides <code>speak()</code>, then <code>a.speak()</code> is called?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Dog's implementation runs, because overridden instance methods use runtime dispatch based on the actual object.</div></div>
+<div class="question"><p>5. Can you write <code>new Shape()</code> if Shape is abstract?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">No. Abstract classes cannot be instantiated directly. Create an instance of a concrete subclass such as Circle.</div></div>
+<div class="question"><p>6. When might an interface be better than an abstract class?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">When different classes need to promise the same capability without necessarily sharing a common parent class or common instance state.</div></div>
+<div class="question"><p>7. A Car has an Engine. Is that usually inheritance or composition?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Composition. A car has an engine; it is not a kind of engine.</div></div>
+<div class="question"><p>8. Why add <code>@Override</code> above a method?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It documents the intent and asks the compiler to verify that the method actually overrides an inherited method.</div></div>
+</section>
+<section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>11. Quick quiz</h2><p>Choose one answer for each question, then check your score.</p>
+<form id="quizForm">
+<div class="question"><p>1. Which keyword declares class inheritance?</p><label><input type="radio" name="q1" value="a"> implements</label><label><input type="radio" name="q1" value="b"> extends</label><label><input type="radio" name="q1" value="c"> package</label></div>
+<div class="question"><p>2. Which concept means the same method call can behave differently for different object types?</p><label><input type="radio" name="q2" value="a"> Encapsulation</label><label><input type="radio" name="q2" value="b"> Variable assignment</label><label><input type="radio" name="q2" value="c"> Polymorphism</label></div>
+<div class="question"><p>3. What is method overloading?</p><label><input type="radio" name="q3" value="a"> Same method name with different parameter lists</label><label><input type="radio" name="q3" value="b"> Making every method private</label><label><input type="radio" name="q3" value="c"> A child class replacing an inherited method only</label></div>
+<div class="question"><p>4. Can an abstract class be instantiated directly?</p><label><input type="radio" name="q4" value="a"> Yes, always</label><label><input type="radio" name="q4" value="b"> No</label><label><input type="radio" name="q4" value="c"> Only if it has a constructor</label></div>
+<div class="question"><p>5. Which keyword declares that a class fulfils an interface?</p><label><input type="radio" name="q5" value="a"> extends</label><label><input type="radio" name="q5" value="b"> inherits</label><label><input type="radio" name="q5" value="c"> implements</label></div>
+<div class="question"><p>6. “A Car has an Engine” is usually best modelled as:</p><label><input type="radio" name="q6" value="a"> Composition</label><label><input type="radio" name="q6" value="b"> Method overriding</label><label><input type="radio" name="q6" value="c"> A primitive type</label></div>
+<button class="btn" type="submit">Check my answers</button> <button class="btn secondary" type="button" id="resetQuiz">Reset quiz</button><div id="quizResult" class="output" aria-live="polite"></div>
+</form>
+</section>
+<div class="footer-nav"><button class="btn secondary" onclick="location.href='java_classes_objects_encapsulation_interactive.html'">← Previous: Classes & Encapsulation</button><button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Finish lesson →</button></div>
+<p class="muted small">Next topic: Collections Framework. The interactive animal section is a browser simulation. Copy the Java snippets into a Java IDE or online compiler to execute real Java.</p>
+</main></div>
+<script>
+const sections=[...document.querySelectorAll('main .lesson')],navLinks=[...document.querySelectorAll('.nav a')];
+function updateProgress(){let seen=sections.filter(s=>s.getBoundingClientRect().top<window.innerHeight*.75).length;let pct=Math.round(seen/sections.length*100);document.getElementById('progressText').textContent=pct+'%';document.getElementById('progressBar').style.width=pct+'%';let active=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<170)active=i});navLinks.forEach((a,i)=>a.classList.toggle('active',i===active))}
+window.addEventListener('scroll',updateProgress);updateProgress();
+const sounds={Dog:'Woof! Woof!',Cat:'Meow!',Bird:'Tweet tweet!',Cow:'Moo!'},animalOutput=document.getElementById('animalOutput');
+document.getElementById('speakOne').onclick=()=>{let a=document.getElementById('animalSelect').value;animalOutput.textContent='Animal animal = new '+a+'();\\nanimal.speak();\\n\\nOutput: '+sounds[a]};
+document.getElementById('speakAll').onclick=()=>{animalOutput.textContent='for (Animal animal : animals) { animal.speak(); }\\n\\n'+Object.entries(sounds).map(([a,s])=>a+': '+s).join('\\n')};
+document.querySelectorAll('.reveal').forEach(btn=>btn.onclick=()=>{let a=btn.nextElementSibling,open=a.style.display==='block';a.style.display=open?'none':'block';btn.textContent=open?'Reveal answer':'Hide answer'});
+const correct={q1:'b',q2:'c',q3:'a',q4:'b',q5:'c',q6:'a'};
+document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Excellent! You understand the core OOP ideas.':score>=4?'Good work. Review the questions you missed.':'Revisit inheritance, polymorphism, and abstraction, then try again.');out.className='output '+(score>=4?'good':'bad')};
+document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
+</script>
+</body></html>

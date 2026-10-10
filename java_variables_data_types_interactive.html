@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Basics: Variables & Data Types</title>
+<style>
+:root{--ink:#18233b;--muted:#66718a;--paper:#f7f8fc;--card:#fff;--line:#e4e8f1;--blue:#3659e3;--blue2:#eaf0ff;--green:#16845b;--greenbg:#e6f7ef;--orange:#c46b13;--orangebg:#fff2df;--pink:#f4eaff;--shadow:0 12px 35px rgba(27,43,87,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px clamp(16px,4vw,52px);display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{font-weight:850;letter-spacing:-.03em}.brand span{color:var(--blue)}.progress-wrap{display:flex;align-items:center;gap:10px;min-width:180px}.progress{height:8px;width:130px;background:#e9edf6;border-radius:99px;overflow:hidden}.progress div{height:100%;width:0;background:var(--blue);transition:width .3s}.layout{max-width:1180px;margin:auto;padding:26px clamp(14px,3vw,32px) 64px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px}.sidebar{align-self:start;position:sticky;top:78px}.side-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800;margin:8px 10px 12px}.navitem{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:transparent;color:#56617a;padding:11px 12px;border-radius:12px;margin:3px 0}.navitem.active{background:var(--blue2);color:var(--blue);font-weight:750}.navitem.done .num{background:var(--green);color:white}.num{width:27px;height:27px;display:grid;place-items:center;background:#edf0f7;border-radius:9px;font-size:.8rem;font-weight:800;flex-shrink:0}.side-note{margin-top:22px;padding:15px;border-radius:16px;background:#fff;border:1px solid var(--line);font-size:.9rem;color:var(--muted)}main{min-width:0}.hero{background:linear-gradient(130deg,#17244a,#344ed2 75%,#6579f0);color:white;padding:clamp(24px,4vw,42px);border-radius:24px;position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:240px;height:240px;border:34px solid rgba(255,255,255,.08);border-radius:50%;right:-70px;top:-85px}.eyebrow{font-size:.75rem;font-weight:850;text-transform:uppercase;letter-spacing:.13em;opacity:.8}.hero h1{font-size:clamp(2rem,4.5vw,3.3rem);line-height:1.08;letter-spacing:-.045em;margin:12px 0}.hero p{max-width:650px;color:#e1e7ff;font-size:1.05rem;margin:0}.hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.chip{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);padding:6px 11px;border-radius:99px;font-size:.82rem}.lesson{display:none;animation:rise .3s ease}.lesson.active{display:block}@keyframes rise{from{opacity:.4;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.section-head{margin:30px 0 16px}.section-head .kicker{color:var(--blue);font-size:.76rem;font-weight:850;text-transform:uppercase;letter-spacing:.12em}.section-head h2{font-size:clamp(1.55rem,3vw,2.15rem);line-height:1.2;letter-spacing:-.035em;margin:5px 0 8px}.section-head p{margin:0;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0;box-shadow:0 5px 18px rgba(27,43,87,.035)}.card h3{margin:0 0 8px;font-size:1.15rem;letter-spacing:-.02em}.muted{color:var(--muted)}.analogy{display:grid;grid-template-columns:84px 1fr;gap:17px;align-items:center;background:#fff8e9;border:1px solid #f4dfb6;border-radius:18px;padding:18px;margin:18px 0}.emoji{font-size:2.8rem;text-align:center}.analogy p{margin:0}.analogy strong{color:#8c4a05}.code{background:#10182b;color:#edf2ff;border-radius:15px;padding:18px;overflow:auto;font: .94rem/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}.kw{color:#c6a7ff}.type{color:#7ee0d1}.str{color:#ffd18a}.comment{color:#8e9ab6}.code-label{display:flex;justify-content:space-between;align-items:center;color:#7e8ba9;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}.copy{background:#293550;color:#e8edff;border:0;border-radius:8px;padding:5px 9px;font-size:.75rem}.visual{display:grid;grid-template-columns:1fr 1fr;gap:15px}.slot{border:1px dashed #b6c1da;background:#f9faff;border-radius:15px;padding:16px;min-height:130px}.slot-title{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}.slot-value{font-size:1.5rem;font-weight:850;overflow-wrap:anywhere;margin-top:8px}.slot small{display:block;color:var(--muted);margin-top:4px}.controls{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.controls input,.controls select{min-width:0;flex:1;border:1px solid #d7ddec;border-radius:10px;padding:10px 12px;background:white;color:var(--ink)}.btn{border:0;background:var(--blue);color:white;font-weight:750;border-radius:11px;padding:10px 15px;transition:transform .15s,background .15s}.btn:hover{background:#2848c7;transform:translateY(-1px)}.btn.secondary{background:#eef1f8;color:#293550}.btn.secondary:hover{background:#e0e6f3}.btn.green{background:var(--green)}.feedback{display:none;padding:11px 13px;border-radius:11px;margin-top:12px;font-weight:650}.feedback.show{display:block}.feedback.good{background:var(--greenbg);color:#116344}.feedback.bad{background:var(--orangebg);color:#8c4a05}.type-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.type-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:white}.type-card .big{font-size:1.7rem}.type-card h4{margin:4px 0}.type-card p{margin:0;color:var(--muted);font-size:.92rem}.tag{display:inline-block;background:var(--blue2);color:var(--blue);font-size:.76rem;font-weight:800;border-radius:7px;padding:3px 7px;margin-top:10px}.quiz-q{padding:16px 0;border-bottom:1px solid var(--line)}.quiz-q:last-child{border-bottom:0}.quiz-q p{font-weight:750;margin:0 0 10px}.options{display:grid;gap:8px}.option{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);padding:10px 12px;border-radius:11px;background:#fff;cursor:pointer}.option:has(input:checked){border-color:#8296f7;background:#f4f6ff}.option input{margin-top:5px;accent-color:var(--blue)}.lesson-nav{display:flex;justify-content:space-between;gap:12px;margin-top:25px}.lesson-nav button{min-width:120px}.callout{border-left:4px solid var(--blue);background:#f0f3ff;padding:14px 16px;border-radius:0 12px 12px 0;margin:16px 0}.mistake{border-left-color:#df8a22;background:#fff7e9}.tiny{font-size:.84rem}.pill-row{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:6px 10px;border:1px solid var(--line);border-radius:99px;background:white;font-size:.83rem}.footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:28px}.celebrate{display:none;text-align:center;padding:24px;background:var(--greenbg);border-radius:16px;color:#116344}.celebrate.show{display:block}.celebrate .big{font-size:2.5rem}@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow-x:auto;gap:4px;padding-bottom:5px}.side-title,.side-note{display:none}.navitem{white-space:nowrap;width:auto;flex-shrink:0;padding:8px 10px}.num{width:24px;height:24px}.hero{border-radius:18px}.progress-wrap{min-width:0}.progress{width:70px}.visual{grid-template-columns:1fr 1fr}}@media(max-width:500px){.type-grid{grid-template-columns:1fr}.visual{grid-template-columns:1fr}.topbar{padding:10px 14px}.brand{font-size:.92rem}.progress-wrap span{display:none}.card{padding:17px}.analogy{grid-template-columns:58px 1fr;padding:14px}.emoji{font-size:2.2rem}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">☕ Java<span>Start</span> <span style="color:#18233b">/ Learn by doing</span></div>
+  <div class="progress-wrap"><span id="progressText" class="tiny muted">Lesson 1 of 5</span><div class="progress"><div id="progressBar"></div></div></div>
+</header>
+<div class="layout">
+  <aside class="sidebar" aria-label="Course lessons">
+    <div class="side-title">Your learning path</div>
+    <button class="navitem active" data-go="0"><span class="num">1</span> What is a variable?</button>
+    <button class="navitem" data-go="1"><span class="num">2</span> Types of data</button>
+    <button class="navitem" data-go="2"><span class="num">3</span> Declare and assign</button>
+    <button class="navitem" data-go="3"><span class="num">4</span> Try the code lab</button>
+    <button class="navitem" data-go="4"><span class="num">5</span> Quick quiz</button>
+    <div class="side-note">💡 <strong>Beginner tip</strong><br>There is no need to memorise everything now. Understand the idea, experiment, and let the examples do the heavy lifting.</div>
+  </aside>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Java foundations · Beginner level</div>
+      <h1>Variables &<br>Data Types</h1>
+      <p>Learn how a program remembers information, what kinds of information Java can store, and how to choose the right container for each value.</p>
+      <div class="hero-chips"><span class="chip">⏱ 10 to 15 minutes</span><span class="chip">🧠 No coding experience needed</span><span class="chip">🧪 Interactive examples</span></div>
+    </section>
+
+    <section class="lesson active" id="lesson0">
+      <div class="section-head"><div class="kicker">Lesson 1</div><h2>Imagine a labelled storage box</h2><p>A variable is a named place where your program keeps a piece of information.</p></div>
+      <div class="analogy"><div class="emoji">📦</div><p><strong>Think of a variable as a labelled box.</strong> The label tells you what the box is for, and the item inside is the value. A box labelled <em>age</em> might contain <em>18</em>. A box labelled <em>name</em> might contain <em>"Maya"</em>.</p></div>
+      <div class="card">
+        <h3>Watch the box change</h3>
+        <p class="muted">The variable is named <code>age</code>. Change its value and see what the program's box contains.</p>
+        <div class="visual">
+          <div class="slot"><div class="slot-title">Label · variable name</div><div class="slot-value" style="color:var(--blue)">age</div><small>The name we use in our code</small></div>
+          <div class="slot"><div class="slot-title">Inside the box · value</div><div class="slot-value" id="ageValue">18</div><small id="ageMeaning">A whole number</small></div>
+        </div>
+        <div class="controls"><input id="ageInput" type="number" value="18" min="0" max="120" aria-label="Enter an age"><button class="btn" id="updateAge">Put value in box</button></div>
+        <div class="feedback" id="ageFeedback" role="status"></div>
+      </div>
+      <div class="code-label"><span>Java example</span><button class="copy" data-copy="int age = 18;">Copy code</button></div>
+      <pre class="code"><span class="type">int</span> age = 18;</pre>
+      <div class="callout"><strong>Read it from left to right:</strong> <code>int</code> means a whole number, <code>age</code> is the box's label, and <code>= 18</code> puts the value 18 into that box. The semicolon marks the end of this Java instruction.</div>
+      <div class="lesson-nav"><span></span><button class="btn" data-next>Next: data types →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson1">
+      <div class="section-head"><div class="kicker">Lesson 2</div><h2>Not every value belongs in every box</h2><p>Java uses data types to know what kind of information a variable can hold.</p></div>
+      <div class="analogy"><div class="emoji">🧺</div><p><strong>Think of a kitchen.</strong> A cup is good for water, a jar can hold rice, and a tray can hold eggs. You could try putting soup in an egg tray, but that is not a great plan. Data types are Java's way of choosing a suitable container.</p></div>
+      <div class="type-grid">
+        <div class="type-card"><div class="big">🫘</div><h4><code>byte</code></h4><p>Very small whole numbers from −128 to 127, useful when saving memory in large collections of small values.</p><span class="tag">Example: 100</span></div>
+        <div class="type-card"><div class="big">📏</div><h4><code>short</code></h4><p>Small whole numbers from −32,768 to 32,767, bigger than byte but smaller than int.</p><span class="tag">Example: 25000</span></div>
+        <div class="type-card"><div class="big">🔢</div><h4><code>int</code></h4><p>Whole numbers such as a person's age or the number of books. This is the usual default for whole numbers.</p><span class="tag">Example: 18</span></div>
+        <div class="type-card"><div class="big">🏦</div><h4><code>long</code></h4><p>Very large whole numbers, such as a population count. Large long literals usually end with L.</p><span class="tag">Example: 9000000000L</span></div>
+        <div class="type-card"><div class="big">🪙</div><h4><code>float</code></h4><p>Decimal numbers using less precision than double. A decimal literal usually needs an f suffix.</p><span class="tag">Example: 3.14f</span></div>
+        <div class="type-card"><div class="big">💧</div><h4><code>double</code></h4><p>Decimal numbers with more precision than float, often used for measurements and calculations.</p><span class="tag">Example: 172.5</span></div>
+        <div class="type-card"><div class="big">🔤</div><h4><code>String</code></h4><p>Text, such as a name or a city. Text goes inside double quotes.</p><span class="tag">Example: "Maya"</span></div>
+        <div class="type-card"><div class="big">🔠</div><h4><code>char</code></h4><p>One single character, written inside single quotes.</p><span class="tag">Example: 'M'</span></div>
+        <div class="type-card"><div class="big">✅</div><h4><code>boolean</code></h4><p>A yes or no style value, represented by <code>true</code> or <code>false</code>.</p><span class="tag">Example: true</span></div>
+        <div class="type-card"><div class="big">🧮</div><h4><code>long</code></h4><p>Whole numbers that may be much larger than the usual <code>int</code> range.</p><span class="tag">Example: 9000000000L</span></div>
+      </div>
+      <div class="card">
+        <h3>Choose a container</h3>
+        <p class="muted">Select a value and predict which Java type is a good fit.</p>
+        <div class="controls"><select id="typeValue" aria-label="Choose a value"><option value="name">A person's name: Maya</option><option value="count">Number of apples: 12</option><option value="price">A product price: 99.50</option><option value="letter">First initial: M</option><option value="logged">Is the user logged in: yes or no</option><option value="tiny">A small number from −128 to 127</option><option value="small">A whole number such as 25000</option><option value="huge">A very large whole number</option><option value="decimal">A decimal stored with float precision</option></select><button class="btn" id="checkType">Check my choice</button></div>
+        <div class="controls"><select id="typeChoice" aria-label="Choose a Java data type"><option value="">Choose a type…</option><option>int</option><option>double</option><option>String</option><option>char</option><option>boolean</option><option>byte</option><option>short</option><option>long</option><option>float</option></select></div>
+        <div class="feedback" id="typeFeedback" role="status"></div>
+      </div>
+      <div class="callout mistake"><strong>Common mix up:</strong> <code>'M'</code> is a <code>char</code>, while <code>"Maya"</code> is a <code>String</code>. Single quotes are for one character, and double quotes are for text.</div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Java syntax →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson2">
+      <div class="section-head"><div class="kicker">Lesson 3</div><h2>Declare it, then give it a value</h2><p>Java statements often follow a predictable pattern, so you can read them like a simple recipe.</p></div>
+      <div class="card">
+        <h3>Three useful words</h3>
+        <div class="code"><span class="type">String</span> name = <span class="str">"Maya"</span>;
+<span class="type">int</span> books = 12;
+<span class="type">double</span> price = 99.50;</div>
+        <p><strong>Type</strong> tells Java what kind of value to expect. <strong>Name</strong> is the label you choose. <strong>Value</strong> is the information stored inside it.</p>
+      </div>
+      <div class="card">
+        <h3>Try changing the value</h3>
+        <p class="muted">Choose a type, give the variable a name, and enter a value. The example updates instantly.</p>
+        <div class="controls"><select id="builderType" aria-label="Variable type"><option value="byte">byte · tiny whole number</option><option value="short">short · small whole number</option><option value="int">int · whole number</option><option value="long">long · very large whole number</option><option value="float">float · decimal number</option><option value="double">double · precise decimal number</option><option value="String">String · text</option><option value="char">char · one character</option><option value="boolean">boolean · true or false</option></select></div>
+        <div class="controls"><input id="builderName" value="score" aria-label="Variable name" placeholder="Variable name"><input id="builderValue" value="100" aria-label="Variable value" placeholder="Value"></div>
+        <div class="code-label"><span>Your Java statement</span><button class="copy" id="copyBuilder">Copy code</button></div>
+        <pre class="code" id="builderCode">int score = 100;</pre>
+        <div class="feedback show" id="builderFeedback" style="background:var(--blue2);color:#2e46ad">A variable name should start with a letter, underscore, or dollar sign, and it cannot contain spaces.</div>
+      </div>
+      <div class="callout"><strong>Important:</strong> Java is case sensitive, so <code>score</code> and <code>Score</code> are different names. Also, <code>String</code> begins with a capital S, while <code>int</code> and <code>boolean</code> begin with lowercase letters.</div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: code lab →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson3">
+      <div class="section-head"><div class="kicker">Lesson 4</div><h2>Your mini Java code lab</h2><p>Predict what the variables contain after the instructions run, then reveal the result.</p></div>
+      <div class="card">
+        <div class="code-label"><span>Program</span><span>Read each line in order</span></div>
+        <pre class="code"><span class="type">int</span> points = 10;
+points = 15;
+<span class="type">String</span> player = <span class="str">"Maya"</span>;
+<span class="type">boolean</span> winner = <span class="kw">true</span>;</pre>
+        <p>Line one creates a variable called <code>points</code> and stores 10. Line two replaces that value with 15. The final lines store text and a true or false value.</p>
+        <button class="btn" id="runLab">▶ Run the program</button>
+        <div id="labResult" style="display:none;margin-top:18px">
+          <div class="visual">
+            <div class="slot"><div class="slot-title">int · points</div><div class="slot-value">15</div><small>The latest value wins.</small></div>
+            <div class="slot"><div class="slot-title">String · player</div><div class="slot-value">"Maya"</div><small>Text is inside double quotes.</small></div>
+            <div class="slot"><div class="slot-title">boolean · winner</div><div class="slot-value" style="color:var(--green)">true</div><small>The player is a winner.</small></div>
+            <div class="slot"><div class="slot-title">Program status</div><div class="slot-value" style="color:var(--green)">Success ✓</div><small>Each value matches its type.</small></div>
+          </div>
+          <div class="feedback show good">Great! Assigning a new value to <code>points</code> changes what the variable stores. It does not create a second variable.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Spot the mistake</h3>
+        <p>What is wrong with this Java statement?</p>
+        <pre class="code"><span class="type">int</span> age = <span class="str">"eighteen"</span>;</pre>
+        <div class="options" id="mistakeOptions">
+          <label class="option"><input type="radio" name="mistake" value="a"> Nothing is wrong.</label>
+          <label class="option"><input type="radio" name="mistake" value="b"> The variable type is <code>int</code>, but the value is text.</label>
+          <label class="option"><input type="radio" name="mistake" value="c"> Java variables cannot store age.</label>
+        </div>
+        <button class="btn" id="checkMistake" style="margin-top:12px">Check answer</button>
+        <div class="feedback" id="mistakeFeedback" role="status"></div>
+      </div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Take the quiz →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson4">
+      <div class="section-head"><div class="kicker">Lesson 5</div><h2>Quick knowledge check</h2><p>Answer these five questions to see what has clicked. You can try again as many times as you like.</p></div>
+      <div class="card" id="quiz">
+        <div class="quiz-q"><p>1. What is a variable most like?</p><div class="options"><label class="option"><input type="radio" name="q1" value="a"> A labelled box that stores a value</label><label class="option"><input type="radio" name="q1" value="b"> A computer screen</label><label class="option"><input type="radio" name="q1" value="c"> A type of keyboard</label></div></div>
+        <div class="quiz-q"><p>2. Which type is best for a whole number such as 42?</p><div class="options"><label class="option"><input type="radio" name="q2" value="a"> String</label><label class="option"><input type="radio" name="q2" value="b"> int</label><label class="option"><input type="radio" name="q2" value="c"> boolean</label></div></div>
+        <div class="quiz-q"><p>3. Which is valid Java text?</p><div class="options"><label class="option"><input type="radio" name="q3" value="a"> String city = Chennai;</label><label class="option"><input type="radio" name="q3" value="b"> String city = 'Chennai';</label><label class="option"><input type="radio" name="q3" value="c"> String city = "Chennai";</label></div></div>
+        <div class="quiz-q"><p>4. What values can a boolean hold?</p><div class="options"><label class="option"><input type="radio" name="q4" value="a"> Any sentence</label><label class="option"><input type="radio" name="q4" value="b"> true or false</label><label class="option"><input type="radio" name="q4" value="c"> Only numbers</label></div></div>
+        <div class="quiz-q"><p>5. What happens here: <code>int score = 5; score = 9;</code>?</p><div class="options"><label class="option"><input type="radio" name="q5" value="a"> score stores 9</label><label class="option"><input type="radio" name="q5" value="b"> score stores both 5 and 9 at once</label><label class="option"><input type="radio" name="q5" value="c"> Java deletes the variable</label></div></div>
+        <button class="btn green" id="submitQuiz">Check my score</button>
+        <div class="feedback" id="quizFeedback" role="status"></div>
+        <div class="celebrate" id="quizCelebrate"><div class="big">🎉</div><h3>Java beginner level unlocked!</h3><p>You understand the core idea: variables store values, and data types describe what kind of values they can store.</p></div>
+      </div>
+      <div class="card">
+        <h3>Your pocket reference</h3>
+        <div class="pill-row"><span class="pill"><code>byte</code> → 100</span><span class="pill"><code>short</code> → 25000</span><span class="pill"><code>int</code> → 42</span><span class="pill"><code>long</code> → 9000000000L</span><span class="pill"><code>float</code> → 3.14f</span><span class="pill"><code>double</code> → 3.14</span><span class="pill"><code>char</code> → 'A'</span><span class="pill"><code>boolean</code> → true</span><span class="pill"><code>String</code> → "Hello"</span></div>
+        <p class="muted tiny" style="margin-bottom:0">A useful next topic is operators, where you will use variables to do calculations and compare values.</p>
+      </div>
+      <div class="lesson-nav"><button class="btn secondary" data-prev>← Review code lab</button><button class="btn" id="restart">Start again ↻</button></div>
+    </section>
+    <div class="footer">Made for curious beginners. No setup, account, or internet connection required.</div>
+  </main>
+</div>
+<script>
+const lessons=[...document.querySelectorAll('.lesson')];
+const nav=[...document.querySelectorAll('.navitem')];
+let current=0;const completed=new Set();
+function showLesson(n){current=Math.max(0,Math.min(lessons.length-1,n));lessons.forEach((el,i)=>el.classList.toggle('active',i===current));nav.forEach((el,i)=>{el.classList.toggle('active',i===current);el.classList.toggle('done',completed.has(i));});document.getElementById('progressText').textContent=`Lesson ${current+1} of ${lessons.length}`;document.getElementById('progressBar').style.width=`${completed.size/lessons.length*100}%`;window.scrollTo({top:0,behavior:'smooth'});}
+nav.forEach(b=>b.addEventListener('click',()=>showLesson(Number(b.dataset.go))));
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{completed.add(current);showLesson(current+1)}));
+document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>showLesson(current-1)));
+document.getElementById('updateAge').addEventListener('click',()=>{const raw=document.getElementById('ageInput').value;const val=Number(raw);const box=document.getElementById('ageValue'),msg=document.getElementById('ageFeedback');if(raw===''||!Number.isInteger(val)||val<0||val>120){msg.className='feedback show bad';msg.textContent='Enter a whole number from 0 to 120, such as 18.';return;}box.textContent=val;box.animate([{transform:'scale(.85)',opacity:.4},{transform:'scale(1)',opacity:1}],{duration:260});document.getElementById('ageMeaning').textContent=val===1?'One whole number':`${val} is stored as a whole number`;msg.className='feedback show good';msg.textContent=`The age box now contains ${val}. You changed the value without changing the variable name.`;});
+const correctTypes={name:'String',count:'int',price:'double',letter:'char',logged:'boolean',tiny:'byte',small:'short',huge:'long',decimal:'float'};
+document.getElementById('checkType').addEventListener('click',()=>{const val=document.getElementById('typeValue').value,choice=document.getElementById('typeChoice').value,fb=document.getElementById('typeFeedback');if(!choice){fb.className='feedback show bad';fb.textContent='Choose a data type first, then check your answer.';return;}const ok=choice===correctTypes[val];fb.className='feedback show '+(ok?'good':'bad');fb.textContent=ok?`Correct! ${choice} is a good fit for this value.`:`Not quite. A good fit here is ${correctTypes[val]}. Check the examples above and try again.`;});
+const bType=document.getElementById('builderType'),bName=document.getElementById('builderName'),bValue=document.getElementById('builderValue'),bCode=document.getElementById('builderCode'),bFeedback=document.getElementById('builderFeedback');
+function updateBuilder(){let type=bType.value,name=bName.value.trim()||'myVariable',raw=bValue.value;let validName=/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name)&&!['class','public','static','void','int','double','boolean','char','long','short','byte','if','else','return','new','true','false','null'].includes(name);let value=raw;let validValue=true;if(type==='String')value='"'+raw.replace(/\\/g,'\\\\').replace(/"/g,'\\"')+'"';else if(type==='float'){validValue=/^-?(\d+\.?\d*|\.\d+)$/.test(raw);if(validValue)value=(raw.includes('.')?raw:raw+'.0')+'f';}else if(type==='char'){if(raw.length!==1){validValue=false;}value="'"+raw.replace(/'/g,"\\'")+"'";}else if(type==='boolean'){validValue=raw==='true'||raw==='false';value=raw;}else if(type==='int'||type==='byte'||type==='short'||type==='long'){validValue=/^-?\d+$/.test(raw);if(validValue&&type==='byte')validValue=Number(raw)>=-128&&Number(raw)<=127;if(validValue&&type==='short')validValue=Number(raw)>=-32768&&Number(raw)<=32767;if(validValue&&type==='int')validValue=Number(raw)>=-2147483648&&Number(raw)<=2147483647;if(validValue&&type==='long'&&Math.abs(Number(raw))>9007199254740991)validValue=false;}else if(type==='double'){validValue=/^-?(\d+\.?\d*|\.\d+)$/.test(raw);if(validValue&&!raw.includes('.'))value=raw+'.0';}
+bCode.textContent=`${type} ${name} = ${value};`;if(!validName){bFeedback.style.background='var(--orangebg)';bFeedback.style.color='#8c4a05';bFeedback.textContent='Check the variable name. Use letters or digits after the first character, with no spaces, and avoid Java reserved words.';}else if(!validValue){bFeedback.style.background='var(--orangebg)';bFeedback.style.color='#8c4a05';bFeedback.textContent=type==='char'?'A char needs exactly one character.':type==='boolean'?'A boolean value must be true or false.':type==='byte'?'A byte must be a whole number from −128 to 127.':type==='short'?'A short must be a whole number from −32768 to 32767.':type==='int'?'An int must be a whole number from −2147483648 to 2147483647.':'Enter a valid number for this data type.';}else{bFeedback.style.background='var(--blue2)';bFeedback.style.color='#2e46ad';bFeedback.textContent='Looks good as a beginner example. Notice how the type, name, equals sign, value, and semicolon fit together.';}}
+[bType,bName,bValue].forEach(el=>el.addEventListener('input',updateBuilder));document.getElementById('copyBuilder').addEventListener('click',()=>copyText(bCode.textContent,document.getElementById('copyBuilder')));updateBuilder();
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>copyText(b.dataset.copy,b)));
+function copyText(text,button){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>{const old=button.textContent;button.textContent='Copied ✓';setTimeout(()=>button.textContent=old,1300)}).catch(()=>fallbackCopy(text,button));}else fallbackCopy(text,button)}
+function fallbackCopy(text,button){const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();try{document.execCommand('copy');button.textContent='Copied ✓';setTimeout(()=>button.textContent='Copy code',1300)}catch(e){button.textContent='Select code manually'}area.remove();}
+document.getElementById('runLab').addEventListener('click',()=>{const r=document.getElementById('labResult');r.style.display='block';r.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:300});document.getElementById('runLab').textContent='✓ Program ran';});
+document.getElementById('checkMistake').addEventListener('click',()=>{const picked=document.querySelector('input[name="mistake"]:checked'),fb=document.getElementById('mistakeFeedback');if(!picked){fb.className='feedback show bad';fb.textContent='Choose an answer first.';return;}const ok=picked.value==='b';fb.className='feedback show '+(ok?'good':'bad');fb.textContent=ok?'Exactly. An int stores a whole number, not text in quotation marks. Use int age = 18; or choose a String if you want to store the word "eighteen".':'Try again. Look at the declared type int and compare it with the text "eighteen".';});
+const answers={q1:'a',q2:'b',q3:'c',q4:'b',q5:'a'};
+document.getElementById('submitQuiz').addEventListener('click',()=>{let score=0,unanswered=[];Object.keys(answers).forEach(q=>{const selected=document.querySelector(`input[name="${q}"]:checked`);if(!selected)unanswered.push(q);else if(selected.value===answers[q])score++;});const fb=document.getElementById('quizFeedback');if(unanswered.length){fb.className='feedback show bad';fb.textContent=`Answer all five questions before checking your score. You have ${unanswered.length} question${unanswered.length===1?'':'s'} left.`;return;}fb.className='feedback show '+(score>=4?'good':'bad');fb.textContent=`You scored ${score} out of 5. ${score===5?'Perfect score!':score>=4?'Very good work. Review the one idea you missed, then try again.':'Review the lessons and try again. Learning to code is practice, not magic.'}`;document.getElementById('quizCelebrate').classList.toggle('show',score>=4);if(score>=4){completed.add(4);nav[4].classList.add('done');document.getElementById('progressBar').style.width=`${completed.size/lessons.length*100}%`;}});
+document.getElementById('restart').addEventListener('click',()=>{completed.clear();document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);document.getElementById('labResult').style.display='none';document.getElementById('runLab').textContent='▶ Run the program';document.getElementById('quizFeedback').className='feedback';document.getElementById('quizCelebrate').classList.remove('show');showLesson(0);});
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Exceptions & File Processing | Interactive Tutorial</title>
+<style>
+:root{--blue:#2563eb;--blue2:#1d4ed8;--ink:#172033;--muted:#64748b;--line:#dbe4f0;--panel:#fff;--bg:#f4f7fb;--soft:#eff6ff;--green:#15803d;--amber:#b45309;--red:#b91c1c;--shadow:0 8px 24px rgba(24,45,85,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(120deg,#1e40af,#2563eb 55%,#60a5fa);color:white;padding:34px max(22px,calc((100vw - 1240px)/2)) 30px}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.76rem;font-weight:800;opacity:.9}.hero h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;margin:10px 0 12px}.hero p{max-width:820px;margin:0;color:#eaf2ff;font-size:1.08rem}.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.pill{border:1px solid #ffffff55;background:#ffffff18;border-radius:999px;padding:5px 12px;font-size:.84rem}
+.layout{max-width:1240px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:24px}.sidebar{align-self:start;position:sticky;top:16px;background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);max-height:calc(100vh - 32px);overflow:auto}.sidebar h3{font-size:.9rem;margin:0 0 10px}.nav a{display:block;color:#475569;text-decoration:none;padding:7px 9px;border-radius:8px;font-size:.9rem;margin:2px 0}.nav a:hover,.nav a.active{background:var(--soft);color:var(--blue);font-weight:700}.progress-wrap{margin:15px 0 8px}.progress-label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}.track{height:7px;background:#e2e8f0;border-radius:9px;overflow:hidden;margin-top:6px}.bar{height:100%;width:0;background:linear-gradient(90deg,#2563eb,#60a5fa);transition:width .2s}
+main{min-width:0}.intro,.section{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,30px);box-shadow:var(--shadow);margin-bottom:20px}.intro{border-top:4px solid var(--blue)}.section{scroll-margin-top:18px}.section h2{margin:0 0 12px;font-size:1.55rem;line-height:1.3}.section h3{margin:22px 0 8px;font-size:1.12rem}.muted{color:var(--muted)}.callout{padding:14px 16px;border-radius:12px;background:var(--soft);border-left:4px solid var(--blue);margin:15px 0}.callout.good{background:#f0fdf4;border-color:#22c55e}.callout.warn{background:#fffbeb;border-color:#f59e0b}.callout.danger{background:#fef2f2;border-color:#ef4444}.analogy{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:15px;border:1px dashed #93b4f8;background:#f8fbff;border-radius:12px;margin:14px 0}.emoji{font-size:1.7rem}.analogy p{margin:3px 0}.code{background:#0f172a;color:#e2e8f0;padding:17px;border-radius:12px;overflow:auto;font: .91rem/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}.code .comment{color:#94a3b8}.code .keyword{color:#93c5fd}.code .string{color:#86efac}.code .type{color:#fcd34d}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.mini{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fff}.mini h3{margin:0 0 6px}.mini p{margin:0}.label{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)}button,select,input,textarea{font:inherit}button{border:0;border-radius:9px;background:var(--blue);color:white;font-weight:700;padding:10px 14px;cursor:pointer}button:hover{background:var(--blue2)}button.secondary{background:#e2e8f0;color:#172033}button.secondary:hover{background:#cbd5e1}button.green{background:#15803d}button.red{background:#b91c1c}.controls{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}.output{background:#0b1220;color:#dbeafe;border-radius:12px;padding:15px;min-height:64px;white-space:pre-wrap;font: .9rem/1.6 ui-monospace,monospace}.field{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}.field label{font-weight:650}.field input,.field select,.field textarea{border:1px solid #cbd5e1;border-radius:8px;padding:9px 10px;background:white;color:var(--ink);max-width:100%}.field input{width:180px}.field textarea{width:100%;min-height:90px}.steps{counter-reset:step;list-style:none;padding:0}.steps li{counter-increment:step;position:relative;padding:3px 0 16px 42px}.steps li:before{content:counter(step);position:absolute;left:0;top:0;background:#dbeafe;color:#1d4ed8;font-weight:800;border-radius:50%;width:28px;height:28px;text-align:center;line-height:28px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{text-align:left;border-bottom:1px solid var(--line);padding:10px 11px;vertical-align:top}th{background:#f1f5f9}.quiz-q,.exercise{padding:15px;border:1px solid var(--line);border-radius:12px;margin:12px 0}.quiz-q p,.exercise p{margin:0 0 9px}.option{display:block;padding:7px 9px;border-radius:7px;cursor:pointer}.option:hover{background:#f1f5f9}.option input{margin-right:8px}.answer{display:none;background:#f0fdf4;border-radius:9px;padding:12px;margin-top:10px}.answer.show{display:block}.feedback{font-weight:750;margin-top:12px}.score{font-size:1.2rem;font-weight:800}.navbuttons{display:flex;justify-content:space-between;gap:12px;margin:22px 0 40px}.navbuttons a{display:inline-block;text-decoration:none;padding:11px 15px;border-radius:9px;background:#e2e8f0;color:#172033;font-weight:750}.navbuttons a.primary{background:var(--blue);color:white}.small{font-size:.88rem}.checklist li{margin:6px 0}footer{text-align:center;color:var(--muted);font-size:.86rem;padding:0 18px 28px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:auto;max-height:none}.nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.two,.three{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.two,.three{grid-template-columns:1fr}.nav{grid-template-columns:1fr}.layout{padding:0 11px;margin-top:12px}.intro,.section{padding:17px}header{padding:28px 20px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="eyebrow">Java Foundations · Interactive lesson</div>
+  <h1>Exception Handling & File Processing</h1>
+  <p>Teach your program how to recover when something goes wrong, then learn how to read and write files safely. No programming experience assumed: we'll use everyday analogies, tiny examples, and hands-on mini labs.</p>
+  <div class="hero-meta"><span class="pill">Beginner friendly</span><span class="pill">11 learning stops</span><span class="pill">8 practice problems</span><span class="pill">6-question quiz</span></div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <h3>Lesson map</h3>
+  <nav class="nav" id="lessonNav">
+    <a href="#start">0. Start here</a><a href="#why">1. Why exceptions?</a><a href="#trycatch">2. try and catch</a><a href="#types">3. Exception types</a><a href="#flow">4. Control flow</a><a href="#throw">5. throw and throws</a><a href="#resources">6. finally & resources</a><a href="#files">7. Files and paths</a><a href="#readwrite">8. Read and write</a><a href="#filelab">9. File safety lab</a><a href="#practice">10. Practice problems</a><a href="#quiz">11. Quiz</a>
+  </nav>
+  <div class="progress-wrap"><div class="progress-label"><span>Lesson progress</span><strong id="progressText">0%</strong></div><div class="track"><div class="bar" id="progressBar"></div></div></div>
+  <p class="muted small">Tip: follow the sections in order. Try the demos before reading their explanations.</p>
+</aside>
+<main>
+<section class="intro" id="start">
+  <div class="label">Your learning mission</div>
+  <h2>By the end, you can handle problems without making your program panic.</h2>
+  <p>Programs do not always get perfect inputs. A user might type “banana” where a number is expected. A file may have moved. A network drive may be unavailable. Exception handling gives you a planned way to respond.</p>
+  <div class="two">
+    <div class="mini"><h3>🛟 Exception handling</h3><p>Notice a problem, choose a safe response, and keep control of the program.</p></div>
+    <div class="mini"><h3>🗂️ File processing</h3><p>Find a file, read its contents, transform the data, and write results carefully.</p></div>
+  </div>
+  <div class="callout warn"><strong>Important:</strong> the interactive labs on this page simulate Java behavior in your browser using JavaScript. They do not compile Java or access your computer's actual file system. The code examples are real Java syntax.</div>
+</section>
+
+<section class="section" id="why">
+  <h2>1. Why do exceptions exist?</h2>
+  <p>Imagine a food delivery app. Most orders work normally. But what if the address is missing, payment is declined, or the restaurant is closed? A good app does not simply crash; it explains the problem and gives the user a useful next step.</p>
+  <div class="analogy"><div class="emoji">🧯</div><div><strong>Analogy: a fire alarm and emergency plan</strong><p>An exception is like an alarm that says, “The normal plan cannot continue.” A <code>catch</code> block is the emergency plan. It should handle the situation, not hide every alarm under the carpet.</p></div></div>
+  <div class="code"><span class="keyword">int</span> seats = 0;
+<span class="comment">// This calculation is legal, but the result may not make sense.</span>
+<span class="keyword">int</span> peoplePerCar = 12 / seats; <span class="comment">// ArithmeticException</span></div>
+  <p>Some errors are predictable and should be prevented with ordinary checks. Other failures are represented by exceptions. Good code uses both: validate what you can, and handle failures that can still occur.</p>
+  <div class="two">
+    <div class="mini"><h3>Prevent a problem</h3><p>Check whether a divisor is zero before dividing, or whether a value is valid before using it.</p></div>
+    <div class="mini"><h3>Recover from a failure</h3><p>Catch a file-reading failure and tell the user which file could not be opened.</p></div>
+  </div>
+  <div class="callout good"><strong>Key idea:</strong> an exception is not automatically a bug in the language. It is Java's way of representing an unusual condition that interrupts the normal path.</div>
+</section>
+
+<section class="section" id="trycatch">
+  <h2>2. <code>try</code> and <code>catch</code>: attempt and recovery</h2>
+  <p>Put code that might fail inside <code>try</code>. Put the response for a particular failure inside <code>catch</code>.</p>
+  <div class="code"><span class="keyword">try</span> {
+    <span class="keyword">int</span> result = 10 / 0;
+    System.out.println(result);
+} <span class="keyword">catch</span> (ArithmeticException e) {
+    System.out.println(<span class="string">"You cannot divide by zero."</span>);
+}
+System.out.println(<span class="string">"Program continues."</span>);</div>
+  <ol class="steps"><li>Java enters the <code>try</code> block and runs statements in order.</li><li>If no exception occurs, the <code>catch</code> block is skipped.</li><li>If a matching exception occurs, Java stops the remaining statements in that <code>try</code> block and looks for a matching <code>catch</code>.</li><li>After the handler completes, execution continues after the try/catch statement, if the exception was handled.</li></ol>
+  <h3>Try it: choose the situation</h3>
+  <p>Predict what the program will do. Then run the simulation.</p>
+  <div class="field"><label for="exceptionScenario">Scenario</label><select id="exceptionScenario"><option value="safe">Divide 10 by 2</option><option value="zero">Divide 10 by 0</option><option value="parse">Convert “hello” to an integer</option></select></div>
+  <div class="controls"><button onclick="runTryCatch()">Run simulation</button><button class="secondary" onclick="resetTryCatch()">Reset</button></div>
+  <div class="output" id="tryOutput">Choose a scenario and click Run simulation.</div>
+  <div class="callout"><strong>Notice:</strong> a <code>catch</code> only handles exceptions whose type matches the exception thrown, or a subtype of the declared type.</div>
+</section>
+
+<section class="section" id="types">
+  <h2>3. Exception types: not every problem is the same</h2>
+  <p>Java organizes throwable conditions into a hierarchy. You do not need to memorize every class today; understand the major branches first.</p>
+  <div class="code">Throwable
+├── Error                 <span class="comment">// serious JVM/system-level problems</span>
+└── Exception
+    ├── RuntimeException  <span class="comment">// unchecked exceptions</span>
+    └── other exceptions  <span class="comment">// often checked exceptions</span></div>
+  <div class="three">
+    <div class="mini"><h3>Checked exception</h3><p>The compiler requires you to catch it or declare it with <code>throws</code>. Example: <code>IOException</code>.</p></div>
+    <div class="mini"><h3>Unchecked exception</h3><p>A <code>RuntimeException</code> subclass. You are not forced by the compiler to catch it. Examples: <code>NullPointerException</code>, <code>IllegalArgumentException</code>.</p></div>
+    <div class="mini"><h3>Error</h3><p>Usually represents a serious condition outside normal application recovery. Example: <code>OutOfMemoryError</code>.</p></div>
+  </div>
+  <div class="analogy"><div class="emoji">🏫</div><div><strong>Analogy: school permissions</strong><p>A checked exception is like a permission slip the school requires you to submit or formally account for. An unchecked exception is like an unexpected mistake that can still happen even without a required form. An <code>Error</code> is closer to a major building issue, not a routine classroom problem.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Example</th><th>Typical meaning</th><th>Category</th></tr></thead><tbody>
+  <tr><td><code>IOException</code></td><td>A read/write operation failed</td><td>Checked</td></tr><tr><td><code>FileNotFoundException</code></td><td>A requested file cannot be found/opened</td><td>Checked</td></tr><tr><td><code>ArithmeticException</code></td><td>Illegal arithmetic operation, such as integer divide by zero</td><td>Unchecked</td></tr><tr><td><code>NumberFormatException</code></td><td>A string cannot be parsed as the requested number</td><td>Unchecked</td></tr><tr><td><code>NullPointerException</code></td><td>Code tries to use a null reference as an object</td><td>Unchecked</td></tr></tbody></table></div>
+  <div class="callout warn"><strong>Beginner rule:</strong> do not write <code>catch (Exception e)</code> everywhere just to silence errors. Catch the types you can meaningfully handle, and preserve enough information to diagnose unexpected failures.</div>
+</section>
+
+<section class="section" id="flow">
+  <h2>4. Control flow: what runs, and what gets skipped?</h2>
+  <p>Once an exception happens inside a <code>try</code>, the rest of that same try block is skipped. Java searches for a compatible handler.</p>
+  <div class="code">System.out.println(<span class="string">"A: before"</span>);
+<span class="keyword">try</span> {
+    System.out.println(<span class="string">"B: start try"</span>);
+    <span class="keyword">int</span> value = Integer.parseInt(<span class="string">"oops"</span>);
+    System.out.println(<span class="string">"C: value = "</span> + value); <span class="comment">// skipped</span>
+} <span class="keyword">catch</span> (NumberFormatException e) {
+    System.out.println(<span class="string">"D: invalid number"</span>);
+}
+System.out.println(<span class="string">"E: after handler"</span>);</div>
+  <div class="controls"><button onclick="runFlow()">Play the execution trace</button><button class="secondary" onclick="document.getElementById('flowOutput').textContent='Press Play to trace the statements.'">Reset trace</button></div>
+  <div class="output" id="flowOutput">Press Play to trace the statements.</div>
+  <h3>Multiple catch blocks</h3>
+  <div class="code"><span class="keyword">try</span> {
+    <span class="comment">// operations that can fail</span>
+} <span class="keyword">catch</span> (FileNotFoundException e) {
+    <span class="comment">// specific file problem</span>
+} <span class="keyword">catch</span> (IOException e) {
+    <span class="comment">// other input/output problem</span>
+}</div>
+  <p>Order matters: put the more specific exception before the broader parent type. If <code>IOException</code> came first, the later <code>FileNotFoundException</code> handler would be unreachable because the broader handler already catches it.</p>
+</section>
+
+<section class="section" id="throw">
+  <h2>5. <code>throw</code> vs <code>throws</code></h2>
+  <p>They look similar but have different jobs.</p>
+  <div class="two">
+    <div class="mini"><div class="label">throw</div><h3>Actually raise one exception</h3><p>Use it inside a method or block when your code detects an invalid situation.</p><div class="code"><span class="keyword">if</span> (age &lt; 0) {
+    <span class="keyword">throw new</span> IllegalArgumentException(
+        <span class="string">"Age cannot be negative"</span>);
+}</div></div>
+    <div class="mini"><div class="label">throws</div><h3>Declare a possibility</h3><p>Use it in a method signature to tell callers that a checked exception may escape.</p><div class="code"><span class="keyword">static</span> String loadText(Path path)
+        <span class="keyword">throws</span> IOException {
+    <span class="keyword">return</span> Files.readString(path);
+}</div></div>
+  </div>
+  <div class="analogy"><div class="emoji">📣</div><div><strong>Analogy: raising a flag vs posting a warning</strong><p><code>throw</code> raises the flag right now. <code>throws</code> posts a warning on the method's door: “Calling this may bring an IOException; be prepared to handle it or pass it along.”</p></div></div>
+  <h3>Which declaration is correct?</h3>
+  <div class="quiz-q"><p><strong>Scenario:</strong> a method calls <code>Files.readString(path)</code> and lets the caller handle the checked I/O failure. What should the method signature include?</p><label class="option"><input type="radio" name="throwsCheck" value="a"> <code>throw IOException</code></label><label class="option"><input type="radio" name="throwsCheck" value="b"> <code>throws IOException</code></label><label class="option"><input type="radio" name="throwsCheck" value="c"> <code>catch IOException</code></label><button onclick="checkThrows()">Check answer</button><div class="feedback" id="throwsFeedback"></div></div>
+  <p>You can also define your own exception class for a domain-specific problem, but start by using standard exception types when they clearly describe the issue.</p>
+  <div class="code"><span class="keyword">class</span> InvalidOrderException <span class="keyword">extends</span> Exception {
+    InvalidOrderException(String message) {
+        <span class="keyword">super</span>(message);
+    }
+}</div>
+</section>
+
+<section class="section" id="resources">
+  <h2>6. <code>finally</code> and try-with-resources</h2>
+  <p>Some operations use resources that should be closed, such as files, readers, network connections, and database connections.</p>
+  <h3><code>finally</code></h3>
+  <div class="code"><span class="keyword">try</span> {
+    System.out.println(<span class="string">"Do the work"</span>);
+} <span class="keyword">catch</span> (IOException e) {
+    System.out.println(<span class="string">"Handle the I/O problem"</span>);
+} <span class="keyword">finally</span> {
+    System.out.println(<span class="string">"Cleanup step"</span>);
+}</div>
+  <p>A <code>finally</code> block normally runs whether the try succeeds or a handled exception occurs. It is often used for cleanup, though abrupt JVM termination can prevent it from running.</p>
+  <h3>Modern Java: try-with-resources</h3>
+  <div class="code"><span class="keyword">try</span> (BufferedReader reader =
+         Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+    String line;
+    <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) {
+        System.out.println(line);
+    }
+} <span class="keyword">catch</span> (IOException e) {
+    System.out.println(<span class="string">"Could not read the file: "</span> + e.getMessage());
+}</div>
+  <div class="callout good"><strong>Why this is better:</strong> Java automatically closes a resource that implements <code>AutoCloseable</code> when the try-with-resources statement finishes, including when an exception occurs. This is generally safer than manually closing in a <code>finally</code> block.</div>
+  <div class="analogy"><div class="emoji">🔑</div><div><strong>Analogy: borrow a library book</strong><p>You use the book, then return it even if your study session gets interrupted. Try-with-resources makes the “return it” step automatic.</p></div></div>
+</section>
+
+<section class="section" id="files">
+  <h2>7. Files and paths: where is the data?</h2>
+  <p>A file is stored data that can outlive one program run. A path is the address Java uses to locate it.</p>
+  <div class="two">
+    <div class="mini"><h3>Relative path</h3><p><code>data/marks.txt</code></p><p class="muted small">Resolved from the program's current working directory. It is not automatically relative to the Java source file.</p></div>
+    <div class="mini"><h3>Absolute path</h3><p><code>/home/student/data/marks.txt</code></p><p class="muted small">A full location from the root of the file system. Windows paths look different, for example <code>C:\\school\\marks.txt</code>.</p></div>
+  </div>
+  <p>Modern Java file APIs are in <code>java.nio.file</code>. <code>Path</code> represents a location, while <code>Files</code> provides operations such as reading, writing, checking existence, and copying.</p>
+  <div class="code"><span class="keyword">import</span> java.nio.file.Path;
+<span class="keyword">import</span> java.nio.file.Files;
+<span class="keyword">import</span> java.nio.charset.StandardCharsets;
+<span class="keyword">import</span> java.io.IOException;
+
+Path file = Path.of(<span class="string">"data/marks.txt"</span>);
+<span class="keyword">if</span> (Files.exists(file)) {
+    System.out.println(<span class="string">"File exists"</span>);
+}</div>
+  <div class="callout warn"><strong>Security note:</strong> do not trust a file path supplied by a user without validation. In real applications, restrict access to the intended folder, handle permissions carefully, and avoid overwriting important files by accident.</div>
+</section>
+
+<section class="section" id="readwrite">
+  <h2>8. Read and write files with Java</h2>
+  <p>For small text files, <code>Files.readString</code> and <code>Files.writeString</code> are convenient (Java 11+). For larger files, process the content line by line with a buffered reader rather than loading everything into memory.</p>
+  <h3>Read a small file</h3>
+  <div class="code"><span class="keyword">try</span> {
+    String content = Files.readString(
+        Path.of(<span class="string">"notes.txt"</span>), StandardCharsets.UTF_8);
+    System.out.println(content);
+} <span class="keyword">catch</span> (IOException e) {
+    System.out.println(<span class="string">"Reading failed: "</span> + e.getMessage());
+}</div>
+  <h3>Write a text file</h3>
+  <div class="code"><span class="keyword">try</span> {
+    Files.writeString(
+        Path.of(<span class="string">"summary.txt"</span>),
+        <span class="string">"Java practice completed\\n"</span>,
+        StandardCharsets.UTF_8);
+} <span class="keyword">catch</span> (IOException e) {
+    System.out.println(<span class="string">"Writing failed: "</span> + e.getMessage());
+}</div>
+  <p><code>writeString</code> creates a file if needed and, by default, replaces existing content. To append instead, pass <code>StandardOpenOption.CREATE</code> and <code>StandardOpenOption.APPEND</code>.</p>
+  <div class="code">Files.writeString(
+    Path.of(<span class="string">"log.txt"</span>),
+    <span class="string">"New event\\n"</span>,
+    StandardCharsets.UTF_8,
+    StandardOpenOption.CREATE,
+    StandardOpenOption.APPEND);</div>
+  <div class="table-wrap"><table><thead><tr><th>Task</th><th>Common API</th><th>Remember</th></tr></thead><tbody><tr><td>Build a path</td><td><code>Path.of(...)</code></td><td>A path is an address, not the file contents.</td></tr><tr><td>Read small text</td><td><code>Files.readString(...)</code></td><td>Java 11+; handle <code>IOException</code>.</td></tr><tr><td>Read lines</td><td><code>Files.newBufferedReader(...)</code></td><td>Use try-with-resources.</td></tr><tr><td>Write/replace</td><td><code>Files.writeString(...)</code></td><td>Default behavior replaces existing content.</td></tr><tr><td>Append</td><td><code>Files.writeString(..., CREATE, APPEND)</code></td><td>Use the required <code>StandardOpenOption</code> values.</td></tr></tbody></table></div>
+  <div class="callout"><strong>Text encoding:</strong> choose UTF-8 explicitly for predictable text handling across machines. Do not assume every computer uses the same default encoding.</div>
+</section>
+
+<section class="section" id="filelab">
+  <h2>9. File safety lab: simulate a read, process, and write</h2>
+  <p>Imagine a text file containing student marks. This browser demo simulates a Java program that reads lines, converts valid values to numbers, calculates an average, and reports invalid lines. It does not access real files.</p>
+  <div class="field"><label for="fileContents">Simulated file contents (one mark per line)</label></div>
+  <textarea id="fileContents">78
+91
+hello
+64
+85</textarea>
+  <div class="controls"><button onclick="processFile()">Process file</button><button class="secondary" onclick="document.getElementById('fileContents').value='78\\n91\\n64\\n85';processFile()">Load clean example</button><button class="secondary" onclick="document.getElementById('fileContents').value='';processFile()">Empty file</button></div>
+  <div class="output" id="fileOutput">Click Process file to simulate reading and validating the lines.</div>
+  <h3>What the real Java solution needs</h3>
+  <ul class="checklist"><li>A valid <code>Path</code> to the file.</li><li>A reader or <code>Files.readAllLines</code> for a small file.</li><li>Handling for <code>IOException</code>.</li><li>Validation for each line, since text may not be a valid number.</li><li>A clear policy for invalid lines: stop, skip, or report them.</li></ul>
+  <div class="code"><span class="comment">// Sketch: the key ideas, with imports omitted</span>
+<span class="keyword">try</span> (var reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+    String line;
+    <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) {
+        <span class="keyword">try</span> {
+            <span class="keyword">int</span> mark = Integer.parseInt(line.trim());
+            <span class="comment">// validate and process mark</span>
+        } <span class="keyword">catch</span> (NumberFormatException e) {
+            System.out.println(<span class="string">"Skipping invalid mark: "</span> + line);
+        }
+    }
+} <span class="keyword">catch</span> (IOException e) {
+    System.out.println(<span class="string">"Could not read input file: "</span> + e.getMessage());
+}</div>
+</section>
+
+<section class="section" id="practice">
+  <h2>10. Practice problems</h2>
+  <p>Try to solve each one before revealing the suggested answer. These are designed to test understanding, not memorization.</p>
+  <div class="exercise"><p><strong>1. Predict the output.</strong> What prints after this code catches the exception?</p><div class="code"><span class="keyword">try</span> {
+    <span class="keyword">int</span> n = Integer.parseInt(<span class="string">"cat"</span>);
+    System.out.println(<span class="string">"A"</span>);
+} <span class="keyword">catch</span> (NumberFormatException e) {
+    System.out.println(<span class="string">"B"</span>);
+}
+System.out.println(<span class="string">"C"</span>);</div><button class="secondary" onclick="toggleAnswer('ans1')">Reveal answer</button><div class="answer" id="ans1"><strong>Answer:</strong> B, then C. Parsing throws before A can print; the catch handles it and execution continues after the try/catch.</div></div>
+  <div class="exercise"><p><strong>2. Checked or unchecked?</strong> Classify <code>IOException</code> and <code>NullPointerException</code>.</p><button class="secondary" onclick="toggleAnswer('ans2')">Reveal answer</button><div class="answer" id="ans2"><strong>Answer:</strong> <code>IOException</code> is checked. <code>NullPointerException</code> is unchecked because it extends <code>RuntimeException</code>.</div></div>
+  <div class="exercise"><p><strong>3. Choose the keyword.</strong> Which keyword declares that a method may pass an <code>IOException</code> to its caller?</p><button class="secondary" onclick="toggleAnswer('ans3')">Reveal answer</button><div class="answer" id="ans3"><strong>Answer:</strong> <code>throws</code>, used in the method signature. <code>throw</code> is used to raise a particular exception.</div></div>
+  <div class="exercise"><p><strong>4. Fix the catch order.</strong> You need separate handlers for <code>FileNotFoundException</code> and <code>IOException</code>. Which comes first?</p><button class="secondary" onclick="toggleAnswer('ans4')">Reveal answer</button><div class="answer" id="ans4"><strong>Answer:</strong> <code>FileNotFoundException</code> first, then <code>IOException</code>, because the former is more specific.</div></div>
+  <div class="exercise"><p><strong>5. Avoid resource leaks.</strong> What is the recommended way to ensure a <code>BufferedReader</code> closes automatically?</p><button class="secondary" onclick="toggleAnswer('ans5')">Reveal answer</button><div class="answer" id="ans5"><strong>Answer:</strong> Use try-with-resources: <code>try (BufferedReader reader = ...)</code>. Java closes the reader at the end of the statement.</div></div>
+  <div class="exercise"><p><strong>6. Read a small file.</strong> Which API reads the entire text file into one <code>String</code> in Java 11+?</p><button class="secondary" onclick="toggleAnswer('ans6')">Reveal answer</button><div class="answer" id="ans6"><strong>Answer:</strong> <code>Files.readString(path, StandardCharsets.UTF_8)</code>. Remember to handle <code>IOException</code>.</div></div>
+  <div class="exercise"><p><strong>7. Replace vs append.</strong> What must you add when writing new text to the end of a file?</p><button class="secondary" onclick="toggleAnswer('ans7')">Reveal answer</button><div class="answer" id="ans7"><strong>Answer:</strong> Pass <code>StandardOpenOption.APPEND</code>, usually with <code>StandardOpenOption.CREATE</code> if the file should be created when missing.</div></div>
+  <div class="exercise"><p><strong>8. Design a safe file importer.</strong> A marks file contains lines <code>70</code>, <code>bad</code>, <code>95</code>. What are two different errors you might need to handle?</p><button class="secondary" onclick="toggleAnswer('ans8')">Reveal answer</button><div class="answer" id="ans8"><strong>Answer:</strong> A file-level <code>IOException</code> if it cannot be read, and a line-level <code>NumberFormatException</code> for <code>bad</code>. They represent different problems and should have different responses.</div></div>
+</section>
+
+<section class="section" id="quiz">
+  <h2>11. Knowledge check</h2>
+  <p>Choose one answer for each question, then check your score.</p>
+  <form id="quizForm">
+    <div class="quiz-q"><p><strong>1.</strong> What is the purpose of a <code>catch</code> block?</p><label class="option"><input type="radio" name="q1" value="a"> Declare a method's return type</label><label class="option"><input type="radio" name="q1" value="b"> Handle a matching exception</label><label class="option"><input type="radio" name="q1" value="c"> Automatically create a file</label></div>
+    <div class="quiz-q"><p><strong>2.</strong> Which is an unchecked exception?</p><label class="option"><input type="radio" name="q2" value="a"> IOException</label><label class="option"><input type="radio" name="q2" value="b"> FileNotFoundException</label><label class="option"><input type="radio" name="q2" value="c"> NullPointerException</label></div>
+    <div class="quiz-q"><p><strong>3.</strong> What does <code>throws IOException</code> do in a method signature?</p><label class="option"><input type="radio" name="q3" value="a"> Declares that the method may pass the exception to its caller</label><label class="option"><input type="radio" name="q3" value="b"> Immediately throws the exception every time</label><label class="option"><input type="radio" name="q3" value="c"> Catches the exception</label></div>
+    <div class="quiz-q"><p><strong>4.</strong> What does try-with-resources help with?</p><label class="option"><input type="radio" name="q4" value="a"> Making all exceptions disappear</label><label class="option"><input type="radio" name="q4" value="b"> Automatically closing supported resources</label><label class="option"><input type="radio" name="q4" value="c"> Turning a relative path into an absolute path</label></div>
+    <div class="quiz-q"><p><strong>5.</strong> Which API is a good fit for reading a small text file into a String in Java 11+?</p><label class="option"><input type="radio" name="q5" value="a"> Files.readString(path)</label><label class="option"><input type="radio" name="q5" value="b"> Path.read(path)</label><label class="option"><input type="radio" name="q5" value="c"> System.in.readFile(path)</label></div>
+    <div class="quiz-q"><p><strong>6.</strong> Why should invalid number text in a file be handled separately from a file-reading failure?</p><label class="option"><input type="radio" name="q6" value="a"> They are the same exception</label><label class="option"><input type="radio" name="q6" value="b"> Invalid text is a data-conversion problem; reading failure is an I/O problem</label><label class="option"><input type="radio" name="q6" value="c"> Java cannot catch both types</label></div>
+    <button type="button" onclick="gradeQuiz()">Check my score</button><button type="button" class="secondary" onclick="resetQuiz()">Reset quiz</button>
+    <div id="quizResult" class="feedback" aria-live="polite"></div>
+  </form>
+</section>
+
+<div class="navbuttons"><a href="java_collections_framework_interactive.html">← Previous: Collections Framework</a><a class="primary" href="java_logging_debugging_testing_interactive.html">Next: Logging, Debugging & Testing →</a></div>
+</main>
+</div>
+<footer>Java Foundations · Learn one concept, try it, explain it in your own words, then move on.</footer>
+<script>
+const sectionIds=['start','why','trycatch','types','flow','throw','resources','files','readwrite','filelab','practice','quiz'];
+function updateProgress(){let seen=0;sectionIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<window.innerHeight*.72)seen++});const pct=Math.round(seen/sectionIds.length*100);document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressText').textContent=pct+'%';let current='start';sectionIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<160)current=id});document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current))}
+window.addEventListener('scroll',updateProgress);window.addEventListener('load',updateProgress);
+function runTryCatch(){const s=document.getElementById('exceptionScenario').value;let lines;if(s==='safe')lines=['TRY: calculate 10 / 2','Result: 5','CATCH: skipped','After try/catch: program continues'];else if(s==='zero')lines=['TRY: calculate 10 / 0','Exception: ArithmeticException','Remaining statements in try: skipped','CATCH: You cannot divide by zero.','After try/catch: program continues'];else lines=['TRY: parse "hello" as an integer','Exception: NumberFormatException','Remaining statements in try: skipped','CATCH: input is not a valid integer','After try/catch: program continues'];document.getElementById('tryOutput').textContent=lines.join('\\n')}
+function resetTryCatch(){document.getElementById('exceptionScenario').value='safe';document.getElementById('tryOutput').textContent='Choose a scenario and click Run simulation.'}
+function runFlow(){document.getElementById('flowOutput').textContent=['A: before','B: start try','Exception: NumberFormatException','C: value = ... (skipped)','D: invalid number','E: after handler'].join('\\n')}
+function checkThrows(){const v=document.querySelector('input[name="throwsCheck"]:checked');const f=document.getElementById('throwsFeedback');if(!v){f.textContent='Choose an option first.';return}f.textContent=v.value==='b'?'Correct! throws declares a checked exception in the method signature.':'Not quite. Use throws in the signature to declare a checked exception.';f.style.color=v.value==='b'?'#15803d':'#b91c1c'}
+function processFile(){const raw=document.getElementById('fileContents').value;const lines=raw.split(/\\r?\\n/);let values=[],bad=[];lines.forEach((line,i)=>{const t=line.trim();if(t==='')return;if(!/^[+-]?\\d+$/.test(t)){bad.push(`Line ${i+1}: "${line}" is not an integer`);return}const n=Number(t);if(!Number.isSafeInteger(n)){bad.push(`Line ${i+1}: "${line}" is outside the safe integer range in this simulation`);return}values.push(n)});let out=['Simulated file read complete.',`Non-empty valid marks: ${values.length}`];if(values.length){const sum=values.reduce((a,b)=>a+b,0);out.push(`Marks: ${values.join(', ')}`,`Total: ${sum}`,`Average: ${(sum/values.length).toFixed(2)}`)}else out.push('No valid marks were found.');if(bad.length)out.push('Warnings:',...bad.map(x=>'• '+x));else out.push('No invalid lines found.');out.push('Real Java version would still need to catch IOException when opening/reading the actual file.');document.getElementById('fileOutput').textContent=out.join('\\n')}
+function toggleAnswer(id){const el=document.getElementById(id);el.classList.toggle('show')}
+const correct={q1:'b',q2:'c',q3:'a',q4:'b',q5:'a',q6:'b'};
+function gradeQuiz(){let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{const chosen=document.querySelector(`input[name="${q}"]:checked`);if(chosen){answered++;if(chosen.value===a)score++}});const result=document.getElementById('quizResult');result.textContent=`Score: ${score}/6 · Answered: ${answered}/6. `+(score===6?'Excellent! You understand the core ideas.':score>=4?'Good work. Review any missed concepts, then try again.':'Review the lesson sections and retry.');result.style.color=score>=4?'#15803d':'#b91c1c'}
+function resetQuiz(){document.getElementById('quizForm').reset();document.getElementById('quizResult').textContent=''}
+</script>
+</body>
+</html>

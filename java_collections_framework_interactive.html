@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Collections Framework | Interactive Beginner Course</title>
+<style>
+:root{--ink:#19243a;--muted:#68758c;--line:#e2e8f2;--bg:#f5f7fc;--blue:#315be8;--pale:#edf2ff;--green:#177a52;--red:#bd3444}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.hero{background:linear-gradient(120deg,#253b91,#4269ee 64%,#8094ff);color:#fff;padding:38px 22px 32px}.hero-inner{max-width:1200px;margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800;opacity:.85}.hero h1{font-size:clamp(2.15rem,4vw,3.25rem);line-height:1.1;margin:12px 0}.hero p{max-width:880px;font-size:1.08rem;color:#eef2ff;margin:12px 0}.pill{display:inline-block;border:1px solid #ffffff65;border-radius:99px;padding:4px 10px;font-size:.8rem;margin-top:8px}
+.layout{max-width:1200px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:258px minmax(0,1fr);gap:22px}.sidebar{position:sticky;top:14px;align-self:start;background:white;border:1px solid var(--line);border-radius:18px;padding:18px}.side-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850;margin-bottom:8px}.nav a{display:block;text-decoration:none;color:#4c5871;padding:8px 10px;border-radius:9px;font-size:.9rem;margin:2px 0}.nav a:hover,.nav a.active{background:var(--pale);color:#2348c6;font-weight:750}.progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin:18px 0 7px}.progress{height:7px;background:#e8edf6;border-radius:99px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--blue),#8da1ff);transition:width .2s}
+main{min-width:0}.lesson{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,31px);margin-bottom:18px;scroll-margin-top:15px;box-shadow:0 6px 22px #1c2e4c08}.lesson h2{font-size:1.55rem;line-height:1.28;margin:0 0 12px}.lesson h3{font-size:1.08rem;line-height:1.4;margin:22px 0 8px}.tag{display:inline-block;background:#edf2ff;color:#294bc3;border-radius:99px;padding:3px 10px;font-size:.76rem;font-weight:850;margin-bottom:10px}.muted{color:var(--muted)}.small{font-size:.88rem}.analogy{background:#fff8e9;border:1px solid #f2dfb5;border-radius:12px;padding:14px 16px;margin:15px 0}.analogy strong{color:#805000}.tip{background:#eefaf4;border:1px solid #cdeedd;border-radius:12px;padding:13px 15px;margin:15px 0}.warning{background:#fff0f1;border:1px solid #f2d0d4;border-radius:12px;padding:13px 15px;margin:15px 0}.note{background:#f1f5ff;border:1px solid #dbe4ff;border-radius:12px;padding:13px 15px;margin:15px 0}
+pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12px;font-size:.9rem;line-height:1.58;margin:12px 0}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code,li code{background:#eef1f7;padding:2px 5px;border-radius:5px;color:#293d76}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:#fff;font:inherit;font-weight:750;cursor:pointer}.btn.secondary{background:#edf1fb;color:#263c7d}.btn:hover{filter:brightness(.96)}input,select{padding:10px 12px;border:1px solid #cfd8e7;border-radius:9px;font:inherit;max-width:100%;background:white;color:var(--ink)}.field{display:flex;flex-direction:column;gap:5px;font-size:.9rem;font-weight:700;min-width:130px}.field input{font-weight:400}.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.demo-box{border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}.demo-box h3{margin-top:0}.output{background:#f3f6fb;border-radius:10px;padding:11px 13px;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}.question{border:1px solid var(--line);padding:14px;border-radius:12px;margin:12px 0}.question p{margin:0 0 9px;font-weight:750}.question label{display:block;padding:5px 0;cursor:pointer}.answer{display:none;margin-top:10px;padding:11px;background:#eefaf4;border-radius:8px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}th{background:#f1f4fb}.steps{counter-reset:step;list-style:none;padding:0}.steps li{counter-increment:step;position:relative;padding:8px 0 8px 42px}.steps li:before{content:counter(step);position:absolute;left:0;top:8px;background:var(--pale);color:#294bc3;font-weight:850;width:29px;height:29px;display:grid;place-items:center;border-radius:50%}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin:18px 0 30px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{display:grid;grid-template-columns:1fr 1fr;gap:2px}.demo-grid{grid-template-columns:1fr}.hero{padding-top:28px}}@media(max-width:480px){.nav{grid-template-columns:1fr}.row>*{flex:1 1 100%}.btn{width:100%}.footer-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner"><div class="eyebrow">Java Foundations • Beginner's Course</div><h1>Collections Framework</h1><p>Learn how Java stores groups of objects using the right tool for the job. We'll compare lists, sets, queues, and maps, then build a tiny task manager and see how iterators work.</p><span class="pill">Beginner friendly · Analogies · Interactive labs · Practice · Quiz</span></div></header>
+<div class="layout">
+<aside class="sidebar"><div class="side-title">Lesson navigation</div><nav class="nav" id="nav">
+<a href="#start">1. Why collections?</a><a href="#map">2. The big family</a><a href="#list">3. Lists</a><a href="#set">4. Sets</a><a href="#queue">5. Queues</a><a href="#maptypes">6. Maps</a><a href="#generics">7. Generics & iteration</a><a href="#lab">8. Task manager lab</a><a href="#sort">9. Sorting & comparators</a><a href="#choose">10. Choose well</a><a href="#practice">11. Practice</a><a href="#quiz">12. Quiz</a>
+</nav><div class="progress-label"><span>Lesson progress</span><b id="progressText">0%</b></div><div class="progress"><span id="progressBar"></span></div><p class="small muted">Try the interactive task manager, then test yourself.</p></aside>
+<main>
+<section class="lesson" id="start"><span class="tag">START WITH A PROBLEM</span><h2>1. Why does Java need a Collections Framework?</h2>
+<p>Imagine writing a to-do app. You need to store tasks, add new tasks, remove completed ones, find a task, and perhaps process them in order. You could build all the storage logic yourself, but that would be a lot of work.</p>
+<div class="analogy"><strong>Analogy: a well-organised kitchen</strong><br>You don't use one container for everything. Plates go in a rack, ingredients go in labelled jars, and the cooking queue has its own order. Java's Collections Framework gives you several ready-made containers, each designed for a different kind of job.</div>
+<div class="demo-grid"><div class="demo-box"><h3>Data structures</h3><p>Decide how items are organised: list, set, queue, or key-value map.</p></div><div class="demo-box"><h3>Algorithms</h3><p>Reusable operations such as sorting, searching, reversing, and finding a minimum.</p></div></div>
+<p>The framework is a group of interfaces, implementations, and algorithms. You choose a useful interface such as <code>List</code>, then create an implementation such as <code>ArrayList</code>.</p>
+<div class="tip"><b>Core principle:</b> choose a data structure based on what you need to do most often, not just on which class name looks familiar.</div>
+</section>
+<section class="lesson" id="map"><span class="tag">THE FAMILY TREE</span><h2>2. The big family: interfaces and implementations</h2>
+<p>Think of an interface as a promise about available operations. An implementation is the concrete class that performs those operations.</p>
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+List&lt;String&gt; tasks = new ArrayList&lt;&gt;();
+tasks.add("Read");
+tasks.add("Practise Java");</code></pre>
+<p>The variable is declared as <code>List&lt;String&gt;</code>, an interface type, while the object is an <code>ArrayList&lt;String&gt;</code>, a concrete implementation.</p>
+<div class="analogy"><strong>Analogy: USB and the device</strong><br>A USB port describes a connection standard. Many different devices can use it. In a similar way, code that depends on the <code>List</code> interface can work with different List implementations as long as they support the required operations.</div>
+<h3>Useful mental map</h3><div class="table-wrap"><table><thead><tr><th>Family</th><th>Common implementations</th><th>Best mental model</th></tr></thead><tbody>
+<tr><td><code>List</code></td><td><code>ArrayList</code>, <code>LinkedList</code></td><td>Ordered sequence; duplicates allowed</td></tr>
+<tr><td><code>Set</code></td><td><code>HashSet</code>, <code>LinkedHashSet</code>, <code>TreeSet</code></td><td>Unique elements</td></tr>
+<tr><td><code>Queue</code> / <code>Deque</code></td><td><code>ArrayDeque</code>, <code>PriorityQueue</code>, <code>LinkedList</code></td><td>Items waiting to be processed</td></tr>
+<tr><td><code>Map</code></td><td><code>HashMap</code>, <code>LinkedHashMap</code>, <code>TreeMap</code></td><td>Key → value lookup</td></tr>
+</tbody></table></div>
+<div class="note"><b>Small but important detail:</b> <code>Map</code> belongs to the Collections Framework, but it does not extend the <code>Collection</code> interface. A Map stores pairs; a Collection stores individual elements.</div>
+</section>
+<section class="lesson" id="list"><span class="tag">FAMILY 1</span><h2>3. List: an ordered sequence</h2>
+<p>A <code>List</code> keeps elements in a sequence. It has indexes starting at zero, and it can contain duplicate values.</p>
+<pre><code>List&lt;String&gt; shopping = new ArrayList&lt;&gt;();
+shopping.add("Milk");
+shopping.add("Bread");
+shopping.add("Milk");
+
+System.out.println(shopping.get(0)); // Milk
+System.out.println(shopping.size()); // 3</code></pre>
+<div class="analogy"><strong>Analogy: numbered seats in a cinema</strong><br>Each position has an index. Seat index 0 is the first seat in the list. Two people could have the same name in the booking list; duplicates are allowed unless your program prevents them.</div>
+<h3>Common List methods</h3><ul><li><code>add(value)</code>: append an item.</li><li><code>get(index)</code>: retrieve an item at an index.</li><li><code>set(index, value)</code>: replace an item at an index.</li><li><code>remove(index)</code> or <code>remove(value)</code>: remove an item. Be mindful of overloads when using numbers.</li><li><code>contains(value)</code>: test whether a value exists.</li><li><code>size()</code>: number of elements.</li></ul>
+<h3>ArrayList or LinkedList?</h3><div class="table-wrap"><table><thead><tr><th><code>ArrayList</code></th><th><code>LinkedList</code></th></tr></thead><tbody><tr><td>Great general-purpose default; fast indexed access in typical use.</td><td>Implements both <code>List</code> and <code>Deque</code>; can be useful for operations at the ends, but is not automatically faster for all insertions/removals.</td></tr><tr><td>Backed by a resizable array.</td><td>Backed by linked nodes.</td></tr></tbody></table></div>
+<div class="tip">For most beginner programs that need an ordered, resizable sequence, start with <code>ArrayList</code>.</div>
+</section>
+<section class="lesson" id="set"><span class="tag">FAMILY 2</span><h2>4. Set: uniqueness without duplicate entries</h2>
+<p>A <code>Set</code> keeps unique elements. Adding a value already present does not create a duplicate.</p>
+<pre><code>Set&lt;String&gt; tags = new HashSet&lt;&gt;();
+tags.add("java");
+tags.add("beginner");
+tags.add("java");
+
+System.out.println(tags.size()); // 2</code></pre>
+<div class="analogy"><strong>Analogy: a guest list</strong><br>The list records who is present, not how many times each person signed up. If you need the number of appearances, use a counter or a Map.</div>
+<ul><li><code>HashSet</code>: uniqueness; no guaranteed iteration order.</li><li><code>LinkedHashSet</code>: uniqueness while preserving insertion order.</li><li><code>TreeSet</code>: unique elements kept in sorted order.</li></ul>
+<div class="warning"><b>Ordering matters:</b> never depend on <code>HashSet</code> printing items in the order you inserted them. Choose <code>LinkedHashSet</code> or <code>TreeSet</code> when order is part of the requirement.</div>
+</section>
+<section class="lesson" id="queue"><span class="tag">FAMILY 3</span><h2>5. Queue and Deque: items waiting their turn</h2>
+<p>A queue is useful when items need to be processed in a particular order. A common rule is FIFO: First In, First Out. A <code>Deque</code> (double-ended queue) supports adding and removing at both ends.</p>
+<div class="analogy"><strong>Analogy: a bakery queue</strong><br>The first customer to join is normally served first. A queue models that waiting line. A deque is like a line where you can work at either end when your use case requires it.</div>
+<pre><code>Queue&lt;String&gt; line = new ArrayDeque&lt;&gt;();
+line.offer("Arun");
+line.offer("Maya");
+line.offer("Kavi");
+
+System.out.println(line.poll()); // Arun
+System.out.println(line.peek()); // Maya</code></pre>
+<h3>Three methods worth learning</h3><ul><li><code>offer(item)</code>: add an item, returning whether it was accepted.</li><li><code>poll()</code>: retrieve and remove the head, or return <code>null</code> if empty.</li><li><code>peek()</code>: inspect the head without removing it, or return <code>null</code> if empty.</li></ul>
+<div class="note"><b>Not every queue is FIFO.</b> A <code>PriorityQueue</code> retrieves elements according to priority/natural ordering rather than simple insertion order. Think emergency triage: the most urgent case may be served first.</div>
+<pre><code>Deque&lt;String&gt; history = new ArrayDeque&lt;&gt;();
+history.push("Home");
+history.push("Products");
+System.out.println(history.pop()); // Products</code></pre>
+<p>Using <code>push()</code> and <code>pop()</code> makes a deque behave like a stack: Last In, First Out (LIFO). That is useful for undo history and backtracking.</p>
+</section>
+<section class="lesson" id="maptypes"><span class="tag">FAMILY 4</span><h2>6. Map: look up a value by key</h2>
+<p>A Map stores key-value pairs. Keys are unique; values can repeat.</p>
+<pre><code>Map&lt;String, Integer&gt; stock = new HashMap&lt;&gt;();
+stock.put("Notebook", 20);
+stock.put("Pen", 50);
+stock.put("Notebook", 18); // update
+
+System.out.println(stock.get("Notebook")); // 18
+System.out.println(stock.getOrDefault("Eraser", 0)); // 0</code></pre>
+<div class="analogy"><strong>Analogy: labelled storage bins</strong><br>The product name is the label (key). The number of items is the value. Updating a product's stock changes the value associated with that key.</div>
+<ul><li><code>HashMap</code>: general-purpose key-value lookup; no guaranteed iteration order.</li><li><code>LinkedHashMap</code>: preserves insertion order by default.</li><li><code>TreeMap</code>: keeps keys sorted.</li></ul>
+<h3>Loop through every entry</h3><pre><code>for (Map.Entry&lt;String, Integer&gt; entry : stock.entrySet()) {
+    System.out.println(entry.getKey() + " → " + entry.getValue());
+}</code></pre>
+<p>Use <code>entrySet()</code> when you need both key and value. Use <code>keySet()</code> when you only need keys, or <code>values()</code> when you only need values.</p>
+</section>
+<section class="lesson" id="generics"><span class="tag">SAFER CODE</span><h2>7. Generics, iteration and the Iterator</h2>
+<p>Generics tell Java what kind of objects a collection should hold. They catch many type mistakes at compile time.</p>
+<pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;();
+names.add("Maya");
+// names.add(42); // compile-time error: Integer is not String</code></pre>
+<div class="analogy"><strong>Analogy: labelled containers</strong><br>A container labelled “Strings only” helps prevent someone from putting a bicycle into a box meant for books. <code>List&lt;String&gt;</code> is that label for the compiler.</div>
+<h3>Enhanced for loop</h3><pre><code>for (String name : names) {
+    System.out.println(name);
+}</code></pre>
+<p>This is the easiest way to visit every element when you do not need to manage the position yourself.</p>
+<h3>What is an Iterator?</h3><p>An <code>Iterator</code> is an object that walks through a collection one item at a time. It is particularly useful when you need to remove elements safely while iterating.</p>
+<pre><code>Iterator&lt;String&gt; iterator = names.iterator();
+
+while (iterator.hasNext()) {
+    String name = iterator.next();
+    if (name.startsWith("A")) {
+        iterator.remove();
+    }
+}</code></pre>
+<div class="warning"><b>Avoid removing directly inside an enhanced for loop.</b> Calling <code>names.remove(name)</code> from inside that loop can cause a <code>ConcurrentModificationException</code> for common collections. Use an Iterator's <code>remove()</code>, a suitable <code>removeIf()</code>, or collect items to remove separately.</div>
+<h3>Algorithms are included too</h3><pre><code>Collections.sort(names);
+Collections.reverse(names);
+boolean found = names.contains("Maya");</code></pre>
+<p><code>Collections</code> (with a capital C) is a utility class containing static algorithms for collections. <code>Collection</code> (singular) is an interface in the framework. The names are annoyingly similar, so watch the spelling.</p>
+</section>
+<section class="lesson" id="lab"><span class="tag">INTERACTIVE LAB</span><h2>8. Build a tiny task manager</h2>
+<p>Use this browser playground to add tasks, mark them done, remove them, and see a unique category Set. The app is a visual simulation of collection behaviour.</p>
+<div class="demo-box"><div class="row"><label class="field" style="flex:2">Task name<input id="taskInput" value="Practise Java" placeholder="e.g. Read a chapter"></label><label class="field" style="flex:1">Category<select id="categoryInput"><option>Study</option><option>Work</option><option>Home</option><option>Health</option></select></label><button class="btn" id="addTask">Add task</button></div><div id="taskList" class="output">No tasks yet.</div><div class="row" style="margin-top:12px"><label class="field" style="flex:1">Task number to change<input id="taskIndex" type="number" min="1" value="1"></label><button class="btn secondary" id="toggleTask">Toggle done</button><button class="btn secondary" id="deleteTask">Delete task</button><button class="btn secondary" id="clearTasks">Clear all</button></div><div id="taskStats" class="output"></div></div>
+<h3>What data structures does this imitate?</h3><ul><li>A <code>List</code> keeps the tasks in their display order.</li><li>A <code>Set</code> collects the distinct categories currently used.</li><li>A real app might use a <code>Map</code> from task ID to task details for fast lookup.</li></ul>
+</section>
+<section class="lesson" id="sort"><span class="tag">ORDERING</span><h2>9. Sorting and Comparators</h2>
+<p>Sometimes you need to arrange objects by a rule. A <code>Comparator</code> tells Java how to compare two objects for ordering.</p>
+<pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;(
+    List.of("Kavi", "Arun", "Maya")
+);
+
+Collections.sort(names); // natural String order</code></pre>
+<p>For objects, define the rule you want:</p><pre><code>class Student {
+    String name;
+    int score;
+
+    Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+}
+
+students.sort(Comparator.comparingInt(s -> s.score));</code></pre>
+<div class="analogy"><strong>Analogy: judging a race</strong><br>The runners are the objects. The comparator is the rule that says who comes first, perhaps lower finishing time first or higher score first. Different comparators can sort the same objects in different ways.</div>
+<h3>Interactive sorting demo</h3><div class="demo-box"><div class="row"><label class="field" style="flex:1">Names, separated by commas<input id="sortInput" value="Kavi, Arun, Maya, Bala"></label><label class="field" style="flex:1">Order<select id="sortOrder"><option value="az">Alphabetical A → Z</option><option value="za">Reverse Z → A</option><option value="len">Shortest name first</option></select></label><button class="btn" id="sortButton">Sort names</button></div><div id="sortOutput" class="output">Your sorted names will appear here.</div></div>
+</section>
+<section class="lesson" id="choose"><span class="tag">PICK THE RIGHT TOOL</span><h2>10. Choose a collection based on the requirement</h2>
+<div class="table-wrap"><table><thead><tr><th>If you need…</th><th>Start with…</th><th>Why</th></tr></thead><tbody>
+<tr><td>An ordered resizable sequence with duplicates</td><td><code>ArrayList</code></td><td>Simple general-purpose List</td></tr>
+<tr><td>Unique values, no ordering requirement</td><td><code>HashSet</code></td><td>Membership and uniqueness</td></tr>
+<tr><td>Unique values in insertion order</td><td><code>LinkedHashSet</code></td><td>Preserves insertion order</td></tr>
+<tr><td>Key-value lookup</td><td><code>HashMap</code></td><td>Maps a key to a value</td></tr>
+<tr><td>Process items in arrival order</td><td><code>ArrayDeque</code> as a Queue</td><td>Queue-style offer/poll/peek</td></tr>
+<tr><td>Stack behaviour: last item first</td><td><code>ArrayDeque</code> as a Deque</td><td>Push/pop at one end</td></tr>
+<tr><td>Retrieve items by priority</td><td><code>PriorityQueue</code></td><td>Head is based on priority/order</td></tr>
+<tr><td>Sorted keys</td><td><code>TreeMap</code></td><td>Maintains key order</td></tr>
+</tbody></table></div>
+<div class="tip"><b>Beginner default:</b> use <code>ArrayList</code> for most ordered sequences, <code>HashSet</code> for uniqueness, <code>HashMap</code> for key-value lookup, and <code>ArrayDeque</code> for queue/stack behaviour. Change the implementation when the requirement demands it.</div>
+</section>
+<section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>11. Practice problems</h2><p>Try each one before revealing the answer.</p>
+<div class="question"><p>1. You need a shopping list that preserves order and can contain the same item more than once. Which interface fits?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>List&lt;String&gt;</code>, commonly implemented by <code>ArrayList&lt;&gt;</code>.</div></div>
+<div class="question"><p>2. Which collection should you use for a set of unique email addresses?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>Set&lt;String&gt;</code>, commonly with <code>HashSet&lt;&gt;</code> when order is irrelevant.</div></div>
+<div class="question"><p>3. In a queue, what do <code>poll()</code> and <code>peek()</code> do differently?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>poll()</code> returns and removes the head. <code>peek()</code> returns the head without removing it. Both return null if the queue is empty.</div></div>
+<div class="question"><p>4. Why is <code>Map</code> different from <code>List</code>?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">A List stores elements in indexed order. A Map stores key-value pairs and uses keys to look up values.</div></div>
+<div class="question"><p>5. What is the main benefit of <code>List&lt;String&gt;</code> instead of a raw <code>List</code>?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Generics make the expected element type explicit and help the compiler catch wrong-type insertions.</div></div>
+<div class="question"><p>6. Why should you avoid directly removing elements from an ArrayList inside an enhanced for loop?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It can cause a <code>ConcurrentModificationException</code>. Use an Iterator's remove method, <code>removeIf</code>, or a separate removal pass.</div></div>
+<div class="question"><p>7. Which implementation is a good starting point for a FIFO queue?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>ArrayDeque</code> used through the <code>Queue</code> interface.</div></div>
+<div class="question"><p>8. What is a Comparator used for?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It defines a comparison rule for ordering objects, such as sorting students by score or names by length.</div></div>
+</section>
+<section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>12. Quick quiz</h2><p>Choose one answer per question, then check your score.</p>
+<form id="quizForm">
+<div class="question"><p>1. Which collection interface allows duplicates and supports indexes?</p><label><input type="radio" name="q1" value="a"> Set</label><label><input type="radio" name="q1" value="b"> List</label><label><input type="radio" name="q1" value="c"> Map</label></div>
+<div class="question"><p>2. Which collection is designed to keep unique elements?</p><label><input type="radio" name="q2" value="a"> Set</label><label><input type="radio" name="q2" value="b"> List</label><label><input type="radio" name="q2" value="c"> Queue only</label></div>
+<div class="question"><p>3. What does <code>poll()</code> do to a non-empty FIFO queue?</p><label><input type="radio" name="q3" value="a"> Sorts all elements</label><label><input type="radio" name="q3" value="b"> Returns and removes the head</label><label><input type="radio" name="q3" value="c"> Returns the last item without removing it</label></div>
+<div class="question"><p>4. Which collection stores key-value pairs?</p><label><input type="radio" name="q4" value="a"> ArrayList</label><label><input type="radio" name="q4" value="b"> HashSet</label><label><input type="radio" name="q4" value="c"> Map</label></div>
+<div class="question"><p>5. Which class is a typical general-purpose List implementation?</p><label><input type="radio" name="q5" value="a"> ArrayList</label><label><input type="radio" name="q5" value="b"> TreeMap</label><label><input type="radio" name="q5" value="c"> HashSet</label></div>
+<div class="question"><p>6. What does a Comparator define?</p><label><input type="radio" name="q6" value="a"> A database connection</label><label><input type="radio" name="q6" value="b"> A custom ordering rule</label><label><input type="radio" name="q6" value="c"> A way to create duplicate keys</label></div>
+<button class="btn" type="submit">Check my answers</button> <button class="btn secondary" type="button" id="resetQuiz">Reset quiz</button><div id="quizResult" class="output" aria-live="polite"></div>
+</form>
+</section>
+<div class="footer-nav"><button class="btn secondary" onclick="location.href='java_inheritance_polymorphism_abstraction_interactive.html'">← Previous: OOP concepts</button><button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Finish lesson →</button></div>
+<p class="muted small">Next topic: Exception Handling and File Processing. Interactive labs run in your browser as simulations; copy the Java examples into a Java IDE or online compiler to execute actual Java.</p>
+</main></div>
+<script>
+const sections=[...document.querySelectorAll('main .lesson')],navLinks=[...document.querySelectorAll('.nav a')];
+function updateProgress(){let seen=sections.filter(s=>s.getBoundingClientRect().top<window.innerHeight*.75).length;let pct=Math.round(seen/sections.length*100);document.getElementById('progressText').textContent=pct+'%';document.getElementById('progressBar').style.width=pct+'%';let active=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<170)active=i});navLinks.forEach((a,i)=>a.classList.toggle('active',i===active))}
+window.addEventListener('scroll',updateProgress);updateProgress();
+let tasks=[];let nextId=1;
+function renderTasks(msg){const out=document.getElementById('taskList');out.textContent=tasks.length?tasks.map((t,i)=>(i+1)+'. ['+(t.done?'✓ done':'○ open')+'] '+t.name+' — '+t.category).join('\\n'):'No tasks yet.';const cats=new Set(tasks.map(t=>t.category));document.getElementById('taskStats').textContent='Tasks: '+tasks.length+'\\nCompleted: '+tasks.filter(t=>t.done).length+'\\nOpen: '+tasks.filter(t=>!t.done).length+'\\nUnique categories: '+([...cats].join(', ')||'(none)')+(msg?'\\n'+msg:'')}
+document.getElementById('addTask').onclick=()=>{let name=document.getElementById('taskInput').value.trim(),category=document.getElementById('categoryInput').value;if(!name){renderTasks('Enter a task name first.');return}tasks.push({id:nextId++,name,category,done:false});renderTasks('Added "'+name+'".')};
+document.getElementById('toggleTask').onclick=()=>{let i=Number(document.getElementById('taskIndex').value)-1;if(!Number.isInteger(i)||i<0||i>=tasks.length){renderTasks('Enter a valid task number.');return}tasks[i].done=!tasks[i].done;renderTasks('Updated task '+(i+1)+'.')};
+document.getElementById('deleteTask').onclick=()=>{let i=Number(document.getElementById('taskIndex').value)-1;if(!Number.isInteger(i)||i<0||i>=tasks.length){renderTasks('Enter a valid task number.');return}let removed=tasks.splice(i,1)[0];renderTasks('Deleted "'+removed.name+'".')};
+document.getElementById('clearTasks').onclick=()=>{tasks=[];renderTasks('All tasks cleared.')};renderTasks();
+document.getElementById('sortButton').onclick=()=>{let names=document.getElementById('sortInput').value.split(',').map(s=>s.trim()).filter(Boolean),mode=document.getElementById('sortOrder').value;if(mode==='az')names.sort((a,b)=>a.localeCompare(b));else if(mode==='za')names.sort((a,b)=>b.localeCompare(a));else names.sort((a,b)=>a.length-b.length||a.localeCompare(b));document.getElementById('sortOutput').textContent='Sorted result:\\n'+names.join('\\n')};
+document.querySelectorAll('.reveal').forEach(btn=>btn.onclick=()=>{let a=btn.nextElementSibling,open=a.style.display==='block';a.style.display=open?'none':'block';btn.textContent=open?'Reveal answer':'Hide answer'});
+const correct={q1:'b',q2:'a',q3:'b',q4:'c',q5:'a',q6:'b'};
+document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Excellent! You understand the main collection types.':score>=4?'Good work. Review the questions you missed.':'Revisit the List, Set, Queue and Map sections, then try again.');out.className='output '+(score>=4?'good':'bad')};
+document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
+</script>
+</body></html>
