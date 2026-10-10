@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Foundations | Course Index & Learning Path</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#182338;--muted:#607089;--line:#dce4ef;--blue:#2457d6;--bluebg:#eaf0ff;--green:#13795b;--greenbg:#e6f7ef;--orange:#a95609;--orangebg:#fff2df;--purple:#6941c6;--purplebg:#f1eaff;--shadow:0 10px 30px #1e355510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{background:linear-gradient(120deg,#172554,#2457d6);color:#fff;padding:28px 20px 25px}header .wrap,main{max-width:1120px;margin:auto}.eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;opacity:.82;font-weight:800}h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:8px 0 12px}header p{max-width:800px;color:#e1eaff;margin:0}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #ffffff55;border-radius:99px;padding:5px 10px;font-size:.82rem}
+main{padding:22px 16px 60px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:20px}.sidebar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.sidebar{padding:16px;height:max-content;position:sticky;top:12px}.side-title{font-size:.78rem;color:var(--muted);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px}.navbtn{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:10px 11px;border-radius:10px;cursor:pointer;font:inherit;display:flex;gap:9px;align-items:center;margin:3px 0}.navbtn.active{background:var(--bluebg);color:var(--blue);font-weight:750}.num{font-size:.75rem;background:#eef2f7;border-radius:7px;padding:2px 7px;color:#52627b;white-space:nowrap}.navbtn.active .num{background:#d6e2ff;color:var(--blue)}.progress{height:7px;background:#e8edf5;border-radius:9px;overflow:hidden;margin:13px 0 7px}.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .25s}.small{font-size:.86rem;color:var(--muted)}.content{min-width:0}.panel{padding:clamp(18px,3vw,30px);display:none}.panel.active{display:block;animation:fade .18s ease}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}h2{font-size:1.65rem;margin:0 0 7px;line-height:1.2}h3{font-size:1.12rem;margin:22px 0 8px}p{margin:8px 0 14px}.lead{font-size:1.05rem;color:#3d4d65}.callout{border-left:4px solid var(--blue);background:var(--bluebg);padding:13px 15px;border-radius:0 12px 12px 0;margin:16px 0}.success{border-color:var(--green);background:var(--greenbg)}.warn{border-color:#d97706;background:var(--orangebg)}.purple{border-color:var(--purple);background:var(--purplebg)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:15px 0}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fcfdff}.mini strong{display:block;margin-bottom:5px}
+code{background:#eef2f7;padding:2px 6px;border-radius:6px;font-size:.9em}.code{background:#111827;color:#e5edf9;border-radius:13px;padding:16px;font-family:ui-monospace,Consolas,monospace;white-space:pre-wrap;font-size:.9rem;margin:12px 0}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.toolbar input{flex:1;min-width:200px;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px}.btn{font:inherit;background:var(--blue);border:0;color:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}.btn.secondary{background:#eaf0ff;color:var(--blue)}.btn:disabled{opacity:.5;cursor:not-allowed}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:0}.date{white-space:nowrap}.badge{display:inline-block;font-size:.74rem;font-weight:800;border-radius:99px;padding:2px 9px;margin-left:6px;vertical-align:middle}.b-core{background:var(--bluebg);color:var(--blue)}.b-arr{background:var(--greenbg);color:var(--green)}.b-str{background:var(--orangebg);color:var(--orange)}.b-set{background:var(--purplebg);color:var(--purple)}.b-oop{background:#e0f2f1;color:#0b6e5f}.b-adv{background:#fce4ec;color:#b4235b}.b-start{background:#e8edf5;color:#3d4d65}.b-miss{background:#fff2df;color:#a95609;border:1px dashed #d97706}
+.lesson-row{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#fcfdff}.lesson-row.done{background:var(--greenbg);border-color:#bfe6d2}.lesson-row.hidden{display:none}.check{flex:0 0 auto;width:22px;height:22px;margin-top:3px;accent-color:var(--green);cursor:pointer}.lesson-body{flex:1;min-width:0}.lesson-body a{color:var(--blue);font-weight:750;text-decoration:none}.lesson-body a:hover{text-decoration:underline}.meta{font-size:.83rem;color:var(--muted);margin-top:2px}
+.modhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}.modhead h3{margin:0}.count{font-size:.78rem;background:#eef2f7;border-radius:99px;padding:2px 10px;color:#52627b;font-weight:700}
+.footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+@media(max-width:780px){main{grid-template-columns:1fr}.sidebar{position:static}.grid2{grid-template-columns:1fr}.panel{padding:19px}table{font-size:.85rem}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Java Foundations • Course home</div><h1>Index / Table of Contents</h1><p>All lessons in teaching order, with dates. Tick lessons as you finish — progress saves in this browser. Start at 00, then follow 01 → 17.</p><div class="chips"><span class="chip">18 lessons total</span><span class="chip">28 Sep → 20 Oct 26</span><span class="chip">Interactive, no setup</span><span class="chip" id="chipProgress">0 / 18 done</span></div></div></header>
+<main>
+<aside class="sidebar"><p class="side-title">Modules</p><div class="navlist" id="navlist">
+<button class="navbtn active" data-page="0"><span class="num">00</span> Start here</button>
+<button class="navbtn" data-page="1"><span class="num">01</span> Core Programming</button>
+<button class="navbtn" data-page="2"><span class="num">02</span> Arrays &amp; Lists</button>
+<button class="navbtn" data-page="3"><span class="num">03</span> Strings</button>
+<button class="navbtn" data-page="4"><span class="num">04</span> Sets &amp; Maps</button>
+<button class="navbtn" data-page="5"><span class="num">05</span> OOP</button>
+<button class="navbtn" data-page="6"><span class="num">06</span> Advanced &amp; Revision</button>
+<button class="navbtn" data-page="7"><span class="num">☰</span> Full schedule</button>
+</div><div class="progress"><span id="progressbar"></span></div><div class="small" id="progresslabel">0 of 18 completed</div><div class="toolbar"><button class="btn secondary" id="resetBtn" style="width:100%">Reset progress</button></div></aside>
+<section class="content">
+
+<article class="panel active">
+<h2>00. Start here</h2><p class="lead">New to Java? Read this first before variables and loops.</p>
+<div class="lesson-row" data-id="fnd"><input class="check" type="checkbox" data-id="fnd" aria-label="mark done"><div class="lesson-body"><a href="java_foundations_interactive_tutorial.html">Java Foundations — what a program is, println, syntax, class &amp; main</a><div class="meta">Prerequisite • Before 28 Sep <span class="badge b-start">START</span></div></div></div>
+<div class="callout"><strong>How to use this index:</strong> each lesson below links to its interactive tutorial page. Use search on the Full schedule tab to jump, and tick checkboxes to track completion.</div>
+<div class="footer-nav"><button class="btn secondary" data-goto="7">Full schedule →</button><button class="btn" data-goto="1">Start 01 Variables →</button></div>
+</article>
+
+<article class="panel">
+<h2>01. Core Programming Concepts</h2><p class="lead">Variables, expressions, decisions, loops, methods, input/output — the six building blocks.</p>
+<div class="lesson-row" data-id="l01"><input class="check" type="checkbox" data-id="l01"><div class="lesson-body"><a href="java_variables_data_types_interactive.html">01 — Variables, Data Types</a><div class="meta">28 Sep 26 • Mon <span class="badge b-core">CORE</span></div></div></div>
+<div class="lesson-row" data-id="l02"><input class="check" type="checkbox" data-id="l02"><div class="lesson-body"><a href="java_operators_expressions_interactive.html">02 — Operators &amp; Expressions</a><div class="meta">29 Sep 26 • Tue <span class="badge b-core">CORE</span></div></div></div>
+<div class="lesson-row" data-id="l03"><input class="check" type="checkbox" data-id="l03"><div class="lesson-body"><a href="java_conditional_statements_interactive.html">03 — Conditional Statements (if, switch)</a><div class="meta">30 Sep 26 • Wed <span class="badge b-core">CORE</span></div></div></div>
+<div class="lesson-row" data-id="l04"><input class="check" type="checkbox" data-id="l04"><div class="lesson-body"><a href="java_loops_interactive.html">04 — Loops (for, while, do-while)</a><div class="meta">01 Oct 26 • Thu <span class="badge b-core">CORE</span></div></div></div>
+<div class="lesson-row" data-id="l05"><input class="check" type="checkbox" data-id="l05"><div class="lesson-body"><a href="java_methods_interactive_tutorial.html">05 — Functions / Methods</a><div class="meta">05 Oct 26 • Mon <span class="badge b-core">CORE</span></div></div></div>
+<div class="lesson-row" data-id="l06"><input class="check" type="checkbox" data-id="l06"><div class="lesson-body"><a href="java_input_output_interactive_tutorial.html">06 — Input/Output Operations &amp; Exercises</a><div class="meta">06 Oct 26 • Tue <span class="badge b-core">CORE</span></div></div></div>
+<div class="footer-nav"><button class="btn secondary" data-goto="0">← Start here</button><button class="btn" data-goto="2">Next: Arrays &amp; Lists →</button></div>
+</article>
+
+<article class="panel">
+<h2>02. Arrays &amp; Lists</h2><p class="lead">Fixed storage first, then dynamic lists, then sorting.</p>
+<div class="lesson-row" data-id="l07"><input class="check" type="checkbox" data-id="l07"><div class="lesson-body"><a href="java_arrays_storage_traversal_search.html">07 — Arrays: Storage, Traversal, Search</a><div class="meta">07 Oct 26 • Wed <span class="badge b-arr">ARRAYS</span></div></div></div>
+<div class="lesson-row" data-id="l08"><input class="check" type="checkbox" data-id="l08"><div class="lesson-body"><a href="java_collections_framework_interactive.html">08 — Lists: Dynamic Storage &amp; Iteration</a><div class="meta">08 Oct 26 • Thu <span class="badge b-arr">LISTS</span> <span class="badge b-miss">covered in Collections page — no standalone file</span></div></div></div>
+<div class="lesson-row" data-id="l09"><input class="check" type="checkbox" data-id="l09"><div class="lesson-body"><a href="java_sorting_techniques_practice_problems.html">09 — Sorting Techniques &amp; Practice Problems</a><div class="meta">09 Oct 26 • Fri <span class="badge b-arr">ARRAYS</span></div></div></div>
+<div class="callout warn"><strong>Note:</strong> no standalone <code>lists_dynamic_storage</code> file exists in this folder. Lesson 08 links to the Collections Framework page, which covers <code>ArrayList</code> / iteration. Create a dedicated lists page later if needed.</div>
+<div class="footer-nav"><button class="btn secondary" data-goto="1">← Core</button><button class="btn" data-goto="3">Next: Strings →</button></div>
+</article>
+
+<article class="panel">
+<h2>03. Strings</h2><p class="lead">Manipulation first, then searching and patterns.</p>
+<div class="lesson-row" data-id="l10"><input class="check" type="checkbox" data-id="l10"><div class="lesson-body"><a href="java_string_manipulation_split_replace.html">10 — String Manipulation, Split, Replace</a><div class="meta">12 Oct 26 • Mon <span class="badge b-str">STRINGS</span></div></div></div>
+<div class="lesson-row" data-id="l11"><input class="check" type="checkbox" data-id="l11"><div class="lesson-body"><a href="java_contains_pattern_matching_regex.html">11 — Contains, Pattern Matching &amp; Regex</a><div class="meta">13 Oct 26 • Tue <span class="badge b-str">STRINGS</span></div></div></div>
+<div class="footer-nav"><button class="btn secondary" data-goto="2">← Arrays &amp; Lists</button><button class="btn" data-goto="4">Next: Sets &amp; Maps →</button></div>
+</article>
+
+<article class="panel">
+<h2>04. Sets &amp; Maps</h2><p class="lead">Unique values, then key–value lookup. Both live in one interactive page.</p>
+<div class="lesson-row" data-id="l12"><input class="check" type="checkbox" data-id="l12"><div class="lesson-body"><a href="java_sets_maps_unique_values_keys_lookup.html">12 — Sets: Unique Values &amp; Duplicate Detection</a><div class="meta">14 Oct 26 • Wed <span class="badge b-set">SETS &amp; MAPS</span></div></div></div>
+<div class="lesson-row" data-id="l13"><input class="check" type="checkbox" data-id="l13"><div class="lesson-body"><a href="java_sets_maps_unique_values_keys_lookup.html">13 — Maps: Key-Value Pairs &amp; Common Operations</a><div class="meta">15 Oct 26 • Thu <span class="badge b-set">SETS &amp; MAPS</span> <span class="badge b-miss">same file, second half</span></div></div></div>
+<div class="footer-nav"><button class="btn secondary" data-goto="3">← Strings</button><button class="btn" data-goto="5">Next: OOP →</button></div>
+</article>
+
+<article class="panel">
+<h2>05. Object Oriented Programming</h2><p class="lead">Objects first, then the four pillars.</p>
+<div class="lesson-row" data-id="l14"><input class="check" type="checkbox" data-id="l14"><div class="lesson-body"><a href="java_classes_objects_encapsulation_interactive.html">14 — Classes, Objects &amp; Encapsulation</a><div class="meta">16 Oct 26 • Fri <span class="badge b-oop">OOP</span></div></div></div>
+<div class="lesson-row" data-id="l15"><input class="check" type="checkbox" data-id="l15"><div class="lesson-body"><a href="java_inheritance_polymorphism_abstraction_interactive.html">15 — Inheritance, Polymorphism &amp; Abstraction</a><div class="meta">19 Oct 26 • Mon <span class="badge b-oop">OOP</span></div></div></div>
+<div class="footer-nav"><button class="btn secondary" data-goto="4">← Sets &amp; Maps</button><button class="btn" data-goto="6">Next: Advanced →</button></div>
+</article>
+
+<article class="panel">
+<h2>06. Advanced &amp; Overall Revision</h2><p class="lead">Collections recap, then exceptions, files, and full revision.</p>
+<div class="lesson-row" data-id="l16"><input class="check" type="checkbox" data-id="l16"><div class="lesson-body"><a href="java_collections_framework_interactive.html">16 — Collections Framework</a><div class="meta">20 Oct 26 • Tue <span class="badge b-adv">ADVANCED</span></div></div></div>
+<div class="lesson-row" data-id="l17"><input class="check" type="checkbox" data-id="l17"><div class="lesson-body"><a href="java_exception_handling_file_processing_interactive.html">17 — Try-Catch, Logging, CSV, Excel, JSON, XML + Overall Revision</a><div class="meta">Revision <span class="badge b-adv">ADVANCED</span></div></div></div>
+<div class="callout success"><strong>Finish:</strong> after 17, revisit weak checkboxes and re-run each page's quiz.</div>
+<div class="footer-nav"><button class="btn secondary" data-goto="5">← OOP</button><button class="btn" data-goto="7">Full schedule →</button></div>
+</article>
+
+<article class="panel">
+<h2>Full schedule — all topics in order</h2><p class="lead">Search to filter. Click a title to open its tutorial.</p>
+<div class="toolbar"><input id="search" placeholder="Filter e.g. regex, loops, maps…" aria-label="Filter lessons"><button class="btn secondary" id="clearSearch">Clear</button></div>
+<div id="allList">
+<div class="modhead"><h3>Core Programming Concepts</h3><span class="count">6 lessons</span></div>
+<div class="lesson-row" data-id="l01"><input class="check" type="checkbox" data-id="l01"><div class="lesson-body"><a href="java_variables_data_types_interactive.html">Variables, Data Types</a><div class="meta">28 Sep 26 • Mon</div></div></div>
+<div class="lesson-row" data-id="l02"><input class="check" type="checkbox" data-id="l02"><div class="lesson-body"><a href="java_operators_expressions_interactive.html">Operators &amp; Expressions</a><div class="meta">29 Sep 26 • Tue</div></div></div>
+<div class="lesson-row" data-id="l03"><input class="check" type="checkbox" data-id="l03"><div class="lesson-body"><a href="java_conditional_statements_interactive.html">Conditional Statements (if, switch)</a><div class="meta">30 Sep 26 • Wed</div></div></div>
+<div class="lesson-row" data-id="l04"><input class="check" type="checkbox" data-id="l04"><div class="lesson-body"><a href="java_loops_interactive.html">Loops (for, while, do-while)</a><div class="meta">01 Oct 26 • Thu</div></div></div>
+<div class="lesson-row" data-id="l05"><input class="check" type="checkbox" data-id="l05"><div class="lesson-body"><a href="java_methods_interactive_tutorial.html">Functions / Methods</a><div class="meta">05 Oct 26 • Mon</div></div></div>
+<div class="lesson-row" data-id="l06"><input class="check" type="checkbox" data-id="l06"><div class="lesson-body"><a href="java_input_output_interactive_tutorial.html">Input/Output Operations &amp; Exercises</a><div class="meta">06 Oct 26 • Tue</div></div></div>
+<div class="modhead"><h3>Arrays &amp; Lists</h3><span class="count">3 lessons</span></div>
+<div class="lesson-row" data-id="l07"><input class="check" type="checkbox" data-id="l07"><div class="lesson-body"><a href="java_arrays_storage_traversal_search.html">Arrays: Storage, Traversal, Search</a><div class="meta">07 Oct 26 • Wed</div></div></div>
+<div class="lesson-row" data-id="l08"><input class="check" type="checkbox" data-id="l08"><div class="lesson-body"><a href="java_collections_framework_interactive.html">Lists: Dynamic Storage &amp; Iteration</a><div class="meta">08 Oct 26 • Thu • via Collections page</div></div></div>
+<div class="lesson-row" data-id="l09"><input class="check" type="checkbox" data-id="l09"><div class="lesson-body"><a href="java_sorting_techniques_practice_problems.html">Sorting Techniques &amp; Practice Problems</a><div class="meta">09 Oct 26 • Fri</div></div></div>
+<div class="modhead"><h3>Strings</h3><span class="count">2 lessons</span></div>
+<div class="lesson-row" data-id="l10"><input class="check" type="checkbox" data-id="l10"><div class="lesson-body"><a href="java_string_manipulation_split_replace.html">String Manipulation, Split, Replace</a><div class="meta">12 Oct 26 • Mon</div></div></div>
+<div class="lesson-row" data-id="l11"><input class="check" type="checkbox" data-id="l11"><div class="lesson-body"><a href="java_contains_pattern_matching_regex.html">Contains, Pattern Matching &amp; Regex</a><div class="meta">13 Oct 26 • Tue</div></div></div>
+<div class="modhead"><h3>Sets &amp; Maps</h3><span class="count">2 lessons</span></div>
+<div class="lesson-row" data-id="l12"><input class="check" type="checkbox" data-id="l12"><div class="lesson-body"><a href="java_sets_maps_unique_values_keys_lookup.html">Sets: Unique Values &amp; Duplicate Detection</a><div class="meta">14 Oct 26 • Wed</div></div></div>
+<div class="lesson-row" data-id="l13"><input class="check" type="checkbox" data-id="l13"><div class="lesson-body"><a href="java_sets_maps_unique_values_keys_lookup.html">Maps: Key-Value Pairs &amp; Common Operations</a><div class="meta">15 Oct 26 • Thu</div></div></div>
+<div class="modhead"><h3>Object Oriented Programming</h3><span class="count">2 lessons</span></div>
+<div class="lesson-row" data-id="l14"><input class="check" type="checkbox" data-id="l14"><div class="lesson-body"><a href="java_classes_objects_encapsulation_interactive.html">Classes, Objects &amp; Encapsulation</a><div class="meta">16 Oct 26 • Fri</div></div></div>
+<div class="lesson-row" data-id="l15"><input class="check" type="checkbox" data-id="l15"><div class="lesson-body"><a href="java_inheritance_polymorphism_abstraction_interactive.html">Inheritance, Polymorphism &amp; Abstraction</a><div class="meta">19 Oct 26 • Mon</div></div></div>
+<div class="modhead"><h3>Advanced Programming + Revision</h3><span class="count">2 lessons</span></div>
+<div class="lesson-row" data-id="l16"><input class="check" type="checkbox" data-id="l16"><div class="lesson-body"><a href="java_collections_framework_interactive.html">Collections Framework</a><div class="meta">20 Oct 26 • Tue</div></div></div>
+<div class="lesson-row" data-id="l17"><input class="check" type="checkbox" data-id="l17"><div class="lesson-body"><a href="java_exception_handling_file_processing_interactive.html">Try-Catch, Logging, CSV, Excel, JSON, XML + Overall Revision</a><div class="meta">Revision</div></div></div>
+</div>
+<div class="footer-nav"><button class="btn secondary" data-goto="0">← Back to start</button></div>
+</article>
+
+<div class="footer-nav"><button class="btn secondary" id="prevBtn">← Previous</button><button class="btn" id="nextBtn">Next →</button></div>
+</section></main>
+<script>
+const panels=[...document.querySelectorAll('.panel')],nav=[...document.querySelectorAll('.navbtn')];let page=0;
+function showPage(n){page=Math.max(0,Math.min(panels.length-1,n));panels.forEach((p,i)=>p.classList.toggle('active',i===page));nav.forEach((b,i)=>b.classList.toggle('active',i===page));document.getElementById('prevBtn').disabled=page===0;document.getElementById('nextBtn').textContent=page===panels.length-1?'Back to start ↺':'Next →';window.scrollTo({top:0,behavior:'smooth'})}
+nav.forEach(b=>b.addEventListener('click',()=>showPage(+b.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showPage(+b.dataset.goto)));
+document.getElementById('prevBtn').onclick=()=>showPage(page-1);
+document.getElementById('nextBtn').onclick=()=>showPage(page===panels.length-1?0:page+1);
+// progress with localStorage, sync duplicate checkboxes
+const KEY='java-toc-done-v1';const IDS=['fnd','l01','l02','l03','l04','l05','l06','l07','l08','l09','l10','l11','l12','l13','l14','l15','l16','l17'];
+let done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
+function render(){document.querySelectorAll('.check').forEach(c=>{c.checked=done.has(c.dataset.id)});document.querySelectorAll('.lesson-row').forEach(r=>{const id=r.dataset.id;if(id)r.classList.toggle('done',done.has(id))});const n=done.size;document.getElementById('progressbar').style.width=(n/IDS.length*100)+'%';document.getElementById('progresslabel').textContent=n+' of '+IDS.length+' completed';document.getElementById('chipProgress').textContent=n+' / '+IDS.length+' done';}
+document.querySelectorAll('.check').forEach(c=>c.addEventListener('change',()=>{const id=c.dataset.id;if(c.checked)done.add(id);else done.delete(id);localStorage.setItem(KEY,JSON.stringify([...done]));render();}));
+document.getElementById('resetBtn').onclick=()=>{done=new Set();localStorage.removeItem(KEY);render();};
+render();
+// search filter (full schedule panel only)
+const search=document.getElementById('search');
+function filter(){const q=search.value.trim().toLowerCase();document.querySelectorAll('#allList .lesson-row').forEach(r=>{const t=r.textContent.toLowerCase();r.classList.toggle('hidden',q&&!t.includes(q));});}
+search.addEventListener('input',filter);
+document.getElementById('clearSearch').onclick=()=>{search.value='';filter();};
+</script>
+</body>
+</html>

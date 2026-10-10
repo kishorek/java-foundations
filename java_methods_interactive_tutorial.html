@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Methods | Interactive Beginner Tutorial</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#182338;--muted:#607089;--line:#dce4ef;--blue:#2457d6;--blue2:#eaf0ff;--green:#13795b;--greenbg:#e6f7ef;--orange:#a95609;--orangebg:#fff2df;--purple:#6941c6;--purplebg:#f1eaff;--shadow:0 10px 30px #1e355510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,#172554,#2457d6);color:#fff;padding:28px 20px 24px}header .wrap,main{max-width:1100px;margin:auto}header .eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;opacity:.8;font-weight:800}h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:8px 0 12px}header p{max-width:760px;color:#e1eaff;margin:0}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #ffffff55;border-radius:99px;padding:5px 10px;font-size:.82rem}
+main{padding:22px 16px 60px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:20px}.sidebar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.sidebar{padding:16px;height:max-content;position:sticky;top:12px}.side-title{font-size:.78rem;color:var(--muted);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px}.navbtn{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:10px 11px;border-radius:10px;cursor:pointer;font:inherit;display:flex;gap:9px;align-items:center;margin:3px 0}.navbtn.active{background:var(--blue2);color:var(--blue);font-weight:750}.navbtn .num{font-size:.75rem;background:#eef2f7;border-radius:7px;padding:2px 7px;color:#52627b}.navbtn.active .num{background:#d6e2ff;color:var(--blue)}.progress{height:7px;background:#e8edf5;border-radius:9px;overflow:hidden;margin:13px 0 7px}.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .25s}.small{font-size:.86rem;color:var(--muted)}.content{min-width:0}.panel{padding:clamp(18px,3vw,30px);display:none}.panel.active{display:block;animation:fade .18s ease}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}h2{font-size:1.65rem;margin:0 0 7px;line-height:1.2}h3{font-size:1.12rem;margin:22px 0 8px}p{margin:8px 0 14px}.lead{font-size:1.05rem;color:#3d4d65}.callout{border-left:4px solid var(--blue);background:var(--blue2);padding:13px 15px;border-radius:0 12px 12px 0;margin:16px 0}.success{border-color:var(--green);background:var(--greenbg)}.warn{border-color:#d97706;background:var(--orangebg)}.purple{border-color:var(--purple);background:var(--purplebg)}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:15px 0}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fcfdff}.mini strong{display:block;margin-bottom:5px}.code{background:#111827;color:#e5edf9;border-radius:13px;padding:16px;overflow:auto;font: .9rem/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}.code .comment{color:#94a3b8}.code .kw{color:#c4b5fd}.code .str{color:#86efac}.code .num{color:#fbbf24}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:13px 0}.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--blue);color:#fff;font:inherit;font-weight:700;cursor:pointer}.btn.secondary{background:#e9eef8;color:#273a58}.btn:focus,.navbtn:focus{outline:3px solid #93b4ff;outline-offset:2px}label{font-weight:650;font-size:.92rem;display:block;margin-bottom:5px}input,select{font:inherit;padding:10px 11px;border:1px solid #bdc9db;border-radius:9px;background:#fff;color:var(--ink);width:100%;max-width:260px}.result{background:#0d1728;color:#c7f9d4;border-radius:12px;padding:13px 15px;min-height:48px;font: .9rem/1.55 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.steprow{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;margin:14px 0}.bubble{width:36px;height:36px;display:grid;place-items:center;background:var(--blue2);color:var(--blue);font-weight:800;border-radius:12px}.tag{display:inline-block;border-radius:6px;background:#eef2f7;color:#34445c;padding:2px 7px;font-size:.8rem;font-weight:700}.quizq{border:1px solid var(--line);border-radius:13px;padding:16px;margin:14px 0}.option{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:9px;cursor:pointer}.option:hover{background:#f3f6fb}.option input{width:auto;margin-top:5px}.feedback{margin-top:10px;font-weight:700}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.footer-nav button:disabled{opacity:.4;cursor:not-allowed}.pillrow{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:99px;padding:6px 10px;background:white;cursor:pointer;font:inherit}.pill.active{background:var(--blue2);border-color:#b6caff;color:var(--blue);font-weight:700}.signature{font: .9rem ui-monospace,monospace;background:#f1f4fa;padding:3px 6px;border-radius:5px}.hidden{display:none!important}
+@media(max-width:760px){main{grid-template-columns:1fr}.sidebar{position:static}.navlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.navbtn{font-size:.9rem}.grid2{grid-template-columns:1fr}.panel{padding:19px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Java from zero • Interactive lesson</div><h1>Functions / Methods in Java</h1><p>Learn how to give a program reusable instructions, pass information into them, and get results back. No previous programming experience required.</p><div class="chips"><span class="chip">Beginner friendly</span><span class="chip">Examples you can run here</span><span class="chip">About 20 minutes</span></div></div></header>
+<main>
+<aside class="sidebar"><p class="side-title">Lesson map</p><div class="navlist" id="navlist">
+<button class="navbtn active" data-page="0"><span class="num">01</span> What is a method?</button>
+<button class="navbtn" data-page="1"><span class="num">02</span> Create and call</button>
+<button class="navbtn" data-page="2"><span class="num">03</span> Parameters</button>
+<button class="navbtn" data-page="3"><span class="num">04</span> Return values</button>
+<button class="navbtn" data-page="4"><span class="num">05</span> Overloading and scope</button>
+<button class="navbtn" data-page="5"><span class="num">06</span> Practice lab</button>
+<button class="navbtn" data-page="6"><span class="num">07</span> Quick quiz</button></div><div class="progress"><span id="progressbar"></span></div><div class="small" id="progresslabel">Lesson 1 of 7</div></aside>
+<section class="content">
+<article class="panel active">
+<h2>1. What is a method?</h2><p class="lead">A method is a named set of instructions that performs a particular task. You can call it whenever you need that task done.</p>
+<div class="callout"><strong>Analogy: a coffee machine</strong><br>You press the “make coffee” button instead of explaining every step each time. The machine follows its stored instructions. A method works the same way: give the instructions a name, then call that name when needed.</div>
+<div class="grid2"><div class="mini"><strong>Without a method</strong><p>Copy and paste the same instructions into many places. Changing them later means editing every copy.</p><span class="tag">Repeated code</span></div><div class="mini"><strong>With a method</strong><p>Write the instructions once and reuse them by calling the method.</p><span class="tag">Reusable code</span></div></div>
+<h3>Example: greeting someone</h3><div class="code"><span class="kw">static void</span> sayHello() {
+    System.out.println(<span class="str">"Hello!"</span>);
+}
+
+<span class="comment">// Call the method twice</span>
+sayHello();
+sayHello();</div>
+<p>Output:</p><div class="result">Hello!
+Hello!</div>
+<div class="callout success"><strong>Remember:</strong> defining a method describes what it should do. Calling a method asks Java to run those instructions. Defining it alone does not run it.</div>
+<h3>Try it</h3><p>Click the button to simulate calling <code>sayHello()</code> more than once.</p><div class="controls"><button class="btn" id="greetOne">Call once</button><button class="btn secondary" id="greetThree">Call three times</button><button class="btn secondary" id="clearGreet">Clear</button></div><div class="result" id="greetOut">Output will appear here.</div>
+</article>
+<article class="panel">
+<h2>2. Create and call a method</h2><p class="lead">A basic method has a name, a body, and a return type. A method call uses the name followed by parentheses.</p>
+<div class="code"><span class="kw">static void</span> sayHello() {
+    System.out.println(<span class="str">"Hello, learner!"</span>);
+}
+
+<span class="kw">public static void</span> main(String[] args) {
+    sayHello(); <span class="comment">// method call</span>
+}</div>
+<h3>Read the method from the outside in</h3>
+<div class="steprow"><div class="bubble">1</div><div><strong><code>static</code></strong><p>For now, treat this as a way to call the method directly from the class, without creating an object. You will learn objects later.</p></div></div>
+<div class="steprow"><div class="bubble">2</div><div><strong><code>void</code></strong><p>The method does not send a value back to the caller. It can still print something or perform an action.</p></div></div>
+<div class="steprow"><div class="bubble">3</div><div><strong><code>sayHello</code></strong><p>The method name. Java convention uses lower camel case, for example <code>printReceipt</code> or <code>calculateTotal</code>.</p></div></div>
+<div class="steprow"><div class="bubble">4</div><div><strong><code>()</code> and <code>{ }</code></strong><p>Parentheses hold parameters. Curly braces contain the instructions that run when called.</p></div></div>
+<div class="callout warn"><strong>Important:</strong> in ordinary Java code, a method must be declared inside a class. It cannot be placed directly inside another method.</div>
+<h3>Call order simulator</h3><p>Choose the call order. Watch how the instructions run in sequence.</p><div class="pillrow"><button class="pill active" data-order="A">A then B</button><button class="pill" data-order="B">B then A</button><button class="pill" data-order="C">A, B, A</button></div><div class="code" id="orderCode">printStart();
+printEnd();</div><div class="controls"><button class="btn" id="runOrder">Run sequence</button></div><div class="result" id="orderOut">The output will appear here.</div>
+</article>
+<article class="panel">
+<h2>3. Parameters: give a method information</h2><p class="lead">Parameters are named inputs listed in a method definition. Arguments are the actual values supplied when calling it.</p>
+<div class="callout"><strong>Analogy: ordering a sandwich</strong><br>The order form has fields such as bread type and filling. Those fields are parameters. Your choices, like “wheat” and “paneer”, are arguments.</div>
+<div class="code"><span class="kw">static void</span> greet(String name) {
+    System.out.println(<span class="str">"Hello, "</span> + name);
+}
+
+greet(<span class="str">"Anu"</span>);   <span class="comment">// argument: "Anu"</span>
+greet(<span class="str">"Ravi"</span>);  <span class="comment">// argument: "Ravi"</span></div>
+<h3>Experiment with a parameter</h3><div class="grid2"><div><label for="personName">Name argument</label><input id="personName" value="Anu" maxlength="35"></div><div><label for="greetingStyle">Greeting style</label><select id="greetingStyle"><option value="Hello">Hello</option><option value="Welcome">Welcome</option><option value="Good morning">Good morning</option></select></div></div><div class="controls"><button class="btn" id="runGreeting">Call greet(name)</button></div><div class="result" id="greetingOut">Output will appear here.</div>
+<h3>Methods can accept more than one parameter</h3><div class="code"><span class="kw">static void</span> introduce(String name, <span class="kw">int</span> age) {
+    System.out.println(name + <span class="str">" is "</span> + age);
+}
+
+introduce(<span class="str">"Maya"</span>, <span class="num">14</span>);</div>
+<div class="callout success">The argument order and types must match the method's parameter list. Here, the first argument is a <code>String</code> and the second is an <code>int</code>.</div>
+<h3>Try two inputs</h3><div class="grid2"><div><label for="studentName">Student name</label><input id="studentName" value="Maya" maxlength="35"></div><div><label for="studentAge">Age</label><input id="studentAge" type="number" value="14" min="0" max="120"></div></div><button class="btn" id="runIntro">Run introduce(name, age)</button><div class="result" id="introOut">Output will appear here.</div>
+</article>
+<article class="panel">
+<h2>4. Return values: get a result back</h2><p class="lead">A method can calculate or find something and return the result to the code that called it.</p>
+<div class="callout"><strong>Analogy: a vending machine</strong><br>You choose a product and pay. The machine gives you an item back. A method with a return value gives the caller a result that can be stored, printed, or used in another calculation.</div>
+<div class="code"><span class="kw">static int</span> add(int a, int b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="kw">int</span> total = add(<span class="num">4</span>, <span class="num">6</span>);
+System.out.println(total); <span class="comment">// 10</span></div>
+<h3>Choose the numbers</h3><div class="grid2"><div><label for="numA">First number (a)</label><input id="numA" type="number" value="4" min="-100000" max="100000"></div><div><label for="numB">Second number (b)</label><input id="numB" type="number" value="6" min="-100000" max="100000"></div></div><div class="controls"><button class="btn" id="runAdd">Call add(a, b)</button><button class="btn secondary" id="runSquare">Call square(a)</button></div><div class="result" id="returnOut">The returned result will appear here.</div>
+<h3>Return type must match the returned value</h3><div class="grid2"><div class="mini"><strong><code>int</code></strong><p>Returns a whole number, such as <code>return 42;</code></p></div><div class="mini"><strong><code>String</code></strong><p>Returns text, such as <code>return "Done";</code></p></div><div class="mini"><strong><code>boolean</code></strong><p>Returns <code>true</code> or <code>false</code>.</p></div><div class="mini"><strong><code>void</code></strong><p>Returns no value. Use it for actions that do not need to hand back a result.</p></div></div>
+<div class="callout warn"><strong>Do not confuse these:</strong> <code>System.out.println(value)</code> displays a value on the screen. <code>return value;</code> sends a value back to the caller. They are not interchangeable.</div>
+<h3>What does return do?</h3><p>When Java reaches a <code>return</code> statement, it sends the result back and exits that method. Statements after that return in the same path do not run.</p>
+</article>
+<article class="panel">
+<h2>5. Overloading and local variables</h2><p class="lead">Java lets you create methods with the same name when their parameter lists differ. This is called method overloading.</p>
+<div class="code"><span class="kw">static int</span> add(int a, int b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="kw">static int</span> add(int a, int b, int c) {
+    <span class="kw">return</span> a + b + c;
+}
+
+add(<span class="num">2</span>, <span class="num">3</span>);       <span class="comment">// calls the 2-parameter version</span>
+add(<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>);    <span class="comment">// calls the 3-parameter version</span></div>
+<div class="callout purple"><strong>Think of a calculator:</strong> the name “add” stays the same, but Java can tell which version you want by the number and types of arguments.</div>
+<h3>Overload explorer</h3><div class="pillrow"><button class="pill active" data-overload="2">add(2, 3)</button><button class="pill" data-overload="3">add(2, 3, 4)</button><button class="pill" data-overload="d">add(2.5, 3.2)</button></div><div class="result" id="overloadOut">Selected: add(int, int) → 5</div>
+<p class="small">Overloading cannot be achieved by changing only the return type. For example, two methods with identical names and parameter types but different return types are not a valid overload.</p>
+<h3>Local variables live inside their method</h3><div class="code"><span class="kw">static void</span> showScore() {
+    <span class="kw">int</span> score = <span class="num">90</span>; <span class="comment">// local variable</span>
+    System.out.println(score);
+}
+
+<span class="comment">// score cannot be used here</span></div>
+<p>A local variable belongs to the block where it is declared. Another method cannot directly use that local variable. If another method needs the value, pass it as an argument or return it.</p>
+<div class="callout success"><strong>Good method design:</strong> use a clear verb phrase such as <code>calculateTax</code>, <code>findMaximum</code>, or <code>printReceipt</code>. Keep each method focused on one job.</div>
+</article>
+<article class="panel">
+<h2>6. Practice lab</h2><p class="lead">Use this mini lab to decide what kind of method a task needs. The output is simulated in this page to help you understand the idea; it does not compile Java on a server.</p>
+<h3>Task A: calculate the area of a rectangle</h3><p>We need two inputs and a result, so use an <code>int</code> or <code>double</code> return type depending on whether decimals are needed.</p><div class="grid2"><div><label for="width">Width</label><input id="width" type="number" value="5" min="0" max="10000"></div><div><label for="height">Height</label><input id="height" type="number" value="3" min="0" max="10000"></div></div><div class="code"><span class="kw">static int</span> area(int width, int height) {
+    <span class="kw">return</span> width * height;
+}</div><button class="btn" id="runArea">Run area(width, height)</button><div class="result" id="areaOut">Area will appear here.</div>
+<h3>Task B: pick the right method design</h3><p>For each task, choose the best method signature.</p><div class="quizq"><strong>1. Display “Welcome!” and return no value.</strong><div class="controls"><select id="design1"><option value="">Choose a signature</option><option value="a">static void welcome()</option><option value="b">static String welcome()</option><option value="c">static int welcome(int name)</option></select></div><div id="design1feedback" class="feedback"></div></div>
+<div class="quizq"><strong>2. Receive two decimal numbers and return their average.</strong><div class="controls"><select id="design2"><option value="">Choose a signature</option><option value="a">static void average()</option><option value="b">static double average(double a, double b)</option><option value="c">static String average(String a, String b)</option></select></div><div id="design2feedback" class="feedback"></div></div>
+<button class="btn secondary" id="checkDesign">Check choices</button>
+<div class="callout"><strong>Practice challenge:</strong> write a method named <code>isEven</code> that accepts an <code>int</code> and returns a <code>boolean</code>. Hint: an even number has a remainder of zero when divided by 2.</div>
+<div class="code"><span class="kw">static boolean</span> isEven(int number) {
+    <span class="kw">return</span> number % <span class="num">2</span> == <span class="num">0</span>;
+}</div><div class="controls"><div><label for="evenNumber">Test a number</label><input id="evenNumber" type="number" value="8"></div><button class="btn" id="runEven">Run isEven(number)</button></div><div class="result" id="evenOut">Result will appear here.</div>
+</article>
+<article class="panel">
+<h2>7. Quick quiz</h2><p class="lead">Check whether the main ideas have clicked. Choose one answer per question, then check your score.</p><div id="quiz"></div><button class="btn" id="submitQuiz">Check my answers</button> <button class="btn secondary" id="resetQuiz">Try again</button><div class="callout hidden" id="quizScore"></div>
+</article>
+<div class="footer-nav"><button class="btn secondary" id="prevBtn">← Previous</button><button class="btn" id="nextBtn">Next lesson →</button></div>
+</section></main>
+<script>
+const panels=[...document.querySelectorAll('.panel')], nav=[...document.querySelectorAll('.navbtn')];let page=0;
+function showPage(n){page=Math.max(0,Math.min(panels.length-1,n));panels.forEach((p,i)=>p.classList.toggle('active',i===page));nav.forEach((b,i)=>b.classList.toggle('active',i===page));document.getElementById('progressbar').style.width=((page+1)/panels.length*100)+'%';document.getElementById('progresslabel').textContent=`Lesson ${page+1} of ${panels.length}`;document.getElementById('prevBtn').disabled=page===0;document.getElementById('nextBtn').textContent=page===panels.length-1?'Back to start ↺':'Next lesson →';window.scrollTo({top:0,behavior:'smooth'})}
+nav.forEach(b=>b.addEventListener('click',()=>showPage(+b.dataset.page)));document.getElementById('prevBtn').onclick=()=>showPage(page-1);document.getElementById('nextBtn').onclick=()=>showPage(page===panels.length-1?0:page+1);
+let greetings=[];function renderGreetings(){document.getElementById('greetOut').textContent=greetings.length?greetings.join('\n'):'Output will appear here.'}
+document.getElementById('greetOne').onclick=()=>{greetings.push('Hello!');renderGreetings()};document.getElementById('greetThree').onclick=()=>{greetings.push('Hello!','Hello!','Hello!');renderGreetings()};document.getElementById('clearGreet').onclick=()=>{greetings=[];renderGreetings()};
+let order='A';const orderMap={A:['printStart();','printEnd();'],B:['printEnd();','printStart();'],C:['printStart();','printEnd();','printStart();']};document.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>{order=b.dataset.order;document.querySelectorAll('[data-order]').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('orderCode').textContent=orderMap[order].join('\n');document.getElementById('orderOut').textContent='Ready to run.'});document.getElementById('runOrder').onclick=()=>document.getElementById('orderOut').textContent=orderMap[order].map(x=>x.includes('Start')?'Start':'End').join('\n');
+document.getElementById('runGreeting').onclick=()=>{let name=document.getElementById('personName').value.trim()||'friend',style=document.getElementById('greetingStyle').value;document.getElementById('greetingOut').textContent=style+', '+name+'!'};document.getElementById('runIntro').onclick=()=>{let name=document.getElementById('studentName').value.trim()||'Student',age=Number(document.getElementById('studentAge').value);if(!Number.isFinite(age)||age<0||age>120){document.getElementById('introOut').textContent='Please enter an age from 0 to 120.';return}document.getElementById('introOut').textContent=`${name} is ${age}`};
+function numberFrom(id){const v=document.getElementById(id).value;return v===''?NaN:Number(v)}function safeNum(v){return Number.isFinite(v)?v:'Please enter a valid number.'}
+document.getElementById('runAdd').onclick=()=>{let a=numberFrom('numA'),b=numberFrom('numB');document.getElementById('returnOut').textContent=Number.isFinite(a)&&Number.isFinite(b)?`add(${a}, ${b}) returns ${a+b}`:'Enter valid numbers in both fields.'};document.getElementById('runSquare').onclick=()=>{let a=numberFrom('numA');document.getElementById('returnOut').textContent=Number.isFinite(a)?`square(${a}) returns ${a*a}`:'Enter a valid first number.'};
+document.querySelectorAll('[data-overload]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-overload]').forEach(x=>x.classList.toggle('active',x===b));let d=b.dataset.overload,txt=d==='2'?'Selected: add(int, int) → 5':d==='3'?'Selected: add(int, int, int) → 9':'Selected: add(double, double) → 5.7';document.getElementById('overloadOut').textContent=txt});
+document.getElementById('runArea').onclick=()=>{let w=numberFrom('width'),h=numberFrom('height');document.getElementById('areaOut').textContent=Number.isFinite(w)&&Number.isFinite(h)&&w>=0&&h>=0?`area(${w}, ${h}) returns ${w*h}`:'Enter non-negative width and height.'};
+document.getElementById('checkDesign').onclick=()=>{[['design1','a','A void method is right because the task displays a message and returns no value.'],['design2','b','A double return type fits an average that can include decimals.']].forEach(([id,correct,msg])=>{let ok=document.getElementById(id).value===correct;let el=document.getElementById(id+'feedback');el.textContent=document.getElementById(id).value===''?'Choose an answer first.':(ok?'Correct. ':'Not quite. ')+msg;el.style.color=ok?'#13795b':'#a95609'})};
+document.getElementById('runEven').onclick=()=>{let n=numberFrom('evenNumber');document.getElementById('evenOut').textContent=Number.isInteger(n)?`isEven(${n}) returns ${n%2===0}`:'Enter a whole number.'};
+const questions=[
+{q:'What happens when you define a method but never call it?',a:['Java runs it automatically','Its instructions do not run just because it was defined','It returns zero'],c:1,e:'A method runs when program flow reaches a call to it.'},
+{q:'Which keyword means a method returns no value?',a:['int','return','void'],c:2,e:'void says the method does not return a value to its caller.'},
+{q:'In greet("Anu"), what is "Anu"?',a:['A parameter','An argument','A return type'],c:1,e:'The parameter is the named input in the definition. The supplied value is an argument.'},
+{q:'Which statement sends a result back to the caller?',a:['return total;','System.out.println(total);','static total;'],c:0,e:'return passes the result back. println displays text in the console.'},
+{q:'How can Java distinguish overloaded methods?',a:['By different parameter lists','Only by different return types','By different comments'],c:0,e:'Overloads must differ in parameter number, types, or order, not just return type.'}
+];
+const quiz=document.getElementById('quiz');questions.forEach((q,i)=>{let div=document.createElement('div');div.className='quizq';div.innerHTML=`<strong>${i+1}. ${q.q}</strong><div>${q.a.map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"><span>${a}</span></label>`).join('')}</div><div class="feedback hidden" id="qfeedback${i}"></div>`;quiz.appendChild(div)});
+document.getElementById('submitQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let chosen=document.querySelector(`input[name="q${i}"]:checked`),fb=document.getElementById('qfeedback'+i);fb.classList.remove('hidden');if(chosen&&+chosen.value===q.c){score++;fb.textContent='Correct. '+q.e;fb.style.color='#13795b'}else{fb.textContent='Review: '+q.e;fb.style.color='#a95609'}});let box=document.getElementById('quizScore');box.classList.remove('hidden');box.className='callout '+(score>=4?'success':'warn');box.textContent=`Your score: ${score} / ${questions.length}. `+(score===5?'Excellent. You have the core concepts.':score>=3?'Good progress. Review the explanations above and try again.':'Revisit the lessons, then try again.')};
+document.getElementById('resetQuiz').onclick=()=>{document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);questions.forEach((q,i)=>document.getElementById('qfeedback'+i).classList.add('hidden'));document.getElementById('quizScore').classList.add('hidden')};
+</script></body></html>

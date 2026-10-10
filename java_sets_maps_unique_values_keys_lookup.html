@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Sets and Maps | Beginner's Interactive Course</title>
+<style>
+:root{--ink:#19243a;--muted:#68758c;--line:#e2e8f2;--bg:#f5f7fc;--blue:#315be8;--blue2:#6d83f6;--pale:#edf2ff;--green:#177a52;--red:#bd3444;--gold:#946200}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.hero{background:linear-gradient(120deg,#253b91,#4269ee 64%,#8094ff);color:#fff;padding:38px 22px 32px}.hero-inner{max-width:1200px;margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800;opacity:.85}.hero h1{font-size:clamp(2.15rem,4vw,3.25rem);line-height:1.1;margin:12px 0}.hero p{max-width:850px;font-size:1.08rem;color:#eef2ff;margin:12px 0}.hero .pill{display:inline-block;border:1px solid #ffffff65;border-radius:99px;padding:4px 10px;font-size:.8rem;margin-top:8px}
+.layout{max-width:1200px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:258px minmax(0,1fr);gap:22px}.sidebar{position:sticky;top:14px;align-self:start;background:white;border:1px solid var(--line);border-radius:18px;padding:18px}.side-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850;margin-bottom:8px}.nav a{display:block;text-decoration:none;color:#4c5871;padding:8px 10px;border-radius:9px;font-size:.9rem;margin:2px 0}.nav a:hover,.nav a.active{background:var(--pale);color:#2348c6;font-weight:750}.progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin:18px 0 7px}.progress{height:7px;background:#e8edf6;border-radius:99px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--blue),#8da1ff);transition:width .2s}
+main{min-width:0}.lesson{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,31px);margin-bottom:18px;scroll-margin-top:15px;box-shadow:0 6px 22px #1c2e4c08}.lesson h2{font-size:1.55rem;line-height:1.28;margin:0 0 12px}.lesson h3{font-size:1.08rem;line-height:1.4;margin:22px 0 8px}.lesson h4{margin:14px 0 6px}.tag{display:inline-block;background:#edf2ff;color:#294bc3;border-radius:99px;padding:3px 10px;font-size:.76rem;font-weight:850;letter-spacing:.02em;margin-bottom:10px}.muted{color:var(--muted)}.small{font-size:.88rem}.analogy{background:#fff8e9;border:1px solid #f2dfb5;border-radius:12px;padding:14px 16px;margin:15px 0}.analogy strong{color:#805000}.tip{background:#eefaf4;border:1px solid #cdeedd;border-radius:12px;padding:13px 15px;margin:15px 0}.warning{background:#fff0f1;border:1px solid #f2d0d4;border-radius:12px;padding:13px 15px;margin:15px 0}.note{background:#f1f5ff;border:1px solid #dbe4ff;border-radius:12px;padding:13px 15px;margin:15px 0}
+pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12px;font-size:.9rem;line-height:1.58;margin:12px 0}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code,li code{background:#eef1f7;padding:2px 5px;border-radius:5px;color:#293d76}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:#fff;font:inherit;font-weight:750;cursor:pointer}.btn.secondary{background:#edf1fb;color:#263c7d}.btn:hover{filter:brightness(.96)}input,select,textarea{padding:10px 12px;border:1px solid #cfd8e7;border-radius:9px;font:inherit;max-width:100%;background:white;color:var(--ink)}.field{display:flex;flex-direction:column;gap:5px;font-size:.9rem;font-weight:700;min-width:130px}.field input{font-weight:400}.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.demo-box{border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}.demo-box h3{margin-top:0}.chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0;min-height:34px}.chip{background:#eaf0ff;color:#2949ad;padding:5px 10px;border-radius:8px;font-family:ui-monospace,monospace;font-size:.88rem;overflow-wrap:anywhere}.output{background:#f3f6fb;border-radius:10px;padding:11px 13px;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}.status{font-weight:750;margin-top:8px}.good{color:var(--green)}.bad{color:var(--red)}.question{border:1px solid var(--line);padding:14px;border-radius:12px;margin:12px 0}.question p{margin:0 0 9px;font-weight:750}.question label{display:block;padding:5px 0;cursor:pointer}.answer{display:none;margin-top:10px;padding:11px;background:#eefaf4;border-radius:8px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}th{background:#f1f4fb}.steps{counter-reset:step;list-style:none;padding:0}.steps li{counter-increment:step;position:relative;padding:8px 0 8px 42px}.steps li:before{content:counter(step);position:absolute;left:0;top:8px;background:var(--pale);color:#294bc3;font-weight:850;width:29px;height:29px;display:grid;place-items:center;border-radius:50%}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin:18px 0 30px}.footer-nav button{max-width:100%}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{display:grid;grid-template-columns:1fr 1fr;gap:2px}.demo-grid{grid-template-columns:1fr}.hero{padding-top:28px}}@media(max-width:480px){.nav{grid-template-columns:1fr}.row>*{flex:1 1 100%}.btn{width:100%}.footer-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner"><div class="eyebrow">Java Foundations • Beginner's Course</div><h1>Sets and Maps</h1><p>Learn how Java remembers unique things and connects one thing to another. We'll use guest lists, labelled lockers, and a tiny shop inventory to make the ideas click.</p><span class="pill">Beginner friendly · Analogies · Interactive labs · Practice · Quiz</span></div></header>
+<div class="layout">
+<aside class="sidebar"><div class="side-title">Lesson navigation</div><nav class="nav" id="nav">
+<a href="#start">1. Start with a problem</a><a href="#collections">2. Collections recap</a><a href="#set">3. Meet Set</a><a href="#setlab">4. Set lab</a><a href="#map">5. Meet Map</a><a href="#maplab">6. Map lab</a><a href="#loop">7. Read every item</a><a href="#patterns">8. Real problems</a><a href="#choices">9. Choose the right tool</a><a href="#practice">10. Practice problems</a><a href="#quiz">11. Quiz</a>
+</nav><div class="progress-label"><span>Lesson progress</span><b id="progressText">0%</b></div><div class="progress"><span id="progressBar"></span></div><p class="small muted">Move through the sections, try both labs, and test yourself at the end.</p></aside>
+<main>
+<section class="lesson" id="start"><span class="tag">START HERE</span><h2>1. Start with a problem, not a definition</h2>
+<p>Imagine you're building a school event registration app. Students sign up online. What could go wrong if you store every sign-up in a plain list?</p>
+<ul><li>Arun signs up three times. Should the guest count include Arun three times?</li><li>The teacher asks, “What score did Maya get?” Should you scan every student record manually?</li><li>The school shop wants to know how many notebooks are in stock for each product.</li></ul>
+<div class="analogy"><strong>Analogy: two different jobs at a school event</strong><br><b>Guest list:</b> you care whether a name is present, and you want each name only once. This is a <b>Set</b> job.<br><b>Registration notebook:</b> each student ID points to details such as a score or email. This is a <b>Map</b> job.</div>
+<div class="demo-grid"><div class="demo-box"><h3>Question A: “Is Arun on the list?”</h3><p>Use a Set when membership and uniqueness matter.</p><pre><code>Set&lt;String&gt; guests;</code></pre></div><div class="demo-box"><h3>Question B: “What is Maya's score?”</h3><p>Use a Map when one key should lead to a value.</p><pre><code>Map&lt;String, Integer&gt; scores;</code></pre></div></div>
+<div class="tip"><b>Today's mental model:</b> Set = a bag of unique items. Map = a labelled lookup table. Don't worry about memorising every method yet; first learn when each structure solves a problem.</div>
+</section>
+<section class="lesson" id="collections"><span class="tag">CONNECT TO WHAT YOU KNOW</span><h2>2. Collections recap: array, list, Set and Map</h2>
+<p>You have already seen arrays and lists. They are useful, but not every problem is about keeping items in a numbered sequence.</p>
+<div class="table-wrap"><table><thead><tr><th>Structure</th><th>Think of it as</th><th>Main strength</th><th>Example question</th></tr></thead><tbody>
+<tr><td><code>Array</code></td><td>Numbered seats</td><td>Fixed-size sequence; access by index</td><td>Who is in seat 2?</td></tr>
+<tr><td><code>ArrayList</code></td><td>A growing queue/list</td><td>Ordered items; duplicates allowed</td><td>What is the next task?</td></tr>
+<tr><td><code>Set</code></td><td>Guest list</td><td>Unique items</td><td>Has this email already been used?</td></tr>
+<tr><td><code>Map</code></td><td>Dictionary or labelled lockers</td><td>Look up a value by key</td><td>What is product X's stock?</td></tr>
+</tbody></table></div>
+<div class="analogy"><strong>Quick analogy</strong><br>An array/list is like a row of boxes where position matters. A Set is like a list of distinct names. A Map is like a dictionary: look up a word (key) to find its meaning (value).</div>
+<p>Set and Map are part of Java's Collections Framework family, but there is an important detail: <code>Map</code> is part of the framework, yet it is <b>not</b> a subtype of <code>Collection</code>. It stores pairs, not individual elements.</p>
+</section>
+<section class="lesson" id="set"><span class="tag">PART 1 · UNIQUE ITEMS</span><h2>3. Meet Set: the guest list that rejects duplicates</h2>
+<p>A <code>Set</code> is a collection that does not keep duplicate elements. In beginner code, the most common implementation you'll meet first is <code>HashSet</code>.</p>
+<h3>First, read this tiny program</h3><pre><code>import java.util.HashSet;
+import java.util.Set;
+
+public class GuestList {
+    public static void main(String[] args) {
+        Set&lt;String&gt; guests = new HashSet&lt;&gt;();
+
+        guests.add("Arun");
+        guests.add("Maya");
+        guests.add("Arun"); // already present
+
+        System.out.println(guests.size());       // 2
+        System.out.println(guests.contains("Maya")); // true
+    }
+}</code></pre>
+<p>Line by line:</p><ol class="steps"><li><code>Set&lt;String&gt;</code> says the collection will hold String values. The angle brackets describe the type of item.</li><li><code>new HashSet&lt;&gt;()</code> creates the actual Set object. The diamond <code>&lt;&gt;</code> lets Java infer the type from the declaration.</li><li><code>add("Arun")</code> adds Arun if he isn't already there.</li><li>Adding Arun a second time does not make another Arun entry.</li><li><code>size()</code> returns the number of unique elements, which is 2 in this example.</li></ol>
+<div class="analogy"><strong>Analogy: the bouncer at a party</strong><br>The bouncer checks whether a name is already on the guest list. If it is, the name isn't added again. The Set cares that Arun is present; it does not keep a tally of how many times Arun tried to enter.</div>
+<h3>The essential Set methods</h3><div class="table-wrap"><table><thead><tr><th>Method</th><th>Plain English</th><th>Example</th></tr></thead><tbody>
+<tr><td><code>add(value)</code></td><td>Try to add a value</td><td><code>guests.add("Maya");</code></td></tr>
+<tr><td><code>contains(value)</code></td><td>Ask whether it is present</td><td><code>guests.contains("Arun");</code></td></tr>
+<tr><td><code>remove(value)</code></td><td>Remove it if present</td><td><code>guests.remove("Arun");</code></td></tr>
+<tr><td><code>size()</code></td><td>Count unique elements</td><td><code>guests.size();</code></td></tr>
+<tr><td><code>isEmpty()</code></td><td>Check whether there are zero elements</td><td><code>guests.isEmpty();</code></td></tr>
+</tbody></table></div>
+<h3>What does add return?</h3><p><code>add()</code> returns a boolean: <code>true</code> if the Set changed because the value was added, and <code>false</code> if the value was already there.</p><pre><code>boolean firstTry = guests.add("Kavi"); // true if new
+boolean secondTry = guests.add("Kavi"); // false: duplicate</code></pre>
+<div class="tip"><b>Use a Set when:</b> you need unique usernames, unique tags, distinct product IDs, visited web pages, or a fast “have I seen this already?” check.</div>
+<div class="warning"><b>Important:</b> a <code>HashSet</code> does not promise insertion order or alphabetical order. If you print it, the order may surprise you. Don't rely on it.</div>
+</section>
+<section class="lesson" id="setlab"><span class="tag">INTERACTIVE LAB</span><h2>4. Set lab: try to add the same name twice</h2>
+<p>This mini playground imitates Set behaviour in your browser. Try <b>Arun</b>, then <b>Maya</b>, then <b>Arun</b> again. Watch the unique count.</p>
+<div class="demo-box"><div class="row"><label class="field" style="flex:1">Name to add<input id="setInput" value="Arun" placeholder="e.g. Maya"></label><button class="btn" id="addSet">Add name</button><button class="btn secondary" id="removeSet">Remove name</button></div><div class="chips" id="setChips"></div><div class="output" id="setOutput" aria-live="polite">Your Set is empty.</div><div class="row" style="margin-top:12px"><button class="btn secondary" id="hasSet">Is this name present?</button><button class="btn secondary" id="resetSet">Clear everything</button></div></div>
+<h3>Try these mini challenges</h3><ol><li>Add Arun two times. Does the unique count become 2?</li><li>Add Maya and Kavi. What is the size now?</li><li>Remove Maya. Does the size decrease?</li><li>Check whether Kavi is present.</li></ol>
+<h3>The Java version</h3><pre><code>Set&lt;String&gt; guests = new HashSet&lt;&gt;();
+
+boolean added1 = guests.add("Arun"); // true
+boolean added2 = guests.add("Arun"); // false
+boolean found = guests.contains("Arun"); // true
+
+System.out.println(guests.size()); // 1</code></pre>
+<p class="muted small">The interactive lab is a visual simulation, not a Java compiler. The code block shows the corresponding Java API.</p>
+</section>
+<section class="lesson" id="map"><span class="tag">PART 2 · KEY → VALUE</span><h2>5. Meet Map: a label that leads to information</h2>
+<p>A <code>Map</code> stores <b>key-value pairs</b>. You provide a key, and the Map connects it to a value. A key can appear only once in a Map, although multiple keys can have the same value.</p>
+<div class="analogy"><strong>Analogy: a row of labelled lockers</strong><br>The locker label is the <b>key</b>; what is inside is the <b>value</b>. Locker 17 can have its contents replaced, but you don't create a second locker with the same label 17 inside the same Map.</div>
+<h3>Example: student scores</h3><pre><code>import java.util.HashMap;
+import java.util.Map;
+
+Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();
+
+scores.put("Maya", 92);
+scores.put("Arun", 85);
+scores.put("Maya", 96); // replace Maya's old score
+
+System.out.println(scores.get("Maya")); // 96
+System.out.println(scores.size());      // 2</code></pre>
+<p>Notice what happened: the second <code>put("Maya", 96)</code> updated Maya's score. It did not add a second Maya key, so the Map still has two entries.</p>
+<h3>Key and value types</h3><pre><code>Map&lt;String, Integer&gt; scores;
+Map&lt;String, String&gt; phoneNumbers;
+Map&lt;Integer, String&gt; studentNames;</code></pre>
+<ul><li><code>Map&lt;String, Integer&gt;</code>: key is a String; value is an Integer.</li><li><code>Map&lt;String, String&gt;</code>: both key and value are Strings.</li><li><code>Map&lt;Integer, String&gt;</code>: key is an Integer; value is a String.</li></ul>
+<div class="note"><b>Why Integer and not int?</b> Generic type parameters use reference types. Java provides wrapper classes such as <code>Integer</code> for primitive <code>int</code>. Java automatically converts between many primitive and wrapper uses through boxing and unboxing.</div>
+<h3>The essential Map methods</h3><div class="table-wrap"><table><thead><tr><th>Method</th><th>Plain English</th><th>Example</th></tr></thead><tbody>
+<tr><td><code>put(key, value)</code></td><td>Add a pair or update an existing key</td><td><code>scores.put("Maya", 96);</code></td></tr>
+<tr><td><code>get(key)</code></td><td>Get the value for a key</td><td><code>scores.get("Maya");</code></td></tr>
+<tr><td><code>getOrDefault(key, fallback)</code></td><td>Get the value, or a fallback if the key is missing</td><td><code>scores.getOrDefault("Kavi", 0);</code></td></tr>
+<tr><td><code>containsKey(key)</code></td><td>Check whether the key exists</td><td><code>scores.containsKey("Arun");</code></td></tr>
+<tr><td><code>containsValue(value)</code></td><td>Check whether any entry has this value</td><td><code>scores.containsValue(85);</code></td></tr>
+<tr><td><code>remove(key)</code></td><td>Remove the key and its value</td><td><code>scores.remove("Arun");</code></td></tr>
+<tr><td><code>size()</code></td><td>Count key-value pairs</td><td><code>scores.size();</code></td></tr>
+</tbody></table></div>
+<div class="warning"><b>Missing keys:</b> with a normal <code>HashMap</code>, <code>get("Kavi")</code> returns <code>null</code> when Kavi is absent. Don't immediately assign that result to primitive <code>int</code> and assume it exists; unboxing null can cause a <code>NullPointerException</code>. Use <code>getOrDefault</code> or check the key first.</div>
+</section>
+<section class="lesson" id="maplab"><span class="tag">INTERACTIVE LAB</span><h2>6. Map lab: create a tiny score book</h2>
+<p>Add students and scores. Then use the lookup box to retrieve a score. Re-enter an existing name with a new score to see how <code>put()</code> replaces the value.</p>
+<div class="demo-box"><div class="row"><label class="field" style="flex:1">Student name<input id="mapName" value="Maya" placeholder="e.g. Maya"></label><label class="field" style="flex:1">Score<input id="mapScore" type="number" min="0" max="100" value="92"></label><button class="btn" id="putMap">Save score</button></div><div class="chips" id="mapChips"></div><div class="row" style="margin-top:12px"><label class="field" style="flex:1">Name to look up<input id="lookupName" value="Maya" placeholder="Name"></label><button class="btn secondary" id="getMap">Look up</button><button class="btn secondary" id="removeMap">Remove student</button></div><div class="output" id="mapOutput" aria-live="polite">Your Map is empty.</div><div class="row" style="margin-top:12px"><button class="btn secondary" id="defaultMap">Look up with default score 0</button><button class="btn secondary" id="resetMap">Clear score book</button></div></div>
+<h3>Try these mini challenges</h3><ol><li>Save Maya with 92 and Arun with 85.</li><li>Save Maya again with 96. Did the number of entries increase?</li><li>Look up a name that is not present.</li><li>Use the default lookup for a missing name. What does it return?</li></ol>
+<h3>The Java version</h3><pre><code>Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();
+scores.put("Maya", 92);
+scores.put("Arun", 85);
+scores.put("Maya", 96);
+
+int kaviScore = scores.getOrDefault("Kavi", 0);
+System.out.println(scores.get("Maya")); // 96
+System.out.println(kaviScore);          // 0</code></pre>
+</section>
+<section class="lesson" id="loop"><span class="tag">READ THE CONTENTS</span><h2>7. How do we loop through a Set or Map?</h2>
+<p>You already know the enhanced <code>for</code> loop. It works nicely with Sets because each pass gives you one element.</p>
+<h3>Loop through a Set</h3><pre><code>Set&lt;String&gt; guests = new HashSet&lt;&gt;();
+guests.add("Arun");
+guests.add("Maya");
+
+for (String guest : guests) {
+    System.out.println(guest);
+}</code></pre>
+<p>The loop visits each unique guest. Since this is a <code>HashSet</code>, don't assume which guest prints first.</p>
+<h3>Loop through a Map</h3><pre><code>for (Map.Entry&lt;String, Integer&gt; entry : scores.entrySet()) {
+    String name = entry.getKey();
+    Integer score = entry.getValue();
+    System.out.println(name + " scored " + score);
+}</code></pre>
+<div class="analogy"><strong>Analogy: opening every locker</strong><br><code>entrySet()</code> gives you each labelled locker record. <code>getKey()</code> reads the label; <code>getValue()</code> reads the contents. You get both pieces together.</div>
+<h3>Quick check</h3><p>If you only need to know whether a Set contains an email, do you need to loop through every item yourself?</p><button class="btn secondary" id="quickCheck">Show answer</button><div class="answer" id="quickAnswer">No. Call <code>emails.contains("person@example.com")</code>. Let the Set do the membership check.</div>
+</section>
+<section class="lesson" id="patterns"><span class="tag">PUT IT TO WORK</span><h2>8. Three useful real-world patterns</h2>
+<h3>Pattern A: remove duplicates from a list</h3><p>Suppose a CSV import contains the same email more than once. A Set can keep just the distinct emails.</p><pre><code>import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+List&lt;String&gt; emails = Arrays.asList(
+    "a@example.com", "b@example.com", "a@example.com"
+);
+Set&lt;String&gt; uniqueEmails = new HashSet&lt;&gt;(emails);
+
+System.out.println(uniqueEmails.size()); // 2</code></pre>
+<p>If you need to preserve the order in which emails first appeared, use a <code>LinkedHashSet</code> instead.</p>
+<h3>Pattern B: count how often each word appears</h3><p>This is a classic Map use case. A Set would only tell us whether a word exists; a Map can store the count for every word.</p><pre><code>String[] words = {"tea", "coffee", "tea", "juice", "tea"};
+Map&lt;String, Integer&gt; counts = new HashMap&lt;&gt;();
+
+for (String word : words) {
+    int oldCount = counts.getOrDefault(word, 0);
+    counts.put(word, oldCount + 1);
+}
+
+// tea → 3, coffee → 1, juice → 1</code></pre>
+<ol class="steps"><li>Read the current count for this word.</li><li>If it has never appeared, treat its count as zero.</li><li>Add one to the count.</li><li>Store the updated count back under the same key.</li></ol>
+<div class="analogy"><strong>Analogy: tally marks at a café</strong><br>Each drink name is a key. Its count is the value. Every time someone orders tea, update the tea counter from 2 to 3.</div>
+<h3>Pattern C: count unique visitors</h3><pre><code>Set&lt;String&gt; visitors = new HashSet&lt;&gt;();
+visitors.add("user-17");
+visitors.add("user-21");
+visitors.add("user-17");
+
+System.out.println(visitors.size()); // 2 unique visitors</code></pre>
+<p>One important design decision: if you need to know <em>how many visits each person made</em>, use a Map of visitor ID to count, not just a Set.</p>
+</section>
+<section class="lesson" id="choices"><span class="tag">CHOOSING WISELY</span><h2>9. Which implementation should I choose?</h2>
+<p><code>Set</code> and <code>Map</code> describe what operations are available. Classes such as <code>HashSet</code> and <code>HashMap</code> are concrete implementations that do the work.</p>
+<div class="table-wrap"><table><thead><tr><th>Need</th><th>Consider</th><th>Why</th></tr></thead><tbody>
+<tr><td>Unique items; order doesn't matter</td><td><code>HashSet</code></td><td>Common general-purpose choice</td></tr>
+<tr><td>Unique items; keep insertion order</td><td><code>LinkedHashSet</code></td><td>Iterates in insertion order</td></tr>
+<tr><td>Unique items; sorted order</td><td><code>TreeSet</code></td><td>Keeps elements sorted</td></tr>
+<tr><td>Key-to-value lookup; order doesn't matter</td><td><code>HashMap</code></td><td>Common general-purpose choice</td></tr>
+<tr><td>Key-to-value lookup; insertion order</td><td><code>LinkedHashMap</code></td><td>Iterates in insertion order by default</td></tr>
+<tr><td>Key-to-value lookup; sorted keys</td><td><code>TreeMap</code></td><td>Keeps keys sorted</td></tr>
+</tbody></table></div>
+<div class="note"><b>Don't overthink performance on day one.</b> Start with <code>HashSet</code> or <code>HashMap</code> for ordinary uniqueness and lookup tasks. Choose a different implementation when your program needs a specific ordering behaviour.</div>
+<h3>One last distinction</h3><ul><li>Set elements are unique.</li><li>Map keys are unique, but values may repeat.</li><li>A Map is not a Set of values: it connects keys to values.</li><li>Hash-based collections do not guarantee sorted or insertion order.</li></ul>
+</section>
+<section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>10. Practice problems</h2><p>Try to answer each one before revealing the explanation. The goal is to choose the right structure and reason about its behaviour.</p>
+<div class="question"><p>1. A website must ensure each username is registered only once. Which structure fits best?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">A <code>Set&lt;String&gt;</code>, such as a <code>HashSet&lt;&gt;</code>. It prevents duplicate username values within that Set.</div></div>
+<div class="question"><p>2. What is the size after this code runs?</p><pre><code>Set&lt;String&gt; s = new HashSet&lt;&gt;();
+s.add("red"); s.add("blue"); s.add("red");</code></pre><button class="btn secondary reveal">Reveal answer</button><div class="answer">The size is <code>2</code>. The second <code>"red"</code> is a duplicate.</div></div>
+<div class="question"><p>3. A Map contains <code>"Maya" → 92</code>. What happens after <code>scores.put("Maya", 96)</code>?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Maya's value is updated to <code>96</code>. The Map does not create a second Maya key.</div></div>
+<div class="question"><p>4. Declare a Map where a product code is a String and its stock quantity is an Integer.</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>Map&lt;String, Integer&gt; stock = new HashMap&lt;&gt;();</code> with imports for <code>Map</code> and <code>HashMap</code>.</div></div>
+<div class="question"><p>5. What does <code>scores.getOrDefault("Kavi", 0)</code> return when Kavi is not a key?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It returns the fallback value <code>0</code>.</div></div>
+<div class="question"><p>6. You need to count how many times each word appears in a document. Use a Set or a Map?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Use a <code>Map&lt;String, Integer&gt;</code>. Each word is a key and its occurrence count is the value.</div></div>
+<div class="question"><p>7. Which implementation would you consider if unique items must be iterated in insertion order?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>LinkedHashSet</code>.</div></div>
+<div class="question"><p>8. Can two different keys in a Map point to the same value?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Yes. Keys must be unique, but values can repeat. For example, both Arun and Maya could have a score of 90.</div></div>
+</section>
+<section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>11. Quick quiz</h2><p>Choose one answer for each question, then check your score. If you miss one, revisit the matching section.</p>
+<form id="quizForm">
+<div class="question"><p>1. Which structure automatically rejects duplicate elements?</p><label><input type="radio" name="q1" value="a"> ArrayList</label><label><input type="radio" name="q1" value="b"> Set</label><label><input type="radio" name="q1" value="c"> Map key-value pair</label></div>
+<div class="question"><p>2. In <code>Map&lt;String, Integer&gt;</code>, what is the value type?</p><label><input type="radio" name="q2" value="a"> String</label><label><input type="radio" name="q2" value="b"> Integer</label><label><input type="radio" name="q2" value="c"> Map</label></div>
+<div class="question"><p>3. What happens when <code>put()</code> uses a key that already exists?</p><label><input type="radio" name="q3" value="a"> It updates the value associated with that key</label><label><input type="radio" name="q3" value="b"> It creates a duplicate key</label><label><input type="radio" name="q3" value="c"> It empties the Map</label></div>
+<div class="question"><p>4. Which method checks whether a Map has a particular key?</p><label><input type="radio" name="q4" value="a"> <code>contains()</code></label><label><input type="radio" name="q4" value="b"> <code>containsKey()</code></label><label><input type="radio" name="q4" value="c"> <code>hasKeyOnly()</code></label></div>
+<div class="question"><p>5. Which implementation keeps keys sorted?</p><label><input type="radio" name="q5" value="a"> HashMap</label><label><input type="radio" name="q5" value="b"> LinkedHashSet</label><label><input type="radio" name="q5" value="c"> TreeMap</label></div>
+<div class="question"><p>6. What does <code>getOrDefault("Kavi", 0)</code> do when Kavi is absent?</p><label><input type="radio" name="q6" value="a"> Returns 0</label><label><input type="radio" name="q6" value="b"> Adds Kavi automatically</label><label><input type="radio" name="q6" value="c"> Deletes the Map</label></div>
+<button class="btn" type="submit">Check my answers</button> <button class="btn secondary" type="button" id="resetQuiz">Reset quiz</button><div id="quizResult" class="output" aria-live="polite"></div>
+</form>
+</section>
+<div class="footer-nav"><button class="btn secondary" onclick="location.href='java_lists_dynamic_storage_iteration.html'">← Previous: Lists</button><button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Finish lesson →</button></div>
+<p class="muted small">Next topic: Classes, Objects & Encapsulation. This lesson uses browser-side simulations for the interactive parts. Copy the Java examples into a Java IDE or online compiler to run actual Java.</p>
+</main></div>
+<script>
+const sections=[...document.querySelectorAll('main .lesson')],navLinks=[...document.querySelectorAll('.nav a')];
+function updateProgress(){let seen=sections.filter(s=>s.getBoundingClientRect().top<window.innerHeight*.75).length;let pct=Math.round(seen/sections.length*100);document.getElementById('progressText').textContent=pct+'%';document.getElementById('progressBar').style.width=pct+'%';let active=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<170)active=i});navLinks.forEach((a,i)=>a.classList.toggle('active',i===active))}
+window.addEventListener('scroll',updateProgress);updateProgress();
+let setValues=new Set();const setInput=document.getElementById('setInput'),setChips=document.getElementById('setChips'),setOutput=document.getElementById('setOutput');
+function renderSet(msg){setChips.innerHTML='';[...setValues].forEach(v=>{const el=document.createElement('span');el.className='chip';el.textContent=v;setChips.appendChild(el)});setOutput.textContent=msg||('Unique names: '+setValues.size+'\\n'+([...setValues].join(', ')||'(empty)'))}
+document.getElementById('addSet').onclick=()=>{let v=setInput.value.trim();if(!v){renderSet('Type a name first.');return}let existed=setValues.has(v);setValues.add(v);renderSet(existed?'"'+v+'" is already on the guest list. The size stays '+setValues.size+'.':'Added "'+v+'". Unique count: '+setValues.size+'.')};
+document.getElementById('removeSet').onclick=()=>{let v=setInput.value.trim();renderSet(setValues.delete(v)?'Removed "'+v+'". Unique count: '+setValues.size+'.':'"'+v+'" was not in the Set.')};
+document.getElementById('hasSet').onclick=()=>{let v=setInput.value.trim();renderSet('contains("'+v+'") → '+setValues.has(v))};
+document.getElementById('resetSet').onclick=()=>{setValues.clear();renderSet('Cleared! Your Set is empty.')};renderSet();
+let mapValues=new Map();const mapChips=document.getElementById('mapChips'),mapOutput=document.getElementById('mapOutput');
+function renderMap(msg){mapChips.innerHTML='';[...mapValues.entries()].forEach(([k,v])=>{let el=document.createElement('span');el.className='chip';el.textContent=k+' → '+v;mapChips.appendChild(el)});mapOutput.textContent=msg||('Entries: '+mapValues.size+'\\n'+([...mapValues.entries()].map(([k,v])=>k+' → '+v).join('\\n')||'(empty)'))}
+document.getElementById('putMap').onclick=()=>{let k=document.getElementById('mapName').value.trim(),raw=document.getElementById('mapScore').value;if(!k||raw===''){renderMap('Enter both a student name and a score.');return}let v=Number(raw);if(!Number.isFinite(v)){renderMap('Score must be a number.');return}let existed=mapValues.has(k);mapValues.set(k,v);renderMap(existed?'Updated "'+k+'" to '+v+'. The number of keys did not change.':'Saved "'+k+'" → '+v+'.')};
+document.getElementById('getMap').onclick=()=>{let k=document.getElementById('lookupName').value.trim();renderMap(mapValues.has(k)?'get("'+k+'") → '+mapValues.get(k):'Key "'+k+'" not found. In a Java HashMap, get() returns null for a missing key.')};
+document.getElementById('removeMap').onclick=()=>{let k=document.getElementById('lookupName').value.trim();if(mapValues.has(k)){mapValues.delete(k);renderMap('Removed "'+k+'".')}else renderMap('Key "'+k+'" was not in the Map.')};
+document.getElementById('defaultMap').onclick=()=>{let k=document.getElementById('lookupName').value.trim();renderMap('getOrDefault("'+k+'", 0) → '+(mapValues.has(k)?mapValues.get(k):0))};
+document.getElementById('resetMap').onclick=()=>{mapValues.clear();renderMap('Cleared! Your score book is empty.')};renderMap();
+document.querySelectorAll('.reveal').forEach(btn=>btn.onclick=()=>{let a=btn.nextElementSibling,open=a.style.display==='block';a.style.display=open?'none':'block';btn.textContent=open?'Reveal answer':'Hide answer'});
+document.getElementById('quickCheck').onclick=()=>{let a=document.getElementById('quickAnswer'),open=a.style.display==='block';a.style.display=open?'none':'block';document.getElementById('quickCheck').textContent=open?'Show answer':'Hide answer'};
+const correct={q1:'b',q2:'b',q3:'a',q4:'b',q5:'c',q6:'a'};
+document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Perfect! You have the key ideas.':score>=4?'Good work. Review the questions you missed and try again.':'Revisit the Set and Map examples, then take another shot.');out.className='output '+(score>=4?'good':'bad')};
+document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
+</script>
+</body></html>

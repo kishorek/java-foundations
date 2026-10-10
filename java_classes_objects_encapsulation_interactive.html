@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Classes, Objects & Encapsulation | Interactive Beginner Course</title>
+<style>
+:root{--ink:#19243a;--muted:#68758c;--line:#e2e8f2;--bg:#f5f7fc;--blue:#315be8;--pale:#edf2ff;--green:#177a52;--red:#bd3444}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.hero{background:linear-gradient(120deg,#253b91,#4269ee 64%,#8094ff);color:#fff;padding:38px 22px 32px}.hero-inner{max-width:1200px;margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800;opacity:.85}.hero h1{font-size:clamp(2.15rem,4vw,3.25rem);line-height:1.1;margin:12px 0}.hero p{max-width:850px;font-size:1.08rem;color:#eef2ff;margin:12px 0}.pill{display:inline-block;border:1px solid #ffffff65;border-radius:99px;padding:4px 10px;font-size:.8rem;margin-top:8px}
+.layout{max-width:1200px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:258px minmax(0,1fr);gap:22px}.sidebar{position:sticky;top:14px;align-self:start;background:white;border:1px solid var(--line);border-radius:18px;padding:18px}.side-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850;margin-bottom:8px}.nav a{display:block;text-decoration:none;color:#4c5871;padding:8px 10px;border-radius:9px;font-size:.9rem;margin:2px 0}.nav a:hover,.nav a.active{background:var(--pale);color:#2348c6;font-weight:750}.progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin:18px 0 7px}.progress{height:7px;background:#e8edf6;border-radius:99px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--blue),#8da1ff);transition:width .2s}
+main{min-width:0}.lesson{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,31px);margin-bottom:18px;scroll-margin-top:15px;box-shadow:0 6px 22px #1c2e4c08}.lesson h2{font-size:1.55rem;line-height:1.28;margin:0 0 12px}.lesson h3{font-size:1.08rem;line-height:1.4;margin:22px 0 8px}.tag{display:inline-block;background:#edf2ff;color:#294bc3;border-radius:99px;padding:3px 10px;font-size:.76rem;font-weight:850;margin-bottom:10px}.muted{color:var(--muted)}.small{font-size:.88rem}.analogy{background:#fff8e9;border:1px solid #f2dfb5;border-radius:12px;padding:14px 16px;margin:15px 0}.analogy strong{color:#805000}.tip{background:#eefaf4;border:1px solid #cdeedd;border-radius:12px;padding:13px 15px;margin:15px 0}.warning{background:#fff0f1;border:1px solid #f2d0d4;border-radius:12px;padding:13px 15px;margin:15px 0}.note{background:#f1f5ff;border:1px solid #dbe4ff;border-radius:12px;padding:13px 15px;margin:15px 0}
+pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12px;font-size:.9rem;line-height:1.58;margin:12px 0}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code,li code{background:#eef1f7;padding:2px 5px;border-radius:5px;color:#293d76}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:#fff;font:inherit;font-weight:750;cursor:pointer}.btn.secondary{background:#edf1fb;color:#263c7d}.btn:hover{filter:brightness(.96)}input,select{padding:10px 12px;border:1px solid #cfd8e7;border-radius:9px;font:inherit;max-width:100%;background:white;color:var(--ink)}.field{display:flex;flex-direction:column;gap:5px;font-size:.9rem;font-weight:700;min-width:130px}.field input{font-weight:400}.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.demo-box{border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}.demo-box h3{margin-top:0}.output{background:#f3f6fb;border-radius:10px;padding:11px 13px;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}.question{border:1px solid var(--line);padding:14px;border-radius:12px;margin:12px 0}.question p{margin:0 0 9px;font-weight:750}.question label{display:block;padding:5px 0;cursor:pointer}.answer{display:none;margin-top:10px;padding:11px;background:#eefaf4;border-radius:8px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}th{background:#f1f4fb}.steps{counter-reset:step;list-style:none;padding:0}.steps li{counter-increment:step;position:relative;padding:8px 0 8px 42px}.steps li:before{content:counter(step);position:absolute;left:0;top:8px;background:var(--pale);color:#294bc3;font-weight:850;width:29px;height:29px;display:grid;place-items:center;border-radius:50%}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin:18px 0 30px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav{display:grid;grid-template-columns:1fr 1fr;gap:2px}.demo-grid{grid-template-columns:1fr}.hero{padding-top:28px}}@media(max-width:480px){.nav{grid-template-columns:1fr}.row>*{flex:1 1 100%}.btn{width:100%}.footer-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner"><div class="eyebrow">Java Foundations • Beginner's Course</div><h1>Classes, Objects & Encapsulation</h1><p>Learn how Java models real-world things. Build a tiny bank account, create objects from a blueprint, and protect data so it cannot be changed carelessly.</p><span class="pill">Beginner friendly · Analogies · Interactive lab · Practice · Quiz</span></div></header>
+<div class="layout">
+<aside class="sidebar"><div class="side-title">Lesson navigation</div><nav class="nav" id="nav">
+<a href="#start">1. Why classes?</a><a href="#class">2. Class vs object</a><a href="#fields">3. Fields and methods</a><a href="#constructors">4. Constructors</a><a href="#this">5. The this keyword</a><a href="#encapsulation">6. Encapsulation</a><a href="#lab">7. Build an account</a><a href="#static">8. Instance vs static</a><a href="#design">9. Design habits</a><a href="#practice">10. Practice</a><a href="#quiz">11. Quiz</a>
+</nav><div class="progress-label"><span>Lesson progress</span><b id="progressText">0%</b></div><div class="progress"><span id="progressBar"></span></div><p class="small muted">Read, try the account simulator, then test yourself.</p></aside>
+<main>
+<section class="lesson" id="start"><span class="tag">START WITH A PROBLEM</span><h2>1. Why do we need classes?</h2>
+<p>Imagine building a school app. Each student has a name, an age, and a method of introducing themselves. You could keep separate variables such as <code>student1Name</code>, <code>student1Age</code>, <code>student2Name</code>, and so on. That becomes messy very quickly.</p>
+<pre><code>String student1Name = "Maya";
+int student1Age = 14;
+
+String student2Name = "Arun";
+int student2Age = 15;</code></pre>
+<p>Now imagine 500 students. Hundreds of separate variables are difficult to organise, pass around, and maintain. We need a way to group related data and the actions that work on that data.</p>
+<div class="analogy"><strong>Analogy: a cookie cutter</strong><br>A class is like a cookie cutter or a product design. It describes what each cookie should look like. An object is one actual cookie made from that cutter. One class can create many objects, and each object can have its own data.</div>
+<div class="demo-grid"><div class="demo-box"><h3>Blueprint: Student</h3><ul><li>name</li><li>age</li><li>introduce yourself</li></ul><p class="muted small">The description of what a Student has and can do.</p></div><div class="demo-box"><h3>Objects made from it</h3><ul><li>Maya, age 14</li><li>Arun, age 15</li><li>Kavi, age 14</li></ul><p class="muted small">Separate instances, each with its own values.</p></div></div>
+<div class="tip"><b>Core idea:</b> a class groups related state (data) and behaviour (methods). An object is a particular instance of that class.</div>
+</section>
+<section class="lesson" id="class"><span class="tag">BLUEPRINT VS THING</span><h2>2. Class vs object</h2>
+<p>Let's define a simple <code>Dog</code> class. It says every Dog object will have a name and can bark.</p>
+<pre><code>class Dog {
+    String name;
+
+    void bark() {
+        System.out.println(name + " says woof!");
+    }
+}</code></pre>
+<p>This class describes a Dog, but it does not automatically create a particular dog. To create an object, use <code>new</code>.</p>
+<pre><code>Dog firstDog = new Dog();
+firstDog.name = "Pixel";
+
+Dog secondDog = new Dog();
+secondDog.name = "Chutney";
+
+firstDog.bark();  // Pixel says woof!
+secondDog.bark(); // Chutney says woof!</code></pre>
+<div class="analogy"><strong>Analogy: building from a house plan</strong><br>The architectural plan is the class. House A and House B are objects built from the plan. Both may have a kitchen and a door, but each house has its own address and paint colour.</div>
+<h3>Read the object-creation line</h3><pre><code>Dog firstDog = new Dog();</code></pre>
+<ul><li><code>Dog</code> on the left is the variable's type: it can refer to a Dog object.</li><li><code>firstDog</code> is the variable name.</li><li><code>new Dog()</code> creates a new Dog object.</li><li><code>=</code> assigns the object reference to the variable.</li></ul>
+<div class="note"><b>Useful wording:</b> a variable such as <code>firstDog</code> holds a reference to an object. For now, think of it as a label that lets your code reach that object.</div>
+<h3>Interactive: create a few students</h3><div class="demo-box"><div class="row"><label class="field" style="flex:1">Student name<input id="studentName" value="Maya" placeholder="Name"></label><label class="field" style="flex:1">Age<input id="studentAge" type="number" value="14" min="1" max="120"></label><button class="btn" id="addStudent">Create object</button></div><div class="output" id="studentOutput">No student objects created yet.</div></div>
+<p class="muted small">This browser demo imitates objects conceptually. It does not compile Java.</p>
+</section>
+<section class="lesson" id="fields"><span class="tag">STATE + BEHAVIOUR</span><h2>3. Fields and methods</h2>
+<p>A class commonly contains two kinds of members:</p>
+<div class="table-wrap"><table><thead><tr><th>Member</th><th>What it represents</th><th>Example</th></tr></thead><tbody><tr><td>Field</td><td>Data or state stored by each object</td><td><code>String name;</code></td></tr><tr><td>Method</td><td>An action the object can perform</td><td><code>void bark() { ... }</code></td></tr></tbody></table></div>
+<pre><code>class Lamp {
+    String colour; // field: state
+    boolean isOn;  // field: state
+
+    void turnOn() { // method: behaviour
+        isOn = true;
+    }
+
+    void turnOff() {
+        isOn = false;
+    }
+}</code></pre>
+<div class="analogy"><strong>Analogy: a desk lamp</strong><br>Its colour and whether it is switched on are state. Turning it on and off are behaviours. A good class groups the data and the actions that belong together.</div>
+<h3>Methods can accept input and return a result</h3><pre><code>class Calculator {
+    int add(int first, int second) {
+        return first + second;
+    }
+}
+
+Calculator calc = new Calculator();
+int answer = calc.add(7, 5); // 12</code></pre>
+<p><code>int</code> before <code>add</code> says the method returns an integer. The names inside the parentheses are parameters. <code>return</code> sends the answer back to the caller.</p>
+<div class="warning"><b>Beginner pitfall:</b> <code>void</code> means the method does not return a value. It can still do something, such as print a message or change an object's state.</div>
+</section>
+<section class="lesson" id="constructors"><span class="tag">SET UP A NEW OBJECT</span><h2>4. Constructors: give an object its starting values</h2>
+<p>You can create an object and then assign fields, but it is easy to forget a step. A constructor lets the object receive the information it needs when it is created.</p>
+<pre><code>class Student {
+    String name;
+    int age;
+
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+Student maya = new Student("Maya", 14);
+Student arun = new Student("Arun", 15);</code></pre>
+<div class="analogy"><strong>Analogy: a hotel check-in form</strong><br>When a guest checks in, the hotel records the guest's name and room details. A constructor is like the check-in step: it helps initialise the new object with the information provided.</div>
+<h3>Constructor rules to remember</h3><ul><li>The constructor name must exactly match the class name.</li><li>A constructor has no return type, not even <code>void</code>.</li><li>It runs when you create an object with <code>new</code>.</li><li>Constructors can be overloaded, meaning a class can have multiple constructors with different parameter lists.</li></ul>
+<pre><code>class Student {
+    String name;
+    int age;
+
+    Student(String name) {
+        this(name, 0); // call the other constructor
+    }
+
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}</code></pre>
+<div class="note"><b>Default constructor note:</b> if you write no constructor at all, Java provides a no-argument default constructor. Once you define a constructor yourself, Java does not automatically add that default constructor for you.</div>
+</section>
+<section class="lesson" id="this"><span class="tag">A USEFUL KEYWORD</span><h2>5. What does <code>this</code> mean?</h2>
+<p>Inside an instance method or constructor, <code>this</code> refers to the current object: the particular object whose code is running.</p>
+<pre><code>class Student {
+    private String name;
+
+    Student(String name) {
+        this.name = name;
+    }
+}</code></pre>
+<p>Both the field and the constructor parameter are named <code>name</code>. The parameter is the value coming in. <code>this.name</code> means the field belonging to this object.</p>
+<div class="analogy"><strong>Analogy: “my name”</strong><br>Imagine two students answering a roll call. When Maya says “my name,” she means Maya's name. When Arun says “my name,” he means Arun's name. <code>this</code> means “this particular object here.”</div>
+<p>Read the assignment from right to left in plain English: take the incoming parameter <code>name</code> and store it in this object's field <code>this.name</code>.</p>
+<div class="tip">You will often see <code>this.field = field;</code> in constructors. It is a naming convention, not a mandatory pattern; you can choose different parameter names.</div>
+</section>
+<section class="lesson" id="encapsulation"><span class="tag">PROTECT THE DATA</span><h2>6. Encapsulation: keep the rules close to the data</h2>
+<p>Suppose a bank account has a balance. If every part of a program can change that balance directly, a careless line might set it to a negative value or accidentally overwrite it.</p>
+<pre><code>// Risky design: callers can change the balance freely
+class BankAccount {
+    public double balance;
+}</code></pre>
+<p>Anyone with access could write <code>account.balance = -5000;</code>. That may violate the rules of a bank account.</p>
+<div class="analogy"><strong>Analogy: an ATM</strong><br>You don't open the ATM and manually spin its internal gears. You use buttons for supported actions: deposit, withdraw, check balance. The ATM controls how those actions happen. Encapsulation gives an object a similar boundary.</div>
+<h3>Use private fields and public methods</h3><pre><code>class BankAccount {
+    private double balance;
+
+    public BankAccount(double openingBalance) {
+        if (openingBalance &lt; 0) {
+            throw new IllegalArgumentException(
+                "Opening balance cannot be negative"
+            );
+        }
+        balance = openingBalance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount &lt;= 0) {
+            throw new IllegalArgumentException(
+                "Deposit must be positive"
+            );
+        }
+        balance += amount;
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount &lt;= 0 || amount &gt; balance) {
+            return false;
+        }
+        balance -= amount;
+        return true;
+    }
+}</code></pre>
+<ul><li><code>private</code> means code outside the class cannot access the field directly.</li><li><code>public</code> means other code can call that method, subject to the method's rules.</li><li><code>getBalance()</code> provides controlled read access.</li><li><code>deposit()</code> and <code>withdraw()</code> validate requests before changing the balance.</li></ul>
+<div class="tip"><b>Encapsulation is more than getters and setters.</b> The key idea is to hide internal details and offer safe operations that preserve the object's rules. A public setter that accepts any value can defeat the purpose.</div>
+<h3>Access modifier cheat sheet</h3><div class="table-wrap"><table><thead><tr><th>Modifier</th><th>Beginner interpretation</th></tr></thead><tbody><tr><td><code>private</code></td><td>Accessible only within the declaring class.</td></tr><tr><td><code>public</code></td><td>Accessible from anywhere the class/member is otherwise accessible.</td></tr><tr><td>No modifier</td><td>Package-private: accessible within the same package.</td></tr><tr><td><code>protected</code></td><td>Accessible within the same package and also in subclasses under Java's protected-access rules.</td></tr></tbody></table></div>
+</section>
+<section class="lesson" id="lab"><span class="tag">BUILD A MINI OBJECT</span><h2>7. Interactive bank account simulator</h2>
+<p>Let's model the behaviour of our encapsulated bank account. Start with ₹1,000, then deposit or withdraw. Try a negative deposit or a withdrawal larger than the balance and observe the validation.</p>
+<div class="demo-box"><div class="row"><label class="field" style="flex:1">Amount (₹)<input id="amount" type="number" min="0" step="1" value="250"></label><button class="btn" id="deposit">Deposit</button><button class="btn secondary" id="withdraw">Withdraw</button><button class="btn secondary" id="resetAccount">Reset account</button></div><div class="output" id="accountOutput" aria-live="polite"></div></div>
+<h3>What would the Java calls look like?</h3><pre><code>BankAccount account = new BankAccount(1000);
+account.deposit(250);
+boolean success = account.withdraw(100);
+
+System.out.println(account.getBalance()); // 1150.0</code></pre>
+<p>Notice there is no <code>account.balance = ...</code>. The field is private, so callers must use the class's public operations. This keeps the account's rules in one place.</p>
+<div class="warning"><b>Money in real systems:</b> <code>double</code> is used here to keep the lesson focused on objects. Financial applications commonly use <code>BigDecimal</code> or integer minor units (such as paise) to avoid floating-point rounding surprises.</div>
+</section>
+<section class="lesson" id="static"><span class="tag">ONE CLASS, SHARED INFORMATION</span><h2>8. Instance members vs <code>static</code></h2>
+<p>Most fields belong to each individual object. A <code>static</code> member belongs to the class itself and is shared at class level.</p>
+<pre><code>class Player {
+    String name;                  // each player has a name
+    static int playerCount = 0;   // shared count
+
+    Player(String name) {
+        this.name = name;
+        playerCount++;
+    }
+}
+
+Player p1 = new Player("Maya");
+Player p2 = new Player("Arun");
+System.out.println(Player.playerCount); // 2</code></pre>
+<div class="analogy"><strong>Analogy: classroom desks and the classroom sign</strong><br>Each student has their own desk (instance data). The classroom has one room number shared by everyone (class-level data). Static members are shared, rather than copied independently into each object.</div>
+<ul><li>Use instance fields for per-object data, such as each player's name.</li><li>Use static fields for information shared by the class, such as a counter.</li><li>Access a static member through the class name, such as <code>Player.playerCount</code>.</li></ul>
+<div class="warning"><b>Common mistake:</b> a static method has no current object, so it cannot directly use an instance field like <code>name</code> without an object reference.</div>
+</section>
+<section class="lesson" id="design"><span class="tag">GOOD CLASS DESIGN</span><h2>9. A few habits that make classes easier to use</h2>
+<ul><li><b>Use meaningful names.</b> Class names usually use PascalCase, such as <code>BankAccount</code>; method and variable names usually use camelCase, such as <code>getBalance</code>.</li><li><b>Keep fields private by default.</b> Expose only the operations other code actually needs.</li><li><b>Keep an object's rules in the class.</b> If a balance must not become negative, make deposit and withdrawal enforce that rule.</li><li><b>Construct valid objects.</b> Use constructors to check required information and initialise fields.</li><li><b>Keep one class focused.</b> A <code>Student</code> class should not also send emails, render web pages, and connect to every database.</li></ul>
+<div class="analogy"><strong>Analogy: a vending machine</strong><br>A vending machine exposes buttons and accepts payment. You don't need to know how its internal motor works. A well-designed class offers a small, clear public interface and hides the implementation details.</div>
+<h3>Spot the design issue</h3><p>Which is better for a bank account?</p><div class="demo-grid"><div class="demo-box"><h3>Design A</h3><pre><code>public double balance;</code></pre><p>Any caller can write any value.</p></div><div class="demo-box"><h3>Design B</h3><pre><code>private double balance;
+public void deposit(double amount) {
+    // validate, then update
+}</code></pre><p>The class controls changes.</p></div></div><p><b>Better choice:</b> Design B, because it protects the object's invariant (a rule that should always remain true).</p>
+</section>
+<section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>10. Practice problems</h2><p>Try each problem before revealing the explanation.</p>
+<div class="question"><p>1. In your own words, what is the difference between a class and an object?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">A class is a blueprint describing fields and methods. An object is a particular instance created from that blueprint.</div></div>
+<div class="question"><p>2. What does <code>new Student("Maya", 14)</code> do?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It creates a Student object and calls the matching constructor with the values "Maya" and 14.</div></div>
+<div class="question"><p>3. Why does a constructor have no return type?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">A constructor is a special initialisation mechanism, not an ordinary method. Its name matches the class and it has no declared return type.</div></div>
+<div class="question"><p>4. In <code>this.name = name;</code>, what does <code>this.name</code> mean?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">The <code>name</code> field belonging to the current object. The right-hand <code>name</code> is the parameter.</div></div>
+<div class="question"><p>5. Why should a bank account's balance usually be private?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">To prevent callers from changing it directly and bypassing rules. Public methods can validate deposits and withdrawals.</div></div>
+<div class="question"><p>6. Does <code>void turnOn()</code> return a value?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">No. It can perform an action or change state, but it does not return a result to the caller.</div></div>
+<div class="question"><p>7. What is one difference between an instance field and a static field?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Each object has its own instance field. A static field belongs to the class and is shared at class level.</div></div>
+<div class="question"><p>8. Why is a public setter that accepts any balance value not enough for encapsulation?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It still lets callers violate the account's rules. Encapsulation requires controlled operations and validation, not merely getters and setters.</div></div>
+</section>
+<section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>11. Quick quiz</h2><p>Choose one answer per question, then check your score.</p>
+<form id="quizForm">
+<div class="question"><p>1. What is a class most like?</p><label><input type="radio" name="q1" value="a"> One particular object</label><label><input type="radio" name="q1" value="b"> A blueprint for objects</label><label><input type="radio" name="q1" value="c"> A loop</label></div>
+<div class="question"><p>2. Which keyword commonly creates a new object?</p><label><input type="radio" name="q2" value="a"> <code>new</code></label><label><input type="radio" name="q2" value="b"> <code>this</code></label><label><input type="radio" name="q2" value="c"> <code>void</code></label></div>
+<div class="question"><p>3. Which statement about constructors is correct?</p><label><input type="radio" name="q3" value="a"> They must return int</label><label><input type="radio" name="q3" value="b"> They always have the name main</label><label><input type="radio" name="q3" value="c"> They have the same name as the class and no return type</label></div>
+<div class="question"><p>4. What does <code>private</code> help with?</p><label><input type="radio" name="q4" value="a"> Hiding a member from direct access outside its class</label><label><input type="radio" name="q4" value="b"> Making a field static</label><label><input type="radio" name="q4" value="c"> Creating an object</label></div>
+<div class="question"><p>5. What does <code>this</code> refer to in an instance constructor?</p><label><input type="radio" name="q5" value="a"> The parent class only</label><label><input type="radio" name="q5" value="b"> The current object being initialised</label><label><input type="radio" name="q5" value="c"> The Java compiler</label></div>
+<div class="question"><p>6. Which is generally true about a static field?</p><label><input type="radio" name="q6" value="a"> Every object has an independent copy</label><label><input type="radio" name="q6" value="b"> It can only store text</label><label><input type="radio" name="q6" value="c"> It belongs to the class and is shared at class level</label></div>
+<button class="btn" type="submit">Check my answers</button> <button class="btn secondary" type="button" id="resetQuiz">Reset quiz</button><div id="quizResult" class="output" aria-live="polite"></div>
+</form>
+</section>
+<div class="footer-nav"><button class="btn secondary" onclick="location.href='java_sets_maps_unique_values_keys_lookup.html'">← Previous: Sets & Maps</button><button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Finish lesson →</button></div>
+<p class="muted small">Next topic: Inheritance, Polymorphism & Abstraction. The interactive sections are browser simulations; copy the Java examples into a Java IDE or online compiler to execute actual Java.</p>
+</main></div>
+<script>
+const sections=[...document.querySelectorAll('main .lesson')],navLinks=[...document.querySelectorAll('.nav a')];
+function updateProgress(){let seen=sections.filter(s=>s.getBoundingClientRect().top<window.innerHeight*.75).length;let pct=Math.round(seen/sections.length*100);document.getElementById('progressText').textContent=pct+'%';document.getElementById('progressBar').style.width=pct+'%';let active=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<170)active=i});navLinks.forEach((a,i)=>a.classList.toggle('active',i===active))}
+window.addEventListener('scroll',updateProgress);updateProgress();
+let students=[];document.getElementById('addStudent').onclick=()=>{let name=document.getElementById('studentName').value.trim(),age=Number(document.getElementById('studentAge').value),out=document.getElementById('studentOutput');if(!name||!Number.isFinite(age)||age<1){out.textContent='Please enter a name and a positive age.';return}students.push({name,age});out.textContent='Created '+students.length+' Student object(s):\\n'+students.map((s,i)=>(i+1)+'. Student{name="'+s.name+'", age='+s.age+'}').join('\\n')};
+let balance=1000;const accountOutput=document.getElementById('accountOutput');
+function showAccount(msg){accountOutput.textContent='Current balance: ₹'+balance.toFixed(2)+'\\n'+msg}
+document.getElementById('deposit').onclick=()=>{let a=Number(document.getElementById('amount').value);if(!Number.isFinite(a)||a<=0){showAccount('Deposit rejected: amount must be greater than zero.');return}balance+=a;showAccount('Deposit successful: ₹'+a.toFixed(2)+'.')};
+document.getElementById('withdraw').onclick=()=>{let a=Number(document.getElementById('amount').value);if(!Number.isFinite(a)||a<=0){showAccount('Withdrawal rejected: amount must be greater than zero.');return}if(a>balance){showAccount('Withdrawal rejected: insufficient funds. The balance did not change.');return}balance-=a;showAccount('Withdrawal successful: ₹'+a.toFixed(2)+'.')};
+document.getElementById('resetAccount').onclick=()=>{balance=1000;document.getElementById('amount').value=250;showAccount('Account reset to the opening balance of ₹1,000.');};showAccount('Opening balance loaded.');
+document.querySelectorAll('.reveal').forEach(btn=>btn.onclick=()=>{let a=btn.nextElementSibling,open=a.style.display==='block';a.style.display=open?'none':'block';btn.textContent=open?'Reveal answer':'Hide answer'});
+const correct={q1:'b',q2:'a',q3:'c',q4:'a',q5:'b',q6:'c'};
+document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Excellent! You understand the foundations.':score>=4?'Good work. Review the questions you missed.':'Revisit the class/object and encapsulation examples, then try again.');out.className='output '+(score>=4?'good':'bad')};
+document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
+</script>
+</body></html>
