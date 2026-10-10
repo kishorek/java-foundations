@@ -1,0 +1,19 @@
+index.html
+  s_8115b9367ab845::t_344f60ab1d3268 1-146
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a1ea6380e34f8e926d8423b96322c36ae0819283",
+  "prompts": {},
+  "sessions": {
+    "s_8115b9367ab845": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_edb85e7bbffeqBuaFZIcNTLibU",
+        "model": "muse-spark-1.3-contributor"
+      },
+      "human_author": "Kishore Kumar Uthirapathy <libcomet@gmail.com>"
+    }
+  }
+}
