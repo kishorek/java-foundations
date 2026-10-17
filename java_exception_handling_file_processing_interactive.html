@@ -41,6 +41,8 @@ main{min-width:0}.intro,.section{background:var(--panel);border:1px solid var(--
     <div class="mini"><h3>🗂️ File processing</h3><p>Find a file, read its contents, transform the data, and write results carefully.</p></div>
   </div>
   <div class="callout warn"><strong>Important:</strong> the interactive labs on this page simulate Java behavior in your browser using JavaScript. They do not compile Java or access your computer's actual file system. The code examples are real Java syntax.</div>
+
+<script type="application/json" class="section-mcq">{"title": "By the end, you can handle problems without making your program panic.", "questions": [{"q": "What do the interactive file labs on this page actually do?", "options": ["They compile Java and edit files on your computer", "They simulate the ideas in the browser and do not touch the real file system", "They send the file to a database", "They turn every exception into a String variable"], "answer": 1, "explain": "The page demonstrates Java behaviour with a browser simulation. The code samples are real Java syntax, but the labs do not access your files."}]}</script>
 </section>
 
 <section class="section" id="why">
@@ -56,6 +58,8 @@ main{min-width:0}.intro,.section{background:var(--panel);border:1px solid var(--
     <div class="mini"><h3>Recover from a failure</h3><p>Catch a file-reading failure and tell the user which file could not be opened.</p></div>
   </div>
   <div class="callout good"><strong>Key idea:</strong> an exception is not automatically a bug in the language. It is Java's way of representing an unusual condition that interrupts the normal path.</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. Why do exceptions exist?", "questions": [{"q": "What is the lesson's picture of a catch block?", "options": ["A way to hide every problem with no response", "A planned response for a matching failure", "The place a program must start", "A second main method"], "answer": 1, "explain": "An exception signals that the normal plan cannot continue. The matching catch is the response for that kind of failure, and the program can continue afterward."}]}</script>
 </section>
 
 <section class="section" id="trycatch">
@@ -75,6 +79,8 @@ System.out.println(<span class="string">"Program continues."</span>);</div>
   <div class="controls"><button onclick="runTryCatch()">Run simulation</button><button class="secondary" onclick="resetTryCatch()">Reset</button></div>
   <div class="output" id="tryOutput">Choose a scenario and click Run simulation.</div>
   <div class="callout"><strong>Notice:</strong> a <code>catch</code> only handles exceptions whose type matches the exception thrown, or a subtype of the declared type.</div>
+
+<script type="application/json" class="section-mcq">{"title": "2. try and catch : attempt and recovery", "questions": [{"q": "If a try block finishes with no exception, what happens to its catch?", "options": ["The catch still runs", "The catch is skipped", "The program stops before the next statement", "finally is forbidden"], "answer": 1, "explain": "Java runs the try statements in order. A catch runs only when a matching exception occurs. Later code after the try/catch can still run."}]}</script>
 </section>
 
 <section class="section" id="types">
@@ -94,6 +100,8 @@ System.out.println(<span class="string">"Program continues."</span>);</div>
   <div class="table-wrap"><table><thead><tr><th>Example</th><th>Typical meaning</th><th>Category</th></tr></thead><tbody>
   <tr><td><code>IOException</code></td><td>A read/write operation failed</td><td>Checked</td></tr><tr><td><code>FileNotFoundException</code></td><td>A requested file cannot be found/opened</td><td>Checked</td></tr><tr><td><code>ArithmeticException</code></td><td>Illegal arithmetic operation, such as integer divide by zero</td><td>Unchecked</td></tr><tr><td><code>NumberFormatException</code></td><td>A string cannot be parsed as the requested number</td><td>Unchecked</td></tr><tr><td><code>NullPointerException</code></td><td>Code tries to use a null reference as an object</td><td>Unchecked</td></tr></tbody></table></div>
   <div class="callout warn"><strong>Beginner rule:</strong> do not write <code>catch (Exception e)</code> everywhere just to silence errors. Catch the types you can meaningfully handle, and preserve enough information to diagnose unexpected failures.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. Exception types: not every problem is the same", "questions": [{"q": "Which exception is checked?", "options": ["IOException", "NullPointerException", "ArithmeticException", "A missing semicolon"], "answer": 0, "explain": "IOException is a checked exception, so the compiler makes you catch it or declare throws. NullPointerException and ArithmeticException are unchecked runtime exceptions."}]}</script>
 </section>
 
 <section class="section" id="flow">
@@ -119,6 +127,8 @@ System.out.println(<span class="string">"E: after handler"</span>);</div>
     <span class="comment">// other input/output problem</span>
 }</div>
   <p>Order matters: put the more specific exception before the broader parent type. If <code>IOException</code> came first, the later <code>FileNotFoundException</code> handler would be unreachable because the broader handler already catches it.</p>
+
+<script type="application/json" class="section-mcq">{"title": "4. Control flow: what runs, and what gets skipped?", "questions": [{"q": "What is wrong with this catch order?", "options": ["try cannot be used with files", "FileNotFoundException is more specific, so it must be caught before IOException", "Only Error objects can be caught", "The messages must be numbers"], "answer": 1, "explain": "FileNotFoundException is a kind of IOException. Java rejects this order because the specific catch is already covered by the earlier IOException catch. Catch the more specific exception first.", "code": "try {\n    // read a file\n} catch (IOException e) {\n    System.out.println(\"I/O\");\n} catch (FileNotFoundException e) {\n    System.out.println(\"Missing\");\n}", "fix": "try {\n    // read a file\n} catch (FileNotFoundException e) {\n    System.out.println(\"Missing\");\n} catch (IOException e) {\n    System.out.println(\"I/O\");\n}", "debug": true}]}</script>
 </section>
 
 <section class="section" id="throw">
@@ -143,6 +153,8 @@ System.out.println(<span class="string">"E: after handler"</span>);</div>
         <span class="keyword">super</span>(message);
     }
 }</div>
+
+<script type="application/json" class="section-mcq">{"title": "5. throw vs throws", "questions": [{"q": "A method lets the caller deal with a checked failure from Files.readString. What belongs on the method?", "options": ["throw IOException after the parameter list, with no object", "throws IOException on the method signature", "catch IOException in the signature", "finally IOException"], "answer": 1, "explain": "throws declares that a checked exception may leave the method. throw is used inside the method when you actually raise an exception."}]}</script>
 </section>
 
 <section class="section" id="resources">
@@ -169,6 +181,8 @@ System.out.println(<span class="string">"E: after handler"</span>);</div>
 }</div>
   <div class="callout good"><strong>Why this is better:</strong> Java automatically closes a resource that implements <code>AutoCloseable</code> when the try-with-resources statement finishes, including when an exception occurs. This is generally safer than manually closing in a <code>finally</code> block.</div>
   <div class="analogy"><div class="emoji">🔑</div><div><strong>Analogy: borrow a library book</strong><p>You use the book, then return it even if your study session gets interrupted. Try-with-resources makes the “return it” step automatic.</p></div></div>
+
+<script type="application/json" class="section-mcq">{"title": "6. finally and try-with-resources", "questions": [{"q": "What does try-with-resources do for a BufferedReader?", "options": ["It stops exceptions from existing", "It closes the reader when the try statement finishes", "It converts a relative path into an absolute path", "It appends to the file"], "answer": 1, "explain": "Declaring the reader in the try parentheses makes Java close that resource. A finally block is the older place for cleanup that should run whether the try succeeds or a handled exception occurs."}]}</script>
 </section>
 
 <section class="section" id="files">
@@ -189,6 +203,8 @@ Path file = Path.of(<span class="string">"data/marks.txt"</span>);
     System.out.println(<span class="string">"File exists"</span>);
 }</div>
   <div class="callout warn"><strong>Security note:</strong> do not trust a file path supplied by a user without validation. In real applications, restrict access to the intended folder, handle permissions carefully, and avoid overwriting important files by accident.</div>
+
+<script type="application/json" class="section-mcq">{"title": "7. Files and paths: where is the data?", "questions": [{"q": "A relative path such as data/marks.txt is resolved from where?", "options": ["The folder that contains the .java source file, always", "The program's current working directory", "The user's desktop only", "Inside the String pool"], "answer": 1, "explain": "A relative path is not automatically beside the source file. It is resolved from the working directory. An absolute path starts from a file-system root."}]}</script>
 </section>
 
 <section class="section" id="readwrite">
@@ -220,6 +236,8 @@ Path file = Path.of(<span class="string">"data/marks.txt"</span>);
     StandardOpenOption.APPEND);</div>
   <div class="table-wrap"><table><thead><tr><th>Task</th><th>Common API</th><th>Remember</th></tr></thead><tbody><tr><td>Build a path</td><td><code>Path.of(...)</code></td><td>A path is an address, not the file contents.</td></tr><tr><td>Read small text</td><td><code>Files.readString(...)</code></td><td>Java 11+; handle <code>IOException</code>.</td></tr><tr><td>Read lines</td><td><code>Files.newBufferedReader(...)</code></td><td>Use try-with-resources.</td></tr><tr><td>Write/replace</td><td><code>Files.writeString(...)</code></td><td>Default behavior replaces existing content.</td></tr><tr><td>Append</td><td><code>Files.writeString(..., CREATE, APPEND)</code></td><td>Use the required <code>StandardOpenOption</code> values.</td></tr></tbody></table></div>
   <div class="callout"><strong>Text encoding:</strong> choose UTF-8 explicitly for predictable text handling across machines. Do not assume every computer uses the same default encoding.</div>
+
+<script type="application/json" class="section-mcq">{"title": "8. Read and write files with Java", "questions": [{"q": "What does Files.writeString do by default in the lesson?", "options": ["Always appends to the end of an existing file", "Creates the file if needed and replaces its contents", "Reads the file into an int", "Cannot throw IOException"], "answer": 1, "explain": "The default write replaces the file. To add to the end, the lesson says to pass StandardOpenOption.APPEND, usually with CREATE."}]}</script>
 </section>
 
 <section class="section" id="filelab">
@@ -249,6 +267,8 @@ hello
 } <span class="keyword">catch</span> (IOException e) {
     System.out.println(<span class="string">"Could not read input file: "</span> + e.getMessage());
 }</div>
+
+<script type="application/json" class="section-mcq">{"title": "9. File safety lab: simulate a read, process, and write", "questions": [{"q": "A marks file contains 70, bad, and 95. Which two kinds of failure does the lesson distinguish?", "options": ["A missing semicolon and a missing class", "An IOException for the file, and a number-format problem for the line bad", "Two identical IOExceptions that must share one message", "A Set error and a Map error"], "answer": 1, "explain": "The file itself might be unreadable, which is an I/O problem. A single line might not be a number, which needs its own validation response."}]}</script>
 </section>
 
 <section class="section" id="practice">
@@ -268,6 +288,8 @@ System.out.println(<span class="string">"C"</span>);</div><button class="seconda
   <div class="exercise"><p><strong>6. Read a small file.</strong> Which API reads the entire text file into one <code>String</code> in Java 11+?</p><button class="secondary" onclick="toggleAnswer('ans6')">Reveal answer</button><div class="answer" id="ans6"><strong>Answer:</strong> <code>Files.readString(path, StandardCharsets.UTF_8)</code>. Remember to handle <code>IOException</code>.</div></div>
   <div class="exercise"><p><strong>7. Replace vs append.</strong> What must you add when writing new text to the end of a file?</p><button class="secondary" onclick="toggleAnswer('ans7')">Reveal answer</button><div class="answer" id="ans7"><strong>Answer:</strong> Pass <code>StandardOpenOption.APPEND</code>, usually with <code>StandardOpenOption.CREATE</code> if the file should be created when missing.</div></div>
   <div class="exercise"><p><strong>8. Design a safe file importer.</strong> A marks file contains lines <code>70</code>, <code>bad</code>, <code>95</code>. What are two different errors you might need to handle?</p><button class="secondary" onclick="toggleAnswer('ans8')">Reveal answer</button><div class="answer" id="ans8"><strong>Answer:</strong> A file-level <code>IOException</code> if it cannot be read, and a line-level <code>NumberFormatException</code> for <code>bad</code>. They represent different problems and should have different responses.</div></div>
+
+<script type="application/json" class="section-mcq">{"title": "10. Practice problems", "questions": [{"q": "Integer.parseInt(\"cat\") runs inside try, before a later println(\"A\"). The catch prints B, and C prints after the try/catch. What appears?", "options": ["A then B then C", "B then C", "A then C", "C only"], "answer": 1, "explain": "Parsing throws before A can print. The catch prints B, and execution continues after the try/catch, so C prints next."}]}</script>
 </section>
 
 <section class="section" id="quiz">
@@ -303,5 +325,6 @@ const correct={q1:'b',q2:'c',q3:'a',q4:'b',q5:'a',q6:'b'};
 function gradeQuiz(){let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{const chosen=document.querySelector(`input[name="${q}"]:checked`);if(chosen){answered++;if(chosen.value===a)score++}});const result=document.getElementById('quizResult');result.textContent=`Score: ${score}/6 · Answered: ${answered}/6. `+(score===6?'Excellent! You understand the core ideas.':score>=4?'Good work. Review any missed concepts, then try again.':'Review the lesson sections and retry.');result.style.color=score>=4?'#15803d':'#b91c1c'}
 function resetQuiz(){document.getElementById('quizForm').reset();document.getElementById('quizResult').textContent=''}
 </script>
+<script src="section-mcq.js"></script>
 </body>
 </html>

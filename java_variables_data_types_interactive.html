@@ -48,7 +48,9 @@
       <div class="code-label"><span>Java example</span><button class="copy" data-copy="int age = 18;">Copy code</button></div>
       <pre class="code"><span class="type">int</span> age = 18;</pre>
       <div class="callout"><strong>Read it from left to right:</strong> <code>int</code> means a whole number, <code>age</code> is the box's label, and <code>= 18</code> puts the value 18 into that box. The semicolon marks the end of this Java instruction.</div>
-      <div class="lesson-nav"><span></span><button class="btn" data-next>Next: data types →</button></div>
+      
+<script type="application/json" class="section-mcq">{"title": "Imagine a labelled storage box", "questions": [{"q": "After int age = 18; what does the name age refer to?", "options": ["The Java compiler", "The labelled storage that currently holds 18", "A comment next to the number", "Only the semicolon"], "answer": 1, "explain": "A variable is a named place that stores a value. age is the label, and 18 is the value placed in that box."}, {"q": "Java treats score and Score as which of these?", "options": ["The same variable", "Two different names, because Java is case sensitive", "A syntax error in every program", "A boolean and an int automatically"], "answer": 1, "explain": "Java distinguishes capital and lowercase letters. score and Score are different names, so one does not automatically update the other."}]}</script>
+<div class="lesson-nav"><span></span><button class="btn" data-next>Next: data types →</button></div>
     </section>
 
     <section class="lesson" id="lesson1">
@@ -74,7 +76,9 @@
         <div class="feedback" id="typeFeedback" role="status"></div>
       </div>
       <div class="callout mistake"><strong>Common mix up:</strong> <code>'M'</code> is a <code>char</code>, while <code>"Maya"</code> is a <code>String</code>. Single quotes are for one character, and double quotes are for text.</div>
-      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Java syntax →</button></div>
+      
+<script type="application/json" class="section-mcq">{"title": "Not every value belongs in every box", "questions": [{"q": "Which type is the usual choice for a whole number such as a person's age?", "options": ["String", "boolean", "int", "char"], "answer": 2, "explain": "int stores whole numbers and is the normal choice for values like an age or a count. String is text, boolean is true or false, and char is one character."}, {"q": "A product price such as 99.50 fits which type in this lesson?", "options": ["int", "boolean", "char", "double"], "answer": 3, "explain": "double is the lesson's decimal type for a price. int cannot store the fractional part 0.50."}]}</script>
+<div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: Java syntax →</button></div>
     </section>
 
     <section class="lesson" id="lesson2">
@@ -96,7 +100,9 @@
         <div class="feedback show" id="builderFeedback" style="background:var(--blue2);color:#2e46ad">A variable name should start with a letter, underscore, or dollar sign, and it cannot contain spaces.</div>
       </div>
       <div class="callout"><strong>Important:</strong> Java is case sensitive, so <code>score</code> and <code>Score</code> are different names. Also, <code>String</code> begins with a capital S, while <code>int</code> and <code>boolean</code> begin with lowercase letters.</div>
-      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: code lab →</button></div>
+      
+<script type="application/json" class="section-mcq">{"title": "Declare it, then give it a value", "questions": [{"q": "Which statement follows the lesson's declaration pattern?", "options": ["String city = \"Chennai\";", "String city = Chennai;", "string city = 'Chennai';", "String \"city\" = Chennai;"], "answer": 0, "explain": "The pattern is type, name, =, value, and a semicolon. String starts with a capital S, and text uses double quotes."}, {"q": "What is wrong with this statement?", "options": ["int cannot be used for a score", "A whole-number variable is being given text", "The name score is too short", "The semicolon must come before int"], "answer": 1, "explain": "Quotes make \"100\" a String. An int needs a numeric literal such as 100, without quotes.", "code": "int score = \"100\";", "fix": "int score = 100;", "debug": true}]}</script>
+<div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Next: code lab →</button></div>
     </section>
 
     <section class="lesson" id="lesson3">
@@ -131,7 +137,9 @@ points = 15;
         <button class="btn" id="checkMistake" style="margin-top:12px">Check answer</button>
         <div class="feedback" id="mistakeFeedback" role="status"></div>
       </div>
-      <div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Take the quiz →</button></div>
+      
+<script type="application/json" class="section-mcq">{"title": "Your mini Java code lab", "questions": [{"q": "What do the variables hold after these lines run?", "options": ["points is 10 and winner is a String", "points is 15, player is Maya, and winner is true", "points stores both 10 and 15", "The program deletes points when it is assigned again"], "answer": 1, "explain": "The second assignment replaces 10 with 15. player stores the text Maya, and winner stores the boolean true. Reassigning does not create a second variable.", "code": "int points = 10;\npoints = 15;\nString player = \"Maya\";\nboolean winner = true;"}]}</script>
+<div class="lesson-nav"><button class="btn secondary" data-prev>← Back</button><button class="btn" data-next>Take the quiz →</button></div>
     </section>
 
     <section class="lesson" id="lesson4">
@@ -180,5 +188,6 @@ const answers={q1:'a',q2:'b',q3:'c',q4:'b',q5:'a'};
 document.getElementById('submitQuiz').addEventListener('click',()=>{let score=0,unanswered=[];Object.keys(answers).forEach(q=>{const selected=document.querySelector(`input[name="${q}"]:checked`);if(!selected)unanswered.push(q);else if(selected.value===answers[q])score++;});const fb=document.getElementById('quizFeedback');if(unanswered.length){fb.className='feedback show bad';fb.textContent=`Answer all five questions before checking your score. You have ${unanswered.length} question${unanswered.length===1?'':'s'} left.`;return;}fb.className='feedback show '+(score>=4?'good':'bad');fb.textContent=`You scored ${score} out of 5. ${score===5?'Perfect score!':score>=4?'Very good work. Review the one idea you missed, then try again.':'Review the lessons and try again. Learning to code is practice, not magic.'}`;document.getElementById('quizCelebrate').classList.toggle('show',score>=4);if(score>=4){completed.add(4);nav[4].classList.add('done');document.getElementById('progressBar').style.width=`${completed.size/lessons.length*100}%`;}});
 document.getElementById('restart').addEventListener('click',()=>{completed.clear();document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);document.getElementById('labResult').style.display='none';document.getElementById('runLab').textContent='▶ Run the program';document.getElementById('quizFeedback').className='feedback';document.getElementById('quizCelebrate').classList.remove('show');showLesson(0);});
 </script>
+<script src="section-mcq.js"></script>
 </body>
 </html>

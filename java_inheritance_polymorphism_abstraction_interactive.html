@@ -26,6 +26,8 @@ pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12
 <div class="analogy"><strong>Analogy: a family of vehicles</strong><br>A car, bus, and motorcycle are all vehicles, so they share ideas like speed or a registration number. But they may start, stop, and carry passengers differently. Java gives us ways to represent what is shared and what is specialised.</div>
 <div class="demo-grid"><div class="demo-box"><h3>Inheritance</h3><p>Reuse and specialise features from a parent class.</p><span class="muted small">“A Dog is an Animal.”</span></div><div class="demo-box"><h3>Polymorphism</h3><p>Use one common type, while each actual object behaves in its own way.</p><span class="muted small">“Make every animal speak.”</span></div><div class="demo-box"><h3>Abstraction</h3><p>Expose the essential operation and hide unnecessary implementation details.</p><span class="muted small">“Press start; don't manage the engine internals.”</span></div><div class="demo-box"><h3>How they relate</h3><p>Inheritance can create a family of related types; overriding enables different behaviours; abstract classes and interfaces define contracts.</p></div></div>
 <div class="tip"><b>Simple memory aid:</b> Inheritance = “is a kind of”; polymorphism = “same request, different response”; abstraction = “show what matters, hide how it works.”</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. Why do we need these three ideas?", "questions": [{"q": "Which sentence matches the lesson's meaning of inheritance?", "options": ["A Dog is an Animal and can reuse Animal features", "A Dog has an Animal stored only as a number", "Inheritance means every class must be static", "Inheritance copies console output"], "answer": 0, "explain": "Inheritance represents an is-a relationship and reuses accessible features from a parent. Has-a is a different relationship."}]}</script>
 </section>
 <section class="lesson" id="inheritance"><span class="tag">CONCEPT 1</span><h2>2. Inheritance: build on an existing class</h2>
 <p>Inheritance lets a new class reuse accessible fields and methods from an existing class. The existing class is often called the <b>parent</b> or <b>superclass</b>; the new class is the <b>child</b> or <b>subclass</b>.</p>
@@ -62,6 +64,8 @@ class Dog extends Animal {
     }
 }</code></pre>
 <p><code>super(name)</code> calls the matching superclass constructor. In Java, a call to <code>super(...)</code> must be the first statement in a constructor when written explicitly.</p>
+
+<script type="application/json" class="section-mcq">{"title": "2. Inheritance: build on an existing class", "questions": [{"q": "Dog extends Animal, and only Animal declares eat(). What can a Dog object do?", "options": ["Call eat() and also call bark() if Dog declares bark", "Call bark() only", "Call eat() only after copying the method into Dog by hand", "Use eat() only through a variable named Animal"], "answer": 0, "explain": "The subclass inherits accessible methods such as eat and can add its own methods, such as bark."}]}</script>
 </section>
 <section class="lesson" id="override"><span class="tag">CUSTOMISE BEHAVIOUR</span><h2>3. Method overriding vs method overloading</h2>
 <p>A subclass may want to use a method name it inherited, but provide its own behaviour. That is <b>overriding</b>.</p>
@@ -87,6 +91,8 @@ class Dog extends Animal {
 <p>Overloading means the same method name has different parameter lists. The compiler chooses which overload fits the arguments. Overriding means a subclass supplies a new implementation of an inherited method.</p>
 <div class="table-wrap"><table><thead><tr><th></th><th>Overloading</th><th>Overriding</th></tr></thead><tbody><tr><td>Where?</td><td>Often in the same class</td><td>Subclass and superclass relationship</td></tr><tr><td>Parameters</td><td>Must differ in number, type, or order</td><td>Must match the inherited method signature</td></tr><tr><td>Purpose</td><td>Similar action for different inputs</td><td>Specialised behaviour for a subtype</td></tr><tr><td>Typical selection</td><td>Compile time</td><td>Runtime for overridden instance methods</td></tr></tbody></table></div>
 <div class="tip"><b>Memory trick:</b> overloading = same name, different inputs. Overriding = same inherited method, new implementation.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. Method overriding vs method overloading", "questions": [{"q": "What is method overriding?", "options": ["Reusing a method name with a different parameter list in the same class", "A subclass providing its own behaviour for an inherited method", "Making a field private", "Calling main twice"], "answer": 1, "explain": "Overriding replaces inherited instance behaviour and uses a matching signature. Overloading is the same name with a different parameter list. @Override asks the compiler to check the intent."}]}</script>
 </section>
 <section class="lesson" id="polymorphism"><span class="tag">CONCEPT 2</span><h2>4. Polymorphism: one request, many behaviours</h2>
 <p>The word sounds intimidating, but the idea is simple. A variable declared as a parent type can refer to an object of a child type. When you call an overridden instance method, Java runs the implementation belonging to the actual object.</p>
@@ -108,6 +114,8 @@ for (Animal animal : animals) {
 }</code></pre>
 <p>The loop does not need a separate <code>if</code> statement for each animal. Each object supplies its own behaviour through the shared method.</p>
 <div class="note"><b>Important distinction:</b> the compiler checks what methods are available through the declared type, <code>Animal</code>. At runtime, Java chooses the overridden implementation for the actual object. A parent-typed variable cannot directly call a child-only method unless you use an appropriate design or cast safely.</div>
+
+<script type="application/json" class="section-mcq">{"title": "4. Polymorphism: one request, many behaviours", "questions": [{"q": "Animal first = new Dog(); and Dog overrides speak(). What runs for first.speak()?", "options": ["Animal's speak, because the variable says Animal", "Dog's speak, because the actual object is a Dog", "Both methods, one after another", "Nothing, because the variable type and object type differ"], "answer": 1, "explain": "The variable can have the parent type, but the actual object decides which overridden instance method runs."}]}</script>
 </section>
 <section class="lesson" id="polyLab"><span class="tag">INTERACTIVE LAB</span><h2>5. Animal sound lab</h2>
 <p>Select an animal and ask it to speak. Then use the “make all animals speak” button. This simulates the same common method call producing different behaviour.</p>
@@ -128,6 +136,8 @@ class Cat extends Animal {
     }
 }</code></pre>
 <p class="muted small">The playground is a browser simulation of the concept, not a Java compiler.</p>
+
+<script type="application/json" class="section-mcq">{"title": "5. Animal sound lab", "questions": [{"q": "The animal lab calls the same speak action for Dog, Cat, Bird, and Cow. What idea is that demonstrating?", "options": ["Each object can respond with its own sound through one kind of call", "Every animal must print the same text", "speak can be used only if it is static", "The lab compiles Java on a server"], "answer": 0, "explain": "One common call produces different behaviour based on the object. The page simulates that idea in the browser."}]}</script>
 </section>
 <section class="lesson" id="abstract"><span class="tag">CONCEPT 3A</span><h2>6. Abstract classes: a useful base that is not complete by itself</h2>
 <p>Sometimes you want to define what all related objects have in common, but the base class cannot sensibly implement every behaviour. Java lets you declare an <code>abstract</code> class.</p>
@@ -154,6 +164,8 @@ class Circle extends Shape {
 <div class="analogy"><strong>Analogy: a shape worksheet</strong><br>The worksheet says every shape should be able to report its area, but the formula depends on the shape. A circle uses π × radius²; a rectangle uses width × height. The abstract parent sets the expectation, and each concrete child supplies the formula.</div>
 <ul><li>An abstract class cannot be instantiated directly with <code>new Shape()</code>.</li><li>It can contain both abstract methods (no body) and concrete methods (with a body).</li><li>A concrete subclass must implement inherited abstract methods unless that subclass is also abstract.</li><li>An abstract class can have fields and constructors, which run as part of subclass construction.</li></ul>
 <div class="tip"><b>Use an abstract class when:</b> related classes share common state or implemented behaviour, and some behaviour must be supplied by each specific subclass.</div>
+
+<script type="application/json" class="section-mcq">{"title": "6. Abstract classes: a useful base that is not complete by itself", "questions": [{"q": "Why is Shape declared abstract in the lesson?", "options": ["So Shape can be created with new Shape() when it has no area formula", "The shared idea is useful, but a plain Shape cannot sensibly implement area", "abstract means the class cannot have any methods", "abstract replaces extends"], "answer": 1, "explain": "The parent requires area(), and each concrete shape supplies its own formula. An abstract class is not instantiated on its own."}]}</script>
 </section>
 <section class="lesson" id="interfaces"><span class="tag">CONCEPT 3B</span><h2>7. Interfaces: agree on a capability</h2>
 <p>An interface describes a contract: a set of operations that a class promises to provide. It is especially useful when different kinds of classes should support the same capability, even if they are not the same kind of thing.</p>
@@ -183,6 +195,8 @@ another.pay(125.00);</code></pre>
 <p>Both objects satisfy the <code>Payable</code> contract. The caller can depend on the interface rather than hard-coding one payment class.</p>
 <h3>Abstract class or interface?</h3><div class="table-wrap"><table><thead><tr><th>Abstract class</th><th>Interface</th></tr></thead><tbody><tr><td>Useful for a related family sharing state and implementation.</td><td>Useful for defining a capability or contract across potentially unrelated classes.</td></tr><tr><td>A class can extend only one class.</td><td>A class can implement multiple interfaces.</td></tr><tr><td>Can have instance fields and constructors.</td><td>Cannot be instantiated; fields declared in interfaces are implicitly public, static, and final. Interfaces can have abstract, default, static, and private methods under Java's rules.</td></tr></tbody></table></div>
 <div class="note">Beginner rule of thumb: choose an abstract class for a shared foundation; choose an interface for a capability that different classes can promise to provide. They can also be used together.</div>
+
+<script type="application/json" class="section-mcq">{"title": "7. Interfaces: agree on a capability", "questions": [{"q": "CardPayment and WalletPayment both implement Payable. What do they share?", "options": ["They must both provide pay, even though they are not the same kind of object", "They must extend the same concrete class and cannot add other methods", "implements means the same thing as extends", "They share one balance field automatically"], "answer": 0, "explain": "An interface is a capability contract. Different classes can implement pay without being the same kind of thing."}]}</script>
 </section>
 <section class="lesson" id="compare"><span class="tag">PUT THE IDEAS TOGETHER</span><h2>8. One scenario, three ideas</h2>
 <p>Imagine a delivery app with different delivery methods.</p>
@@ -202,11 +216,15 @@ class VanDelivery extends Delivery {
 Delivery job = new BikeDelivery();
 System.out.println(job.estimateTime()); // 25</code></pre>
 <p>The declared type, <code>Delivery</code>, tells the compiler which operation is available. The actual object, <code>BikeDelivery</code>, determines the overridden implementation at runtime.</p>
+
+<script type="application/json" class="section-mcq">{"title": "8. One scenario, three ideas", "questions": [{"q": "In the delivery story, BikeDelivery and VanDelivery each provide estimateTime(). A Delivery reference is used to call it. Which idea is that?", "options": ["Polymorphism", "Only file input", "Replacing a method by changing its return type alone", "A Set of delivery ids"], "answer": 0, "explain": "The shared reference type is Delivery, and each actual object supplies its own estimate. That is polymorphism on an inherited method."}]}</script>
 </section>
 <section class="lesson" id="design"><span class="tag">GOOD DESIGN</span><h2>9. Design rules and common mistakes</h2>
 <ul><li><b>Use inheritance for a genuine “is-a” relationship.</b> A Dog is an Animal. A Car is a Vehicle. A Car is not an Engine; it has an Engine, which is a different relationship.</li><li><b>Prefer composition when one thing has another thing.</b> “Car has an Engine” is usually better modelled by a field that refers to an Engine object.</li><li><b>Use <code>@Override</code>.</b> It helps the compiler catch accidental signature mistakes.</li><li><b>Depend on abstractions when useful.</b> Accepting an interface type can make code work with several implementations.</li><li><b>Do not force every difference into inheritance.</b> Deep, complicated class hierarchies are difficult to change. Use the simplest design that expresses the domain.</li></ul>
 <div class="analogy"><strong>Analogy: is-a vs has-a</strong><br>A Labrador <b>is an</b> Animal, so inheritance may fit. A Car <b>has an</b> Engine, so composition fits. If you say “Car extends Engine,” the model is probably wrong: a car is not a kind of engine.</div>
 <div class="warning"><b>Frequent beginner mistakes:</b> trying to instantiate an abstract class; forgetting to implement an abstract method; assuming private parent fields are directly accessible; confusing overloading with overriding; or assuming the variable's declared type always determines which overridden method runs.</div>
+
+<script type="application/json" class="section-mcq">{"title": "9. Design rules and common mistakes", "questions": [{"q": "\"A car has an engine.\" How does the lesson say to model that?", "options": ["class Car extends Engine", "Give Car a field that refers to an Engine", "Make Engine an abstract method of Car", "Implement Car on the Engine interface automatically"], "answer": 1, "explain": "Has-a is composition: the car refers to an engine. extends is for a genuine is-a relationship, such as Dog is an Animal."}]}</script>
 </section>
 <section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>10. Practice problems</h2><p>Try each question before revealing the explanation.</p>
 <div class="question"><p>1. In <code>class Dog extends Animal</code>, which is the parent class?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>Animal</code> is the parent/superclass; <code>Dog</code> is the child/subclass.</div></div>
@@ -217,6 +235,8 @@ System.out.println(job.estimateTime()); // 25</code></pre>
 <div class="question"><p>6. When might an interface be better than an abstract class?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">When different classes need to promise the same capability without necessarily sharing a common parent class or common instance state.</div></div>
 <div class="question"><p>7. A Car has an Engine. Is that usually inheritance or composition?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Composition. A car has an engine; it is not a kind of engine.</div></div>
 <div class="question"><p>8. Why add <code>@Override</code> above a method?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It documents the intent and asks the compiler to verify that the method actually overrides an inherited method.</div></div>
+
+<script type="application/json" class="section-mcq">{"title": "10. Practice problems", "questions": [{"q": "Which keyword declares that Dog inherits from Animal?", "options": ["implements", "extends", "static", "new"], "answer": 1, "explain": "extends declares class inheritance. implements is used when a class agrees to an interface."}]}</script>
 </section>
 <section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>11. Quick quiz</h2><p>Choose one answer for each question, then check your score.</p>
 <form id="quizForm">
@@ -244,4 +264,5 @@ const correct={q1:'b',q2:'c',q3:'a',q4:'b',q5:'c',q6:'a'};
 document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Excellent! You understand the core OOP ideas.':score>=4?'Good work. Review the questions you missed.':'Revisit inheritance, polymorphism, and abstraction, then try again.');out.className='output '+(score>=4?'good':'bad')};
 document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
 </script>
+<script src="section-mcq.js"></script>
 </body></html>
