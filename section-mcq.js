@@ -5,15 +5,19 @@
 
   var LETTERS = ["A", "B", "C", "D"];
 
-  function boot() {
+  function boot(root) {
     injectStyles();
-    var scripts = Array.prototype.slice.call(document.querySelectorAll("script.section-mcq"));
+    var scope = root && root.querySelectorAll ? root : document;
+    var scripts = Array.prototype.slice.call(scope.querySelectorAll("script.section-mcq")).filter(function (script) {
+      return script.dataset.mcqMounted !== "1";
+    });
+    scripts.forEach(function (script) { script.dataset.mcqMounted = "1"; });
     if (!scripts.length) return;
     var blocks = scripts.map(function (script, index) {
       return mountBlock(script, index);
     }).filter(Boolean);
     if (!blocks.length) return;
-    var summary = mountSummary();
+    var summary = mountSummary(scope);
     function refresh() {
       paintSummary(summary, blocks);
     }
@@ -52,12 +56,18 @@
     meter.appendChild(meterFill);
     var hint = document.createElement("p");
     hint.className = "mcq-hint";
-    hint.textContent = data.questions.length > 10
-      ? "This section has " + data.questions.length + " questions, shown 10 at a time. Choose an answer, or change it, and the feedback updates straight away."
-      : "Choose one answer. You can change it, and the feedback updates straight away.";
+    hint.textContent = (data.questions.length > 10
+      ? "This section has " + data.questions.length + " questions, shown 10 at a time. "
+      : "") + "Theory checks the idea. Practice asks you to use it. Choose an answer, or change it, and the feedback updates straight away.";
     head.appendChild(title);
     head.appendChild(progress);
     head.appendChild(meter);
+    if (data.teach) {
+      var teach = document.createElement("p");
+      teach.className = "mcq-teach";
+      teach.textContent = data.teach;
+      head.appendChild(teach);
+    }
     head.appendChild(hint);
     block.appendChild(head);
 
@@ -149,10 +159,11 @@
       var prompt = document.createElement("p");
       prompt.className = "mcq-prompt";
       prompt.id = "mcq-p-" + blockIndex + "-" + qIndex;
-      if (question.debug) {
+      var kind = question.debug ? "debug" : (question.kind || "");
+      if (kind === "theory" || kind === "practice" || kind === "debug") {
         var tag = document.createElement("span");
-        tag.className = "mcq-tag";
-        tag.textContent = "Debugging";
+        tag.className = "mcq-tag " + kind;
+        tag.textContent = kind === "theory" ? "Theory" : kind === "practice" ? "Practice" : "Debugging";
         prompt.appendChild(tag);
         prompt.appendChild(document.createTextNode(" "));
       }
@@ -249,7 +260,7 @@
     }
   }
 
-  function mountSummary() {
+  function mountSummary(scope) {
     var summary = document.createElement("section");
     summary.className = "mcq-page-summary";
     summary.setAttribute("aria-label", "Score summary for this page");
@@ -263,7 +274,9 @@
     summary.appendChild(sub);
     summary.appendChild(list);
 
-    var host = document.querySelector("section.content") || document.querySelector("main") || document.body;
+    var host = scope && scope !== document
+      ? scope
+      : (document.querySelector("section.content") || document.querySelector("main") || document.body);
     var before = null;
     Array.prototype.forEach.call(host.children, function (child) {
       if (before || !child.classList) return;
@@ -317,7 +330,12 @@
       ".mcq-meter span{display:block;height:100%;width:0;background:#13795b;border-radius:99px;transition:width .2s ease}",
       ".mcq-q{margin:14px 0;padding-top:12px;border-top:1px solid var(--mcq-line)}",
       ".mcq-prompt{margin:0 0 8px;font-weight:700;line-height:1.45}",
+      ".mcq-teach{margin:8px 0 0;line-height:1.45}",
       ".mcq-tag{display:inline-block;margin-right:4px;padding:1px 8px;border-radius:99px;background:#fff2df;color:#8a4b08;font-size:.72rem;font-weight:800;letter-spacing:.03em;vertical-align:1px}",
+      ".mcq-tag.theory{background:#eaf0ff;color:#2457d6}",
+      ".mcq-tag.practice{background:#e7f7ef;color:#0f5c3e}",
+      "a.quiz-menu{display:flex;align-items:center;gap:8px;margin:12px 0 0;padding:10px 12px;border-radius:12px;background:#eaf0ff;color:#2457d6;font-weight:750;text-decoration:none}",
+      "a.quiz-menu:hover{background:#d6e2ff}",
       ".mcq-code{margin:8px 0;padding:12px 14px;overflow:auto;border-radius:12px;background:#111827;color:#e8eef9;font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}",
       ".mcq-options{display:grid;gap:8px}",
       ".mcq-option{display:flex;align-items:flex-start;gap:10px;width:100%;margin:0;padding:10px 12px;border:2px solid #d5dfec;border-radius:12px;background:#fff;color:var(--mcq-ink);font:inherit;font-weight:600;line-height:1.4;text-align:left;cursor:pointer}",
@@ -348,6 +366,7 @@
     document.head.appendChild(style);
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { boot(document); });
+  else boot(document);
+  window.SectionMCQ = { boot: boot };
 })();
