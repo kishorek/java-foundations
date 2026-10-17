@@ -52,7 +52,9 @@
     meter.appendChild(meterFill);
     var hint = document.createElement("p");
     hint.className = "mcq-hint";
-    hint.textContent = "Choose one answer. You can change it, and the feedback updates straight away.";
+    hint.textContent = data.questions.length > 10
+      ? "This section has " + data.questions.length + " questions, shown 10 at a time. Choose an answer, or change it, and the feedback updates straight away."
+      : "Choose one answer. You can change it, and the feedback updates straight away.";
     head.appendChild(title);
     head.appendChild(progress);
     head.appendChild(meter);
@@ -66,9 +68,52 @@
       paintProgress: function () { paintProgress(); }
     };
 
-    data.questions.forEach(function (question, qIndex) {
-      block.appendChild(renderQuestion(question, qIndex, index, state, api));
+    var pager = null;
+    var pageLabel = null;
+    var prevBtn = null;
+    var nextBtn = null;
+    var page = 0;
+    var pageSize = 10;
+    if (data.questions.length > pageSize) {
+      pager = document.createElement("div");
+      pager.className = "mcq-pager";
+      prevBtn = document.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.textContent = "Previous 10";
+      pageLabel = document.createElement("span");
+      nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.textContent = "Next 10";
+      pager.appendChild(prevBtn);
+      pager.appendChild(pageLabel);
+      pager.appendChild(nextBtn);
+      block.appendChild(pager);
+    }
+
+    var questionNodes = data.questions.map(function (question, qIndex) {
+      var node = renderQuestion(question, qIndex, index, state, api);
+      block.appendChild(node);
+      return node;
     });
+
+    function showPage() {
+      if (!pager) return;
+      var last = Math.max(0, Math.ceil(questionNodes.length / pageSize) - 1);
+      if (page > last) page = last;
+      questionNodes.forEach(function (node, qIndex) {
+        node.hidden = Math.floor(qIndex / pageSize) !== page;
+      });
+      var start = page * pageSize + 1;
+      var end = Math.min(questionNodes.length, (page + 1) * pageSize);
+      pageLabel.textContent = "Questions " + start + "–" + end + " of " + questionNodes.length;
+      prevBtn.disabled = page === 0;
+      nextBtn.disabled = page === last;
+    }
+    if (pager) {
+      prevBtn.addEventListener("click", function () { page -= 1; showPage(); });
+      nextBtn.addEventListener("click", function () { page += 1; showPage(); });
+      showPage();
+    }
 
     script.insertAdjacentElement("afterend", block);
 
@@ -262,6 +307,12 @@
       ".mcq-title{margin:0 0 4px;font-size:1.05rem;line-height:1.3;color:var(--mcq-ink)}",
       ".mcq-progress{margin:0;font-size:.92rem;font-weight:700;color:var(--mcq-blue)}",
       ".mcq-hint{margin:6px 0 0;font-size:.88rem;color:var(--mcq-muted)}",
+      ".mcq-pager{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 4px}",
+      ".mcq-pager button{border:1px solid var(--mcq-line);background:#fff;color:var(--mcq-ink);border-radius:10px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}",
+      ".mcq-pager button:hover{border-color:#9db4e4;background:#f3f7ff}",
+      ".mcq-pager button:disabled{opacity:.45;cursor:default}",
+      ".mcq-pager span{font-size:.9rem;font-weight:700;text-align:center}",
+      ".mcq-q[hidden]{display:none}",
       ".mcq-meter{height:7px;margin-top:8px;background:#e6edf6;border-radius:99px;overflow:hidden}",
       ".mcq-meter span{display:block;height:100%;width:0;background:#13795b;border-radius:99px;transition:width .2s ease}",
       ".mcq-q{margin:14px 0;padding-top:12px;border-top:1px solid var(--mcq-line)}",
