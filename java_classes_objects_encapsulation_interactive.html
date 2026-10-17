@@ -32,6 +32,8 @@ int student2Age = 15;</code></pre>
 <div class="analogy"><strong>Analogy: a cookie cutter</strong><br>A class is like a cookie cutter or a product design. It describes what each cookie should look like. An object is one actual cookie made from that cutter. One class can create many objects, and each object can have its own data.</div>
 <div class="demo-grid"><div class="demo-box"><h3>Blueprint: Student</h3><ul><li>name</li><li>age</li><li>introduce yourself</li></ul><p class="muted small">The description of what a Student has and can do.</p></div><div class="demo-box"><h3>Objects made from it</h3><ul><li>Maya, age 14</li><li>Arun, age 15</li><li>Kavi, age 14</li></ul><p class="muted small">Separate instances, each with its own values.</p></div></div>
 <div class="tip"><b>Core idea:</b> a class groups related state (data) and behaviour (methods). An object is a particular instance of that class.</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. Why do we need classes?", "questions": [{"q": "Why does the lesson introduce a Student class instead of student1Name and student2Name?", "options": ["Java allows only one variable per program", "Related data and actions can be grouped instead of kept as a long list of separate variables", "A class prints faster than a variable", "Names cannot be stored in Strings"], "answer": 1, "explain": "Separate variables become hard to organise as the number of students grows. A class groups the data and the actions that belong together."}]}</script>
 </section>
 <section class="lesson" id="class"><span class="tag">BLUEPRINT VS THING</span><h2>2. Class vs object</h2>
 <p>Let's define a simple <code>Dog</code> class. It says every Dog object will have a name and can bark.</p>
@@ -57,6 +59,8 @@ secondDog.bark(); // Chutney says woof!</code></pre>
 <div class="note"><b>Useful wording:</b> a variable such as <code>firstDog</code> holds a reference to an object. For now, think of it as a label that lets your code reach that object.</div>
 <h3>Interactive: create a few students</h3><div class="demo-box"><div class="row"><label class="field" style="flex:1">Student name<input id="studentName" value="Maya" placeholder="Name"></label><label class="field" style="flex:1">Age<input id="studentAge" type="number" value="14" min="1" max="120"></label><button class="btn" id="addStudent">Create object</button></div><div class="output" id="studentOutput">No student objects created yet.</div></div>
 <p class="muted small">This browser demo imitates objects conceptually. It does not compile Java.</p>
+
+<script type="application/json" class="section-mcq">{"title": "2. Class vs object", "questions": [{"q": "In the house-plan analogy, what is one Dog object?", "options": ["The architectural plan", "One house built from the plan", "The keyword class", "A method shared by every program"], "answer": 1, "explain": "The class is the plan. Each object built with new is a particular house, with its own field values."}]}</script>
 </section>
 <section class="lesson" id="fields"><span class="tag">STATE + BEHAVIOUR</span><h2>3. Fields and methods</h2>
 <p>A class commonly contains two kinds of members:</p>
@@ -84,6 +88,8 @@ Calculator calc = new Calculator();
 int answer = calc.add(7, 5); // 12</code></pre>
 <p><code>int</code> before <code>add</code> says the method returns an integer. The names inside the parentheses are parameters. <code>return</code> sends the answer back to the caller.</p>
 <div class="warning"><b>Beginner pitfall:</b> <code>void</code> means the method does not return a value. It can still do something, such as print a message or change an object's state.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. Fields and methods", "questions": [{"q": "In the Lamp example, what is isOn?", "options": ["A field that stores state", "A constructor", "A local variable that disappears before the object exists", "The name of the class"], "answer": 0, "explain": "Fields store state, such as colour and whether the lamp is on. turnOn and turnOff are methods: the actions the lamp can perform."}]}</script>
 </section>
 <section class="lesson" id="constructors"><span class="tag">SET UP A NEW OBJECT</span><h2>4. Constructors: give an object its starting values</h2>
 <p>You can create an object and then assign fields, but it is easy to forget a step. A constructor lets the object receive the information it needs when it is created.</p>
@@ -115,6 +121,8 @@ Student arun = new Student("Arun", 15);</code></pre>
     }
 }</code></pre>
 <div class="note"><b>Default constructor note:</b> if you write no constructor at all, Java provides a no-argument default constructor. Once you define a constructor yourself, Java does not automatically add that default constructor for you.</div>
+
+<script type="application/json" class="section-mcq">{"title": "4. Constructors: give an object its starting values", "questions": [{"q": "What is wrong with this Student setup?", "options": ["A constructor is not allowed to assign a field", "void makes this a method; a constructor has no return type", "The parameter name must not match the field", "this always refers to the class named String"], "answer": 1, "explain": "A constructor uses the class name and has no return type, not even void. With void, this is an ordinary method and new Student(\"Maya\") will not call it as a constructor.", "code": "class Student {\n    String name;\n    void Student(String name) {\n        this.name = name;\n    }\n}", "fix": "class Student {\n    String name;\n    Student(String name) {\n        this.name = name;\n    }\n}", "debug": true}]}</script>
 </section>
 <section class="lesson" id="this"><span class="tag">A USEFUL KEYWORD</span><h2>5. What does <code>this</code> mean?</h2>
 <p>Inside an instance method or constructor, <code>this</code> refers to the current object: the particular object whose code is running.</p>
@@ -129,6 +137,8 @@ Student arun = new Student("Arun", 15);</code></pre>
 <div class="analogy"><strong>Analogy: “my name”</strong><br>Imagine two students answering a roll call. When Maya says “my name,” she means Maya's name. When Arun says “my name,” he means Arun's name. <code>this</code> means “this particular object here.”</div>
 <p>Read the assignment from right to left in plain English: take the incoming parameter <code>name</code> and store it in this object's field <code>this.name</code>.</p>
 <div class="tip">You will often see <code>this.field = field;</code> in constructors. It is a naming convention, not a mandatory pattern; you can choose different parameter names.</div>
+
+<script type="application/json" class="section-mcq">{"title": "5. What does this mean?", "questions": [{"q": "In this.name = name; inside a constructor, what is this.name?", "options": ["The parameter that was just passed in", "The field belonging to the current object", "The class name", "A static count of students"], "answer": 1, "explain": "The parameter name is the incoming value. this.name is the field of the particular object being initialised."}]}</script>
 </section>
 <section class="lesson" id="encapsulation"><span class="tag">PROTECT THE DATA</span><h2>6. Encapsulation: keep the rules close to the data</h2>
 <p>Suppose a bank account has a balance. If every part of a program can change that balance directly, a careless line might set it to a negative value or accidentally overwrite it.</p>
@@ -174,6 +184,8 @@ class BankAccount {
 <ul><li><code>private</code> means code outside the class cannot access the field directly.</li><li><code>public</code> means other code can call that method, subject to the method's rules.</li><li><code>getBalance()</code> provides controlled read access.</li><li><code>deposit()</code> and <code>withdraw()</code> validate requests before changing the balance.</li></ul>
 <div class="tip"><b>Encapsulation is more than getters and setters.</b> The key idea is to hide internal details and offer safe operations that preserve the object's rules. A public setter that accepts any value can defeat the purpose.</div>
 <h3>Access modifier cheat sheet</h3><div class="table-wrap"><table><thead><tr><th>Modifier</th><th>Beginner interpretation</th></tr></thead><tbody><tr><td><code>private</code></td><td>Accessible only within the declaring class.</td></tr><tr><td><code>public</code></td><td>Accessible from anywhere the class/member is otherwise accessible.</td></tr><tr><td>No modifier</td><td>Package-private: accessible within the same package.</td></tr><tr><td><code>protected</code></td><td>Accessible within the same package and also in subclasses under Java's protected-access rules.</td></tr></tbody></table></div>
+
+<script type="application/json" class="section-mcq">{"title": "6. Encapsulation: keep the rules close to the data", "questions": [{"q": "Why is a bank account's balance kept private in the lesson?", "options": ["private makes the field static", "Callers must use methods such as deposit and withdraw, which can enforce the rules", "private deletes the balance", "A private field can be changed from any class"], "answer": 1, "explain": "If balance were public, a caller could set it to a negative number directly. Encapsulation keeps the rules with the data."}]}</script>
 </section>
 <section class="lesson" id="lab"><span class="tag">BUILD A MINI OBJECT</span><h2>7. Interactive bank account simulator</h2>
 <p>Let's model the behaviour of our encapsulated bank account. Start with ₹1,000, then deposit or withdraw. Try a negative deposit or a withdrawal larger than the balance and observe the validation.</p>
@@ -185,6 +197,8 @@ boolean success = account.withdraw(100);
 System.out.println(account.getBalance()); // 1150.0</code></pre>
 <p>Notice there is no <code>account.balance = ...</code>. The field is private, so callers must use the class's public operations. This keeps the account's rules in one place.</p>
 <div class="warning"><b>Money in real systems:</b> <code>double</code> is used here to keep the lesson focused on objects. Financial applications commonly use <code>BigDecimal</code> or integer minor units (such as paise) to avoid floating-point rounding surprises.</div>
+
+<script type="application/json" class="section-mcq">{"title": "7. Interactive bank account simulator", "questions": [{"q": "The account starts at 1000, then deposit(250) and a successful withdraw(100) run. What is the balance?", "options": ["1000", "1150", "900", "250"], "answer": 1, "explain": "1000 + 250 is 1250, and withdrawing 100 leaves 1150. Callers use the methods; they do not assign the private field."}]}</script>
 </section>
 <section class="lesson" id="static"><span class="tag">ONE CLASS, SHARED INFORMATION</span><h2>8. Instance members vs <code>static</code></h2>
 <p>Most fields belong to each individual object. A <code>static</code> member belongs to the class itself and is shared at class level.</p>
@@ -204,6 +218,8 @@ System.out.println(Player.playerCount); // 2</code></pre>
 <div class="analogy"><strong>Analogy: classroom desks and the classroom sign</strong><br>Each student has their own desk (instance data). The classroom has one room number shared by everyone (class-level data). Static members are shared, rather than copied independently into each object.</div>
 <ul><li>Use instance fields for per-object data, such as each player's name.</li><li>Use static fields for information shared by the class, such as a counter.</li><li>Access a static member through the class name, such as <code>Player.playerCount</code>.</li></ul>
 <div class="warning"><b>Common mistake:</b> a static method has no current object, so it cannot directly use an instance field like <code>name</code> without an object reference.</div>
+
+<script type="application/json" class="section-mcq">{"title": "8. Instance members vs static", "questions": [{"q": "Two Player objects are created and playerCount is static. What does Player.playerCount report in the example?", "options": ["A separate count inside each player, both equal to 0", "2, because the shared count increased for each new player", "The name of the first player", "null"], "answer": 1, "explain": "Each player has an individual name. The static playerCount belongs to the class and is shared, so two constructions make it 2."}]}</script>
 </section>
 <section class="lesson" id="design"><span class="tag">GOOD CLASS DESIGN</span><h2>9. A few habits that make classes easier to use</h2>
 <ul><li><b>Use meaningful names.</b> Class names usually use PascalCase, such as <code>BankAccount</code>; method and variable names usually use camelCase, such as <code>getBalance</code>.</li><li><b>Keep fields private by default.</b> Expose only the operations other code actually needs.</li><li><b>Keep an object's rules in the class.</b> If a balance must not become negative, make deposit and withdrawal enforce that rule.</li><li><b>Construct valid objects.</b> Use constructors to check required information and initialise fields.</li><li><b>Keep one class focused.</b> A <code>Student</code> class should not also send emails, render web pages, and connect to every database.</li></ul>
@@ -212,6 +228,8 @@ System.out.println(Player.playerCount); // 2</code></pre>
 public void deposit(double amount) {
     // validate, then update
 }</code></pre><p>The class controls changes.</p></div></div><p><b>Better choice:</b> Design B, because it protects the object's invariant (a rule that should always remain true).</p>
+
+<script type="application/json" class="section-mcq">{"title": "9. A few habits that make classes easier to use", "questions": [{"q": "Which habit matches the lesson's design advice?", "options": ["Keep fields public so every class can adjust them", "Keep fields private by default and put the object's rules in its methods", "Give one class every job, including email, web pages, and databases", "Skip constructors so objects start with whatever values callers remember to set"], "answer": 1, "explain": "The lesson keeps fields private, exposes the operations callers need, and uses constructors to start objects in a valid state."}]}</script>
 </section>
 <section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>10. Practice problems</h2><p>Try each problem before revealing the explanation.</p>
 <div class="question"><p>1. In your own words, what is the difference between a class and an object?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">A class is a blueprint describing fields and methods. An object is a particular instance created from that blueprint.</div></div>
@@ -222,6 +240,8 @@ public void deposit(double amount) {
 <div class="question"><p>6. Does <code>void turnOn()</code> return a value?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">No. It can perform an action or change state, but it does not return a result to the caller.</div></div>
 <div class="question"><p>7. What is one difference between an instance field and a static field?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Each object has its own instance field. A static field belongs to the class and is shared at class level.</div></div>
 <div class="question"><p>8. Why is a public setter that accepts any balance value not enough for encapsulation?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It still lets callers violate the account's rules. Encapsulation requires controlled operations and validation, not merely getters and setters.</div></div>
+
+<script type="application/json" class="section-mcq">{"title": "10. Practice problems", "questions": [{"q": "What does new Student(\"Maya\", 14) do?", "options": ["Declares a class named Maya", "Creates a Student and passes those values to the matching constructor", "Compares Maya with 14", "Calls a static method named new"], "answer": 1, "explain": "new creates an object. The arguments are handed to the Student constructor that takes a name and an age."}]}</script>
 </section>
 <section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>11. Quick quiz</h2><p>Choose one answer per question, then check your score.</p>
 <form id="quizForm">
@@ -252,4 +272,5 @@ const correct={q1:'b',q2:'a',q3:'c',q4:'a',q5:'b',q6:'c'};
 document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Excellent! You understand the foundations.':score>=4?'Good work. Review the questions you missed.':'Revisit the class/object and encapsulation examples, then try again.');out.className='output '+(score>=4?'good':'bad')};
 document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
 </script>
+<script src="section-mcq.js"></script>
 </body></html>

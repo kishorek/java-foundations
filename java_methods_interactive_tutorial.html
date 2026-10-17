@@ -39,6 +39,8 @@ sayHello();</div>
 Hello!</div>
 <div class="callout success"><strong>Remember:</strong> defining a method describes what it should do. Calling a method asks Java to run those instructions. Defining it alone does not run it.</div>
 <h3>Try it</h3><p>Click the button to simulate calling <code>sayHello()</code> more than once.</p><div class="controls"><button class="btn" id="greetOne">Call once</button><button class="btn secondary" id="greetThree">Call three times</button><button class="btn secondary" id="clearGreet">Clear</button></div><div class="result" id="greetOut">Output will appear here.</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. What is a method?", "questions": [{"q": "What is a method?", "options": ["A named group of instructions you can call when that task is needed", "A value stored in an int", "Only the main class name", "A comment that replaces repeated code"], "answer": 0, "explain": "A method stores a task under a name. Calling the name runs those instructions, so the same steps do not have to be copied in several places."}]}</script>
 </article>
 <article class="panel">
 <h2>2. Create and call a method</h2><p class="lead">A basic method has a name, a body, and a return type. A method call uses the name followed by parentheses.</p>
@@ -57,6 +59,8 @@ Hello!</div>
 <div class="callout warn"><strong>Important:</strong> in ordinary Java code, a method must be declared inside a class. It cannot be placed directly inside another method.</div>
 <h3>Call order simulator</h3><p>Choose the call order. Watch how the instructions run in sequence.</p><div class="pillrow"><button class="pill active" data-order="A">A then B</button><button class="pill" data-order="B">B then A</button><button class="pill" data-order="C">A, B, A</button></div><div class="code" id="orderCode">printStart();
 printEnd();</div><div class="controls"><button class="btn" id="runOrder">Run sequence</button></div><div class="result" id="orderOut">The output will appear here.</div>
+
+<script type="application/json" class="section-mcq">{"title": "2. Create and call a method", "questions": [{"q": "What does void say about sayHello in the lesson?", "options": ["The method returns an int", "The method does not send a value back to the caller", "The method runs automatically at startup", "The method cannot be called"], "answer": 1, "explain": "void means there is no returned value. The method can still print or do other work. A call uses the name followed by parentheses."}]}</script>
 </article>
 <article class="panel">
 <h2>3. Parameters: give a method information</h2><p class="lead">Parameters are named inputs listed in a method definition. Arguments are the actual values supplied when calling it.</p>
@@ -75,6 +79,8 @@ greet(<span class="str">"Ravi"</span>);  <span class="comment">// argument: "Rav
 introduce(<span class="str">"Maya"</span>, <span class="num">14</span>);</div>
 <div class="callout success">The argument order and types must match the method's parameter list. Here, the first argument is a <code>String</code> and the second is an <code>int</code>.</div>
 <h3>Try two inputs</h3><div class="grid2"><div><label for="studentName">Student name</label><input id="studentName" value="Maya" maxlength="35"></div><div><label for="studentAge">Age</label><input id="studentAge" type="number" value="14" min="0" max="120"></div></div><button class="btn" id="runIntro">Run introduce(name, age)</button><div class="result" id="introOut">Output will appear here.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. Parameters: give a method information", "questions": [{"q": "In greet(\"Anu\"), what is \"Anu\"?", "options": ["The return type", "The argument supplied at the call", "A local variable in main that greet cannot receive", "The method name"], "answer": 1, "explain": "The parameter is the named input in the definition, such as String name. The argument is the actual value passed in the call, here \"Anu\"."}, {"q": "Which call matches introduce(String name, int age)?", "options": ["introduce(\"Ravi\", 15)", "introduce(15)", "introduce(15, \"Ravi\")", "introduce()"], "answer": 0, "explain": "The call needs two arguments in the same order as the parameters: a String first and an int second."}]}</script>
 </article>
 <article class="panel">
 <h2>4. Return values: get a result back</h2><p class="lead">A method can calculate or find something and return the result to the code that called it.</p>
@@ -89,6 +95,8 @@ System.out.println(total); <span class="comment">// 10</span></div>
 <h3>Return type must match the returned value</h3><div class="grid2"><div class="mini"><strong><code>int</code></strong><p>Returns a whole number, such as <code>return 42;</code></p></div><div class="mini"><strong><code>String</code></strong><p>Returns text, such as <code>return "Done";</code></p></div><div class="mini"><strong><code>boolean</code></strong><p>Returns <code>true</code> or <code>false</code>.</p></div><div class="mini"><strong><code>void</code></strong><p>Returns no value. Use it for actions that do not need to hand back a result.</p></div></div>
 <div class="callout warn"><strong>Do not confuse these:</strong> <code>System.out.println(value)</code> displays a value on the screen. <code>return value;</code> sends a value back to the caller. They are not interchangeable.</div>
 <h3>What does return do?</h3><p>When Java reaches a <code>return</code> statement, it sends the result back and exits that method. Statements after that return in the same path do not run.</p>
+
+<script type="application/json" class="section-mcq">{"title": "4. Return values: get a result back", "questions": [{"q": "What does return a + b; do in static int add(int a, int b)?", "options": ["Prints the sum and clears the variables", "Sends the sum back to the caller", "Creates an overloaded method", "Ends the whole program"], "answer": 1, "explain": "return passes the result back, where the caller can store or print it. The return type int matches a whole-number sum."}, {"q": "What does this method need in order to compile and return the sum?", "options": ["A print statement instead of total", "return total; before the closing brace", "The name add changed to main", "Both parameters removed"], "answer": 1, "explain": "The method promises to return an int, but it never returns total. return total; sends that value back to the caller.", "code": "static int add(int a, int b) {\n    int total = a + b;\n}", "fix": "static int add(int a, int b) {\n    int total = a + b;\n    return total;\n}", "debug": true}]}</script>
 </article>
 <article class="panel">
 <h2>5. Overloading and local variables</h2><p class="lead">Java lets you create methods with the same name when their parameter lists differ. This is called method overloading.</p>
@@ -113,6 +121,8 @@ add(<span class="num">2</span>, <span class="num">3</span>, <span class="num">4<
 <span class="comment">// score cannot be used here</span></div>
 <p>A local variable belongs to the block where it is declared. Another method cannot directly use that local variable. If another method needs the value, pass it as an argument or return it.</p>
 <div class="callout success"><strong>Good method design:</strong> use a clear verb phrase such as <code>calculateTax</code>, <code>findMaximum</code>, or <code>printReceipt</code>. Keep each method focused on one job.</div>
+
+<script type="application/json" class="section-mcq">{"title": "5. Overloading and local variables", "questions": [{"q": "Which pair can be overloaded together?", "options": ["static int add(int a, int b) and static int add(int a, int b, int c)", "static int add(int a, int b) and static double add(int a, int b)", "Two methods whose only difference is a comment", "Two methods with the same name and the same parameter list"], "answer": 0, "explain": "Overloading uses the same name with different parameter lists. Changing only the return type does not let Java tell the methods apart."}, {"q": "A local variable score is declared inside one method. What is true of it?", "options": ["Every method in the class can use score directly", "It belongs to that block; another method needs it passed or returned", "It is the same as a class name", "It keeps running after the method ends and is public"], "answer": 1, "explain": "A local variable belongs to the block where it is declared. Another method does not see it unless the value is passed as an argument or returned."}]}</script>
 </article>
 <article class="panel">
 <h2>6. Practice lab</h2><p class="lead">Use this mini lab to decide what kind of method a task needs. The output is simulated in this page to help you understand the idea; it does not compile Java on a server.</p>
@@ -126,6 +136,8 @@ add(<span class="num">2</span>, <span class="num">3</span>, <span class="num">4<
 <div class="code"><span class="kw">static boolean</span> isEven(int number) {
     <span class="kw">return</span> number % <span class="num">2</span> == <span class="num">0</span>;
 }</div><div class="controls"><div><label for="evenNumber">Test a number</label><input id="evenNumber" type="number" value="8"></div><button class="btn" id="runEven">Run isEven(number)</button></div><div class="result" id="evenOut">Result will appear here.</div>
+
+<script type="application/json" class="section-mcq">{"title": "6. Practice lab", "questions": [{"q": "A task needs a width and a height and must give back the area. Which signature fits?", "options": ["static void area()", "static int area(int width, int height)", "static int area(String width)", "static void area(int width, int height) if the caller must receive the number"], "answer": 1, "explain": "Two numeric inputs belong in the parameter list, and a returned area needs a numeric return type such as int. void does not give the number back."}]}</script>
 </article>
 <article class="panel">
 <h2>7. Quick quiz</h2><p class="lead">Check whether the main ideas have clicked. Choose one answer per question, then check your score.</p><div id="quiz"></div><button class="btn" id="submitQuiz">Check my answers</button> <button class="btn secondary" id="resetQuiz">Try again</button><div class="callout hidden" id="quizScore"></div>
@@ -156,4 +168,5 @@ const questions=[
 const quiz=document.getElementById('quiz');questions.forEach((q,i)=>{let div=document.createElement('div');div.className='quizq';div.innerHTML=`<strong>${i+1}. ${q.q}</strong><div>${q.a.map((a,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"><span>${a}</span></label>`).join('')}</div><div class="feedback hidden" id="qfeedback${i}"></div>`;quiz.appendChild(div)});
 document.getElementById('submitQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let chosen=document.querySelector(`input[name="q${i}"]:checked`),fb=document.getElementById('qfeedback'+i);fb.classList.remove('hidden');if(chosen&&+chosen.value===q.c){score++;fb.textContent='Correct. '+q.e;fb.style.color='#13795b'}else{fb.textContent='Review: '+q.e;fb.style.color='#a95609'}});let box=document.getElementById('quizScore');box.classList.remove('hidden');box.className='callout '+(score>=4?'success':'warn');box.textContent=`Your score: ${score} / ${questions.length}. `+(score===5?'Excellent. You have the core concepts.':score>=3?'Good progress. Review the explanations above and try again.':'Revisit the lessons, then try again.')};
 document.getElementById('resetQuiz').onclick=()=>{document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);questions.forEach((q,i)=>document.getElementById('qfeedback'+i).classList.add('hidden'));document.getElementById('quizScore').classList.add('hidden')};
-</script></body></html>
+</script><script src="section-mcq.js"></script>
+</body></html>

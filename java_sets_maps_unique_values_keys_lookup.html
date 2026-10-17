@@ -27,6 +27,8 @@ pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12
 <div class="analogy"><strong>Analogy: two different jobs at a school event</strong><br><b>Guest list:</b> you care whether a name is present, and you want each name only once. This is a <b>Set</b> job.<br><b>Registration notebook:</b> each student ID points to details such as a score or email. This is a <b>Map</b> job.</div>
 <div class="demo-grid"><div class="demo-box"><h3>Question A: “Is Arun on the list?”</h3><p>Use a Set when membership and uniqueness matter.</p><pre><code>Set&lt;String&gt; guests;</code></pre></div><div class="demo-box"><h3>Question B: “What is Maya's score?”</h3><p>Use a Map when one key should lead to a value.</p><pre><code>Map&lt;String, Integer&gt; scores;</code></pre></div></div>
 <div class="tip"><b>Today's mental model:</b> Set = a bag of unique items. Map = a labelled lookup table. Don't worry about memorising every method yet; first learn when each structure solves a problem.</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. Start with a problem, not a definition", "questions": [{"q": "Arun signs up three times and you only want each person once. Which structure matches that job?", "options": ["A Set", "A Map from product name to stock", "An array whose length must change when duplicates appear", "A loop with no collection"], "answer": 0, "explain": "A Set answers \"is this name present?\" and keeps each name once. A Map fits when a key such as a student id must lead to details."}]}</script>
 </section>
 <section class="lesson" id="collections"><span class="tag">CONNECT TO WHAT YOU KNOW</span><h2>2. Collections recap: array, list, Set and Map</h2>
 <p>You have already seen arrays and lists. They are useful, but not every problem is about keeping items in a numbered sequence.</p>
@@ -38,6 +40,8 @@ pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12
 </tbody></table></div>
 <div class="analogy"><strong>Quick analogy</strong><br>An array/list is like a row of boxes where position matters. A Set is like a list of distinct names. A Map is like a dictionary: look up a word (key) to find its meaning (value).</div>
 <p>Set and Map are part of Java's Collections Framework family, but there is an important detail: <code>Map</code> is part of the framework, yet it is <b>not</b> a subtype of <code>Collection</code>. It stores pairs, not individual elements.</p>
+
+<script type="application/json" class="section-mcq">{"title": "2. Collections recap: array, list, Set and Map", "questions": [{"q": "Which description matches a Map in the recap?", "options": ["Fixed seats accessed by index", "A dictionary: look up a key to find its value", "A guest list that only answers whether a name is present", "A queue of tasks in order"], "answer": 1, "explain": "The lesson compares a Map to a dictionary or labelled lockers. A Set is the guest list of unique names, and an array or list keeps a sequence."}]}</script>
 </section>
 <section class="lesson" id="set"><span class="tag">PART 1 · UNIQUE ITEMS</span><h2>3. Meet Set: the guest list that rejects duplicates</h2>
 <p>A <code>Set</code> is a collection that does not keep duplicate elements. In beginner code, the most common implementation you'll meet first is <code>HashSet</code>.</p>
@@ -69,6 +73,8 @@ public class GuestList {
 boolean secondTry = guests.add("Kavi"); // false: duplicate</code></pre>
 <div class="tip"><b>Use a Set when:</b> you need unique usernames, unique tags, distinct product IDs, visited web pages, or a fast “have I seen this already?” check.</div>
 <div class="warning"><b>Important:</b> a <code>HashSet</code> does not promise insertion order or alphabetical order. If you print it, the order may surprise you. Don't rely on it.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. Meet Set: the guest list that rejects duplicates", "questions": [{"q": "After adding \"Arun\", \"Maya\", and \"Arun\" to a HashSet, what is size()?", "options": ["3", "2", "1", "0"], "answer": 1, "explain": "The second Arun is already present, so the Set does not keep a duplicate. The size is 2, and contains(\"Maya\") is true."}]}</script>
 </section>
 <section class="lesson" id="setlab"><span class="tag">INTERACTIVE LAB</span><h2>4. Set lab: try to add the same name twice</h2>
 <p>This mini playground imitates Set behaviour in your browser. Try <b>Arun</b>, then <b>Maya</b>, then <b>Arun</b> again. Watch the unique count.</p>
@@ -82,6 +88,8 @@ boolean found = guests.contains("Arun"); // true
 
 System.out.println(guests.size()); // 1</code></pre>
 <p class="muted small">The interactive lab is a visual simulation, not a Java compiler. The code block shows the corresponding Java API.</p>
+
+<script type="application/json" class="section-mcq">{"title": "4. Set lab: try to add the same name twice", "questions": [{"q": "guests.add(\"Arun\") is called twice on an empty HashSet. What does the second call return?", "options": ["true, and the size becomes 2", "false, because Arun is already present", "The String Arun", "null, and the Set is cleared"], "answer": 1, "explain": "add returns true when the value is new and false when it is already in the Set. The size stays 1."}]}</script>
 </section>
 <section class="lesson" id="map"><span class="tag">PART 2 · KEY → VALUE</span><h2>5. Meet Map: a label that leads to information</h2>
 <p>A <code>Map</code> stores <b>key-value pairs</b>. You provide a key, and the Map connects it to a value. A key can appear only once in a Map, although multiple keys can have the same value.</p>
@@ -113,6 +121,8 @@ Map&lt;Integer, String&gt; studentNames;</code></pre>
 <tr><td><code>size()</code></td><td>Count key-value pairs</td><td><code>scores.size();</code></td></tr>
 </tbody></table></div>
 <div class="warning"><b>Missing keys:</b> with a normal <code>HashMap</code>, <code>get("Kavi")</code> returns <code>null</code> when Kavi is absent. Don't immediately assign that result to primitive <code>int</code> and assume it exists; unboxing null can cause a <code>NullPointerException</code>. Use <code>getOrDefault</code> or check the key first.</div>
+
+<script type="application/json" class="section-mcq">{"title": "5. Meet Map: a label that leads to information", "questions": [{"q": "A score book already has Maya mapped to 92. What does put(\"Maya\", 96) do?", "options": ["Adds a second Maya key", "Replaces Maya's score with 96", "Removes every entry", "Changes the key's type to int"], "answer": 1, "explain": "Keys are unique. put on an existing key updates the value. The number of entries does not increase."}]}</script>
 </section>
 <section class="lesson" id="maplab"><span class="tag">INTERACTIVE LAB</span><h2>6. Map lab: create a tiny score book</h2>
 <p>Add students and scores. Then use the lookup box to retrieve a score. Re-enter an existing name with a new score to see how <code>put()</code> replaces the value.</p>
@@ -126,6 +136,8 @@ scores.put("Maya", 96);
 int kaviScore = scores.getOrDefault("Kavi", 0);
 System.out.println(scores.get("Maya")); // 96
 System.out.println(kaviScore);          // 0</code></pre>
+
+<script type="application/json" class="section-mcq">{"title": "6. Map lab: create a tiny score book", "questions": [{"q": "Kavi is not in the score book. What does getOrDefault(\"Kavi\", 0) return?", "options": ["null and an exception", "0", "The size of the Map", "Maya's score"], "answer": 1, "explain": "getOrDefault returns the stored value when the key exists and the supplied fallback when it does not. Here the fallback is 0."}]}</script>
 </section>
 <section class="lesson" id="loop"><span class="tag">READ THE CONTENTS</span><h2>7. How do we loop through a Set or Map?</h2>
 <p>You already know the enhanced <code>for</code> loop. It works nicely with Sets because each pass gives you one element.</p>
@@ -144,6 +156,8 @@ for (String guest : guests) {
 }</code></pre>
 <div class="analogy"><strong>Analogy: opening every locker</strong><br><code>entrySet()</code> gives you each labelled locker record. <code>getKey()</code> reads the label; <code>getValue()</code> reads the contents. You get both pieces together.</div>
 <h3>Quick check</h3><p>If you only need to know whether a Set contains an email, do you need to loop through every item yourself?</p><button class="btn secondary" id="quickCheck">Show answer</button><div class="answer" id="quickAnswer">No. Call <code>emails.contains("person@example.com")</code>. Let the Set do the membership check.</div>
+
+<script type="application/json" class="section-mcq">{"title": "7. How do we loop through a Set or Map?", "questions": [{"q": "Why should you not rely on a HashSet printing names in the order you added them?", "options": ["HashSet refuses Strings", "HashSet does not promise an iteration order", "A for-each loop cannot visit a Set", "size() sorts the names first"], "answer": 1, "explain": "The lesson uses HashSet for uniqueness, not for order. LinkedHashSet keeps insertion order, and TreeSet keeps sorted order."}]}</script>
 </section>
 <section class="lesson" id="patterns"><span class="tag">PUT IT TO WORK</span><h2>8. Three useful real-world patterns</h2>
 <h3>Pattern A: remove duplicates from a list</h3><p>Suppose a CSV import contains the same email more than once. A Set can keep just the distinct emails.</p><pre><code>import java.util.Arrays;
@@ -176,6 +190,8 @@ visitors.add("user-17");
 
 System.out.println(visitors.size()); // 2 unique visitors</code></pre>
 <p>One important design decision: if you need to know <em>how many visits each person made</em>, use a Map of visitor ID to count, not just a Set.</p>
+
+<script type="application/json" class="section-mcq">{"title": "8. Three useful real-world patterns", "questions": [{"q": "You have a list of emails that contains duplicates, and you need each address once. What does the lesson use?", "options": ["A HashSet built from the list", "A Map with no keys", "Arrays.sort on the String list, which removes duplicates", "indexOf on the first email only"], "answer": 0, "explain": "Constructing a Set from the list drops duplicate emails. A LinkedHashSet is the lesson's choice when the first-seen order must be kept."}]}</script>
 </section>
 <section class="lesson" id="choices"><span class="tag">CHOOSING WISELY</span><h2>9. Which implementation should I choose?</h2>
 <p><code>Set</code> and <code>Map</code> describe what operations are available. Classes such as <code>HashSet</code> and <code>HashMap</code> are concrete implementations that do the work.</p>
@@ -189,6 +205,8 @@ System.out.println(visitors.size()); // 2 unique visitors</code></pre>
 </tbody></table></div>
 <div class="note"><b>Don't overthink performance on day one.</b> Start with <code>HashSet</code> or <code>HashMap</code> for ordinary uniqueness and lookup tasks. Choose a different implementation when your program needs a specific ordering behaviour.</div>
 <h3>One last distinction</h3><ul><li>Set elements are unique.</li><li>Map keys are unique, but values may repeat.</li><li>A Map is not a Set of values: it connects keys to values.</li><li>Hash-based collections do not guarantee sorted or insertion order.</li></ul>
+
+<script type="application/json" class="section-mcq">{"title": "9. Which implementation should I choose?", "questions": [{"q": "You need unique names kept in sorted order. Which implementation fits the lesson's table?", "options": ["HashSet", "LinkedHashSet", "TreeSet", "ArrayList"], "answer": 2, "explain": "TreeSet keeps unique elements sorted. HashSet does not promise order, and LinkedHashSet keeps insertion order."}]}</script>
 </section>
 <section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>10. Practice problems</h2><p>Try to answer each one before revealing the explanation. The goal is to choose the right structure and reason about its behaviour.</p>
 <div class="question"><p>1. A website must ensure each username is registered only once. Which structure fits best?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">A <code>Set&lt;String&gt;</code>, such as a <code>HashSet&lt;&gt;</code>. It prevents duplicate username values within that Set.</div></div>
@@ -200,6 +218,8 @@ s.add("red"); s.add("blue"); s.add("red");</code></pre><button class="btn second
 <div class="question"><p>6. You need to count how many times each word appears in a document. Use a Set or a Map?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Use a <code>Map&lt;String, Integer&gt;</code>. Each word is a key and its occurrence count is the value.</div></div>
 <div class="question"><p>7. Which implementation would you consider if unique items must be iterated in insertion order?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>LinkedHashSet</code>.</div></div>
 <div class="question"><p>8. Can two different keys in a Map point to the same value?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">Yes. Keys must be unique, but values can repeat. For example, both Arun and Maya could have a score of 90.</div></div>
+
+<script type="application/json" class="section-mcq">{"title": "10. Practice problems", "questions": [{"q": "A website must register each username only once. Which declaration fits?", "options": ["Set\u003cString\u003e names = new HashSet\u003c\u003e();", "Map\u003cString, String\u003e names = new HashSet\u003c\u003e();", "List\u003cString\u003e names = new HashSet\u003c\u003e();", "Set names = new ArrayList\u003c\u003e();"], "answer": 0, "explain": "A Set of Strings rejects a duplicate username. HashSet is the general-purpose Set in the lesson. HashSet is not a List or a Map."}]}</script>
 </section>
 <section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>11. Quick quiz</h2><p>Choose one answer for each question, then check your score. If you miss one, revisit the matching section.</p>
 <form id="quizForm">
@@ -238,4 +258,5 @@ const correct={q1:'b',q2:'b',q3:'a',q4:'b',q5:'c',q6:'a'};
 document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Perfect! You have the key ideas.':score>=4?'Good work. Review the questions you missed and try again.':'Revisit the Set and Map examples, then take another shot.');out.className='output '+(score>=4?'good':'bad')};
 document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
 </script>
+<script src="section-mcq.js"></script>
 </body></html>

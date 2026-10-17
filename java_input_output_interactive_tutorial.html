@@ -38,6 +38,8 @@ String name = input.nextLine();</div>
 <p>The first line displays text. The second creates a Scanner that can read keyboard input. The third waits for the user to type a line and press Enter.</p>
 <div class="callout warn"><strong>Important:</strong> browser activities in this tutorial simulate Java behavior. To run the Java examples for real, use a JDK and a Java editor or IDE.</div>
 <h3>Try the input to output flow</h3><div class="grid2"><div><label for="demoName">Your name</label><input id="demoName" value="Kavi" maxlength="40"></div><div><label for="demoAge">Your age</label><input id="demoAge" type="number" min="0" max="120" value="14"></div></div><button class="btn" id="runWelcome">Run greeting simulation</button><div class="result" id="welcomeOut">Output will appear here.</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. Input and output: the conversation", "questions": [{"q": "In the restaurant analogy, what is input?", "options": ["The meal and bill the program gives back", "Information the program receives, such as a name or a price", "Only text inside double quotes", "A compile error"], "answer": 1, "explain": "Input comes into the program, for example from a person typing. Output is what the program gives back, such as a greeting or a total."}]}</script>
 </article>
 <article class="panel">
 <h2>2. Display output with print and println</h2><p class="lead">Use <code>System.out.println()</code> to display a value and move to a new line. Use <code>System.out.print()</code> to continue on the same line.</p>
@@ -49,6 +51,8 @@ Age: 15</div>
 System.out.println("morning");</div><button class="btn" id="runOutput">Run output</button><div class="result" id="outputResult">Output will appear here.</div>
 <h3>What can println display?</h3><table class="table"><thead><tr><th>Java value</th><th>Example</th><th>Output</th></tr></thead><tbody><tr><td>Text</td><td><code>"Hello"</code></td><td>Hello</td></tr><tr><td>Whole number</td><td><code>25</code></td><td>25</td></tr><tr><td>Decimal</td><td><code>3.14</code></td><td>3.14</td></tr><tr><td>Boolean</td><td><code>true</code></td><td>true</td></tr></tbody></table>
 <div class="callout success">When you write <code>"Total: " + total</code>, Java joins the text and value to make one message. The plus sign can also perform arithmetic when used with numbers.</div>
+
+<script type="application/json" class="section-mcq">{"title": "2. Display output with print and println", "questions": [{"q": "Which statement prints Name: and stays on the same line for the next print?", "options": ["System.out.print(\"Name: \");", "System.out.println(\"Name: \");", "Scanner.print(\"Name: \");", "System.in.print(\"Name: \");"], "answer": 0, "explain": "print stays on the current line. println would finish the line before the following output."}]}</script>
 </article>
 <article class="panel">
 <h2>3. Read keyboard input using Scanner</h2><p class="lead"><code>Scanner</code> is a Java class that can read input from a source such as the keyboard. For console input, the common source is <code>System.in</code>.</p>
@@ -68,6 +72,8 @@ System.out.println("morning");</div><button class="btn" id="runOutput">Run outpu
 <div class="callout purple"><strong>Analogy:</strong> Scanner is like a person taking down what you say. <code>System.in</code> is the source of the words, and <code>nextLine()</code> collects one whole line.</div>
 <h3>Interactive name reader</h3><label for="scanName">Type a name</label><input id="scanName" value="Meena" maxlength="60"><button class="btn" id="runScanName">Simulate nextLine()</button><div class="result" id="scanNameOut">Waiting for input...</div>
 <div class="callout warn"><strong>Import location:</strong> the import statement belongs above the class declaration, not inside the <code>main</code> method.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. Read keyboard input using Scanner", "questions": [{"q": "What does Scanner input = new Scanner(System.in); prepare to read?", "options": ["A file named System.in on the desktop only", "Standard input, usually the keyboard", "The program's own source code", "Only boolean values"], "answer": 1, "explain": "System.in is standard input. The Scanner named input then provides methods such as nextLine and nextInt."}, {"q": "Which import lets the file use the short name Scanner?", "options": ["import java.util.Scanner;", "import java.io.Print;", "import scanner.System;", "No import is ever used"], "answer": 0, "explain": "Scanner lives in java.util. The import makes the short name Scanner available in that source file."}]}</script>
 </article>
 <article class="panel">
 <h2>4. Read text, integers and decimals</h2><p class="lead">Scanner has different methods for different types of input. Choose the method that matches the value you expect.</p>
@@ -76,6 +82,8 @@ System.out.println("morning");</div><button class="btn" id="runOutput">Run outpu
 <span class="kw">double</span> price = input.nextDouble();</div>
 <h3>Test input conversion</h3><div class="grid2"><div><label for="inputType">Expected type</label><select id="inputType"><option value="int">int with nextInt()</option><option value="double">double with nextDouble()</option><option value="boolean">boolean with nextBoolean()</option><option value="token">String token with next()</option><option value="line">String line with nextLine()</option></select></div><div><label for="rawInput">What the user types</label><input id="rawInput" value="42" maxlength="120"></div></div><button class="btn" id="testInput">Read simulated input</button><div class="result" id="inputResult">Result will appear here.</div><p class="small" id="inputExplain">Select a method to see how it reads the input.</p>
 <div class="callout warn"><strong>Input must match the expected type.</strong> If <code>nextInt()</code> receives <code>hello</code>, Java throws an <code>InputMismatchException</code> unless your code handles it.</div>
+
+<script type="application/json" class="section-mcq">{"title": "4. Read text, integers and decimals", "questions": [{"q": "Which method reads a full line, including spaces, such as Chennai city?", "options": ["nextInt()", "next()", "nextLine()", "nextDouble()"], "answer": 2, "explain": "nextLine() reads until Enter, so spaces stay part of the String. next() stops at the first space."}, {"q": "Why might name be empty here?", "options": ["nextInt cannot read a whole number", "nextLine immediately reads the newline left behind by nextInt", "A String cannot be read after an int", "Scanner allows only one method call"], "answer": 1, "explain": "nextInt reads the number and leaves the Enter newline waiting. The following nextLine consumes that leftover newline. Call nextLine once to clear it, then call nextLine again for the name.", "code": "int age = input.nextInt();\nString name = input.nextLine();", "fix": "int age = input.nextInt();\ninput.nextLine();\nString name = input.nextLine();", "debug": true}]}</script>
 </article>
 <article class="panel">
 <h2>5. Common Scanner issues</h2><p class="lead">A common beginner surprise happens when <code>nextInt()</code> is followed by <code>nextLine()</code>.</p>
@@ -87,6 +95,8 @@ String fullName = input.nextLine();</div>
 <h3>Visualise the input buffer</h3><div class="pillrow"><button class="pill active" data-buffer="bad">Without extra nextLine()</button><button class="pill" data-buffer="good">With extra nextLine()</button></div><div class="code" id="bufferCode">int age = input.nextInt();
 String name = input.nextLine();</div><div class="result" id="bufferResult">age receives 14. name may become an empty string.</div>
 <h3>Other common mistakes</h3><div class="grid2"><div class="mini"><strong>Forgetting the import</strong><p>Add <code>import java.util.Scanner;</code> before the class.</p></div><div class="mini"><strong>Using a number method for text</strong><p>Use <code>nextLine()</code> for a full name such as “Anu Devi”.</p></div><div class="mini"><strong>Invalid numeric input</strong><p>Check the user's input or handle exceptions if it may not be a number.</p></div><div class="mini"><strong>Not closing Scanner</strong><p>For a short console program, you may see <code>input.close()</code> at the end. Be careful closing a Scanner around <code>System.in</code> if more code still needs keyboard input.</p></div></div>
+
+<script type="application/json" class="section-mcq">{"title": "5. Common Scanner issues", "questions": [{"q": "The user types New Delhi and the code calls input.next(). What is read?", "options": ["New Delhi", "New", "Delhi", "An empty String"], "answer": 1, "explain": "next() reads one token and stops at whitespace. nextLine() would keep both words."}, {"q": "Which pair reads a decimal price and a whole-number quantity?", "options": ["nextLine for the price and nextBoolean for the quantity", "nextDouble for the price and nextInt for the quantity", "nextInt for both", "next() for the price and nextLine for the quantity"], "answer": 1, "explain": "nextDouble reads a decimal such as 3.75, and nextInt reads a whole number. The method should match the value you expect."}]}</script>
 </article>
 <article class="panel">
 <h2>6. Guided mini projects</h2><p class="lead">These examples combine input, output, variables and simple calculations. The controls simulate what a console program would do.</p>
@@ -105,10 +115,14 @@ System.out.println(<span class="str">"Total: "</span> + total);</div>
 <span class="kw">int</span> quantity = input.nextInt();
 <span class="kw">double</span> total = price * quantity;
 System.out.println(<span class="str">"Bill: "</span> + total);</div>
+
+<script type="application/json" class="section-mcq">{"title": "6. Guided mini projects", "questions": [{"q": "A greeting program reads a name and a city with nextLine. What does it need to do with them?", "options": ["Store both and then print a message that includes them", "Use nextInt because names are numbers", "Avoid variables and print only the word Hello", "Close System.out before reading"], "answer": 0, "explain": "The mini project reads each full line into a String, then joins those values with the greeting text for output."}]}</script>
 </article>
 <article class="panel">
 <h2>7. Exercises</h2><p class="lead">Try each problem before revealing its answer. Focus on choosing the right input method and output statement.</p>
 <div id="exercises"></div>
+
+<script type="application/json" class="section-mcq">{"title": "7. Exercises", "questions": [{"q": "Which expression prints a total label together with a numeric variable?", "options": ["System.out.println(\"Total: \" + total);", "System.out.println(\"Total: \" total);", "System.out.println(total - \"Total: \");", "input.nextLine(\"Total: \");"], "answer": 0, "explain": "The + operator joins the text and the value into one message. The pieces need an operator between them."}]}</script>
 </article>
 <article class="panel">
 <h2>8. Final quiz</h2><p class="lead">Check your understanding of input, output and Scanner.</p><div id="quiz"></div><button class="btn" id="submitQuiz">Check my answers</button> <button class="btn secondary" id="resetQuiz">Try again</button><div class="callout hidden" id="quizScore"></div>
@@ -157,4 +171,5 @@ const quiz=document.getElementById('quiz');questions.forEach((q,i)=>{let d=docum
 document.getElementById('submitQuiz').onclick=()=>{let score=0;questions.forEach((q,i)=>{let selected=document.querySelector(`input[name="q${i}"]:checked`),f=document.getElementById('qfeedback'+i);f.classList.remove('hidden');if(selected&&+selected.value===q.c){score++;f.textContent='Correct. '+q.e;f.style.color='#13795b'}else{f.textContent='Review: '+q.e;f.style.color='#a95609'}});let box=document.getElementById('quizScore');box.classList.remove('hidden');box.className='callout '+(score>=6?'success':'warn');box.textContent=`Your score: ${score} / ${questions.length}. `+(score===8?'Excellent work.':score>=6?'Good progress. Review any missed explanations.':'Review the lessons and try again.')};
 document.getElementById('resetQuiz').onclick=()=>{document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);questions.forEach((q,i)=>document.getElementById('qfeedback'+i).classList.add('hidden'));document.getElementById('quizScore').classList.add('hidden')};
 showPage(0);
-</script></body></html>
+</script><script src="section-mcq.js"></script>
+</body></html>

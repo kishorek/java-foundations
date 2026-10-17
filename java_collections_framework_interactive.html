@@ -27,6 +27,8 @@ pre{overflow:auto;background:#111a2d;color:#eaf0ff;padding:16px;border-radius:12
 <div class="demo-grid"><div class="demo-box"><h3>Data structures</h3><p>Decide how items are organised: list, set, queue, or key-value map.</p></div><div class="demo-box"><h3>Algorithms</h3><p>Reusable operations such as sorting, searching, reversing, and finding a minimum.</p></div></div>
 <p>The framework is a group of interfaces, implementations, and algorithms. You choose a useful interface such as <code>List</code>, then create an implementation such as <code>ArrayList</code>.</p>
 <div class="tip"><b>Core principle:</b> choose a data structure based on what you need to do most often, not just on which class name looks familiar.</div>
+
+<script type="application/json" class="section-mcq">{"title": "1. Why does Java need a Collections Framework?", "questions": [{"q": "What does the Collections Framework give you?", "options": ["One container that is best for every job", "Ready-made structures such as lists, sets, queues, and maps, plus reusable operations", "A replacement for variables", "Only arrays of length 1"], "answer": 1, "explain": "Different jobs need different containers. The framework supplies those data structures and algorithms such as sorting and searching."}]}</script>
 </section>
 <section class="lesson" id="map"><span class="tag">THE FAMILY TREE</span><h2>2. The big family: interfaces and implementations</h2>
 <p>Think of an interface as a promise about available operations. An implementation is the concrete class that performs those operations.</p>
@@ -45,6 +47,8 @@ tasks.add("Practise Java");</code></pre>
 <tr><td><code>Map</code></td><td><code>HashMap</code>, <code>LinkedHashMap</code>, <code>TreeMap</code></td><td>Key → value lookup</td></tr>
 </tbody></table></div>
 <div class="note"><b>Small but important detail:</b> <code>Map</code> belongs to the Collections Framework, but it does not extend the <code>Collection</code> interface. A Map stores pairs; a Collection stores individual elements.</div>
+
+<script type="application/json" class="section-mcq">{"title": "2. The big family: interfaces and implementations", "questions": [{"q": "In List\u003cString\u003e tasks = new ArrayList\u003c\u003e(); what is List and what is ArrayList?", "options": ["List is the concrete class and ArrayList is a comment", "List is the interface type and ArrayList is the implementation", "Both names mean HashSet", "ArrayList is a primitive type"], "answer": 1, "explain": "The variable uses the List interface, while the object is an ArrayList. Code that depends on List can work with a suitable List implementation."}]}</script>
 </section>
 <section class="lesson" id="list"><span class="tag">FAMILY 1</span><h2>3. List: an ordered sequence</h2>
 <p>A <code>List</code> keeps elements in a sequence. It has indexes starting at zero, and it can contain duplicate values.</p>
@@ -59,6 +63,8 @@ System.out.println(shopping.size()); // 3</code></pre>
 <h3>Common List methods</h3><ul><li><code>add(value)</code>: append an item.</li><li><code>get(index)</code>: retrieve an item at an index.</li><li><code>set(index, value)</code>: replace an item at an index.</li><li><code>remove(index)</code> or <code>remove(value)</code>: remove an item. Be mindful of overloads when using numbers.</li><li><code>contains(value)</code>: test whether a value exists.</li><li><code>size()</code>: number of elements.</li></ul>
 <h3>ArrayList or LinkedList?</h3><div class="table-wrap"><table><thead><tr><th><code>ArrayList</code></th><th><code>LinkedList</code></th></tr></thead><tbody><tr><td>Great general-purpose default; fast indexed access in typical use.</td><td>Implements both <code>List</code> and <code>Deque</code>; can be useful for operations at the ends, but is not automatically faster for all insertions/removals.</td></tr><tr><td>Backed by a resizable array.</td><td>Backed by linked nodes.</td></tr></tbody></table></div>
 <div class="tip">For most beginner programs that need an ordered, resizable sequence, start with <code>ArrayList</code>.</div>
+
+<script type="application/json" class="section-mcq">{"title": "3. List: an ordered sequence", "questions": [{"q": "A shopping list keeps order and may contain Milk twice. Which structure fits?", "options": ["HashSet", "ArrayList", "The Map interface with no values", "A queue that forbids duplicates"], "answer": 1, "explain": "A List keeps a sequence, uses indexes from zero, and allows duplicates. A Set would reject the second Milk."}]}</script>
 </section>
 <section class="lesson" id="set"><span class="tag">FAMILY 2</span><h2>4. Set: uniqueness without duplicate entries</h2>
 <p>A <code>Set</code> keeps unique elements. Adding a value already present does not create a duplicate.</p>
@@ -71,6 +77,8 @@ System.out.println(tags.size()); // 2</code></pre>
 <div class="analogy"><strong>Analogy: a guest list</strong><br>The list records who is present, not how many times each person signed up. If you need the number of appearances, use a counter or a Map.</div>
 <ul><li><code>HashSet</code>: uniqueness; no guaranteed iteration order.</li><li><code>LinkedHashSet</code>: uniqueness while preserving insertion order.</li><li><code>TreeSet</code>: unique elements kept in sorted order.</li></ul>
 <div class="warning"><b>Ordering matters:</b> never depend on <code>HashSet</code> printing items in the order you inserted them. Choose <code>LinkedHashSet</code> or <code>TreeSet</code> when order is part of the requirement.</div>
+
+<script type="application/json" class="section-mcq">{"title": "4. Set: uniqueness without duplicate entries", "questions": [{"q": "tags.add(\"java\") is called twice on a new HashSet. What is tags.size()?", "options": ["2", "1", "0", "The size equals the length of the word java"], "answer": 1, "explain": "A Set keeps unique elements. The second java does not create another entry, so the size is 1."}]}</script>
 </section>
 <section class="lesson" id="queue"><span class="tag">FAMILY 3</span><h2>5. Queue and Deque: items waiting their turn</h2>
 <p>A queue is useful when items need to be processed in a particular order. A common rule is FIFO: First In, First Out. A <code>Deque</code> (double-ended queue) supports adding and removing at both ends.</p>
@@ -89,6 +97,8 @@ history.push("Home");
 history.push("Products");
 System.out.println(history.pop()); // Products</code></pre>
 <p>Using <code>push()</code> and <code>pop()</code> makes a deque behave like a stack: Last In, First Out (LIFO). That is useful for undo history and backtracking.</p>
+
+<script type="application/json" class="section-mcq">{"title": "5. Queue and Deque: items waiting their turn", "questions": [{"q": "In a FIFO queue, what does poll() do when the queue holds Arun then Maya?", "options": ["Returns Arun and removes him", "Returns Maya and leaves Arun", "Sorts the names", "Looks at Arun without removing him"], "answer": 0, "explain": "poll returns and removes the head. peek would return Arun without removing him. offer adds someone to the queue."}]}</script>
 </section>
 <section class="lesson" id="maptypes"><span class="tag">FAMILY 4</span><h2>6. Map: look up a value by key</h2>
 <p>A Map stores key-value pairs. Keys are unique; values can repeat.</p>
@@ -105,6 +115,8 @@ System.out.println(stock.getOrDefault("Eraser", 0)); // 0</code></pre>
     System.out.println(entry.getKey() + " → " + entry.getValue());
 }</code></pre>
 <p>Use <code>entrySet()</code> when you need both key and value. Use <code>keySet()</code> when you only need keys, or <code>values()</code> when you only need values.</p>
+
+<script type="application/json" class="section-mcq">{"title": "6. Map: look up a value by key", "questions": [{"q": "stock.put(\"Notebook\", 20) is followed by stock.put(\"Notebook\", 18). What does get(\"Notebook\") return?", "options": ["20", "18", "38", "null"], "answer": 1, "explain": "The second put updates the value for the existing key. Map keys are unique, so there are not two Notebook entries."}]}</script>
 </section>
 <section class="lesson" id="generics"><span class="tag">SAFER CODE</span><h2>7. Generics, iteration and the Iterator</h2>
 <p>Generics tell Java what kind of objects a collection should hold. They catch many type mistakes at compile time.</p>
@@ -130,11 +142,15 @@ while (iterator.hasNext()) {
 Collections.reverse(names);
 boolean found = names.contains("Maya");</code></pre>
 <p><code>Collections</code> (with a capital C) is a utility class containing static algorithms for collections. <code>Collection</code> (singular) is an interface in the framework. The names are annoyingly similar, so watch the spelling.</p>
+
+<script type="application/json" class="section-mcq">{"title": "7. Generics, iteration and the Iterator", "questions": [{"q": "What does List\u003cString\u003e tell the compiler?", "options": ["The list may hold any value, and mistakes appear only while the program runs", "The list is meant to hold Strings, so adding an int is rejected when the code is compiled", "The list keeps only unique Strings", "The list cannot be visited with a for-each loop"], "answer": 1, "explain": "Generics label the kind of element. List\u003cString\u003e lets names.add(\"Maya\") compile and rejects names.add(42) before the program runs."}]}</script>
 </section>
 <section class="lesson" id="lab"><span class="tag">INTERACTIVE LAB</span><h2>8. Build a tiny task manager</h2>
 <p>Use this browser playground to add tasks, mark them done, remove them, and see a unique category Set. The app is a visual simulation of collection behaviour.</p>
 <div class="demo-box"><div class="row"><label class="field" style="flex:2">Task name<input id="taskInput" value="Practise Java" placeholder="e.g. Read a chapter"></label><label class="field" style="flex:1">Category<select id="categoryInput"><option>Study</option><option>Work</option><option>Home</option><option>Health</option></select></label><button class="btn" id="addTask">Add task</button></div><div id="taskList" class="output">No tasks yet.</div><div class="row" style="margin-top:12px"><label class="field" style="flex:1">Task number to change<input id="taskIndex" type="number" min="1" value="1"></label><button class="btn secondary" id="toggleTask">Toggle done</button><button class="btn secondary" id="deleteTask">Delete task</button><button class="btn secondary" id="clearTasks">Clear all</button></div><div id="taskStats" class="output"></div></div>
 <h3>What data structures does this imitate?</h3><ul><li>A <code>List</code> keeps the tasks in their display order.</li><li>A <code>Set</code> collects the distinct categories currently used.</li><li>A real app might use a <code>Map</code> from task ID to task details for fast lookup.</li></ul>
+
+<script type="application/json" class="section-mcq">{"title": "8. Build a tiny task manager", "questions": [{"q": "The task-manager lab shows tasks in order and also a unique set of categories. Which pair is that imitating?", "options": ["A List for task order and a Set for distinct categories", "One array that both sorts and removes every duplicate automatically", "A Queue for categories and a Map for nothing", "Two static ints"], "answer": 0, "explain": "The lesson says a List keeps the display order and a Set collects the distinct categories. A real app might also use a Map from id to details."}]}</script>
 </section>
 <section class="lesson" id="sort"><span class="tag">ORDERING</span><h2>9. Sorting and Comparators</h2>
 <p>Sometimes you need to arrange objects by a rule. A <code>Comparator</code> tells Java how to compare two objects for ordering.</p>
@@ -156,6 +172,8 @@ Collections.sort(names); // natural String order</code></pre>
 students.sort(Comparator.comparingInt(s -> s.score));</code></pre>
 <div class="analogy"><strong>Analogy: judging a race</strong><br>The runners are the objects. The comparator is the rule that says who comes first, perhaps lower finishing time first or higher score first. Different comparators can sort the same objects in different ways.</div>
 <h3>Interactive sorting demo</h3><div class="demo-box"><div class="row"><label class="field" style="flex:1">Names, separated by commas<input id="sortInput" value="Kavi, Arun, Maya, Bala"></label><label class="field" style="flex:1">Order<select id="sortOrder"><option value="az">Alphabetical A → Z</option><option value="za">Reverse Z → A</option><option value="len">Shortest name first</option></select></label><button class="btn" id="sortButton">Sort names</button></div><div id="sortOutput" class="output">Your sorted names will appear here.</div></div>
+
+<script type="application/json" class="section-mcq">{"title": "9. Sorting and Comparators", "questions": [{"q": "What does a Comparator supply when sorting students by score?", "options": ["A database connection", "The rule for which student comes before another", "A second copy of every student", "The index of the first student only"], "answer": 1, "explain": "A Comparator is the ordering rule. The same students can be sorted differently with a different comparator."}]}</script>
 </section>
 <section class="lesson" id="choose"><span class="tag">PICK THE RIGHT TOOL</span><h2>10. Choose a collection based on the requirement</h2>
 <div class="table-wrap"><table><thead><tr><th>If you need…</th><th>Start with…</th><th>Why</th></tr></thead><tbody>
@@ -169,6 +187,8 @@ students.sort(Comparator.comparingInt(s -> s.score));</code></pre>
 <tr><td>Sorted keys</td><td><code>TreeMap</code></td><td>Maintains key order</td></tr>
 </tbody></table></div>
 <div class="tip"><b>Beginner default:</b> use <code>ArrayList</code> for most ordered sequences, <code>HashSet</code> for uniqueness, <code>HashMap</code> for key-value lookup, and <code>ArrayDeque</code> for queue/stack behaviour. Change the implementation when the requirement demands it.</div>
+
+<script type="application/json" class="section-mcq">{"title": "10. Choose a collection based on the requirement", "questions": [{"q": "You need to process people in arrival order. Which starting choice matches the lesson?", "options": ["ArrayDeque used as a Queue", "TreeMap", "HashSet", "A primitive int"], "answer": 0, "explain": "A queue supports offer, poll, and peek for arrival order. ArrayDeque is the lesson's usual Queue implementation."}]}</script>
 </section>
 <section class="lesson" id="practice"><span class="tag">PRACTICE</span><h2>11. Practice problems</h2><p>Try each one before revealing the answer.</p>
 <div class="question"><p>1. You need a shopping list that preserves order and can contain the same item more than once. Which interface fits?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>List&lt;String&gt;</code>, commonly implemented by <code>ArrayList&lt;&gt;</code>.</div></div>
@@ -179,6 +199,8 @@ students.sort(Comparator.comparingInt(s -> s.score));</code></pre>
 <div class="question"><p>6. Why should you avoid directly removing elements from an ArrayList inside an enhanced for loop?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It can cause a <code>ConcurrentModificationException</code>. Use an Iterator's remove method, <code>removeIf</code>, or a separate removal pass.</div></div>
 <div class="question"><p>7. Which implementation is a good starting point for a FIFO queue?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer"><code>ArrayDeque</code> used through the <code>Queue</code> interface.</div></div>
 <div class="question"><p>8. What is a Comparator used for?</p><button class="btn secondary reveal">Reveal answer</button><div class="answer">It defines a comparison rule for ordering objects, such as sorting students by score or names by length.</div></div>
+
+<script type="application/json" class="section-mcq">{"title": "11. Practice problems", "questions": [{"q": "You need unique email addresses and do not care about order. What should you reach for first?", "options": ["ArrayList", "HashSet", "ArrayDeque as a stack", "A Comparator with no collection"], "answer": 1, "explain": "HashSet stores unique values when order does not matter. A List would keep duplicates and order."}]}</script>
 </section>
 <section class="lesson" id="quiz"><span class="tag">FINAL CHECK</span><h2>12. Quick quiz</h2><p>Choose one answer per question, then check your score.</p>
 <form id="quizForm">
@@ -210,4 +232,5 @@ const correct={q1:'b',q2:'a',q3:'b',q4:'c',q5:'a',q6:'b'};
 document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();let score=0,answered=0;Object.entries(correct).forEach(([q,a])=>{let selected=document.querySelector('input[name="'+q+'"]:checked');if(selected){answered++;if(selected.value===a)score++}});let out=document.getElementById('quizResult');out.textContent='Score: '+score+'/6. Answered: '+answered+'/6. '+(score===6?'Excellent! You understand the main collection types.':score>=4?'Good work. Review the questions you missed.':'Revisit the List, Set, Queue and Map sections, then try again.');out.className='output '+(score>=4?'good':'bad')};
 document.getElementById('resetQuiz').onclick=()=>{document.getElementById('quizForm').reset();let out=document.getElementById('quizResult');out.textContent='';out.className='output'};
 </script>
+<script src="section-mcq.js"></script>
 </body></html>
