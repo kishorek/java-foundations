@@ -1,0 +1,24 @@
+index.html
+  h_b7e40170a559db 14,22,32-33,41,89-102,132-137,152,154
+tests/java_foundations_batch_1.html
+  h_b7e40170a559db 1-10
+tests/java_foundations_batch_2.html
+  h_b7e40170a559db 1-10
+tests/java_foundations_batch_3.html
+  h_b7e40170a559db 1-10
+tests/java_foundations_batch_4.html
+  h_b7e40170a559db 1-10
+tests/java_foundations_batch_5.html
+  h_b7e40170a559db 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2d732ecfbbcd5b2ebe9ea4dd290280de5b998016",
+  "prompts": {},
+  "humans": {
+    "h_b7e40170a559db": {
+      "author": "Kishore Kumar Uthirapathy <libcomet@gmail.com>"
+    }
+  }
+}
