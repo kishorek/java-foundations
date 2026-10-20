@@ -11,7 +11,7 @@ main{padding:22px 16px 60px;display:grid;grid-template-columns:255px minmax(0,1f
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:15px 0}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fcfdff}.mini strong{display:block;margin-bottom:5px}
 code{background:#eef2f7;padding:2px 6px;border-radius:6px;font-size:.9em}.code{background:#111827;color:#e5edf9;border-radius:13px;padding:16px;font-family:ui-monospace,Consolas,monospace;white-space:pre-wrap;font-size:.9rem;margin:12px 0}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.toolbar input{flex:1;min-width:200px;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px}.btn{font:inherit;background:var(--blue);border:0;color:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}.btn.secondary{background:#eaf0ff;color:var(--blue)}.btn:disabled{opacity:.5;cursor:not-allowed}
-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:0}.date{white-space:nowrap}.badge{display:inline-block;font-size:.74rem;font-weight:800;border-radius:99px;padding:2px 9px;margin-left:6px;vertical-align:middle}.b-core{background:var(--bluebg);color:var(--blue)}.b-arr{background:var(--greenbg);color:var(--green)}.b-str{background:var(--orangebg);color:var(--orange)}.b-set{background:var(--purplebg);color:var(--purple)}.b-oop{background:#e0f2f1;color:#0b6e5f}.b-adv{background:#fce4ec;color:#b4235b}.b-start{background:#e8edf5;color:#3d4d65}.b-miss{background:#fff2df;color:#a95609;border:1px dashed #d97706}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:0}.date{white-space:nowrap}.badge{display:inline-block;font-size:.74rem;font-weight:800;border-radius:99px;padding:2px 9px;margin-left:6px;vertical-align:middle}.b-core{background:var(--bluebg);color:var(--blue)}.b-arr{background:var(--greenbg);color:var(--green)}.b-str{background:var(--orangebg);color:var(--orange)}.b-set{background:var(--purplebg);color:var(--purple)}.b-oop{background:#e0f2f1;color:#0b6e5f}.b-adv{background:#fce4ec;color:#b4235b}.b-start{background:#e8edf5;color:#3d4d65}.b-miss{background:#fff2df;color:#a95609;border:1px dashed #d97706}.b-test{background:#e0f2fe;color:#075985}
 .lesson-row{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#fcfdff}.lesson-row.done{background:var(--greenbg);border-color:#bfe6d2}.lesson-row.hidden{display:none}.check{flex:0 0 auto;width:22px;height:22px;margin-top:3px;accent-color:var(--green);cursor:pointer}.lesson-body{flex:1;min-width:0}.lesson-body a{color:var(--blue);font-weight:750;text-decoration:none}.lesson-body a:hover{text-decoration:underline}.meta{font-size:.83rem;color:var(--muted);margin-top:2px}
 .modhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}.modhead h3{margin:0}.count{font-size:.78rem;background:#eef2f7;border-radius:99px;padding:2px 10px;color:#52627b;font-weight:700}
 .footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
@@ -19,7 +19,7 @@ table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{t
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="eyebrow">Java Foundations • Course home</div><h1>Index / Table of Contents</h1><p>All lessons in teaching order, with dates. Tick lessons as you finish — progress saves in this browser. Start at 00, then follow 01 → 17.</p><div class="chips"><span class="chip">18 lessons total</span><span class="chip">28 Sep → 20 Oct 26</span><span class="chip">Interactive, no setup</span><span class="chip" id="chipProgress">0 / 18 done</span></div></div></header>
+<header><div class="wrap"><div class="eyebrow">Java Foundations • Course home</div><h1>Index / Table of Contents</h1><p>All lessons in teaching order, with dates. Tick lessons as you finish — progress saves in this browser. Start at 00, then follow 01 → 17. Revision quizzes live in the Tests section.</p><div class="chips"><span class="chip">18 lessons total</span><span class="chip">5 revision tests</span><span class="chip">28 Sep → 20 Oct 26</span><span class="chip">Interactive, no setup</span><span class="chip" id="chipProgress">0 / 18 done</span></div></div></header>
 <main>
 <aside class="sidebar"><p class="side-title">Modules</p><div class="navlist" id="navlist">
 <button class="navbtn active" data-page="0"><span class="num">00</span> Start here</button>
@@ -29,7 +29,8 @@ table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{t
 <button class="navbtn" data-page="4"><span class="num">04</span> Sets &amp; Maps</button>
 <button class="navbtn" data-page="5"><span class="num">05</span> OOP</button>
 <button class="navbtn" data-page="6"><span class="num">06</span> Advanced &amp; Revision</button>
-<button class="navbtn" data-page="7"><span class="num">☰</span> Full schedule</button>
+<button class="navbtn" data-page="7"><span class="num">T</span> Tests</button>
+<button class="navbtn" data-page="8"><span class="num">☰</span> Full schedule</button>
 </div><div class="progress"><span id="progressbar"></span></div><div class="small" id="progresslabel">0 of 18 completed</div><div class="toolbar"><button class="btn secondary" id="resetBtn" style="width:100%">Reset progress</button></div></aside>
 <section class="content">
 
@@ -37,7 +38,7 @@ table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{t
 <h2>00. Start here</h2><p class="lead">New to Java? Read this first before variables and loops.</p>
 <div class="lesson-row" data-id="fnd"><input class="check" type="checkbox" data-id="fnd" aria-label="mark done"><div class="lesson-body"><a href="java_foundations_interactive_tutorial.html">Java Foundations — what a program is, println, syntax, class &amp; main</a><div class="meta">Prerequisite • Before 28 Sep <span class="badge b-start">START</span></div></div></div>
 <div class="callout"><strong>How to use this index:</strong> each lesson below links to its interactive tutorial page. Use search on the Full schedule tab to jump, and tick checkboxes to track completion.</div>
-<div class="footer-nav"><button class="btn secondary" data-goto="7">Full schedule →</button><button class="btn" data-goto="1">Start 01 Variables →</button></div>
+<div class="footer-nav"><button class="btn secondary" data-goto="8">Full schedule →</button><button class="btn" data-goto="1">Start 01 Variables →</button></div>
 </article>
 
 <article class="panel">
@@ -85,8 +86,20 @@ table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{t
 <h2>06. Advanced &amp; Overall Revision</h2><p class="lead">Collections recap, then exceptions, files, and full revision.</p>
 <div class="lesson-row" data-id="l16"><input class="check" type="checkbox" data-id="l16"><div class="lesson-body"><a href="java_collections_framework_interactive.html">16 — Collections Framework</a><div class="meta">20 Oct 26 • Tue <span class="badge b-adv">ADVANCED</span></div></div></div>
 <div class="lesson-row" data-id="l17"><input class="check" type="checkbox" data-id="l17"><div class="lesson-body"><a href="java_exception_handling_file_processing_interactive.html">17 — Try-Catch, Logging, CSV, Excel, JSON, XML + Overall Revision</a><div class="meta">Revision <span class="badge b-adv">ADVANCED</span></div></div></div>
-<div class="callout success"><strong>Finish:</strong> after 17, revisit weak checkboxes and re-run each page's quiz.</div>
-<div class="footer-nav"><button class="btn secondary" data-goto="5">← OOP</button><button class="btn" data-goto="7">Full schedule →</button></div>
+<div class="callout success"><strong>Finish:</strong> after 17, revisit weak checkboxes, re-run each page's quiz, then open the Tests section.</div>
+<div class="footer-nav"><button class="btn secondary" data-goto="5">← OOP</button><button class="btn" data-goto="7">Next: Tests →</button></div>
+</article>
+
+<article class="panel">
+<h2>Tests</h2><p class="lead">Five revision batches in <code>tests/</code>. Each file is 120 multiple-choice questions, 600 in total. Lesson progress above stays at 18; test ticks are tracked on their own.</p>
+<p class="small" id="testProgress">0 of 5 tests completed</p>
+<div class="lesson-row" data-id="t1"><input class="check" type="checkbox" data-id="t1" aria-label="mark batch 1 done"><div class="lesson-body"><a href="tests/java_foundations_batch_1.html">Batch 1 — Variables, Operators &amp; Conditionals</a><div class="meta">120 questions • Lessons 01–03 <span class="badge b-test">tests/</span></div></div></div>
+<div class="lesson-row" data-id="t2"><input class="check" type="checkbox" data-id="t2" aria-label="mark batch 2 done"><div class="lesson-body"><a href="tests/java_foundations_batch_2.html">Batch 2 — Loops, Methods &amp; Input/Output</a><div class="meta">120 questions • Lessons 04–06 <span class="badge b-test">tests/</span></div></div></div>
+<div class="lesson-row" data-id="t3"><input class="check" type="checkbox" data-id="t3" aria-label="mark batch 3 done"><div class="lesson-body"><a href="tests/java_foundations_batch_3.html">Batch 3 — Arrays, Lists, Sorting &amp; Strings</a><div class="meta">120 questions • Lessons 07–11 <span class="badge b-test">tests/</span></div></div></div>
+<div class="lesson-row" data-id="t4"><input class="check" type="checkbox" data-id="t4" aria-label="mark batch 4 done"><div class="lesson-body"><a href="tests/java_foundations_batch_4.html">Batch 4 — Sets, Maps &amp; OOP</a><div class="meta">120 questions • Lessons 12–15 <span class="badge b-test">tests/</span></div></div></div>
+<div class="lesson-row" data-id="t5"><input class="check" type="checkbox" data-id="t5" aria-label="mark batch 5 done"><div class="lesson-body"><a href="tests/java_foundations_batch_5.html">Batch 5 — Collections, Exceptions &amp; Files</a><div class="meta">120 questions • Lessons 16–17 <span class="badge b-test">tests/</span></div></div></div>
+<div class="callout purple"><strong>How to use a batch:</strong> filter by topic, answer in the page, then come back here and tick the batch when you finish it.</div>
+<div class="footer-nav"><button class="btn secondary" data-goto="6">← Advanced</button><button class="btn" data-goto="8">Full schedule →</button></div>
 </article>
 
 <article class="panel">
@@ -116,6 +129,12 @@ table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93rem}th,td{t
 <div class="modhead"><h3>Advanced Programming + Revision</h3><span class="count">2 lessons</span></div>
 <div class="lesson-row" data-id="l16"><input class="check" type="checkbox" data-id="l16"><div class="lesson-body"><a href="java_collections_framework_interactive.html">Collections Framework</a><div class="meta">20 Oct 26 • Tue</div></div></div>
 <div class="lesson-row" data-id="l17"><input class="check" type="checkbox" data-id="l17"><div class="lesson-body"><a href="java_exception_handling_file_processing_interactive.html">Try-Catch, Logging, CSV, Excel, JSON, XML + Overall Revision</a><div class="meta">Revision</div></div></div>
+<div class="modhead"><h3>Tests</h3><span class="count">5 batches • tests/</span></div>
+<div class="lesson-row" data-id="t1"><input class="check" type="checkbox" data-id="t1"><div class="lesson-body"><a href="tests/java_foundations_batch_1.html">Batch 1 — Variables, Operators &amp; Conditionals</a><div class="meta">120 questions • tests/java_foundations_batch_1.html</div></div></div>
+<div class="lesson-row" data-id="t2"><input class="check" type="checkbox" data-id="t2"><div class="lesson-body"><a href="tests/java_foundations_batch_2.html">Batch 2 — Loops, Methods &amp; Input/Output</a><div class="meta">120 questions • tests/java_foundations_batch_2.html</div></div></div>
+<div class="lesson-row" data-id="t3"><input class="check" type="checkbox" data-id="t3"><div class="lesson-body"><a href="tests/java_foundations_batch_3.html">Batch 3 — Arrays, Lists, Sorting &amp; Strings</a><div class="meta">120 questions • tests/java_foundations_batch_3.html</div></div></div>
+<div class="lesson-row" data-id="t4"><input class="check" type="checkbox" data-id="t4"><div class="lesson-body"><a href="tests/java_foundations_batch_4.html">Batch 4 — Sets, Maps &amp; OOP</a><div class="meta">120 questions • tests/java_foundations_batch_4.html</div></div></div>
+<div class="lesson-row" data-id="t5"><input class="check" type="checkbox" data-id="t5"><div class="lesson-body"><a href="tests/java_foundations_batch_5.html">Batch 5 — Collections, Exceptions &amp; Files</a><div class="meta">120 questions • tests/java_foundations_batch_5.html</div></div></div>
 </div>
 <div class="footer-nav"><button class="btn secondary" data-goto="0">← Back to start</button></div>
 </article>
@@ -130,9 +149,9 @@ document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',(
 document.getElementById('prevBtn').onclick=()=>showPage(page-1);
 document.getElementById('nextBtn').onclick=()=>showPage(page===panels.length-1?0:page+1);
 // progress with localStorage, sync duplicate checkboxes
-const KEY='java-toc-done-v1';const IDS=['fnd','l01','l02','l03','l04','l05','l06','l07','l08','l09','l10','l11','l12','l13','l14','l15','l16','l17'];
+const KEY='java-toc-done-v1';const IDS=['fnd','l01','l02','l03','l04','l05','l06','l07','l08','l09','l10','l11','l12','l13','l14','l15','l16','l17'];const TEST_IDS=['t1','t2','t3','t4','t5'];
 let done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
-function render(){document.querySelectorAll('.check').forEach(c=>{c.checked=done.has(c.dataset.id)});document.querySelectorAll('.lesson-row').forEach(r=>{const id=r.dataset.id;if(id)r.classList.toggle('done',done.has(id))});const n=done.size;document.getElementById('progressbar').style.width=(n/IDS.length*100)+'%';document.getElementById('progresslabel').textContent=n+' of '+IDS.length+' completed';document.getElementById('chipProgress').textContent=n+' / '+IDS.length+' done';}
+function render(){document.querySelectorAll('.check').forEach(c=>{c.checked=done.has(c.dataset.id)});document.querySelectorAll('.lesson-row').forEach(r=>{const id=r.dataset.id;if(id)r.classList.toggle('done',done.has(id))});const n=IDS.filter(id=>done.has(id)).length;document.getElementById('progressbar').style.width=(n/IDS.length*100)+'%';document.getElementById('progresslabel').textContent=n+' of '+IDS.length+' completed';document.getElementById('chipProgress').textContent=n+' / '+IDS.length+' done';const tn=TEST_IDS.filter(id=>done.has(id)).length;document.getElementById('testProgress').textContent=tn+' of '+TEST_IDS.length+' tests completed';}
 document.querySelectorAll('.check').forEach(c=>c.addEventListener('change',()=>{const id=c.dataset.id;if(c.checked)done.add(id);else done.delete(id);localStorage.setItem(KEY,JSON.stringify([...done]));render();}));
 document.getElementById('resetBtn').onclick=()=>{done=new Set();localStorage.removeItem(KEY);render();};
 render();
